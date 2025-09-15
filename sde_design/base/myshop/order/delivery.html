@@ -120,7 +120,7 @@
 
     const url = new URL('/api/delivery/track', API_BASE);
     url.searchParams.set('invoice', invoice);
-    url.searchParams.set('courier', toCourierCode(courierParam) || '08'); // 기본 롯데
+    url.searchParams.set('courier', toCourierCode(courierParam) || '04');
     if (demo === '1') url.searchParams.set('demo', '1');
 
     try {
