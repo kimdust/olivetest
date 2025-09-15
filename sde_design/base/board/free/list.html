@@ -1,0 +1,673 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="section" module="Board_ListPackage_1002">
+    <!--@css(/css/module/board/listPackage.css)-->
+
+    <h2 class="cs_title">무엇을 도와드릴까요?</h2>
+    <h4 class="cs_subtitle">자주 묻는 질문</h4>
+
+    <div class="boardSort">
+        <span module="board_category_1002">{$form.board_category}</span>
+        <span module="board_ReplySort_1002">{$reply_sort}</span>
+    </div>
+
+    <div class="ec-base-table typeList">
+        <table border="0">
+            <tbody module="board_list_1002" class="center">
+                <!--
+                    $login_page_url = /member/login.html
+                    $deny_access_url = /index.html
+                -->
+                <tr style="{$list_bg_color} {$list_char_color}" class="{$block_target_class}" {$block_data_attr}>
+                    <td class="subject left txtBreak">
+                        {$icon_re}{$icon_lock}<a href="{$link_board_detail}" style="{$link_color}" class="{$block_content_class}">{$subject}</a>{$icon_file}<span class="comment">{$comment_count}</span>{$icon_mobile}{$icon_new}{$icon_hit}
+                    </td>
+                    <td class="{$category_display|display}">{$category_name}</td>
+                    <td class="{$point_display|display}"><img src="//img.echosting.cafe24.com/skin/skin/board/icon-star-rating{$point_count}.svg" alt="{$point_count}점" /></td>
+                </tr>
+                <tr style="{$list_bg_color} {$list_char_color}" class="{$block_target_class}" {$block_data_attr}>
+                    <td class="subject left txtBreak">
+                        {$icon_re}{$icon_lock}<a href="{$link_board_detail}" style="{$link_color}" class="{$block_content_class}">{$subject}</a>{$icon_file}<span class="comment">{$comment_count}</span>{$icon_mobile}{$icon_new}{$icon_hit}
+                    </td>
+                    <td class="{$category_display|display}">{$category_name}</td>
+                    <td class="{$point_display|display}"><img src="//img.echosting.cafe24.com/skin/skin/board/icon-star-rating{$point_count}.svg" alt="{$point_count}점" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="message {$empty_display|display}" module="board_empty_1002">{$empty_message}</p>
+    </div>
+    <div class="contact_wrap">
+        <a href="/board/consult/write.html{$param_write}">1:1 문의하기</a>
+        <p>찾으시는 답변이 없으신가요?<br>1:1 문의를 이용해 주세요.</p>
+    </div>
+    <div module="board_ButtonList_1002" class="ec-base-button gBottom {$write_display|display}">
+        <span class="gRight">
+            <a href="/board/free/write.html{$param_write}" class="btnSubmitFix sizeM {$write_display|display}">글쓰기</a>
+        </span>
+    </div>
+</div>
+
+<script>
+const qs       = new URLSearchParams(location.search);
+const boardNo  = qs.get('board_no') || '';
+const isNotice = boardNo === '1';
+
+const READ_KEY = `board_read_${boardNo}`;
+function getReadSet(){
+  try { return new Set(JSON.parse(localStorage.getItem(READ_KEY) || '[]')); }
+  catch { return new Set(); }
+}
+function saveReadSet(set){
+  try { localStorage.setItem(READ_KEY, JSON.stringify([...set])); } catch {}
+}
+function makePostId(href){
+  try{
+    const u = new URL(href, location.origin);
+    return `${u.pathname}?no=${u.searchParams.get('no') || ''}`;
+  }catch{ return href || ''; }
+}
+
+(function(){
+  if (window.__faqInit) return;
+  window.__faqInit = true;
+
+  function waitFor(selector, {timeout=8000}={}) {
+    return new Promise((resolve, reject)=>{
+      const el = document.querySelector(selector);
+      if (el) return resolve(el);
+      const obs = new MutationObserver(()=>{
+        const el2 = document.querySelector(selector);
+        if (el2){ obs.disconnect(); resolve(el2); }
+      });
+      obs.observe(document.documentElement, {childList:true,subtree:true});
+      setTimeout(()=>{ obs.disconnect(); reject(new Error('timeout')); }, timeout);
+    });
+  }
+
+  function setH(el, h){ el.style.height = (h == null ? '' : h + 'px'); }
+
+  function expand(panel){
+    setH(panel, 0);
+    panel.style.overflow = 'hidden';
+    requestAnimationFrame(()=>{ requestAnimationFrame(()=>{
+      const h = panel.scrollHeight || 0;
+      setH(panel, h);
+      const onEnd = () => {
+        panel.removeEventListener('transitionend', onEnd);
+        setH(panel, null);
+        panel.style.overflow = '';
+      };
+      panel.addEventListener('transitionend', onEnd, { once:true });
+    });});
+  }
+
+  function collapse(panel){
+    const current = panel.getBoundingClientRect().height;
+    setH(panel, current);
+    panel.style.overflow = 'hidden';
+    panel.offsetHeight;
+    setH(panel, 0);
+    const onEnd = () => {
+      panel.removeEventListener('transitionend', onEnd);
+      panel.style.overflow = '';
+    };
+    panel.addEventListener('transitionend', onEnd, { once:true });
+  }
+
+  (async function run(){
+    const tbody = await waitFor('.ec-base-table.typeList tbody.xans-board-list-1002.center').catch(()=>null);
+    if(!tbody) return;
+
+    if (isNotice) {
+      document.querySelector('.cs_title')?.remove();
+      document.querySelector('.cs_subtitle')?.remove();
+      document.querySelector('.boardSort')?.remove();
+      document.querySelector('.contact_wrap')?.remove();
+    }
+
+    const rows = [...tbody.querySelectorAll('tr')].filter(tr => tr.querySelector('a[href]'));
+
+    if (rows.length === 0) {
+      if (isNotice) {
+        const tableBox = tbody.closest('.ec-base-table.typeList');
+        const emptyBox = document.createElement('div');
+        emptyBox.className = 'board-empty';
+        emptyBox.innerHTML = `
+          <div class="board-empty__inner">
+            <p class="board-empty__title">게시글이 없습니다.</p>
+            <p class="board-empty__desc">새 공지를 등록해 주세요.</p>
+          </div>`;
+        tableBox.insertAdjacentElement('afterend', emptyBox);
+        tableBox.style.display = 'none';
+      }
+      return;
+    }
+
+    const tableBox = tbody.closest('.ec-base-table.typeList');
+    const faqWrap = document.createElement('div');
+    faqWrap.className = 'faq-list';
+    tableBox.insertAdjacentElement('afterend', faqWrap);
+    tableBox.style.display = 'none';
+
+    const readSet = getReadSet();
+
+    rows.forEach((tr)=>{
+      const a = tr.querySelector('a[href]');
+      const subject  = (a?.textContent || '').trim();
+      const href     = a?.getAttribute('href') || '#';
+      const category = (tr.querySelector('td:nth-child(2)')?.textContent || '').trim();
+      const postId   = makePostId(href);
+      const isUnread = !readSet.has(postId);
+
+      const item = document.createElement('div');
+      item.className = 'faq-item';
+      item.dataset.detailUrl = href;
+
+      const labelHtml = isNotice
+        ? `
+            <span class="q-wrap">
+            <span class="notice-head">
+                <span class="notice-cat">${category || ''}</span>
+                ${isUnread ? '<i class="unread-dot" aria-hidden="true"></i>' : ''}
+            </span>
+            <span class="q-text notice-title">${subject}</span>
+            </span>
+        `
+        : `
+            <span class="q-wrap">
+            <span class="q-text">Q. ${subject}</span>
+            </span>
+        `;
+
+      item.innerHTML = `
+        <button type="button" class="faq-q" aria-expanded="false">
+          ${labelHtml}
+          <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <mask id="mask0_3140_84736" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3140_84736)">
+              <path d="M17.0061 9.70006L11.6984 15.0078L6.39062 9.70006L7.09838 8.99231L11.6984 13.5923L16.2984 8.99231L17.0061 9.70006Z" fill="#888888"/>
+            </g>
+          </svg>
+        </button>
+        <div class="faq-a" role="region" aria-hidden="true">
+          <div class="inner"></div>
+        </div>
+      `;
+
+      const btn   = item.querySelector('.faq-q');
+      const panel = item.querySelector('.faq-a');
+      const inner = item.querySelector('.inner');
+
+      let animating = false;
+
+      btn.addEventListener('click', async ()=>{
+        if (animating) return;
+        animating = true;
+
+        const open = item.classList.contains('open');
+
+        [...faqWrap.querySelectorAll('.faq-item.open')].forEach(it=>{
+          if(it!==item){
+            it.classList.remove('open');
+            it.querySelector('.faq-q').setAttribute('aria-expanded','false');
+            const p = it.querySelector('.faq-a');
+            it.querySelector('.faq-a').setAttribute('aria-hidden','true');
+            collapse(p);
+          }
+        });
+
+        if(!open){
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded','true');
+          panel.setAttribute('aria-hidden','false');
+
+          const dot = item.querySelector('.unread-dot');
+          if (dot) {
+            dot.remove();
+            readSet.add(postId);
+            saveReadSet(readSet);
+          }
+
+          expand(panel);
+
+          if(item.dataset.loaded !== '1'){
+            try{
+              const res = await fetch(href, { credentials:'include' });
+              const html = await res.text();
+              const doc = new DOMParser().parseFromString(html, 'text/html');
+
+              const contentEl =
+                doc.querySelector('.xans-board-read .fr-view') ||
+                doc.querySelector('.xans-board-read .detail') ||
+                doc.querySelector('.xans-board-read .ec-base-table') ||
+                doc.querySelector('#contents .ec-base-table') ||
+                doc.querySelector('#contents');
+
+              if(contentEl){
+                contentEl.querySelectorAll('script,style,.ec-base-button,.btnArea,.boardNav,.title,.info,.etcArea,.file,.hit,.writer,.date').forEach(n=>n.remove());
+                inner.innerHTML = contentEl.innerHTML || '';
+              }else{
+                inner.innerHTML = '';
+              }
+
+              const current = panel.getBoundingClientRect().height;
+              setH(panel, current);
+              panel.offsetHeight;
+              expand(panel);
+
+              item.dataset.loaded = '1';
+            }catch(e){
+              inner.innerHTML = '';
+            }
+          }
+        } else {
+          item.classList.remove('open');
+          btn.setAttribute('aria-expanded','false');
+          panel.setAttribute('aria-hidden','true');
+          collapse(panel);
+        }
+
+        const unlock = () => { animating = false; panel.removeEventListener('transitionend', unlock); };
+        panel.addEventListener('transitionend', unlock);
+        setTimeout(unlock, 500);
+      });
+
+      faqWrap.appendChild(item);
+    });
+  })();
+})();
+
+(function(){
+  if (isNotice) return;
+
+  function waitFor(sel,{timeout=8000}={}) {
+    return new Promise((resolve,reject)=>{
+      const hit=document.querySelector(sel);
+      if(hit) return resolve(hit);
+      const mo=new MutationObserver(()=>{
+        const el=document.querySelector(sel);
+        if(el){mo.disconnect();resolve(el);}
+      });
+      mo.observe(document.documentElement,{childList:true,subtree:true});
+      setTimeout(()=>{mo.disconnect();reject(new Error('timeout'));},timeout);
+    });
+  }
+
+  (async function run(){
+    const sortWrap = await waitFor('.boardSort').catch(()=>null);
+    const catSelect = sortWrap && sortWrap.querySelector('select');
+    if(!sortWrap || !catSelect) return;
+
+    catSelect.style.display='none';
+
+    const chipbar=document.createElement('div');
+    chipbar.className='faq-chipbar';
+    sortWrap.insertAdjacentElement('afterend', chipbar);
+
+    const qs=new URLSearchParams(location.search);
+    const currentCat=qs.get('category_no') || '';
+
+    const options=[...catSelect.options]
+      .map(o=>({value:(o.value||'').trim(), label:(o.textContent||'').trim()}))
+      .filter(o=>o.value && o.label);
+
+    const isSubLabel=s=>s.replace(/\s+/g,'').includes('정기구독');
+    const subs   = options.filter(o=>isSubLabel(o.label));
+    const others = options.filter(o=>!isSubLabel(o.label));
+    const ordered=[...subs, ...others];
+
+    const chipEls = ordered.map(({label,value})=>{
+      const b=document.createElement('button');
+      b.type='button';
+      b.className='faq-chip';
+      b.textContent=label;
+      if(currentCat===value) b.classList.add('active');
+      b.addEventListener('click', ()=>{
+        chipbar.querySelectorAll('.faq-chip').forEach(c=>c.classList.remove('active'));
+        b.classList.add('active');
+
+        catSelect.value=value;
+        catSelect.dispatchEvent(new Event('change',{bubbles:true}));
+        if(catSelect.form && typeof catSelect.form.submit==='function'){
+          catSelect.form.submit();
+        } else {
+          const q=new URLSearchParams(location.search);
+          q.set('category_no', value);
+          location.href = location.pathname + '?' + q.toString();
+        }
+      });
+      chipbar.appendChild(b);
+      return {el:b, value};
+    });
+
+    if(!currentCat && subs.length){
+      const subVal=subs[0].value;
+      const subChip = chipEls.find(c=>c.value===subVal)?.el;
+      if(subChip) subChip.click();
+    }
+  })();
+})();
+</script>
+
+<style>
+#contents {
+    min-height: calc(100vh - 54px);
+}
+
+#cs_header,
+#notice_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+}
+
+#cs_header .header_back,
+#notice_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#cs_header .header_back img,
+#notice_header .header_back img {
+    width: 100%;
+}
+
+#cs_header p,
+#notice_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.cs_title {
+    color: var(--G-900, #181818);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px; /* 130% */
+    letter-spacing: -0.4px;
+    margin-top: 4px;
+    margin-bottom: 36px;
+}
+
+.faq-list {
+    display: flex;
+    width: 100%;
+    padding: 0 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 12px;
+    background: #FFF;
+}
+
+.faq-item {
+    border: none;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+    width: 100%;
+    border-top: 1px solid #F0F0F0;
+}
+
+.faq-item:first-child {
+    border: none;
+}
+
+.faq-q {
+    width: 100%;
+    text-align: left;
+    padding: 14px 0;
+    font-size: 16px;
+    line-height: 22px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    border: none;
+}
+
+.faq-q .badge {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #F3F4F6;
+    color: #555;
+}
+
+.faq-q .arrow {
+    margin-left: auto;
+    transition: transform .2s ease;
+}
+
+.faq-item.open .faq-q .arrow {
+    transform: rotate(180deg)
+}
+
+.faq-a {
+    height: 0;
+    overflow: hidden;
+    padding: 0 16px;
+    opacity: 0;
+    transition: height .24s ease, opacity .24s ease;
+    will-change: height;
+    align-self: stretch;
+    border-radius: 8px;
+    background: var(--Gray-50, #F8F8F8);
+    margin-bottom: 0;
+}
+
+.faq-a .inner {
+    padding: 12px 0; 
+    color: var(--G-700, #454545);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 153.846% */
+    letter-spacing: -0.26px;          /* 내용 자체 여백 */
+}
+
+.faq-a .inner p {
+    color: var(--G-700, #454545);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 153.846% */
+    letter-spacing: -0.26px;
+}
+
+.faq-item.open .faq-a { 
+    opacity: 1;
+    margin-bottom: 14px;
+}
+
+.faq-a .loading {
+    color: #999;
+    font-size:14px;
+}
+
+.faq-chipbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.faq-chip {
+    display: flex;
+    padding: 6px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 20px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.faq-chip.active {
+    background: #128B5B;
+    color: #fff;
+    border-color: #128B5B;
+}
+
+.cs_subtitle {
+    color: var(--G-800, #454545);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+    margin-bottom: 16px;
+}
+
+.q-text {
+    color: var(--G-900, #181818);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.faq-item.open .faq-a {
+    height: auto;
+}
+
+.xans-board-buttonlist-1002 {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    background: var(--G-0, #FFF);
+    box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+    padding: 16px 16px 32px 16px;
+    z-index: 10;
+    width: 100%;
+}
+
+.xans-board-buttonlist-1002 .gRight {
+    width: 100%;
+}
+
+.xans-board-buttonlist-1002 .gRight .btnSubmitFix {
+    display: flex;
+    height: 48px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    text-align: right;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+}
+
+.contact_wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.contact_wrap a {
+    display: flex;
+    width: 100%;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+}
+
+.contact_wrap p {
+    color: var(--G-600, var(--Gray-600, #767676));
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.q-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.notice-head {
+    display: flex;
+    align-items: center;
+    height: 18px;
+}
+
+.notice-cat {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: -0.22px;
+}
+
+.notice-title {
+    color: var(--G-900, #181818);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.unread-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: #FF3B30;
+    margin-left: 2px;
+    flex: 0 0 auto;
+}
+
+.q-wrap .unread-dot {
+    align-self: center;
+}
+</style>

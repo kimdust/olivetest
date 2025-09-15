@@ -1,0 +1,434 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="myshopArea">
+	<div module="myshop_AddrList">
+		<!--
+			$return_url = /myshop/addr/list.html
+		-->
+		<div class="addr_list">
+			<div class="addr_item">
+				<span class="addr_cb" style="display:none;">{$checkbox}</span>
+				<div class="addr_name">{$ma_rcv_name}<p class="{$default_img_display|display}">기본배송지</p></div>
+				<div class="addr_info">[{$ma_rcv_zipcode}] {$ma_rcv_addr1} {$ma_rcv_addr2}</div>
+				<div class="addr_phone">{$ma_rcv_mobile_no}</div>
+				<div class="addr_btn_wrap">
+					<a href="modify.html?ma_idx={$ma_idx}" class="btnNormal sizeS addr_edit {$notfix_display}">수정</a>
+					<button type="button" class="btnNormal sizeS addrDelBtn {$notfix_display}" data-ma-idx="{$ma_idx}" onclick="return AddrDelete.one(this);">삭제</button>
+				</div>
+			</div>
+
+			<div class="addr_empty {$nodata_display|display}">
+				등록된 주소가 없습니다.
+			</div>
+		</div>
+
+		<a id="addrBulkDelete" class="displaynone" onclick="{$action_delete}; return false;">del</a>
+	</div>
+
+	<div class="ec-base-button gBottom">
+		<a href="register.html" class="btnSubmitFix sizeM">배송지 추가</a>
+	</div>
+
+	<!-- 도움말 모달 -->
+	<div class="addrhelp" id="addrHelp" hidden>
+	<div class="addrhelp-dim" data-close></div>
+		<section class="addrhelp-panel" role="dialog" aria-modal="true" aria-labelledby="addrHelpTitle">
+			<header class="addrhelp-head">
+			<h3 id="addrHelpTitle">배송지 유의사항</h3>
+			<button type="button" class="addrhelp-x" aria-label="닫기" data-close>
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+					<mask id="mask0_3317_119832" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+						<rect width="20" height="20" fill="#D9D9D9"/>
+					</mask>
+					<g mask="url(#mask0_3317_119832)">
+						<path d="M10.2869 11.165L6.05937 15.3927C5.94396 15.508 5.79889 15.567 5.62417 15.5698C5.44958 15.5724 5.30188 15.5134 5.18104 15.3927C5.06035 15.2719 5 15.1255 5 14.9535C5 14.7816 5.06035 14.6352 5.18104 14.5144L9.40875 10.2869L5.18104 6.05938C5.06576 5.94396 5.00674 5.79889 5.00396 5.62417C5.00132 5.44958 5.06035 5.30188 5.18104 5.18104C5.30188 5.06035 5.44826 5 5.62021 5C5.79215 5 5.93854 5.06035 6.05937 5.18104L10.2869 9.40875L14.5144 5.18104C14.6298 5.06576 14.7749 5.00674 14.9496 5.00396C15.1242 5.00132 15.2719 5.06035 15.3927 5.18104C15.5134 5.30188 15.5738 5.44826 15.5738 5.62021C15.5738 5.79215 15.5134 5.93854 15.3927 6.05938L11.165 10.2869L15.3927 14.5144C15.508 14.6298 15.567 14.7749 15.5698 14.9496C15.5724 15.1242 15.5134 15.2719 15.3927 15.3927C15.2719 15.5134 15.1255 15.5738 14.9535 15.5738C14.7816 15.5738 14.6352 15.5134 14.5144 15.3927L10.2869 11.165Z" fill="#ABABAB"/>
+					</g>
+				</svg>
+			</button>
+			</header>
+			<div class="addrhelp-body">
+			<p>배송지는 최대 10개까지 등록할 수 있으며, 별도로 등록하지 않을 경우 최근 배송 주소록 기준으로 자동 업데이트 됩니다.<br>기본 배송지는 1개만 저장됩니다. 다른 배송지를 기본 배송지로 설정하시면 기본 배송지가 변경됩니다.</p>
+			</div>
+		</section>
+	</div>
+    <!--@import(/myshop/myshop_main.html)-->
+</div>
+
+<script>
+window.AddrDelete = (function(){
+  const moduleSelector = '[module="myshop_AddrList"]';
+  const bulkId         = 'addrBulkDelete';
+
+  function $(sel, root=document){ return root.querySelector(sel); }
+  function $all(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
+
+  function getRoot(el){
+    return el.closest(moduleSelector) || $(moduleSelector) || document;
+  }
+
+  function getAllRealCbs(root){
+    return $all('input[type="checkbox"][value][name*="ma_idx"]', root);
+  }
+
+  function findTargetCheckbox(btn, idx, root){
+    const card = btn.closest('.addr_item');
+    if (card) {
+      const local = card.querySelector(`input[type="checkbox"][value="${idx}"]`);
+      if (local) return local;
+    }
+
+    return root.querySelector(`input[type="checkbox"][value="${idx}"][name*="ma_idx"]`);
+  }
+
+  function runHiddenBulk(){
+    const a = document.getElementById(bulkId);
+    if (!a) return false;
+    const code = a.getAttribute('onclick') || '';
+    if (!code) return false;
+    const js = code.replace(/return\s+false;?\s*$/i, '');
+    new Function(js)();
+    return true;
+  }
+
+  function one(btn){
+    try{
+      const root = getRoot(btn);
+      const idx  = btn?.dataset?.maIdx;
+      if (!idx) { alert('삭제 대상을 찾을 수 없습니다.'); return false; }
+
+      const target = findTargetCheckbox(btn, idx, root);
+      if (!target) { alert('삭제 대상을 찾을 수 없습니다.'); return false; }
+
+      getAllRealCbs(root).forEach(cb => cb.checked = false);
+      target.checked = true;
+
+      if (!runHiddenBulk()) {
+        alert('삭제 액션을 실행할 수 없습니다. hidden 앵커를 확인해 주세요.');
+      }
+    }catch(e){
+      console.error('[AddrDelete] 실패:', e);
+      alert('삭제 처리 중 오류가 발생했습니다.');
+    }
+    return false;
+  }
+
+  function ping(){ return 'ok'; }
+
+  return { one, ping };
+})();
+
+(function(){
+  const trigger = document.querySelector('.addr_help');
+  const modal   = document.getElementById('addrHelp');
+  if (!modal || !trigger) return;
+
+  const panel = modal.querySelector('.addrhelp-panel');
+
+  function lock(b){
+    document.documentElement.classList.toggle('is-help-lock', b);
+    document.body.classList.toggle('is-help-lock', b);
+  }
+
+  function placeNearTrigger(){
+    const r = trigger.getBoundingClientRect();
+    const panelW = panel.offsetWidth || 262;
+    const left = window.scrollX + r.right - panelW + 12;
+    const top  = window.scrollY + r.bottom + 8;
+    modal.style.left = `${Math.max(8, left)}px`;
+    modal.style.top  = `${top}px`;
+    panel.style.setProperty('--tail-x', `${Math.min(panelW - 24, Math.max(24, panelW - (r.width/2 + 20)))}px`);
+  }
+
+  function openHelp(){
+    modal.hidden = false;
+    placeNearTrigger();
+    requestAnimationFrame(()=>{
+      modal.classList.add('open');
+      lock(true);
+    });
+  }
+
+  function closeHelp(){
+    if (!modal.classList.contains('open')) return;
+    modal.classList.remove('open');
+    lock(false);
+    const end = ()=>{ modal.hidden = true; panel.removeEventListener('transitionend', end); };
+    panel.addEventListener('transitionend', end);
+    setTimeout(end, 250);
+  }
+
+  trigger.addEventListener('click', (e)=>{ e.preventDefault(); openHelp(); });
+
+  modal.addEventListener('click', (e)=>{
+    if (e.target.closest('[data-close]')) closeHelp();
+  });
+
+  document.addEventListener('click', (e)=>{
+    if (modal.hidden) return;
+    const insidePanel  = panel.contains(e.target);
+    const onTrigger    = e.target.closest('.addr_help');
+    if (!insidePanel && !onTrigger) closeHelp();
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && !modal.hidden) closeHelp();
+  });
+
+  window.addEventListener('resize', ()=>{ if (!modal.hidden) placeNearTrigger(); });
+  window.addEventListener('scroll', ()=>{ if (!modal.hidden) placeNearTrigger(); }, { passive:true });
+})();
+
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted) {
+    location.reload();
+  }
+});
+
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState === 'visible' && performance?.navigation?.type === 2) {
+    location.reload();
+  }
+});
+</script>
+
+<style>
+#addr_list_header {
+	justify-content: space-between;
+	display: flex;
+	width: 100%;
+	padding: 16px;
+	align-items: center;
+	background-color: #F8F8F8;
+}
+
+#addr_list_header .header_back {
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#addr_list_header .header_back img {
+	width: 100%;
+}
+
+#addr_list_header p {
+	color: var(--G-800, var(--Gray-800, #393939));
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 22px; /* 137.5% */
+	letter-spacing: -0.32px;
+}
+
+input[type="checkbox"] {
+	display: none;
+}
+
+.addr_list {
+	margin-bottom: 12px;
+}
+
+.addr_item {
+	display: flex;
+	padding: 20px 16px;
+	flex-direction: column;
+	align-items: flex-start;
+	align-self: stretch;
+	border-radius: 12px;
+	background: var(--G-0, #FFF);
+}
+
+.addr_name {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex: 1 0 0;
+	margin-bottom: 10px;
+}
+
+.addr_name span {
+	color: var(--G-900, #181818);
+	font-size: 15px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px; /* 133.333% */
+	letter-spacing: -0.3px;
+}
+
+.addr_name p {
+	display: flex;
+	padding: 2px 8px;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	border-radius: 4px;
+	background: var(--Olive-Green-background, #EAF3E8);
+	color: var(--Olive-Green, #1B8862);
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+}
+
+.addr_info, .addr_info span {
+	color: var(--G-600, #5D5D5D);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.addr_phone span {
+	color: var(--G-600, #5D5D5D);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.addr_btn_wrap {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	flex: 1 0 0;
+	margin-top: 12px;
+}
+
+.addr_edit, .addrDelBtn {
+	display: flex;
+	padding: 6px 12px !important;
+	justify-content: center;
+	align-items: center;
+	gap: 4px;
+	border-radius: 4px;
+	border: 1px solid var(--G-300, #D9D9D9);
+	background: var(--G-0, #FFF);
+	color: var(--G-600, var(--Gray-600, #767676));
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+	cursor: pointer;
+}
+
+.gBottom {
+	width: 100%;
+	display: flex;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	padding: 16px 16px 32px 16px;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	background: var(--G-0, #FFF);
+	box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+}
+
+.btnSubmitFix {
+	width: 100%;
+	display: flex;
+	height: 100%;
+	padding: 12px 16px;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	flex: 1 0 0;
+	border-radius: 8px;
+	background: var(--Olive-Green, #1B8862);
+	color: var(--G-0, #FFF);
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px; /* 150% */
+	letter-spacing: -0.32px;
+}
+
+html.is-help-lock, body.is-help-lock {
+	overflow: hidden;
+}
+
+.addrhelp [hidden] {
+	display: none;
+}
+
+.addrhelp {
+	position: absolute;
+    z-index: 9999;
+    top: 50px;
+    right: 13px;
+}
+
+.addrhelp .addrhelp-panel {
+	position: relative;
+	width: 262px;
+	background: #fff;
+	border-radius: 8px;
+	border: 1px solid #1B8862;
+	filter: drop-shadow(0 2px 8px rgba(174, 174, 174, 0.25));
+	transform: translateY(10px) scale(.98);
+	opacity: 0;
+	transition: transform .25s ease, opacity .25s ease;
+	padding: 16px 18px;
+	margin-left: 4px;
+}
+
+.addrhelp.open .addrhelp-panel {
+	transform: translateY(0) scale(1);
+	opacity: 1;
+}
+
+.addrhelp-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+}
+
+.addrhelp-head h3 {
+	color: var(--G-900, #181818);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.addrhelp-x {
+	border: 0;
+}
+
+.addrhelp-body p {
+	color: var(--G-700, #454545);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.addrhelp .addrhelp-panel::before,
+.addrhelp .addrhelp-panel::after {
+	content:"";
+	position:absolute;
+	top:-9px; 
+	right: 8px;
+	width:0;
+	height:0;
+	border-left:4px solid transparent;
+	border-right:4px solid transparent;
+}
+
+.addrhelp .addrhelp-panel::before {
+  	border-bottom:9px solid #1B8862;
+}
+
+.addrhelp .addrhelp-panel::after {
+	top:-8px;
+	border-bottom:10px solid #fff;
+}
+</style>

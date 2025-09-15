@@ -1,0 +1,136 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div module="member_changepasswd" class="memberArea">
+    <!--@css(/css/module/member/change_passwd.css)-->
+    <div class="ec-base-help {$display_change_password|display}">
+    	<p>회원님의 개인정보를 안전하게 보호하고,<br /> 개인정보 도용으로 인한 피해를 예방하기 위해 {$check_period}일 이상 비밀번호를 변경하지 않은 경우 비밀번호 변경을 권장하고 있습니다.</p>
+    </div>
+    <div class="ec-base-box typeMember">
+        {$form.enc_password}
+        {$form.returnUrl}
+        <div class="content">
+            <p class="{$display_update_event|display}">이벤트 안내 - 비밀번호 변경 시 {$update_event_reward} 지급됩니다.</p>
+            <fieldset>
+                <dl class="ec-base-desc gVer">
+                    <dt>현재 비밀번호</dt><dd style="position: relative;">{$form.passwd}</dd>
+                    <dt>새 비밀번호</dt><dd style="position: relative;">{$form.new_passwd}</dd>
+                    <dt>새 비밀번호 확인</dt><dd style="position: relative;">{$form.new_passwd_confirm}</dd>
+                </dl>
+            </fieldset>
+        </div>
+    </div>
+    <div class="ec-base-button gBottom">
+        <a href="#none" class="btnNormalFix sizeM {$display_change_password|display}" onclick="{$after_action}">다음에 변경</a>
+        <a href="#none" class="btnSubmitFix sizeM pwdChaneBtn" onclick="{$change_password_action}">변경하기</a>
+    </div>
+</div>
+
+<script src="https://login2.cafe24ssl.com/crypt/AuthSSLManager.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="passwd"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="new_passwd"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="new_passwd_confirm"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+</script>

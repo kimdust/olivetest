@@ -1,0 +1,1951 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="myshopArea">
+    <div module="MyShop_OrderHistoryDetail" unroll="1">
+        <!--@css(/css/module/myshop/orderHistoryDetail.css)-->
+        <!--
+            $print_spec_url = /myshop/order/print/spec.html
+            $print_pg_card_url = /myshop/order/print/pg.html
+            $print_tax_url = /myshop/order/print/tax.html
+            $issue_tax_url = /myshop/order/issue/tax.html
+            $issue_cash_url = /myshop/order/issue/cash.html
+            $select_gift_url = /order/gift_select.html
+         -->
+        
+        <div class="order_id">{$order.order_id} </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle">
+            <div class="contents">
+                <div class="{$basic_display|display}">
+                    <div module="Myshop_OrderHistoryDetailBasic">
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="{$individual_display|display}">
+                    <div module="Myshop_OrderHistoryDetailIndividual">
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="{$oversea_display|display}">
+                    <div module="Myshop_OrderHistoryDetailOversea">
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="{$gift_display|display}">
+                    <div module="Myshop_OrderHistoryDetailGift">
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ec-base-prdInfo">
+                            <div class="prdBox">
+                                <div class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$thumbnail}" alt="{$product_name_alt}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" /></a></div>
+                                <div class="description">
+                                    <p class="prdBrand"></p>
+                                    <strong class="prdName" title="상품명">{$product_name_link}</strong>
+                                </div>
+                            </div>
+                            <div class="option_wrap">
+                                <p class="optionGroup {$option_str_display|display}">{$option_str}</p>
+                                <ul class="optionGroup" module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str}</li>
+                                </ul>
+                                <span class="qty">수량 / {$quantity}개</span>
+                            </div>
+                            <div class="prdFoot" title="주문처리상태">
+                                <div class="gLeft">
+                                    <span class="txtStatus">{$status}</span>
+                                    <span class="store">{$mobile_store_info}</span>
+                                </div>
+                                <div class="price" title="상품구매금액">
+                                    <span class="price_title">결제금액</span>
+                                    {$product_purchase_price_front_head}<strong>{$product_purchase_price_front}</strong>{$product_purchase_price_front_tail}
+                                    <span class="refer {$product_purchase_price_ref_display|display}">({$product_purchase_price_back_head}{$product_purchase_price_back}{$product_purchase_price_back_tail})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" class="shipping_status_wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" fill="none">
+                <path d="M3.98708 13.6484C3.32759 13.6484 2.76772 13.4127 2.30746 12.9414C1.8472 12.47 1.61707 11.8977 1.61707 11.2244H0.950964C0.734702 11.2244 0.553357 11.1496 0.40693 11.0001C0.260643 10.8505 0.1875 10.6652 0.1875 10.4441V2.20915C0.1875 1.77301 0.335335 1.40386 0.631006 1.10169C0.926676 0.799523 1.28782 0.648438 1.71443 0.648438H11.6893C12.1093 0.648438 12.4688 0.801249 12.7679 1.10687C13.0669 1.4125 13.2164 1.77992 13.2164 2.20915V3.93583H14.6948C14.9365 3.93583 15.1656 3.99109 15.382 4.10159C15.5983 4.2121 15.7764 4.36491 15.9163 4.56003L18.0348 7.45892C18.0858 7.52396 18.124 7.59547 18.1495 7.67346C18.1748 7.75159 18.1875 7.83613 18.1875 7.92707V10.4441C18.1875 10.6652 18.1144 10.8505 17.9681 11.0001C17.8216 11.1496 17.6403 11.2244 17.424 11.2244H16.6606C16.6606 11.8977 16.4297 12.47 15.9681 12.9414C15.5065 13.4127 14.9461 13.6484 14.2868 13.6484C13.6274 13.6484 13.0675 13.4127 12.6071 12.9414C12.1469 12.47 11.9167 11.8977 11.9167 11.2244H6.36068C6.36068 11.8995 6.12991 12.4723 5.66839 12.9427C5.20686 13.4132 4.64642 13.6484 3.98708 13.6484ZM3.98898 12.3534C4.29873 12.3534 4.56026 12.2444 4.77356 12.0262C4.98687 11.8082 5.09352 11.5409 5.09352 11.2244C5.09352 10.9078 4.98687 10.6405 4.77356 10.4223C4.56026 10.2043 4.29873 10.0954 3.98898 10.0954C3.67923 10.0954 3.41763 10.2043 3.20418 10.4223C2.99088 10.6405 2.88423 10.9078 2.88423 11.2244C2.88423 11.5409 2.99088 11.8082 3.20418 12.0262C3.41763 12.2444 3.67923 12.3534 3.98898 12.3534ZM1.45466 9.92937H2.06543C2.24523 9.6095 2.50485 9.34136 2.84431 9.12495C3.18391 8.90854 3.56547 8.80034 3.98898 8.80034C4.40151 8.80034 4.78025 8.90718 5.1252 9.12085C5.47015 9.33453 5.73252 9.60404 5.91231 9.92937H11.9493V2.20915C11.9493 2.13159 11.9249 2.06792 11.8762 2.01813C11.8275 1.96835 11.7652 1.94345 11.6893 1.94345H1.71443C1.64952 1.94345 1.58996 1.97115 1.53576 2.02655C1.48169 2.0818 1.45466 2.14267 1.45466 2.20915V9.92937ZM14.2887 12.3534C14.5984 12.3534 14.8599 12.2444 15.0732 12.0262C15.2867 11.8082 15.3934 11.5409 15.3934 11.2244C15.3934 10.9078 15.2867 10.6405 15.0732 10.4223C14.8599 10.2043 14.5984 10.0954 14.2887 10.0954C13.9789 10.0954 13.7173 10.2043 13.5039 10.4223C13.2906 10.6405 13.1839 10.9078 13.1839 11.2244C13.1839 11.5409 13.2906 11.8082 13.5039 12.0262C13.7173 12.2444 13.9789 12.3534 14.2887 12.3534ZM13.2164 8.20269H17.0016L14.8897 5.33876C14.8627 5.30552 14.8316 5.27919 14.7964 5.25977C14.7612 5.24049 14.7219 5.23085 14.6785 5.23085H13.2164V8.20269Z" fill="white"/>
+            </svg>
+            <p>현재 상품의 배송 현황을 확인해보세요.</p>
+        </a>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle del_info">
+            <div class="contents">
+                <p class="del_name">{$delivery.name}</p>
+                <div class="del_address">
+                    <span>[{$delivery.rzipcode}]</span>
+                    <span>{$delivery.raddr}</span>
+                </div>
+                <p class="del_phone">{$delivery.rphone_2}</p>
+                <div class="del_txt">
+                    <p>배송 요청사항</p>
+                    <div class="del_txt_content">{$delivery.message}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle total_price">
+            <div class="total_prd_price">
+                <p>구매상품금액</p>
+                <strong>{$total.total_order_price_front}{$total.total_order_price_front_tail}</strong>
+            </div>
+            <div class="del_price">
+                <p>배송비</p>
+                <strong>{$total.total_ship_fee}{$total.price_unit_tail}</strong>
+            </div>
+            <div class="discount_price">
+                <p>할인금액</p>
+                <strong></strong>
+            </div>
+            <div class="oilmoney_price">
+                <p>Oil-Money</p>
+                <strong>{$total.mileage_used}{$total.mileage_unit_tail}</strong>
+            </div>
+            <div class="total_order_price">
+                <p>총 결제 금액</p>
+                <strong>{$payment.price_front}{$payment.price_front_tail}</strong>
+            </div>
+
+        </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle" module="Myshop_OrderHistoryDetailRefundNew">
+            <div class="title">
+                <h3>환불정보</h3>
+            </div>
+            <div class="contents">
+                <div class="ec-base-table">
+                    <table border="0" >
+                        <caption>환불정보</caption>
+                        <tbody>
+                        <tr class="{$add_payment_product_display|display}">
+                            <th scope="row" class="RW">{$cancel_action_type}</th>
+                            <td class="productList" colspan="3">
+                                <ul module="Myshop_cancelProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                        </div>
+                                        <div class="product_info">
+                                            <div class="option_wrap">
+                                                <ul class="option" module="Myshop_optionSet">
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                </ul>
+                                                <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                            </div>
+                                            <p class="price RW">{$product_price}</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="product_info">
+                                            <div class="option_wrap">
+                                                <ul class="option" module="Myshop_optionSet">
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                </ul>
+                                                <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                            </div>
+                                            <p class="price RW">{$product_price}</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="{$exchange_action_display|display}">
+                            <th scope="row" class="RW">{$exchange_action_type}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$exchange_action_type}</h4>
+                                <ul module="Myshop_exchangeProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="product_info">
+                                            <div class="option_wrap">
+                                                <ul class="option" module="Myshop_optionSet">
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                </ul>
+                                                <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                            </div>
+                                            <p class="price RW">{$product_price}</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="product_info">
+                                            <div class="option_wrap">
+                                                <ul class="option" module="Myshop_optionSet">
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                    <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                </ul>
+                                                <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                            </div>
+                                            <p class="price RW">{$product_price}</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="status_label">
+                            <th scope="row">처리상태</th>
+                            <td colspan="3">{$display_date} <strong>({$status})</strong></td>
+                        </tr>
+                        <tr class="{$cancel_form_display|display} cancel_amount">
+                            <th scope="row">{$refund_amount_title}</th>
+                            <td colspan="3" class="total">
+                                <strong>{$payment_amount_front_head}{$payment_amount_front}{$payment_amount_front_tail}<span class="{$payment_amount_ref_display|display}">{$payment_amount_back_head}{$payment_amount_back}{$payment_amount_back_tail}</span></strong>
+                            </td>
+                        </tr>
+                        <tr class="{$add_payment_amount_display|display}">
+                            <th scope="row">{$refund_amount_title}</th>
+                            <td colspan="3" class="total">배송비 추가결제 <strong>{$payment_amount_front_head}{$payment_amount_front}{$payment_amount_front_tail}<span class="{$payment_amount_ref_display|display}">{$payment_amount_back_head}{$payment_amount_back}{$payment_amount_back_tail}</span></strong></td>
+                        </tr>
+                        <tr class="{$cancel_only_shipping_amount_display|display}">
+                            <th scope="row">{$refund_amount_title}</th>
+                            <td colspan="3" class="total">
+                                배송비
+                                <span class="amount">{$additional_amount}</span>
+                                = 합계 <strong>{$payment_amount_front_head}{$payment_amount_front}{$payment_amount_front_tail}<span class="{$payment_amount_ref_display|display}">{$payment_amount_back_head}{$payment_amount_back}{$payment_amount_back_tail}</span></strong>
+                            </td>
+                        </tr>
+                        <tr class="{$hold_show_ord_detail|display}">
+                            <th scope="row">보류 사유</th>
+                            <td colspan="3">{$hold_reason_customer_display|nl2br}</td>
+                        </tr>
+                        <tr class="refund_method">
+                            <th scope="row">환불수단</th>
+                            <td colspan="3">{$refund_paymethod}</td>
+                        </tr>
+                        <tr class="{$bank_display|display} refund_account">
+                            <th scope="row">환불계좌</th>
+                            <td colspan="3">
+                                [{$bank_name}] {$bank_acc_no} 예금주 : {$bank_acc_owner}
+                                <a href="#none" onclick="{$action_bank_acc_change}" class="btnNormal sizeS {$bank_acc_change_display|display}">환불계좌변경</a>
+                            </td>
+                        </tr>
+                        <tr class="{$additional_display|display}">
+                            <th scope="row">할인 및 부가결제 복원 내역</th>
+                            <td colspan="3">
+                                <ul class="coupon">
+                                    <li class="{$coupon_display|display}">쿠폰 복원 금액 : {$total.price_unit_head}{$coupon_price}{$total.price_unit_tail}</li>
+                                    <li class="{$addsale_display|display}">할인 복원 금액 : {$total.price_unit_head}{$addsale_price}{$total.price_unit_tail}</li>
+                                    <li class="{$mileage_display|display}">적립금 복원 : {$total.price_unit_head}{$mileage_price}{$total.price_unit_tail}</li>
+                                    <li class="{$deposit_display|display}">예치금 복원 : {$total.price_unit_head}{$deposit_price}{$total.price_unit_tail}</li>
+                                    <li class="{$navermileage_display|display}">네이버마일리지 &amp; 캐시 복원 : {$total.price_unit_head}{$navermileage_price}{$total.price_unit_tail} ({$navermieage_detail})</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                        <tbody>
+                        <tr class="{$add_payment_product_display|display}">
+                            <th scope="row" class="RW">{$cancel_action_type}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$cancel_action_type}</h4>
+                                <ul module="Myshop_cancelProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}</p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="{$exchange_action_display|display}">
+                            <th scope="row" class="RW">{$exchange_action_type}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$exchange_action_type}</h4>
+                                <ul module="Myshop_exchangeProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}</p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{$display_date_title} (처리상태)</th>
+                            <td colspan="3">{$display_date} <strong>({$status})</strong></td>
+                        </tr>
+                        <tr class="{$cancel_form_display|display}">
+                            <th scope="row">{$refund_amount_title}</th>
+                            <td colspan="3" class="total">
+                                상품금액 {$product_amount_org}
+                                <span class="amount">{$additional_amount}</span>
+                                = 합계 : <strong>{$payment_amount_front_head}{$payment_amount_front}{$payment_amount_front_tail}<span class="{$payment_amount_ref_display|display}">{$payment_amount_back_head}{$payment_amount_back}{$payment_amount_back_tail}</span></strong>
+                            </td>
+                        </tr>
+                        <tr class="{$add_payment_amount_display|display}">
+                            <th scope="row">{$refund_amount_title}</th>
+                            <td colspan="3" class="total">배송비 추가결제 <strong>{$payment_amount_front_head}{$payment_amount_front}{$payment_amount_front_tail}<span class="{$payment_amount_ref_display|display}">{$payment_amount_back_head}{$payment_amount_back}{$payment_amount_back_tail}</span></strong></td>
+                        </tr>
+                        <tr class="{$cancel_only_shipping_amount_display|display}">
+                            <th scope="row">{$refund_amount_title}</th>
+                            <td colspan="3" class="total">배송비 <strong>{$payment_amount_front_head}{$payment_amount_front}{$payment_amount_front_tail}<span class="{$payment_amount_ref_display|display}">{$payment_amount_back_head}{$payment_amount_back}{$payment_amount_back_tail}</span></strong></td>
+                        </tr>
+                        <tr class="{$hold_show_ord_detail|display}">
+                            <th scope="row">보류 사유</th>
+                            <td colspan="3">{$hold_reason_customer_display|nl2br}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">환불수단</th>
+                            <td colspan="3">{$refund_paymethod}</td>
+                        </tr>
+                        <tr class="{$bank_display|display}">
+                            <th scope="row">환불계좌</th>
+                            <td colspan="3">
+                                [{$bank_name}] {$bank_acc_no} 예금주 : {$bank_acc_owner}
+                                <a href="#none" onclick="{$action_bank_acc_change}" class="btnNormal sizeS {$bank_acc_change_display|display}">환불계좌변경</a>
+                            </td>
+                        </tr>
+                        <tr class="{$additional_display|display}">
+                            <th scope="row">할인 및 부가결제<br />복원 내역</th>
+                            <td colspan="3">
+                                <ul class="coupon">
+                                    <li class="{$coupon_display|display}">쿠폰 복원 금액 : {$total.price_unit_head}<strong>{$coupon_price}</strong>{$total.price_unit_tail}</li>
+                                    <li class="{$addsale_display|display}">할인 복원 금액 : {$total.price_unit_head}<strong>{$addsale_price}</strong>{$total.price_unit_tail}</li>
+                                    <li class="{$mileage_display|display}">적립금 복원 : {$total.price_unit_head}<strong>{$mileage_price}</strong>{$total.price_unit_tail}</li>
+                                    <li class="{$deposit_display|display}">예치금 복원 : {$total.price_unit_head}<strong>{$deposit_price}</strong>{$total.price_unit_tail}</li>
+                                    <li class="{$navermileage_display|display}">네이버마일리지 &amp; 캐시 복원 : {$total.price_unit_head}<strong>{$navermileage_price}</strong>{$total.price_unit_tail} ({$navermieage_detail})</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle" module="Myshop_OrderHistoryDetailPaymentAdd">
+            <div class="title">
+                <h3>추가결제</h3>
+            </div>
+            <div class="contents">
+                <div class="ec-base-table total">
+                    <table border="1" >
+                        <caption>추가결제</caption>
+                        <colgroup>
+                            <col style="width:170px" />
+                            <col style="width:auto" />
+                            <col style="width:120px" class="RW" />
+                            <col style="width:150px" class="RW" />
+                        </colgroup>
+                        <thead class="RW">
+                        <tr class="ec-payment-add-header">
+                            <th scope="col" class="left">구분</th>
+                            <th scope="col">상품정보</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">상품구매금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="{$cancel_product_class} {$cancel_product_display|display}">
+                            <th scope="row" class="RW">{$sType}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$sType}</h4>
+                                <ul module="Myshop_cancelProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="{$return_shipfee_title_class} {$return_shipfee_title_display|display}">
+                            <th scope="row">{$shipfee_title_label}</th>
+                            <td colspan="3">
+                                {$shipfee_title}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">결제금액</th>
+                            <td colspan="3" class="total"><strong class="txtEm">{$total_payment_price_front_head}{$total_payment_price_front}{$total_payment_price_front_tail} <span class="{$total_payment_price_ref_display|display}">{$total_payment_price_back_head}{$total_payment_price_back}{$total_payment_price_back_tail}</span></strong></td>
+                        </tr>
+                        <tr class="{$payer_name_area_display|display}">
+                            <th scope="row">결제(입금)자</th>
+                            <td colspan="3">{$payer_name} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">결제수단</th>
+                            <td colspan="3">
+                                {$paymethod} {$paymethod_detail}<span class="{$paid_display|display}">(결제완료)</span><span class="{$unpaid_display|display}">(<span class="txtWarn">결제취소</span>)</span>
+                                <ul class="{$payment_date_area_display|display}">
+                                    <li class="{$pay_date_display|display}">결제일자 : {$pay_date}</li>
+                                    <li class="{$canel_date_display|display}">취소일자 : <span class="txtWarn">{$canel_date}</span></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr class="{$cancel_product_class} {$cancel_product_display|display}">
+                            <th scope="row" class="RW">{$sType}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$sType}</h4>
+                                <ul module="Myshop_cancelProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="{$return_shipfee_title_class} {$return_shipfee_title_display|display}">
+                            <th scope="row">{$shipfee_title_label}</th>
+                            <td colspan="3">
+                                {$shipfee_title}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">결제금액</th>
+                            <td colspan="3" class="total"><strong class="txtEm">{$total_payment_price_front_head}{$total_payment_price_front}{$total_payment_price_front_tail} <span class="{$total_payment_price_ref_display|display}">{$total_payment_price_back_head}{$total_payment_price_back}{$total_payment_price_back_tail}</span></strong></td>
+                        </tr>
+                        <tr class="{$payer_name_area_display|display}">
+                            <th scope="row">결제(입금)자</th>
+                            <td colspan="3">{$payer_name} </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">결제수단</th>
+                            <td colspan="3">
+                                {$paymethod} {$paymethod_detail}<span class="{$paid_display|display}">(결제완료)</span><span class="{$unpaid_display|display}">(<span class="txtWarn">결제취소</span>)</span>
+                                <ul class="{$payment_date_area_display|display}">
+                                    <li class="{$pay_date_display|display}">결제일자 : {$pay_date}</li>
+                                    <li class="{$canel_date_display|display}">취소일자 : <span class="txtWarn">{$canel_date}</span></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle {$ordadd.display|display}">
+            <div class="title">
+                <h3>추가정보</h3>
+            </div>
+            <div class="contents">
+                <div class="ec-base-table">
+                    <table border="1" >
+                        <caption>추가 정보</caption>
+                        <colgroup>
+                            <col class="colOrder" />
+                            <col style="width:auto" />
+                        </colgroup>
+                        <tbody module="Myshop_ordadd">
+                        <tr>
+                            <th scope="row">{$title}</th>
+                            <td>{$content}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{$title}</th>
+                            <td>{$content}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle {$pickup_info_display|display}">
+            <div class="title">
+                <h3>수거신청 정보</h3>
+            </div>
+            <div class="contents">
+                <div class="ec-base-table" module="Myshop_OrderHistoryDetailPickup">
+                    <table border="1" >
+                        <caption>수거신청 정보</caption>
+                        <colgroup>
+                            <col style="width:170px" />
+                            <col style="width:auto" />
+                            <col style="width:120px" class="RW" />
+                            <col style="width:150px" class="RW" />
+                        </colgroup>
+                        <thead class="RW">
+                        <tr>
+                            <th scope="col" class="left">구분</th>
+                            <th scope="col" class="center">상품정보</th>
+                            <th scope="col" class="center">수량</th>
+                            <th scope="col" class="center">상품구매금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="RW">{$cancel_action_type}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$cancel_action_type}</h4>
+                                <ul module="Myshop_cancelProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">수거신청 여부</th>
+                            <td colspan="3">{$is_pickup}</td>
+                        </tr>
+                        <tr class="{$pickup_display|display}">
+                            <th scope="row">수거지 주소</th>
+                            <td colspan="3">{$pickup_name}<br /> {$pickup_addr}<br /> {$pickup_cell}</td>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <th scope="row" class="RW">{$cancel_action_type}</th>
+                            <td class="productList" colspan="3">
+                                <h4 class="subTitle RTMB">{$cancel_action_type}</h4>
+                                <ul module="Myshop_cancelProduct">
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                    <li>
+                                        <div class="product">
+                                            {$product_name} <span class="option">{$option_str}</span>
+                                            <ul class="option" module="Myshop_optionSet">
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                                <li><strong class="productName">{$product_name}</strong>{$option_str}</li>
+                                            </ul>
+                                        </div>
+                                        <p class="quantity">{$quantity}<span class="RTMI">개</span></p>
+                                        <p class="price RW">{$product_price}</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">수거신청 여부</th>
+                            <td colspan="3">{$is_pickup}</td>
+                        </tr>
+                        <tr class="{$pickup_display|display}">
+                            <th scope="row">수거지 주소</th>
+                            <td colspan="3">{$pickup_name}<br /> {$pickup_addr}<br /> {$pickup_cell}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="ec-base-fold theme1 gBottomLine selected eToggle {$customer_msg_display|display}">
+        	<div class="title">
+            	<h3>고객알림</h3>
+            </div>
+            <div class="contents">
+                <p class="customer">{$customer_msg}</p>
+            </div>
+        </div>
+
+        <div class="ec-base-button">
+            <span class="gRight">
+                <a href="#none" onclick="{$action_issue_cash}" class="btnNormal sizeS {$issue_cash_display|display}">
+                    현금영수증 신청
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_print_pg_cash}" class="btnNormal sizeS RW {$print_pg_cash_display|display}">
+                    현금영수증전표 인쇄
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_issue_tax}" class="btnNormal sizeS {$issue_tax_display|display}">
+                    세금계산서 신청
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_print_tax}" class="btnNormal sizeS RW {$print_tax_display|display}">
+                    세금계산서 인쇄
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_print_spec}" class="btnNormal sizeS RW {$print_spec_display|display}">
+                    거래명세서 인쇄
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_print_pg_card}" class="btnNormal sizeS RW {$print_pg_card_display|display}">
+                    카드매출전표 인쇄
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_select_gift}" class="btnNormal sizeS RW {$select_gift_display|display}">
+                    사은품 선택
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+                <a href="#none" onclick="{$action_print_store}" class="btnNormal sizeS RW {$delivery.print_store_display|display}">
+                    수령지정보 인쇄
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                        <mask id="mask0_3276_55731" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                            <rect x="0.1875" width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_3276_55731)">
+                            <path d="M15.2438 9.7025L9.022 15.918C8.92967 16.0102 8.81367 16.0553 8.674 16.0532C8.53422 16.0511 8.41817 16.0038 8.32583 15.9115C8.23361 15.8192 8.1875 15.7042 8.1875 15.5667C8.1875 15.4291 8.23361 15.3142 8.32583 15.2218L14.5413 9L9.07717 9C8.9355 9 8.81672 8.95206 8.72083 8.85617C8.62506 8.76028 8.57717 8.6415 8.57717 8.49983C8.57717 8.35806 8.62506 8.23933 8.72083 8.14367C8.81672 8.04789 8.9355 8 9.07717 8L15.6412 8C15.8119 8 15.9551 8.05772 16.0705 8.17317C16.1861 8.28872 16.2438 8.43183 16.2438 8.6025V15.1667C16.2438 15.3083 16.1959 15.4271 16.1 15.5228C16.0041 15.6187 15.8853 15.6667 15.7437 15.6667C15.6019 15.6667 15.4831 15.6187 15.3873 15.5228C15.2917 15.4271 15.2438 15.3083 15.2438 15.1667V9.7025Z" fill="#767676"/>
+                        </g>
+                    </svg>
+                </a>
+            </span>
+        </div>
+    </div>
+
+    <!--@import(/myshop/myshop_main.html)-->
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.ec-base-prdInfo .prdBox');
+  if (!items.length) return;
+
+  const cache = window.sessionStorage;
+  const concurrency = 4;
+  const queue = Array.from(items);
+
+  function getDetailUrl(box){
+    const a = box.querySelector('.thumbnail a, .description .prdName a');
+    return a ? a.getAttribute('href') : null;
+  }
+
+  function getProductKey(url){
+    if (!url) return null;
+    const m = url.match(/product_no=(\d+)/) || url.match(/\/product\/.*?\/(\d+)(?:\/|$)/);
+    return m ? m[1] : url;
+  }
+
+  async function fetchBrand(url){
+    const res  = await fetch(url, { credentials: 'same-origin' });
+    const html = await res.text();
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+
+    const cand = [
+      '.product_detail_brand',
+      '.product_brand',
+      '[data-role="productBrand"]',
+      '.xans-product-detail .infoArea .brand',
+    ];
+    for (const sel of cand){
+      const el = doc.querySelector(sel);
+      if (el && el.textContent.trim()) return el.textContent.trim();
+    }
+
+    const meta = doc.querySelector('meta[itemprop="brand"], meta[property="product:brand"]');
+    if (meta?.content) return meta.content.trim();
+
+    return '';
+  }
+
+  async function worker(){
+    while (queue.length){
+      const box = queue.shift();
+      const brandEl = box.querySelector('.prdBrand');
+      const url = getDetailUrl(box);
+      const key = 'brand:' + getProductKey(url);
+
+      if (!brandEl || !url || !key) continue;
+
+      const cached = cache.getItem(key);
+      if (cached != null){
+        brandEl.textContent = cached;
+        continue;
+      }
+
+      brandEl.textContent = '…';
+
+      try{
+        const brand = await fetchBrand(url);
+        brandEl.textContent = brand ? `[${brand}]` : '';
+        if (brand) cache.setItem(key, brand);
+      }catch(e){
+        brandEl.textContent = '';
+      }
+    }
+  }
+
+  for (let i=0; i<concurrency; i++) worker();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const MAP = [
+    {
+      key: 'prep',
+      labels: ['상품준비중'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#393939"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'ready',
+      labels: ['배송준비중','배송대기'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#393939"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'shipping',
+      labels: ['배송중'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_61029" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_61029)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#1B8862"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'done',
+      labels: ['배송완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_58144" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_58144)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F46200"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'change',
+      labels: ['교환완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#393939"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'cancel',
+      labels: ['취소신청'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'cancel-done',
+      labels: ['취소완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'return',
+      labels: ['반품신청'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'return_done',
+      labels: ['반품완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+  ];
+
+  function classify(label){
+    const t = (label || '').replace(/\s+/g,'').trim();
+    for (const m of MAP){
+      if (m.labels.some(x => t.includes(x.replace(/\s+/g,'')))) return m;
+    }
+    return null;
+  }
+
+  document.querySelectorAll('.txtStatus').forEach(el => {
+    if (el.dataset.styled === '1') return;
+    const original = (el.textContent || '').trim();
+    const matched = classify(original);
+    if (!matched) return;
+
+    el.dataset.styled = '1';
+    el.classList.add('status-badge', `is-${matched.key}`);
+
+    const iconWrap = document.createElement('span');
+    iconWrap.className = 'status-icon';
+    iconWrap.innerHTML = matched.icon;
+
+    const labelWrap = document.createElement('span');
+    labelWrap.className = 'status-label';
+    labelWrap.textContent = original;
+
+    el.textContent = '';
+    el.appendChild(iconWrap);
+    el.appendChild(labelWrap);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.ec-base-prdInfo .gRight').forEach(wrapper => {
+    const visibleBtn = wrapper.querySelector('a:not(.displaynone), button:not(.displaynone)');
+    if (!visibleBtn) {
+      wrapper.style.display = 'none';
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const nf = new Intl.NumberFormat('ko-KR');
+  const KRW = n => nf.format(Math.round(n));
+  const toNum = s => {
+    if (!s) return NaN;
+    const m = String(s).replace(/[^\d.-]/g, '');
+    return m ? Number(m) : NaN;
+  };
+
+  const getDetailUrl = (box) =>
+    box?.querySelector('.thumbnail a, .description .prdName a')?.getAttribute('href') || null;
+
+  const getProductKey = (url) => {
+    if (!url) return null;
+    const m = url.match(/product_no=(\d+)/) || url.match(/\/product\/.*?\/(\d+)(?:\/|$)/);
+    return m ? m[1] : url;
+  };
+
+  const getQty = (info) => {
+    const t1 = info.querySelector('.option_wrap .qty')?.textContent || '';
+    const m1 = t1.match(/(\d+)\s*개/);
+    if (m1) return Number(m1[1]);
+    const t2 = info.querySelector('.prdFoot .qty, .price .qty')?.textContent || '';
+    const m2 = t2.match(/(\d+)\s*개/);
+    return m2 ? Number(m2[1]) : 1;
+  };
+
+  async function fetchPrices(url){
+    const res = await fetch(url, { credentials: 'same-origin' });
+    const html = await res.text();
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+
+    const pick = sel => toNum(doc.querySelector(sel)?.textContent);
+    const trySel = (arr) => {
+      for (const s of arr) {
+        const v = pick(s);
+        if (isFinite(v) && v > 0) return v;
+      }
+      return NaN;
+    };
+
+    const findByLabel = (labels) => {
+      const nodes = Array.from(doc.querySelectorAll('tr, li, p, div, span'));
+      for (const n of nodes) {
+        const t = n.textContent?.replace(/\s+/g,'') || '';
+        if (!t) continue;
+        if (labels.some(lb => t.includes(lb))) {
+          const nums = (n.textContent.match(/\d[\d,\.]*/g) || []).map(toNum).filter(x => isFinite(x) && x>0);
+          if (nums.length) return Math.max(...nums);
+        }
+      }
+      return NaN;
+    };
+
+    let original = trySel([
+      '.xans-product-detail .infoArea .price .del',
+      '.xans-product-detail .price .del',
+      '.price_origin, .product_origin, .consumer_price'
+    ]);
+    let sale = trySel([
+      '.xans-product-detail .infoArea .price .sale',
+      '.xans-product-detail .price .sale',
+      '.price_sale, .product_price, .selling_price'
+    ]);
+
+    if (!isFinite(original)) original = findByLabel(['소비자가','정가','권장소비자가']);
+    if (!isFinite(sale))     sale     = findByLabel(['판매가','할인가','현재가','구매가']);
+
+    if (!isFinite(original) && isFinite(sale)) original = sale;
+    if (!isFinite(sale) && isFinite(original)) sale = original;
+
+    return { original, sale };
+  }
+
+  (async function run(){
+    const itemInfos = document.querySelectorAll('.ec-base-prdInfo');
+    if (!itemInfos.length) return;
+
+    const cache = new Map();
+    let totalDiscount = 0;
+
+    for (const info of itemInfos) {
+      const box = info.querySelector('.prdBox');
+      const url = getDetailUrl(box);
+      const key = getProductKey(url);
+      const qty = getQty(info);
+
+      if (!url || !key) continue;
+
+      const localSale = toNum(info.querySelector('.price strong')?.textContent);
+
+      let prices = cache.get(key);
+      if (!prices) {
+        try { prices = await fetchPrices(url); cache.set(key, prices); }
+        catch { continue; }
+      }
+
+      let { original, sale } = prices;
+
+      if (!isFinite(sale) && isFinite(localSale)) sale = localSale;
+
+      if (!isFinite(original) || !isFinite(sale) || !(original > sale)) {
+        continue;
+      }
+
+      const diff = original - sale;
+      if (diff / original > 0.9) continue;
+
+      totalDiscount += diff * (isFinite(qty) ? qty : 1);
+    }
+
+    const row = document.querySelector('.ec-base-fold.total_price .discount_price');
+    if (!row) return;
+
+    if (!isFinite(totalDiscount) || totalDiscount <= 0) {
+      row.style.display = 'none';
+    } else {
+      row.querySelector('strong')?.replaceChildren(document.createTextNode(KRW(totalDiscount)));
+      row.style.display = '';
+    }
+  })();
+});
+
+(function () {
+  function isEmptyContent(el) {
+    if (!el) return true;
+    const text = (el.textContent || '')
+      .replace(/\u00A0/g, '')
+      .replace(/\s+/g, '')
+      .trim();
+
+    const stripped = (el.innerHTML || '')
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<br\s*\/?>/gi, '')
+      .replace(/<\/?span[^>]*>/gi, '')
+      .replace(/<\/?p[^>]*>/gi, '')
+      .replace(/&nbsp;/gi, '')
+      .replace(/\s+/g, '')
+      .trim();
+
+    const val = text || stripped;
+    return !val || /^-+$/.test(val) || /^(없음|없어요|null)$/i.test(val);
+  }
+
+  function applyHide(root=document) {
+    root.querySelectorAll('.del_txt').forEach(wrapper => {
+      const content = wrapper.querySelector('.del_txt_content');
+      if (!content) return;
+
+      wrapper.style.display = isEmptyContent(content) ? 'none' : '';
+
+      const mo = new MutationObserver(() => {
+        wrapper.style.display = isEmptyContent(content) ? 'none' : '';
+      });
+      mo.observe(content, { childList: true, subtree: true, characterData: true });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyHide();
+    setTimeout(applyHide, 300);
+  });
+})();
+</script>
+
+<style>
+#contents {
+    min-height: calc(100vh - 54px);
+}
+
+#order_detail_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #F8F8F8;
+}
+
+#order_detail_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#order_detail_header .header_back img {
+    width: 100%;
+}
+
+#order_detail_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.order_id {
+    color: var(--G-800, #454545);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+    margin-bottom: 16px;
+}
+
+.ec-base-prdInfo {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    margin-top: 12px;
+}
+
+.ec-base-prdInfo:first-child {
+    margin-top: 0;
+}
+
+.prdBox {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.thumbnail a {
+    width: 48px;
+    height: 48px;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.thumbnail a img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+}
+
+.prdName a {
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    color: var(--G-900, #3D3D3D);
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.prdFoot {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+} 
+
+.ec-base-button {
+    width: 100%;
+}
+
+.gRight {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.gLeft {
+    display: flex;
+    align-items: center;
+}
+
+.prdBrand {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.qty {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.qty::before {
+    content: "•";
+    display: inline-block;
+    margin-right: 4px;
+    transform: translateY(-0.5px);
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.status-badge span {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-badge.is-prep span {
+    color: #181818;
+} 
+
+.status-badge.is-ready span {
+    color: #181818;
+}
+
+.status-badge.is-shipping span {
+    color: #1B8862;
+}
+
+.status-badge.is-done span {
+    color: #F46200;
+}
+
+.status-badge.is-cancel span,
+.status-badge.is-return span,
+.status-badge.is-cancel-done span,
+.status-badge.is-return-done span {
+    color: #F44336;
+}
+
+.price,
+.price strong,
+.price span {
+    color: var(--Oilve-Green, #1B8862);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.price_title {
+    color: var(--G-900, #181818) !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 20px !important; /* 142.857% */
+    letter-spacing: -0.28px !important;
+    margin-right: 12px !important;
+}
+
+.displaynone {
+    display: none !important;
+}
+
+.shipping_status_wrap {
+    display: flex;
+    width: 100%;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    margin: 12px 0 32px;
+}
+
+.shipping_status_wrap p {
+    color: var(--G-0, #FFF);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.del_info .contents {
+    display: flex;
+    width: 100%;
+    padding: 20px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+}
+
+.del_name span {
+    color: var(--G-900, #181818);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+    margin-bottom: 10px;
+}
+
+.del_address span {
+    color: var(--G-600, #5D5D5D);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.del_phone span {
+    color: var(--G-600, #5D5D5D);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    gap: 2px;
+}
+
+.del_txt p:first-child {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    margin-top: 12px;
+}
+
+.del_txt {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.del_txt_content {
+    display: flex;
+    padding: 12px;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+}
+
+.del_txt_content span {
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.total_price {
+    display: flex;
+    padding: 16px;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    margin-top: 12px;
+}
+
+.total_prd_price,
+.del_price,
+.discount_price,
+.oilmoney_price,
+.total_order_price {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.total_prd_price,
+.del_price,
+.discount_price {
+    margin-bottom: 2px;
+}
+
+.total_prd_price p,
+.del_price p,
+.discount_price p,
+.oilmoney_price p {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.total_prd_price strong,
+.del_price strong {
+    color: var(--G-900, #3D3D3D);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.discount_price strong,
+.oilmoney_price strong {
+    color: var(--Discount-Red, #F44336);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.total_order_price {
+    margin-top: 12px;
+    border-top: 1px solid #F0F0F0;
+    padding-top: 12px;
+}
+
+.total_order_price p {
+    color: var(--G-900, #181818);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+}
+
+.total_order_price strong {
+    color: var(--Olive-Green, #1B8862);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px; /* 127.273% */
+    letter-spacing: -0.44px;
+}
+
+.ec-base-button .gRight {
+    margin-top: 12px;
+}
+
+.ec-base-button .gRight .btnNormal {
+    display: flex;
+    padding: 6px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 4px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.title h3 {
+    margin: 32px 0 12px;
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+}
+
+tr {
+    display: flex;
+    flex-direction: column;
+}
+
+.xans-record- tr{
+    flex-direction: row;
+    gap: 10px;
+}
+
+.xans-record- tr .product_info{
+    display: none;
+}
+
+.xans-record- th{
+    color: var(--G-400, #888);
+/* R 13 */
+font-family: Pretendard;
+font-size: 13px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 153.846% */
+letter-spacing: -0.26px;
+margin-bottom: 0px;
+}
+
+
+th {
+    text-align: left;
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    margin-bottom: 4px;
+}
+
+.xans-myshop-cancelproduct .xans-record- {
+    display: flex;
+    flex-direction: column;
+}
+
+.status_label td {
+    color: var(--G-900, #181818);
+/* M 14 */
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 142.857% */
+letter-spacing: -0.28px;
+}
+
+.status_label td strong{
+color: var(--Oilve-Green, #1B8862);
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 700;
+line-height: 20px;
+letter-spacing: -0.28px;
+}
+
+.cancel_amount td strong {
+    color: var(--Oilve-Green, #1B8862);
+/* M 14 */
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 142.857% */
+letter-spacing: -0.28px;
+}
+
+.refund_method td{
+    color: var(--G-900, #181818);
+/* M 14 */
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 142.857% */
+letter-spacing: -0.28px;
+}
+
+.refund_account td{
+    color: var(--G-900, #181818);
+/* M 14 */
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 142.857% */
+letter-spacing: -0.28px;
+}
+
+.product {
+    color: var(--G-900, #181818);
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.xans-myshop-orderhistorydetailrefundnew tbody {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 10px;
+    background: #FFF;
+}
+
+.quantity, .quantity span {
+    border: none !important;
+    padding: 0 !important;
+    color: var(--G-400, var(--Gray-400, #393939));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.quantity::before {
+    content: "•";
+    display: inline-block;
+    margin-right: 4px;
+    transform: translateY(-0.5px);
+}
+
+.product_info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2px !important;
+}
+
+.product_info .price {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+td, td span, td li {
+    color: var(--G-400, var(--Gray-400, #393939));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+td strong {
+    color: var(--G-400, var(--Gray-400, #393939));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+</style>

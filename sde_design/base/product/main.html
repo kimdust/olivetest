@@ -1,0 +1,218 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="product_searchdata" class="section">
+    <!--@css(/css/module/product/searchdata.css)-->
+    <form class="searchField" id="{$searchkeyword_form}" action="/product/search.html" method="get">
+        <fieldset>
+            <div class="searchInput">
+                {$searchdata_keywordform}
+                <button type="button" class="btnDelete display_tablet_only">삭제</button>
+                <input type="image" id="{$search_submit_button}" src="https://olivetest.cafe24.com/web/upload/search.png" alt="검색" class="btnSearch" />
+                <ul class="autoDrop" id="{$search_auto_id}"></ul>
+                <button class="search_option_btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_2366_30920" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_2366_30920)">
+                            <path d="M11.9998 20.4169C11.7871 20.4169 11.609 20.3495 11.4655 20.2145C11.3218 20.0798 11.25 19.9127 11.25 19.7134V15.9609C11.25 15.7616 11.3219 15.5945 11.4658 15.4597C11.6096 15.3248 11.7878 15.2573 12.0003 15.2573C12.2129 15.2573 12.391 15.3248 12.5345 15.4597C12.6782 15.5945 12.75 15.7616 12.75 15.9609V17.1336H20C20.2125 17.1336 20.3906 17.201 20.5343 17.3359C20.6781 17.4709 20.75 17.638 20.75 17.8374C20.75 18.0369 20.6781 18.2039 20.5343 18.3386C20.3906 18.4733 20.2125 18.5407 20 18.5407H12.75V19.7134C12.75 19.9127 12.6781 20.0798 12.5343 20.2145C12.3904 20.3495 12.2122 20.4169 11.9998 20.4169ZM4 18.5407C3.7875 18.5407 3.60942 18.4733 3.46575 18.3383C3.32192 18.2034 3.25 18.0362 3.25 17.8369C3.25 17.6374 3.32192 17.4703 3.46575 17.3357C3.60942 17.2009 3.7875 17.1336 4 17.1336H8C8.2125 17.1336 8.39058 17.201 8.53425 17.3359C8.67808 17.4709 8.75 17.638 8.75 17.8374C8.75 18.0369 8.67808 18.2039 8.53425 18.3386C8.39058 18.4733 8.2125 18.5407 8 18.5407H4ZM7.99975 14.7883C7.78708 14.7883 7.609 14.7208 7.4655 14.5859C7.32183 14.4511 7.25 14.284 7.25 14.0847V12.9121H4C3.7875 12.9121 3.60942 12.8446 3.46575 12.7097C3.32192 12.5747 3.25 12.4076 3.25 12.2082C3.25 12.0087 3.32192 11.8417 3.46575 11.707C3.60942 11.5723 3.7875 11.5049 4 11.5049H7.25V10.3322C7.25 10.1329 7.32192 9.96584 7.46575 9.83106C7.60958 9.69613 7.78775 9.62866 8.00025 9.62866C8.21292 9.62866 8.391 9.69613 8.5345 9.83106C8.67817 9.96584 8.75 10.1329 8.75 10.3322V14.0847C8.75 14.284 8.67808 14.4511 8.53425 14.5859C8.39042 14.7208 8.21225 14.7883 7.99975 14.7883ZM12 12.9121C11.7875 12.9121 11.6094 12.8446 11.4658 12.7097C11.3219 12.5747 11.25 12.4076 11.25 12.2082C11.25 12.0087 11.3219 11.8417 11.4658 11.707C11.6094 11.5723 11.7875 11.5049 12 11.5049H20C20.2125 11.5049 20.3906 11.5724 20.5343 11.7073C20.6781 11.8422 20.75 12.0094 20.75 12.2087C20.75 12.4082 20.6781 12.5753 20.5343 12.7099C20.3906 12.8447 20.2125 12.9121 20 12.9121H12ZM15.9998 9.15961C15.7871 9.15961 15.609 9.09214 15.4655 8.95721C15.3218 8.82244 15.25 8.65537 15.25 8.45603V4.70358C15.25 4.50423 15.3219 4.33717 15.4658 4.2024C15.6096 4.06747 15.7878 4 16.0003 4C16.2129 4 16.391 4.06747 16.5345 4.2024C16.6782 4.33717 16.75 4.50423 16.75 4.70358V5.87622H20C20.2125 5.87622 20.3906 5.94369 20.5343 6.07862C20.6781 6.21355 20.75 6.38069 20.75 6.58004C20.75 6.77954 20.6781 6.94661 20.5343 7.08122C20.3906 7.216 20.2125 7.28339 20 7.28339H16.75V8.45603C16.75 8.65537 16.6781 8.82244 16.5343 8.95721C16.3904 9.09214 16.2122 9.15961 15.9998 9.15961ZM4 7.28339C3.7875 7.28339 3.60942 7.21592 3.46575 7.08099C3.32192 6.94606 3.25 6.77892 3.25 6.57957C3.25 6.38007 3.32192 6.213 3.46575 6.07838C3.60942 5.94361 3.7875 5.87622 4 5.87622H12C12.2125 5.87622 12.3906 5.94369 12.5343 6.07862C12.6781 6.21355 12.75 6.38069 12.75 6.58004C12.75 6.77954 12.6781 6.94661 12.5343 7.08122C12.3906 7.216 12.2125 7.28339 12 7.28339H4Z" fill="#1B8862"/>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+            <button type="button" class="btnSearchOption">검색옵션</button>
+            <!-- 검색옵션 레이어 -->
+            <div id="ec-product-searchoption" class="searchOption ec-base-layer">
+                <!--@css(/layout/basic/css/ec-base-layer.css)-->
+                <div class="header">
+                    <h3>검색옵션</h3>
+                </div>
+                <div class="content">
+                    <div class="boardWrite">
+                        <table border="1" >
+                            <caption>검색옵션</caption>
+                            <colgroup>
+                                <col style="width:80px;" />
+                                <col style="width:auto;" />
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">검색어</th>
+                                    <td>
+                                        {$searchdata_detail_keywordform}
+                                        <p class="desc">{$searchdata_detail_type_form}<label for="{$search_detail_type_id}"> 단어를 하나 이상 포함하고 있는 모든 상품 검색</label></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">제외검색어</th>
+                                    <td>
+                                        {$searchdata_except_keywordform}
+                                        <p class="desc">검색결과에서 제외하는 단어 조건을 입력할 수 있습니다.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ec-base-button">
+                    <a href="#none" id="{$searchdata_layer_reset}" class="btnNormalFix sizeM">초기화</a>
+                    <a href="#none" id="{$searchdata_layer_submit}" class="btnSubmitFix sizeM">검색</a>
+                </div>
+                <a href="#none" class="close"><img src="//img.echosting.cafe24.com/skin/base/common/btn_close.gif" alt="닫기" /></a>
+            </div>
+        </fieldset>
+        <div module="product_RelateKeyword" class="keywordArea">
+            <strong class="heading">연관검색어</strong>
+            <ul class="list">
+                <li><a href="{$relate_url}">{$relate_word}</a></li>
+                <li><a href="{$relate_url}">{$relate_word}</a></li>
+            </ul>
+        </div>
+        <div module="product_HotKeyword" class="keywordArea">
+            <strong class="heading">인기검색어</strong>
+            <ul class="list">
+                <li><a href="{$hot_keyword_search_url}">#{$hot_keyword_name}</a></li>
+                <li><a href="{$hot_keyword_search_url}">#{$hot_keyword_name}</a></li>
+            </ul>
+        </div>
+    </form>
+
+	<div module="product_searchdata" id="searchContent" class="section {$filter_class}">
+		<!--@css(/css/module/product/searchdata.css)-->
+		<form class="searchCondition" id="{$searchdata_form}" name="" method="get">
+			<input type="hidden" name="keyword" id="{$searchdata_keyword_hidden}" />
+			<div class="searchArea" id="ec-searchdata-area">
+				<table>
+					<caption>검색조건</caption>
+					<colgroup>
+						<col style="width:157px;">
+						<col style="width:auto;">
+					</colgroup>
+					<tbody>
+						<tr module="product_SearchFilterList">
+							<th scope="row" class="title">{$filter_name}</th>
+							<td class=" {$filter_type}">
+								<div class="cell">
+									<ul module="product_filterform" class="content">
+										<li class=" {$filter_class}">{$filter_value}</li>
+										<li class="{$filter_class}">{$filter_value}</li>
+									</ul>
+									<div class="withinInput {$within_input_display|display}">{$within_input} <button type="button" class="btnResearch">검색</button>{$within_suggest}</div>
+									<div class="priceInput {$price_input_display|display}">직접입력 {$price_input} <span class="btnPriceSearch"><a href="#none" id="{$searchdata_submit}">검색<img src="//img.echosting.cafe24.com/skin/base_ko_KR/product/btn_price_search.gif" alt="검색" /></a></span></div>
+									<div class="slider {$price_slider_display|display}">{$price_slider}</div>
+									<p class="value {$price_slider_display|display}">{$price_txt}</p>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</div>
+
+	<div module="product_searchdata" class="display_tablet_only"><a href="#none" id="shoppQbtn" class="btnNormalFix gFull {$search_detail_search_display|display}">상세검색</a></div>
+	<div module="product_searchConditionData">
+		<button type="button" class="btnRefresh ec-product-searchdata-reset">전체해제</button>
+		<ul class="list">
+			<li>{$search_condition_data}<button type="button" class="btnSearchDelete" {$search_attr}>삭제</button></li>
+			<li>{$search_condition_data}<button type="button" class="btnSearchDelete" {$search_attr}>삭제</button></li>
+		</ul>
+	</div>
+
+    <div class="searchResult">
+        <p class="record">상품 검색 결과 <strong class="txtEm">{$total_count}</strong></p>
+        <div class="sort">
+            <div module="product_searchdata">
+                <div class="searchOrder">{$searchOrderby}</div>
+            </div>
+        </div>
+    </div>
+    <div class="noData {$search_fail_display|display}">
+        <!--@import(/svg/icon-warning.html)-->
+        <h3 class="title">검색결과가 없습니다.</h3>
+        <p class="desc">정확한 검색어 인지 확인하시고 다시 검색해 주세요.</p>
+        <p class="subDesc">
+        	검색어/제외검색어의 입력이 정확한지 확인해 보세요.<br />
+            두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.
+        </p>
+    </div>
+</div>
+
+<section class="section_wrap">
+	<div class="shop_section section1">
+		section1
+	</div>
+
+	<div class="shop_section section2">
+		section2
+	</div>
+
+	<div class="shop_section section3">
+		section3
+	</div>
+
+	<div class="shop_section section4">
+		section4
+	</div>
+
+	<div class="shop_section section5">
+		section5
+	</div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://oliva.boundary.team/api/sections")
+        .then(res => res.json())
+        .then(sections => {
+            const container = document.querySelector('#contents');
+            const allSections = document.querySelectorAll('.shop_section');
+
+            allSections.forEach(el => el.style.display = 'none');
+
+            sections.forEach(section => {
+                const el = document.querySelector(`.shop_section.${section.code}`);
+                if (el && section.visible == 1) {
+                    el.style.display = 'block';
+                    container.appendChild(el);
+                }
+            });
+        })
+        .catch(error => {
+            console.error("섹션 로드 실패:", error);
+        });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const openBtn  = document.querySelector('.search_option_btn');
+  const panel    = document.getElementById('searchOptionsPanel');
+  const closeBtn = panel.querySelector('.search-options__close');
+  const dim      = document.getElementById('searchDim');
+
+  const openPanel = () => {
+    panel.setAttribute('data-open','true');
+    panel.setAttribute('aria-hidden','false');
+    dim.hidden = false;
+    document.documentElement.classList.add('searchopt-lock');
+    document.body.classList.add('searchopt-lock');
+    setTimeout(() => panel.focus(), 0);
+  };
+
+  const closePanel = () => {
+    panel.removeAttribute('data-open');
+    panel.setAttribute('aria-hidden','true');
+    dim.hidden = true;
+    document.documentElement.classList.remove('searchopt-lock');
+    document.body.classList.remove('searchopt-lock');
+    openBtn?.focus();
+  };
+
+  openBtn?.addEventListener('click', (e) => { e.preventDefault(); openPanel(); });
+  closeBtn?.addEventListener('click', closePanel);
+  dim?.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel.getAttribute('data-open') === 'true') closePanel();
+  });
+});
+</script>

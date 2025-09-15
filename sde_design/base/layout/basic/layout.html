@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="format-detection" content="telephone=no"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, user-scalable=yes">
+
+    <!-- PG크로스브라우징필수내용 -->
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <!-- PG크로스브라우징필수내용 -->
+	
+	<link rel="stylesheet" as="style" crossorigin
+	href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+	<link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css'><!-- theme03 -->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet"><!-- theme03 -->
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&family=Red+Hat+Display:wght@400;500;700&display=swap" rel="stylesheet"><!-- theme04 -->
+
+	<link href="https://oliva.boundary.team/css/comm.css" rel="stylesheet" type="text/css">
+	<link href="https://oliva.boundary.team/css/shop.css" rel="stylesheet" type="text/css">
+	<link href="https://oliva.boundary.team/css/magazine.css" rel="stylesheet" type="text/css">
+	<link href="https://oliva.boundary.team/css/order.css" rel="stylesheet" type="text/css">
+	<link href="https://oliva.boundary.team/css/user.css" rel="stylesheet" type="text/css">
+    <script src="https://oliva.boundary.team/js/comm.js"></script>
+
+    <!--@css(/layout/basic/css/swiper.min.css)-->
+	<!--@js(/layout/basic/js/swiper-bundle.min.js)-->
+	<!--@js(/js/module/product/sale_price.js)-->
+
+    <!--@js(/layout/basic/js/basic.js)-->
+    <!--@js(/layout/basic/js/layout.js)-->
+    <!--@js(/js/common.js)-->
+    <script>try{window.EZST={q:[],register:function(a,b){this.push([a,(b.init||b)(),arguments])}}}catch(e){}</script>
+    <!--ez-favicon[-->
+    <!--ez-favicon]-->
+    <!--@js(/ez/init.js)-->
+	
+<script type="text/ez-prop">
+	<ez-prop data-version="1.0.0">
+		<ez-var data-prop="theme" data-namespace="ez.layout.theme" data-type="array">
+			<ez-item data-id="theme01" data-name="MODERN" data-desc="(블랙+노토산스)" data-font="Noto Sans KR" data-background-color="#f5f5f5" override-value="html" data-font-css="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+				모던하고 차분한 스타일
+				<!-- HTML도 <b>이렇게</b> 가능합니다.<br>
+				세부 옵션은 <a href="https://sample.cafe24.com/theme01" target="_blank">이곳을</a> 통해 확인 할 수 있습니다. -->
+			</ez-item>
+			<ez-item data-id="theme02" data-name="SOFT" data-desc="은은하고 부드러운 스타일	" data-font="Noto Sans KR" data-background-color="#d8d9ed" data-font-css="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"></ez-item>
+			<ez-item data-id="theme03" data-name="BREEZY" data-desc="밝고 경쾌한 스타일" data-font="Spoqa Han Sans Neo" data-background-color="#ffc1a8" data-font-css="//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css"></ez-item>
+			<ez-item data-id="theme04" data-name="FRESH" data-desc="시원하고 산뜻한 스타일" data-font="Nanum Gothic" data-background-color="#c3e7e7" data-font-css="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&family=Red+Hat+Display:wght@400;500;700&display=swap"></ez-item>
+		</ez-var>
+	</ez-prop>
+</script>
+<style>
+	.header_back_privacy{
+		display: flex;
+    height: 48px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    width: 100%;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    text-align: right;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+	}
+	#privacyClose{
+		display: flex;
+    width: 375px;
+    padding: 16px 16px 32px 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: var(--G-0, #FFF);
+    box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+	}
+</style>
+</head>
+<body class="theme01" data-ez-theme="theme01">
+	<!-- <div id="skipNavigation">
+		<p><a href="#category">전체상품목록 바로가기</a></p>
+		<p><a href="#contents">본문 바로가기</a></p>
+	</div> -->
+	<div id="wrap">
+	<!--@import(/layout/basic/header.html)-->
+	<!--@import(/layout/basic/snb.html)-->
+	<div id="container">
+				<div id="contents">
+					<!-- <span module="Layout_MobileAction" class="RTMB">
+						<a href="#none" onclick="{$go_back}">
+							<i class="fa-solid fa-angle-left"></i>
+							뒤로가기</a>
+					</span> -->
+					<!--@contents-->
+				</div>
+			</div>
+	</div><!-- //wrap -->
+<div id="privacyClose" style="position: fixed;z-index: 5; bottom: 0; display: none;">
+<a href="javascript:window.history.back();" class="header_back_privacy">
+       닫기
+    </a>
+</div>
+
+	<div id="progressPaybar" style="display:none;">
+		<div id="progressPaybarBackground" class="layerProgress"></div>
+		<div id="progressPaybarView">
+			<div class="box">
+				<h3>현재 결제가 진행중입니다.</h3>
+				<p class="txt">
+					본 결제 창은 결제완료 후 자동으로 닫히며,결제 진행 중에 본 결제 창을 닫으시면<br>
+					주문이 되지 않으니 결제 완료 될 때 까지 닫지 마시기 바랍니다.
+				</p>
+				<div class="progressbar"><img src="//img.echosting.cafe24.com/skin/skin/common/img_loading.gif" alt="loading" loading="lazy"></div>
+			</div>
+		</div>
+	</div>
+
+	<div module="Layout_multishopShipping">
+		<!--@css(/layout/basic/css/ec-base-layer.css)-->
+		<!--@css(/css/module/layout/multishopShipping.css)-->
+		<!--@js(/js/module/layout/multishopShipping.js)-->
+		<div class="worldshipLayer ec-base-layer typeModal">
+			<div class="header">
+				<h3>WORLD SHIPPING</h3>
+			</div>
+			<div class="content">
+				<p class="desc">PLEASE SELECT THE DESTINATION COUNTRY AND LANGUAGE :</p>
+				<select module="Layout_multishopShippingCountrylist">
+					<option value="{$country_code}" {$country_default_selected}>SHIPPING TO : {$country_name}</option>
+					<option value="{$country_code}" {$country_default_selected}>SHIPPING TO : {$country_name}</option>
+				</select>
+				<select module="Layout_multishopShippingLanguagelist">
+					<option value="{$shop_domain}" {$shop_default_selected}>LANGUAGE : {$shop_language_name}</option>
+					<option value="{$shop_domain}" {$shop_default_selected}>LANGUAGE : {$shop_language_name}</option>
+				</select>
+			</div>
+			<div class="ec-base-button">
+				<a href="#none" class="btnSubmitFix sizeM">GO</a>
+			</div>
+			<a href="#none" class="btnClose">닫기</a>
+		</div>
+	</div>
+
+	<div class="layer_shadow" id="layer_shadow"></div>
+	<div id="layoutDimmed" class="dimmed"></div>
+
+	<!--@import(/layout/basic/footer.html)-->
+
+	<!--@css(/layout/basic/css/sub_style.css)-->
+	<!--@css(/layout/basic/css/sub_theme.css)-->
+	<!--@css(/layout/basic/css/add_theme01.css)-->
+	<!--@css(/layout/basic/css/add_theme02.css)-->
+	<!--@css(/layout/basic/css/add_theme03.css)-->
+	<!--@css(/layout/basic/css/add_layout.css)-->
+
+<script>
+	function removeNbsp(selectors) {
+		selectors.forEach(sel => {
+			document.querySelectorAll(sel).forEach(el => {
+			el.innerHTML = el.innerHTML.replace(/&nbsp;/g, '');
+			});
+		});
+	}
+		removeNbsp([
+		'.swiper-slide',
+		'.product_bottom_section',
+		'.header_menu',
+		'.slider_sec',
+		'.thumbnail',
+		'.actionWish',
+		'.product_detail_img_wrap',
+		'.product_img_box',
+		'.brand_wrap',
+		'.searchInput',
+		'.terroir_wrap',
+		'#imageModal',
+		'.recommend_product_list',
+		'.product_detail_section',
+		'.searchCondition',
+		'.shop_banner',
+		'.product_img_link',
+		'.review_section_wrap',
+		'.image-upload',
+		'.profile_item',
+		]);
+
+	document.querySelectorAll('.header_menu').forEach(el => {
+		el.childNodes.forEach(n => {
+			if (n.nodeType === 3 && /\u00A0/.test(n.nodeValue)) n.remove();
+		});
+	});
+
+	document.addEventListener("DOMContentLoaded", () => {
+		const path = location.pathname;
+		const qs = new URLSearchParams(location.search);
+
+		const isOrderList = path.startsWith("/myshop/order/list");
+		const hasOrderId = qs.has("order_id") && (qs.get("order_id") || "").trim() !== "";
+		const isOrderListNoMember = isOrderList && !hasOrderId;
+
+		if (isOrderListNoMember) {
+			if (header) header.style.display = "flex";
+			if (orderListHeader) orderListHeader.style.display = "flex";
+			if (footer) footer.style.display = "flex";
+
+			document.documentElement.classList.remove('boot-hide');
+			return;
+		}
+
+		const isPDP        = path.startsWith("/product/") && !path.includes("list.html") && !path.includes("info.html");
+		const isSearch     = path.startsWith("/product/search");
+		const isBasket     = path.startsWith("/order/basket");
+		const isLogin      = path.startsWith("/member/login");
+		const isIdFind     = path.startsWith("/member/id");
+		const isPwFind     = path.startsWith("/member/passwd");
+		const isPwChange   = path.startsWith("/member/change_passwd");
+		const isMgDetail   = path.startsWith("/magazine/detail");
+		const isJoin       = path.startsWith("/member/agreement") || path.startsWith("/member/join");
+		const isJoinResult = path.startsWith("/member/join_result");
+		const isMyInfo = path.startsWith("/myshop/myinfo");
+		const isPwdCheck = path.startsWith("/member/check_password");
+		const isModify = path.startsWith("/member/modify");
+		const isContents = path.startsWith("/contents");
+		const isReview = path.startsWith("/myshop/order/review");
+		const isReviewWrite = path.startsWith("/board/product/write");
+		const isCs = path.startsWith("/board/free/") && qs.get("board_no") === "3";
+		const isNotice = path.startsWith("/board/free/") && qs.get("board_no") === "1";
+		const isQna = path.startsWith("/board/consult") || path.startsWith("/myshop/board_list") || path.startsWith("/board/product/read");
+		const isPrivacy = path.startsWith("/member/privacy") || path.startsWith("/myshop/agreement");
+		const isOrderDetail = path.startsWith("/myshop/order/detail");
+		const isOrderCancel = path.startsWith("/myshop/order/cancel");
+		const isOrderChange = path.startsWith("/myshop/order/exchange");
+		const isOrderReturn = path.startsWith("/myshop/order/return");
+		const isScrap = path.startsWith("/myshop/scraps");
+		const isOilmoney = path.startsWith("/myshop/mileage/historyList");
+		const isAddrList = path.startsWith("/myshop/addr/list");
+		const isAddrAdd = path.startsWith("/myshop/addr/register");
+		const isAddrEdit = path.startsWith("/myshop/addr/modify");
+		const isPrdInfo = path.startsWith("/product/info");
+		const isDelivery = path.startsWith("/myshop/order/delivery");
+		
+		const header = document.getElementById("header");
+		const productHeader = document.getElementById("product_header");
+		const basketHeader = document.getElementById("basket_header");
+		const findHeader = document.getElementById("find_header");
+		const magazineHeader= document.getElementById("magazine_header");
+		const joinHeader = document.getElementById("join_header");
+		const infoHeader = document.getElementById("info_header");
+		const pwdHeader = document.getElementById("pwd_header");
+		const modifyHeader = document.getElementById("modify_header");
+		const contentsHeader = document.getElementById("contents_header");
+		const reviewHeader = document.getElementById("review_header");
+		const reviewWriteHeader = document.getElementById("review_write_header");
+		const csHeader = document.getElementById("cs_header");
+		const noticeHeader = document.getElementById("notice_header");
+		const qnaHeader = document.getElementById("qna_header");
+		const privacyHeader = document.getElementById("privacy_header");
+		const orderListHeader = document.getElementById("order_list_header");
+		const orderDetailHeader = document.getElementById("order_detail_header");
+		const orderCancelHeader = document.getElementById("order_cancel_header");
+		const orderChangeHeader = document.getElementById("order_change_header");
+		const orderReturnHeader = document.getElementById("order_return_header");
+		const scrapHeader = document.getElementById("scrap_header");
+		const oilmoneyHeader = document.getElementById("oilmoney_header");
+		const addrAddHeader = document.getElementById("addr_add_header");
+		const addrListHeader = document.getElementById("addr_list_header");
+		const addrEditHeader = document.getElementById("addr_edit_header");
+		const prdInfoHeader = document.getElementById("prd_info_header");
+		const deliveryHeader = document.getElementById("delivery_header");
+		const footer = document.getElementById("bnb");
+		const closeBtn = document.getElementById("privacyClose");
+
+		[header, productHeader, basketHeader].forEach(el => { if (el) el.style.display = "none"; });
+
+		if (isSearch) {
+			if (header) header.style.display = "flex";
+		} else if (isPDP) {
+			if (productHeader) productHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isBasket) {
+			if (basketHeader) basketHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isLogin) {
+			if (header) header.style.display = "none";
+			if (basketHeader) basketHeader.style.display = "none";
+			if (footer) footer.style.display = "none";
+		} else if (isIdFind || isPwFind || isPwChange) {
+			if (findHeader) findHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isJoinResult) {
+			if (joinHeader) joinHeader.style.display = "none";
+			if (footer) footer.style.display = "none";
+		} else if (isJoin) {
+			if (joinHeader) joinHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isMgDetail) {
+			if (magazineHeader) magazineHeader.style.display = "flex";
+		} else if (isMyInfo) {
+			if (infoHeader) infoHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isPwdCheck) {
+			if (pwdHeader) pwdHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isModify) {
+			if (modifyHeader) modifyHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isReview) {
+			if (reviewHeader) reviewHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isReviewWrite) {
+			if (reviewWriteHeader) reviewWriteHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isContents) {
+			if (contentsHeader) contentsHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isCs) {
+			if (csHeader) csHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isNotice) {
+			if (noticeHeader) noticeHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isQna) {
+			if (qnaHeader) qnaHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isPrivacy) {
+			if (privacyHeader) privacyHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+			if (closeBtn) closeBtn.style.display ="block";
+		} else if (isOrderListNoMember) {
+			if (header) header.style.display = "flex";
+			if (footer) footer.style.display = "flex";
+		} else if (isOrderList) {
+			if (orderListHeader) orderListHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isOrderDetail) {
+			if (orderDetailHeader) orderDetailHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isOrderCancel) {
+			if (orderCancelHeader) orderCancelHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isOrderChange) {
+			if (orderChangeHeader) orderChangeHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isOrderReturn) {
+			if (orderReturnHeader) orderReturnHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isScrap) {
+			if (scrapHeader) scrapHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isOilmoney) {
+			if (oilmoneyHeader) oilmoneyHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isAddrList) {
+			if (addrListHeader) addrListHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isAddrAdd) {
+			if (addrAddHeader) addrAddHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isAddrEdit) {
+			if (addrEditHeader) addrEditHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isPrdInfo) {
+			if (prdInfoHeader) prdInfoHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else if (isDelivery) {
+			if (deliveryHeader) deliveryHeader.style.display = "flex";
+			if (footer) footer.style.display = "none";
+		} else {
+			if (header) header.style.display = "flex";
+		}
+	});
+
+	document.addEventListener("DOMContentLoaded", () => {
+		const path = location.pathname;
+		const qs = new URLSearchParams(location.search);
+
+		const isOrderList = path.startsWith("/myshop/order/list");
+		const hasOrderId  = qs.has("order_id") && (qs.get("order_id") || "").trim() !== "";
+
+		const globalHeader = document.getElementById("header");
+		const orderListHeader = document.getElementById("order_list_header");
+		const orderListTab = document.getElementById("order_list_tab");
+		const bestSlider = document.getElementById("best_sec");
+		const footer = document.getElementById("bnb");
+
+		if (isOrderList && hasOrderId) {
+			if (orderListHeader) orderListHeader.style.setProperty("display", "none", "important");
+			if (orderListTab) orderListTab.style.setProperty("display", "none", "important");
+			if (globalHeader) globalHeader.style.setProperty("display", "flex", "important");
+			if (bestSlider) bestSlider.style.setProperty("display", "block", "important");
+			if (footer) footer.style.setProperty("display", "flex", "important");
+		} else if (isOrderList) {
+			if (orderListHeader) orderListHeader.style.setProperty("display", "flex", "important");
+			if (orderListTab) orderListTab.style.setProperty("display", "flex", "important");
+			if (globalHeader) globalHeader.style.setProperty("display", "none", "important");
+			if (bestSlider) bestSlider.style.setProperty("display", "none", "important");
+			if (footer) footer.style.setProperty("display", "none", "important");
+		}
+	});
+
+	const observer = new MutationObserver(() => {
+		document.querySelectorAll('.option_product .product').forEach(el => {
+			if (el.innerHTML.includes('-')) {
+			el.innerHTML = el.innerHTML.replace(/ ?- ?/g, '');
+			}
+		});
+	});
+	observer.observe(document.body, { childList: true, subtree: true });
+
+	const observerEm = new MutationObserver(() => {
+		const totalCount = document.querySelector('.total strong em');
+		if (!totalCount) return;
+
+		const newSpan = document.createElement('span');
+		newSpan.className = totalCount.className;
+		newSpan.innerHTML = totalCount.innerHTML;
+		totalCount.parentNode.replaceChild(newSpan, totalCount);
+	});
+	observerEm.observe(document.body, { childList: true, subtree: true });
+
+	const fixArea = document.getElementById('orderFixArea');
+	if (fixArea) {
+		window.addEventListener('scroll', () => {
+			if (window.scrollY > 900) {
+			fixArea.classList.add('active');
+			} else {
+			fixArea.classList.remove('active');
+			}
+		});
+
+		const observerFix = new MutationObserver(() => {
+			if (fixArea.style.display === 'none') {
+			fixArea.style.display = 'block';
+			}
+		});
+		observerFix.observe(fixArea, { attributes: true, attributeFilter: ['style'] });
+	}
+
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const tabLinks = document.querySelectorAll('.detail_tab .title_detail li a');
+		const tabContents = {
+			'#detail': document.getElementById('prdDetail'),
+			'#review': document.getElementById('prdReview'),
+			'#qna': document.getElementById('prdQnA'),
+			'#guide': document.getElementById('prdInfo')
+		};
+
+		tabLinks.forEach(link => {
+			link.addEventListener('click', e => {
+			e.preventDefault();
+
+			tabLinks.forEach(other => other.parentElement.classList.remove('tab_open'));
+			link.parentElement.classList.add('tab_open');
+
+			for (const key in tabContents) {
+				if (tabContents[key]) tabContents[key].style.display = 'none';
+			}
+
+			const target = tabContents[link.getAttribute('href')];
+			if (target) {
+				target.style.display = 'block';
+				window.scrollTo(0, target.offsetTop);
+			}
+			});
+		});
+
+		if (tabLinks[0]) tabLinks[0].click();
+	});
+
+	const flavorText = document.querySelector('.product-flavor-data')?.textContent;
+	const flavorChipBox = document.querySelector('.product-flavor-chips');
+	if (flavorText && flavorChipBox) {
+		flavorText.split(',').map(t => t.trim()).filter(Boolean).forEach(tag => {
+			const li = document.createElement('li');
+			li.textContent = tag;
+			flavorChipBox.appendChild(li);
+		});
+	}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		document.querySelectorAll('.circular_chart').forEach(chart => {
+			const textEl = chart.querySelector('.percentage');
+			if (!textEl) return;
+
+			const score = parseFloat(textEl.textContent);
+			const percent = (score / 5) * 100;
+			chart.querySelector('.circle')
+				.setAttribute('stroke-dasharray', `${percent}, 100`);
+		});
+	});
+</script>
+</body>
+</html>

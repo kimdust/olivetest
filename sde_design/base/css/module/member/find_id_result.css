@@ -1,0 +1,10 @@
+.xans-member-findidresult .complete { margin:0 auto; text-align:center; }
+.xans-member-findidresult .ec-base-desc { margin:0 0 20px; padding:20px 0 10px; border-top:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; }
+.xans-member-findidresult .ec-base-desc li { margin:0 0 10px; }
+
+/********************* Mobile / Tablet *********************/
+
+/********************* PC *********************/
+@media all and (min-width:1025px) {
+	.xans-member-findidresult .complete { width:474px; }
+}

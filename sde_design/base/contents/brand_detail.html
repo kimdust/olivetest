@@ -1,0 +1,927 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div id="contents_detail"></div>
+
+<script>
+ 
+(function() {
+  const API_BASE = 'https://oliva.boundary.team/api';
+  const KIND_DETAIL = '/contents/kind_detail.html?kind_id=';
+
+  const raw = new URLSearchParams(location.search).get('brand_id') || '';
+  const brandId = String(raw).split(':').shift();
+
+  const safe = v => (v ?? '');
+
+  async function fetchJson(url){
+      const res = await fetch(url, { mode: 'cors' });
+      if(!res.ok){
+      const body = await res.text().catch(()=> '');
+      throw new Error(`HTTP ${res.status} ${url}\n${body}`);
+      }
+      return res.json();
+  }
+
+  function heroHTML(d){
+      const bg = d.image_path ? `style="background-image:url('${d.image_path}'); background-size:cover; background-position:center;"` : '';
+      const countryFlags = {
+          "그리스": "🇬🇷",
+          "이탈리아": "🇮🇹",
+          "스페인": "🇪🇸",
+      };
+      const flag = d.country && countryFlags[d.country] ? countryFlags[d.country] : "";
+      return `
+      <div class="hero" ${bg}>
+          <div class="hero__overlay"></div>
+          <div class="hero__inner">
+          <div class="en_name">${safe(d.en_name)}</div>
+          <div class="name">${safe(d.name)}</div>
+          ${d.sub_title ? `<div class="sub_title">${safe(d.sub_title)}</div>` : ''}
+          <div class="country_wrap">
+              <span class="country_emoji">${flag}</span>
+              ${d.country ? `<span>${safe(d.country)}</span>` : ''}
+              ${d.place_product ? `<span>• ${safe(d.place_product)}</span>` : ''}
+          </div>
+          </div>
+      </div>
+      `;
+  }
+
+  function introHTML(d){
+      const img = d.image_path
+      ? `<img src="${d.image_path}" alt="${safe(d.name)}" style="width:100%; border-radius:10px; object-fit:cover">`
+      : '';
+      return `
+      <div class="section">
+          <h3>브랜드 소개</h3>
+          ${img ? `<div class="desc_img">${img}</div>` : ''}
+          <div class="description" style="white-space:pre-line; margin-top:${img? '16px':'0'}">${safe(d.description)}</div>
+      </div>
+      `;
+  }
+
+  function parseCommaNames(str){
+      if (!str) return [];
+      return String(str).split(/[,，]/).map(s => s.trim()).filter(Boolean);
+  }
+  function norm(s){
+      return String(s || '').replace(/\(.*?\)/g,'').toLowerCase().replace(/\s|-/g,'');
+  }
+  function relatedKindsHTML(brand, kinds){
+      const rawNames = parseCommaNames(brand.relation_kind);
+      if (!rawNames.length) return '';
+      const idx = new Map();
+      (Array.isArray(kinds) ? kinds : []).forEach(k => {
+      if (k.name)    idx.set(norm(k.name), k);
+      if (k.en_name) idx.set(norm(k.en_name), k);
+      });
+
+      const cards = rawNames.map(name => {
+      const key = norm(name);
+      let item = idx.get(key);
+      if (!item && Array.isArray(kinds)) {
+          item = kinds.find(k => {
+          const n1 = norm(k.name); const n2 = norm(k.en_name);
+          return n1.includes(key) || key.includes(n1) || n2.includes(key) || key.includes(n2);
+          });
+      }
+      const href = item && item.id != null ? `${KIND_DETAIL}${encodeURIComponent(item.id)}` : null;
+      const img  = item && item.image_path ? item.image_path : null;
+
+      const thumb = img
+          ? `<div class="kind-card__thumb"><img src="${img}" alt="${safe(item?.name || name)}"></div>`
+          : `<div class="kind-card__thumb kind-card__thumb--placeholder"></div>`;
+      const label = `<div class="kind-card__meta">
+          <div class="kind-card__meta-sub">품종</div>
+          <div class="kind-card__title">${safe(item?.name || name)}</div>
+          </div>`;
+
+      return href
+          ? `<a class="kind-card" href="${href}" aria-label="${safe(item?.name || name)}">${thumb}${label}</a>`
+          : `<div class="kind-card">${thumb}${label}</div>`;
+      });
+
+      return `
+      <div class="section">
+          <h3>관련 품종</h3>
+          <div class="kind-grid">${cards.join('')}</div>
+      </div>
+      `;
+  }
+
+  function formatKRW(n){ try{ return Number(n).toLocaleString('ko-KR'); }catch(e){ return n; } }
+  function discountRate(price, sale){
+      const p = Number(price), s = Number(sale);
+      if (!p || !s || s>=p) return null;
+      return Math.round((1 - s/p) * 100);
+  }
+  function brandProductsHTML(items = []){
+      if (!Array.isArray(items) || !items.length) return '';
+      const cards = items.map(p => {
+      const href = p.detailUrl || `/product/detail.html?product_no=${encodeURIComponent(p.product_no)}`;
+      const rate = discountRate(p.retail, p.price);
+      return `
+          <a class="prod-card" href="${href}">
+          <div class="prod-thumb">${p.image ? `<img src="${p.image}" alt="${safe(p.name)}">` : ''}</div>
+          <div class="prod-body">
+              ${p.brand ? `<div class="prod-brand">${safe(p.brand)}</div>` : ''}
+              <div class="prod-title">${safe(p.name)}</div>
+              <div class="prod-price-line">
+              ${rate != null ? `<span class="prod-rate">${rate}%</span>` : ''}
+              <span class="prod-price">${formatKRW(p.price || p.retail)}원</span>
+              </div>
+          </div>
+          </a>`;
+      }).join('');
+      return `
+      <div class="section">
+          <h3 style="margin-bottom: 12px;">브랜드 상품</h3>        
+          <div class="search_filter_wrap">
+            <div class="search_prd_count"></div>
+            <div class="search_filter"></div>
+          </div>
+          <div class="prod-grid">${cards}</div>
+      </div>`;
+  }
+
+  async function fetchBrandProducts(brand) {
+      try {
+      const url = `${API_BASE}/products/by-brand?brand_id=${encodeURIComponent(brand.id)}&brand=${encodeURIComponent(brand.name)}&exclude_soldout=1&limit=20`;
+      const r = await fetchJson(url);
+      return Array.isArray(r.data) ? r.data : (Array.isArray(r) ? r : []);
+      } catch (_) {
+      return [];
+      }
+  }
+
+  async function boot(){
+      const root = document.getElementById('contents_detail');
+      if(!brandId){
+          root.innerHTML = '<div class="sub_title">brand_id가 없습니다.</div>';
+          return;
+      }
+
+      root.innerHTML = '<div class="sub_title">불러오는 중…</div>';
+      try {
+          const [brand, kinds] = await Promise.all([
+          fetchJson(`${API_BASE}/brands/${encodeURIComponent(brandId)}`),
+          fetchJson(`${API_BASE}/kinds`).catch(()=>[])
+          ]);
+
+          const productsByBrand = await fetchBrandProducts(brand);
+
+          root.innerHTML = `
+          ${heroHTML(brand)}
+          <div class="contents_wrap">
+              ${introHTML(brand)}
+              ${relatedKindsHTML(brand, kinds)}
+              ${brandProductsHTML(productsByBrand)}
+          </div>
+          `;
+      } catch (e){
+          console.error(e);
+          root.innerHTML = '<div class="sub_title">데이터를 불러오지 못했습니다.</div>';
+      }
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', boot)
+    : boot();
+})();
+
+(function () {
+  const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+  function attachSearchFilter(mount) {
+    if (!mount || mount.dataset.inited) return;
+    mount.dataset.inited = '1';
+
+    console.log('[filter] init @', mount);
+
+    const OPTIONS = [
+      { key: 'recommend',  label: '추천순' },
+      { key: 'new',        label: '신상품순' },
+      { key: 'price_asc',  label: '가격 낮은순' },
+      { key: 'price_desc', label: '가격 높은순' },
+      { key: 'fruity_asc', label: '프루티 낮은순' },
+      { key: 'fruity_desc',label: '프루티 높은순' },
+      { key: 'acidity_asc',label: '산도 낮은순' },
+      { key: 'acidity_desc',label: '산도 높은순' },
+    ];
+
+    const params  = new URLSearchParams(location.search);
+    const curSort = params.get('sort') || 'recommend';
+    const cur     = OPTIONS.find(o => o.key === curSort) || OPTIONS[0];
+
+    mount.innerHTML = `
+      <button type="button" class="filter_btn" aria-haspopup="dialog" aria-expanded="false">
+        <span class="filter_label">${cur.label}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <mask id="mask0_3533_18961" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
+            <rect x="14" y="14" width="14" height="14" transform="rotate(-180 14 14)" fill="#D9D9D9"/>
+          </mask>
+          <g mask="url(#mask0_3533_18961)">
+            <path d="M9.922 5.658L6.826 8.754 3.729 5.658l.413-.413L6.826 7.928 9.509 5.245l.413.413Z" fill="#888"/>
+          </g>
+        </svg>
+      </button>
+    `;
+
+    const dim = document.createElement('div');
+    dim.className = 'search-bsheet-dim';
+    dim.hidden = true;
+
+    const sheet = document.createElement('div');
+    sheet.className = 'search-bsheet';
+    sheet.setAttribute('role','dialog');
+    sheet.setAttribute('aria-modal','true');
+    sheet.setAttribute('aria-hidden','true');
+    sheet.setAttribute('aria-label','정렬 선택');
+
+    sheet.innerHTML = `
+      <div class="handle" aria-hidden="true"></div>
+      <div class="list" tabindex="0">
+        ${OPTIONS.map(o => `<button class="opt" data-key="${o.key}" aria-current="${o.key===cur.key}">${o.label}</button>`).join('')}
+      </div>
+    `;
+
+    document.body.append(dim, sheet);
+
+    const btn = mount.querySelector('.filter_btn');
+    const openSheet = () => {
+      sheet.dataset.open = 'true';
+      sheet.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+      dim.hidden = false; dim.style.display = 'block';
+      document.documentElement.classList.add('filter-lock');
+      document.body.classList.add('filter-lock');
+      setTimeout(() => sheet.querySelector('.list')?.focus(), 0);
+    };
+    const closeSheet = () => {
+      delete sheet.dataset.open;
+      sheet.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+      dim.style.display = 'none'; dim.hidden = true;
+      document.documentElement.classList.remove('filter-lock');
+      document.body.classList.remove('filter-lock');
+      btn.focus();
+    };
+
+    btn.addEventListener('click', openSheet);
+    dim.addEventListener('click', closeSheet);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sheet.dataset.open === 'true') closeSheet();
+    });
+
+    sheet.addEventListener('click', async (e) => {
+      const opt = e.target.closest('.opt');
+      if (!opt) return;
+      const key = opt.dataset.key;
+
+      const labelSpan = mount.querySelector('.filter_label');
+      if (labelSpan) labelSpan.textContent = opt.textContent.trim();
+
+      sheet.querySelectorAll('.opt').forEach(b => b.setAttribute('aria-current', b===opt ? 'true':'false'));
+
+      const sp = new URLSearchParams(location.search);
+      sp.set('sort', key);
+      history.replaceState(null, '', location.pathname + '?' + sp.toString());
+
+      closeSheet();
+      if (typeof window.sortSearchList === 'function') {
+        await window.sortSearchList(key);
+      }
+    });
+
+    console.log('[filter] mounted UI');
+  }
+
+  function initSearchFilters(root=document) {
+    const nodes = qsa('.search_filter:not([data-inited])', root);
+    if (nodes.length) console.log('[filter] found nodes:', nodes.length);
+    nodes.forEach(attachSearchFilter);
+
+    updateProductCount(root);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => initSearchFilters());
+  new MutationObserver(() => initSearchFilters()).observe(document.body, { childList:true, subtree:true });
+  setInterval(initSearchFilters, 1000);
+
+  window.initSearchFilters = initSearchFilters;
+
+  document.addEventListener('DOMContentLoaded', () => initSearchFilters());
+  new MutationObserver(() => initSearchFilters())
+  .observe(document.body, { childList: true, subtree: true });
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const toNum = (v) => {
+    if (v == null) return 0;
+    const s = String(v).replace(/[^\d.-]/g, '');
+    return s ? Number(s) : 0;
+  };
+
+  function getListContainer() {
+    return document.querySelector('.prod-grid') ||
+          document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList') ||
+          null;
+  }
+
+  function getListItems(container) {
+    if (!container) return [];
+    if (container.classList.contains('prod-grid')) {
+      return Array.from(container.querySelectorAll('.prod-card'));
+    }
+
+    return Array.from(container.children).filter(el => el.tagName === 'LI');
+  }
+  function getProductNoFromNode(node) {
+    if (node.classList && node.classList.contains('prod-card')) {
+      const href = node.getAttribute('href') || '';
+      try {
+        const u = new URL(href, location.origin);
+        return u.searchParams.get('product_no') ||
+              (u.pathname.match(/\/product\/.*\/(\d+)\//)||[])[1] || null;
+      } catch { return null; }
+    }
+
+    const a = node.querySelector?.('a[href*="product_no="], a.product_img_link, .name a');
+    if (!a) return null;
+    try {
+      const u = new URL(a.getAttribute('href'), location.origin);
+      return u.searchParams.get('product_no') ||
+            (u.pathname.match(/\/product\/.*\/(\d+)\//)||[])[1] || null;
+    } catch { return null; }
+  }
+
+  function getPriceFromNode(node) {
+    if (node.classList && node.classList.contains('prod-card')) {
+      const txt = node.querySelector('.prod-price')?.textContent || '';
+      return toNum(txt);
+    }
+
+    const per = node.querySelector?.('.product_price_wrap .product_per');
+    const sale = per ? toNum(per.dataset.sale) : toNum(node.querySelector?.('.product_custom_price')?.textContent);
+    if (sale > 0) return sale;
+    return toNum(node.querySelector?.('.product_real_price')?.textContent);
+  }
+
+  function getRetailFromNode(node) {
+    if (node.classList && node.classList.contains('prod-card')) {
+
+      const txt = node.querySelector('.prod-price')?.textContent || '';
+      return toNum(txt);
+    }
+    const per = node.querySelector?.('.product_price_wrap .product_per');
+    const list = per ? toNum(per.dataset.list) : toNum(node.querySelector?.('.product_real_price')?.textContent);
+    return list;
+  }
+
+  function getFruityFromNode(node)  { return Number(node.getAttribute('data-fruity'))  || 0; }
+  function getAcidityFromNode(node) { const v = Number(node.getAttribute('data-acidity')); return isNaN(v)?0:v; }
+  function getNewScoreFromNode(node){ return Number(getProductNoFromNode(node)) || 0; }
+    function getFruity(li)  { return Number(li.getAttribute('data-fruity'))  || 0; }
+    function getAcidity(li) { const v = Number(li.getAttribute('data-acidity')); return isNaN(v)?0:v; }
+    function getNewScore(li){ return Number(getProductNoFromLi(li)) || 0; }
+
+  async function ensureMetricsFor(sortKey) {
+    if (!/^(fruity|acidity)_(asc|desc)$/.test(sortKey)) return true;
+
+    const container = getListContainer(); if (!container) return false;
+    const items = getListItems(container); if (!items.length) return false;
+
+    const nos = [];
+    items.forEach(node => {
+      const no = getProductNoFromNode(node); if (!no) return;
+      if (sortKey.startsWith('fruity')  && !node.hasAttribute('data-fruity'))  nos.push(no);
+      if (sortKey.startsWith('acidity') && !node.hasAttribute('data-acidity')) nos.push(no);
+    });
+    const unique = Array.from(new Set(nos));
+    if (!unique.length) return true;
+
+    const cache = sessionStorage;
+    const notCached = unique.filter(no => !cache.getItem('m:'+no));
+    if (notCached.length) {
+      try {
+        const url = 'https://oliva.boundary.team/api/products/metrics?' +
+                    new URLSearchParams({ product_nos: notCached.join(',') });
+        const res = await fetch(url, { mode:'cors' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json?.success && Array.isArray(json.data)) {
+            json.data.forEach(it => cache.setItem('m:'+String(it.product_no), JSON.stringify(it)));
+          }
+        }
+      } catch (e) { console.warn('metrics fetch fail', e); }
+    }
+    items.forEach(node => {
+      const no  = getProductNoFromNode(node);
+      const raw = no && cache.getItem('m:'+no);
+      if (!raw) return;
+      try {
+        const obj = JSON.parse(raw);
+        if (obj.fruity  != null && !node.hasAttribute('data-fruity'))  node.setAttribute('data-fruity',  obj.fruity);
+        if (obj.acidity != null && !node.hasAttribute('data-acidity')) node.setAttribute('data-acidity', obj.acidity);
+      } catch {}
+    });
+    return true;
+  }
+    window.sortSearchList = async function sortSearchList(sortKey='recommend') {
+    const container = getListContainer();
+    if (!container) { console.warn('[sort] list container not found'); return; }
+
+    const items = getListItems(container);
+    if (!items.length) { console.warn('[sort] no items'); return; }
+
+    items.forEach((node, i) => {
+      if (!node.dataset.origIndex) node.dataset.origIndex = String(i);
+    });
+
+    if (sortKey.startsWith('fruity') || sortKey.startsWith('acidity')) {
+      await ensureMetricsFor(sortKey);
+    }
+
+    const dir = sortKey.endsWith('_desc') ? -1 : 1;
+
+    let getter = null;
+    if (sortKey === 'recommend') {
+      getter = (n) => Number(n.dataset.origIndex) || 0;
+    } else if (sortKey === 'new') {
+      getter = getNewScoreFromNode;
+    } else if (sortKey.startsWith('price')) {
+      getter = getPriceFromNode;
+    } else if (sortKey.startsWith('fruity')) {
+      getter = getFruityFromNode;
+    } else if (sortKey.startsWith('acidity')) {
+      getter = getAcidityFromNode;
+    } else {
+      getter = (n) => Number(n.dataset.origIndex) || 0;
+    }
+
+    const rows = items.map(node => ({
+      node,
+      no:      getProductNoFromNode(node),
+      price:   getPriceFromNode(node),
+      retail:  getRetailFromNode(node),
+      fruity:  getFruityFromNode(node),
+      acidity: getAcidityFromNode(node),
+      sortVal: getter(node),
+    }));
+
+    console.table(rows.slice(0, Math.min(10, rows.length)));
+
+    rows.sort((a,b) => {
+      const va = a.sortVal ?? 0;
+      const vb = b.sortVal ?? 0;
+      if (va === vb) return 0;
+      return (va < vb ? -1 : 1) * (sortKey==='recommend' ? 1 : dir);
+    });
+
+    const frag = document.createDocumentFragment();
+    rows.forEach(r => frag.appendChild(r.node));
+    container.appendChild(frag);
+
+    updateProductCount();
+
+    console.debug('[sort] applied:', sortKey, 'dir:', dir > 0 ? 'asc':'desc');
+  };
+})();
+
+function updateProductCount(root = document) {
+  try {
+    console.log('[count] update triggered');
+
+    const container =
+      document.querySelector('.prod-grid') ||
+      document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+
+    console.log('[count] container:', container);
+
+    if (!container) {
+      console.log('[count] no container yet → retry shortly');
+
+      setTimeout(() => updateProductCount(root), 300);
+      return;
+    }
+
+    let items = [];
+    if (container.classList.contains('prod-grid')) {
+      items = Array.from(container.querySelectorAll('.prod-card'));
+    } else {
+      items = Array.from(container.children).filter(el => el.tagName === 'LI');
+    }
+
+    console.log('[count] items found:', items.length, items);
+
+    const count = items.length;
+
+    const targets = root.querySelectorAll?.('.search_prd_count') || document.querySelectorAll('.search_prd_count');
+    console.log('[count] target nodes:', targets);
+
+    targets.forEach(el => {
+      const next = `총 상품 ${count}개`;
+      console.log('[count] updating node:', el, '→', next);
+      if (el.textContent !== next) el.textContent = next;
+    });
+  } catch (e) {
+    console.error('[count] failed:', e);
+  }
+}
+</script>
+
+<style>
+    #contents_header {
+        position: absolute;
+        padding: 16px;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    #contents {
+        padding-bottom: 72px;
+    }
+
+    .hero {
+        position: relative;
+        height: 383px;
+        overflow: hidden;
+        margin: -16px;
+    }
+
+    .hero__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.80) 100%), 50% / cover no-repeat;
+        opacity: 0.8;
+    }
+
+    .hero__inner {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 56px;
+        color: #fff;
+    }
+
+    .hero__inner .en_name {
+        overflow: hidden;
+        color: var(--G-300, #D9D9D9);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.24px;
+        margin-bottom: 2px;
+    }
+
+    .hero__inner .name {
+        overflow: hidden;
+        color: var(--G-0, #FFF);
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 28px; /* 127.273% */
+        letter-spacing: -0.44px;
+    }
+
+    .hero__inner .sub_title {
+        color: var(--G-0, #FFF);
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px; /* 133.333% */
+        letter-spacing: -0.3px;
+        margin: 12px 0 16px;
+    }
+
+    .hero__inner .country_wrap {
+        display: flex;
+        width: 100%;
+        padding: 10px 16px;
+        align-items: center;
+        gap: 6px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero__inner .country_wrap span {
+        color: var(--G-0, #FFF);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.24px;
+    }
+
+    .hero__inner .country_wrap .country_emoji {
+        display: flex;
+        width: 18px;
+        height: 18px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+        aspect-ratio: 1/1;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.60);
+    }
+
+    .contents_wrap {
+        position: relative;
+        margin: -24px -16px;
+        border-radius: 20px 20px 0 0;
+        background: var(--Gray-50, #F8F8F8);
+        padding: 40px 16px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .section h3 {
+        color: var(--G-900, #181818);
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 26px; /* 130% */
+        letter-spacing: -0.4px;
+        margin-bottom: 24px;
+    }
+
+    .desc_img {
+        display: flex;
+    }
+
+    .description {
+        color: var(--G-900, #181818);
+        font-family: Pretendard;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 24px */
+        letter-spacing: -0.32px;
+    }
+
+    .kind-grid,
+    .prod-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 8px;
+    }
+
+    .kind-card {
+        display: block;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 0 8px 0 rgba(174, 174, 174, 0.15);
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .kind-card__thumb {
+        width: 100%;
+        height: 90px;
+        background: #eee;
+    }
+
+    .kind-card__thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .kind-card__meta {
+        padding: 8px 16px 16px;
+        background: rgba(249, 242, 240, 0.6);
+        backdrop-filter: blur(2px);
+    }
+
+    .kind-card__meta-sub {
+        color: var(--G-500, var(--Gray-500, #888));
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.24px;
+        margin-bottom: 2px;
+    }
+
+    .kind-card__title {
+        color: var(--G-900, #181818);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px; /* 137.5% */
+        letter-spacing: -0.32px;
+    }
+
+    .prod-card .prod-thumb {
+        display: flex;
+    }
+
+    .prod-card .prod-thumb img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 10px;
+    }
+
+    .prod-brand {
+        color: var(--G-500, var(--Gray-500, #888));
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.24px;
+        margin: 8px 0 2px;
+    }
+
+    .prod-title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        align-self: stretch;
+        overflow: hidden;
+        color: var(--G-800, var(--Gray-800, #393939));
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: -0.28px;
+        margin-bottom: 7px;
+    }
+
+    .prod-price-line {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        align-self: stretch;
+    }
+
+    .prod-price-line .prod-rate {
+        display: flex;
+        padding: 2px 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 16px;
+        background: var(--Olive-Green, #1B8862);
+        color: var(--G-0, #FFF);
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 16px; /* 145.455% */
+        letter-spacing: -0.22px;
+    }
+
+    .prod-price-line .prod-price {
+        color: var(--Olive-Green, #1B8862);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px; /* 137.5% */
+        letter-spacing: -0.32px;
+    }
+
+.is-searching .section.ec-base-product {
+	margin-top: 0;
+}
+
+.xans-search-result .prdList {
+	display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 8px;
+}
+
+.search_result,
+.search_result strong {
+	color: var(--Point, #F46200);
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+}
+
+.search_result span {
+	color: var(--G-500, var(--Gray-500, #888));
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px;
+	letter-spacing: -0.24px;
+	margin-left: 4px;
+}
+
+.search_filter .filter_btn {
+	display: flex;
+	padding: 4px 0;
+	justify-content: center;
+	align-items: center;
+	border: none;
+}
+
+.search_filter .filter_btn span {
+	color: var(--G-500, var(--Gray-500, #888));
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+}
+
+.search-bsheet-dim {
+	position:fixed;
+	inset:0;
+	background:rgba(0,0,0,.5);
+	display:none;
+	z-index:9998;
+}
+
+.search-bsheet[aria-hidden="true"] {
+	transform:translateY(100%);
+}
+
+.search-bsheet {
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:0;
+	z-index:9999;
+	background:#fff;
+	border-radius:16px 16px 0 0;
+	max-height:80vh;
+	transform:translateY(100%);
+	transition: transform .28s;
+	will-change: transform;
+}
+
+.search-bsheet[data-open="true"] {
+	transform:translateY(0);
+}
+
+.search-bsheet .handle {
+	width: 38px;
+	height: 4px;
+	border-radius: 999px;
+	background: #e3e3e3;
+	margin: 10px auto 0;
+}
+
+.search-bsheet .list {
+	padding: 20px 20px 32px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.search-bsheet .opt {
+	width: 100%;
+	display: flex;
+	padding: 16px 12px;
+	align-items: center;
+	align-self: stretch;
+	border: none;
+	border-bottom: 1px solid var(--Gray-100, #F0F0F0);
+	cursor: pointer;
+	color: var(--G-800, var(--Gray-800, #393939));
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.search-bsheet .opt:last-child {
+	border-bottom: 0;
+}
+
+.search-bsheet .opt[aria-current="true"] {
+	color: var(--Olive-Green, #1B8862);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.search_filter_wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.search_prd_count {
+  color: var(--G-500, var(--Gray-500, #888));
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+</style>

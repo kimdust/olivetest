@@ -1,0 +1,187 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="login_logo">
+	<img src="https://olivetest.cafe24.com/web/upload/color-logo.png" alt="올리오 올리바">
+</div>
+<div module="member_login" id="{$member_login_module_id}">
+    <!--@css(/css/module/member/login.css)-->
+    <!--@js(/js/module/member/login.js)-->
+    <!--
+        $defaultReturnUrl = /index.html
+        $forbidIpUrl = member/adminFail.html
+    -->
+	<fieldset class="form login_form">
+		<div class="login">
+			<div class="login_form_item">
+				<p class="login_form_label">아이디</p>
+				<label class="id ePlaceholder" title="{$login_id_type_text}">{$form.member_id}</label>
+			</div>
+			<div class="login_form_item">
+				<p class="login_form_label">비밀번호</p>
+				<label class="password ePlaceholder" title="비밀번호">{$form.member_passwd}</label>
+			</div>
+		</div>
+		<div class="login__button">
+			<a href="#none" onclick="checkBusinessAuthThenLogin()">로그인하기</a>
+			<a href="{$returnUrl}" onclick="{$action_nomember_order}" class="btnNormal gFull sizeL {$display_nomember|display}">비회원 구매</a>
+			<div class="{$display_nomember|display}">비회원의 경우, 해당버튼을 통해 주문이 가능합니다.</div>
+		</div>
+		<div class="wrap_find">
+			<div class="login_find_left">
+				<a href="/member/id/find_id.html">아이디 찾기</a>
+				<span>|</span>
+				<a href="/member/passwd/find_passwd_info.html">비밀번호 찾기</a>
+			</div>
+			<div class="login_find_right">
+				<a href="/member/agreement.html">회원가입하기</a>
+			</div>
+		</div>
+	</fieldset>
+	<div class="non_login">
+		<a href="/">Olio Oliva 둘러보기</a>
+	</div>
+	<div class="login__sns">
+		<div class="sns_h">SNS 로그인</div>
+		<div class="wrap_sns_log">
+			<a href="#none" class="btnKakao {$display_kakao|display}" onclick="{$kakao_func_login}">카카오 로그인</a>
+			<a href="#none" class="btnNaver {$display_naver|display}" onclick="{$naver_func_login}">네이버 로그인</a>
+			<a href="#none" class="btnFacebook {$display_facebook|display}" onclick="{$facebook_func_login}">페이스북 로그인</a>
+			<a href="#none" class="btnLine {$display_line|display}" onclick="{$line_func_login}">라인 로그인</a>
+			<a href="#none" class="btnGoogle {$display_google|display}" onclick="{$google_func_login}">구글 로그인</a>
+			<a href="#none" class="btnApple {$display_apple|display}" onclick="{$apple_func_login}">Apple로 로그인</a>
+			<a href="#none" class="yahoojp {$display_yahoojp|display}" onclick="{$yahoojp_func_login}">Yahoo! JAPAN<br>ID로 로그인</a>
+		</div>
+	</div>
+</div>
+
+<div module="MyShop_OrderHistoryNologin" id="order_history_nologin_id">
+    <!--@css(/css/module/myshop/orderHistoryNologin.css)-->
+    <!--
+        $orderDetailUrl = /myshop/order/list.html
+    -->
+    <div class="login">
+		<div class="txt_nonmem_check">비회원 주문조회</div>
+        <div class="txtInfo typeDot">비회원의 경우, 주문시의 주문번호로 주문조회가 가능합니다.</div>
+        <div class="form">
+            {$form.order_id}
+            {$form.order_password}
+            <div class="login__button">
+            	<button type="submit" class="btnSubmit gFull sizeL">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let isLoginBlocked = false;
+
+function checkBusinessAuthThenLogin() {
+	const memberIdInput = document.querySelector('[name="member_id"]');
+	const passwordInput = document.querySelector('[name="member_passwd"]');
+
+	if (!memberIdInput || !passwordInput) {
+		alert("아이디와 비밀번호를 입력해주세요.");
+		return;
+	}
+
+	const memberId = memberIdInput.value;
+
+	fetch(`https://oliva.boundary.team/api/check-business-auth?user_id=${encodeURIComponent(memberId)}`)
+		.then(response => response.json())
+		.then(data => {
+
+			const loginForm = memberIdInput.closest('form');
+			if (!loginForm || !loginForm.id) return;
+
+			const formId = loginForm.id;
+
+			if (!data.is_business) {
+				isLoginBlocked = false;
+				MemberAction.login(formId);
+				return;
+			}
+
+			if (data.is_business && !data.is_approved) {
+				isLoginBlocked = true;
+				alert("기업 회원 승인이 완료되지 않았습니다. 관리자 승인을 기다려 주세요.");
+				return;
+			}
+
+			isLoginBlocked = false;
+			MemberAction.login(formId);
+		})
+		.catch(error => {
+			alert("서버 통신 오류: " + error.message);
+		});
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+	const loginForm = document.querySelector('form[id^="member_form_"]');
+	if (!loginForm) return;
+
+	loginForm.addEventListener('submit', function (e) {
+		e.preventDefault();
+		if (!isLoginBlocked) {
+			checkBusinessAuthThenLogin();
+		} else {
+			console.warn("[DEBUG] 로그인 차단 상태 - MemberAction.login 실행 안함");
+		}
+	});
+
+	const idInput = loginForm.querySelector('[name="member_id"]');
+	const pwInput = loginForm.querySelector('[name="member_passwd"]');
+
+	[idInput, pwInput].forEach(input => {
+		if (!input) return;
+		input.addEventListener('keydown', function (e) {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				if (!isLoginBlocked) {
+					checkBusinessAuthThenLogin();
+				} else {
+					console.warn("[DEBUG] 로그인 차단 상태 - MemberAction.login 실행 안함");
+				}
+			}
+		});
+	});
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  	const pwInput = document.querySelector('[name="member_passwd"]');
+	if (!pwInput) return;
+
+	const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+	if (!pwWrap) return;
+
+	const btn = document.createElement('button');
+	btn.type = 'button';
+	btn.className = 'pw-toggle';
+	btn.setAttribute('aria-label', '비밀번호 표시');
+
+	btn.innerHTML = `
+		<svg class="eye" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+			<path d="M29.8035 15.8687C30.194 15.4781 30.827 15.4781 31.2175 15.8687C31.6078 16.2592 31.608 16.8923 31.2175 17.2827L25.6404 22.8589L19.8181 28.6802L17.782 30.7173C17.3915 31.1077 16.7584 31.1077 16.3679 30.7173C15.9777 30.3268 15.9776 29.6937 16.3679 29.3032L18.156 27.5142C16.9004 26.5109 15.9404 25.4671 15.4988 24.9575C15.0206 24.4057 15.0206 23.5943 15.4988 23.0425C15.9911 22.4744 17.1258 21.2404 18.5984 20.1411C20.0454 19.0609 21.9639 18.0005 23.9998 18.0005C25.0393 18.0005 26.0481 18.2773 26.9792 18.6919L29.8035 15.8687ZM29.7361 21.5923C30.105 21.2234 30.6979 21.2006 31.0769 21.5591C31.7245 22.1718 32.2183 22.7166 32.5007 23.0425C32.979 23.5943 32.979 24.4057 32.5007 24.9575C32.0084 25.5256 30.8737 26.7596 29.4011 27.8589C27.9541 28.9391 26.0356 30.0005 23.9998 30.0005C23.7597 30.0005 23.5212 29.9853 23.2849 29.9575C22.5524 29.8712 22.3415 28.9869 22.863 28.4653L23.0193 28.3091C23.2436 28.0848 23.5616 27.9887 23.8787 27.9985C23.9191 27.9998 23.9595 28.0005 23.9998 28.0005C25.3824 28.0005 26.8683 27.2541 28.2048 26.2563C29.2671 25.4633 30.1439 24.5805 30.6755 24.0005C30.4389 23.7423 30.1336 23.4232 29.7742 23.0796C29.3538 22.6774 29.3248 22.0037 29.7361 21.5923ZM23.9998 20.0005C22.6173 20.0005 21.132 20.7461 19.7957 21.7437C18.7332 22.5368 17.8556 23.4205 17.324 24.0005C17.8192 24.5408 18.6156 25.3418 19.5808 26.0903L22.0339 23.6362C22.1834 22.8234 22.8235 22.183 23.6365 22.0337L25.4324 20.2388C24.9496 20.0864 24.4687 20.0005 23.9998 20.0005Z" fill="#222222"/>
+		</svg>
+		<svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+			<path d="M24 18C26.0359 18 27.9544 19.0614 29.4014 20.1416C30.8736 21.2407 32.0086 22.4738 32.501 23.042C32.9792 23.5938 32.9792 24.4062 32.501 24.958C32.0086 25.5262 30.8736 26.7593 29.4014 27.8584C27.9544 28.9386 26.0359 30 24 30C21.9641 30 20.0456 28.9386 18.5986 27.8584C17.1264 26.7593 15.9915 25.5262 15.499 24.958C15.0207 24.4061 15.0207 23.5939 15.499 23.042C15.9915 22.4738 17.1264 21.2407 18.5986 20.1416C20.0456 19.0614 21.9641 18 24 18ZM24 20C22.6174 20 21.1314 20.7464 19.7949 21.7441C18.7335 22.5366 17.8588 23.42 17.3271 24C17.8588 24.58 18.7335 25.4634 19.7949 26.2559C21.1314 27.2536 22.6174 28 24 28C25.3826 28 26.8686 27.2536 28.2051 26.2559C29.2663 25.4636 30.1402 24.58 30.6719 24C30.1402 23.42 29.2663 22.5364 28.2051 21.7441C26.8686 20.7464 25.3826 20 24 20ZM24 22C25.1045 22.0001 26 22.8955 26 24C26 25.1045 25.1045 25.9999 24 26C22.8954 26 22 25.1046 22 24C22 22.8954 22.8954 22 24 22Z" fill="#222222"/>
+		</svg>
+	`;
+
+	pwWrap.appendChild(btn);
+
+	btn.addEventListener('click', function() {
+		if (pwInput.type === 'password') {
+		pwInput.type = 'text';
+		btn.classList.add('on');
+		btn.setAttribute('aria-label', '비밀번호 숨기기');
+		} else {
+		pwInput.type = 'password';
+		btn.classList.remove('on');
+		btn.setAttribute('aria-label', '비밀번호 표시');
+		}
+		pwInput.focus();
+		const v = pwInput.value;
+		pwInput.value = '';
+		pwInput.value = v;
+	});
+});
+</script>

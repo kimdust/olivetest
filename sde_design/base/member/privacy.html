@@ -1,0 +1,243 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="mall_privacy">
+    <!--@css(/css/module/mall/term.css)-->
+    <div class="agreement">
+        <h2 class="privacy_title">개인정보 처리방침</h2>
+        <p class="privacy_date">시행일자: 2025.08.10</p>
+        {$privacy_agreement}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const root =
+    document.querySelector('.xans-mall-privacy .fr-view') ||
+    document.querySelector('.xans-mall-privacy') ||
+    document;
+
+  if (!root) return;
+
+  root.querySelectorAll('style').forEach(s => s.remove());
+  const PRESENTATION_ATTRS = [
+    'style', 'bgcolor', 'width', 'height', 'border',
+    'cellspacing', 'cellpadding', 'align', 'valign',
+    'color', 'face', 'size'
+  ];
+  root.querySelectorAll('*').forEach(el => {
+    PRESENTATION_ATTRS.forEach(a => el.removeAttribute(a));
+  });
+
+  const text = (el) => (el?.textContent || '').trim();
+
+  const isSectionStrong = el =>
+    el?.nodeName === 'STRONG' && /^\s*\d+\./.test(text(el));
+
+  const getSectionNo = el => {
+    const m = text(el).match(/^\s*(\d+)\./);
+    return m ? parseInt(m[1], 10) : null;
+  };
+
+  const containsAnySectionStart = el => {
+    if (!el || el.nodeType !== 1) return false;
+    if (isSectionStrong(el)) return true;
+    const s = el.querySelector('strong');
+    return !!(s && isSectionStrong(s));
+  };
+
+  const containsNextSectionStart = (el, currentNo) => {
+    if (!el || el.nodeType !== 1) return false;
+    const candidates = [];
+    if (isSectionStrong(el)) candidates.push(el);
+    el.querySelectorAll && el.querySelectorAll('strong').forEach(s => candidates.push(s));
+    return candidates.some(s => {
+      const n = getSectionNo(s);
+      return typeof n === 'number' && n !== currentNo;
+    });
+  };
+
+  const isInlineish = node => {
+    if (node.nodeType === 3) return true;
+    if (node.nodeType !== 1) return false;
+    return ['SPAN','BR','A','SMALL','EM','I','B','U','SUP','SUB','CODE'].includes(node.nodeName);
+  };
+
+  const unwrapInto = (fromEl, toEl) => {
+    while (fromEl.firstChild) toEl.appendChild(fromEl.firstChild);
+  };
+
+  const chooseTitleBlock = (strong) => {
+    const p = strong?.parentElement;
+    if (!p || p.tagName !== 'P') return strong;
+    const others = Array.from(p.childNodes).filter(n =>
+      n !== strong &&
+      !(n.nodeType === 3 && !n.nodeValue.trim()) &&
+      !(n.nodeType === 1 && n.nodeName === 'BR')
+    );
+    return (others.length === 0) ? p : strong;
+  };
+
+  function mergeSection(sectionNo) {
+    const titleStrong = Array.from(root.querySelectorAll('strong'))
+      .find(s => text(s).startsWith(sectionNo + '.'));
+    if (!titleStrong) return;
+
+    const titleBlock = chooseTitleBlock(titleStrong);
+
+    let cur = titleBlock.nextSibling;
+    const collected = [];
+    while (cur) {
+      if (cur.nodeType === 1 && containsNextSectionStart(cur, sectionNo)) break;
+      collected.push(cur);
+      cur = cur.nextSibling;
+    }
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'policy-section';
+    wrapper.setAttribute('data-sec', String(sectionNo));
+    titleBlock.parentNode.insertBefore(wrapper, titleBlock);
+    wrapper.appendChild(titleBlock);
+
+    let pBuf = document.createElement('p');
+    let hasP = false;
+    const flushP = () => {
+      if (hasP) wrapper.appendChild(pBuf);
+      pBuf = document.createElement('p');
+      hasP = false;
+    };
+
+    collected.forEach(node => {
+      if (!node?.parentNode) return;
+
+      if (node.nodeType === 3) {
+        pBuf.appendChild(document.createTextNode(node.nodeValue));
+        if (node.nodeValue.trim() !== '') hasP = true;
+        node.remove();
+        return;
+      }
+
+      if (node.nodeType === 1) {
+        const tag = node.nodeName;
+
+        if (tag === 'P') {
+          const tmp = document.createElement('div');
+          unwrapInto(node, tmp);
+          node.remove();
+
+          while (tmp.firstChild) {
+            const c = tmp.firstChild;
+
+            if (c.nodeType === 1 && containsNextSectionStart(c, sectionNo)) {
+              flushP();
+              return;
+            }
+
+            if (c.nodeType === 3 || (c.nodeType === 1 && isInlineish(c))) {
+              pBuf.appendChild(c);
+              if (c.nodeType === 3 && c.nodeValue.trim() !== '') hasP = true;
+              if (c.nodeType === 1 && c.nodeName === 'BR') hasP = true;
+            } else {
+              flushP();
+              wrapper.appendChild(c);
+            }
+          }
+          return;
+        }
+
+        if (isInlineish(node)) {
+          pBuf.appendChild(node);
+          hasP = true;
+          return;
+        }
+
+        if (['TABLE','UL','OL','DIV','H1','H2','H3','H4','H5','H6','BLOCKQUOTE'].includes(tag)) {
+          flushP();
+          wrapper.appendChild(node);
+          return;
+        }
+
+        flushP();
+        wrapper.appendChild(node);
+        return;
+      }
+
+      node.remove();
+    });
+
+    flushP();
+
+    wrapper.querySelectorAll('p').forEach(pe => {
+      const t = (pe.textContent || '').replace(/\u00a0/g, ' ').trim();
+      if (!t && !pe.querySelector('br')) pe.remove();
+    });
+  }
+
+  [2,3,4,5,6].forEach(mergeSection);
+
+  root.querySelectorAll('p').forEach(pEl => {
+    const t = (pEl.textContent || '').replace(/\u00a0/g, ' ').trim();
+    if (!t && !pEl.querySelector('br')) pEl.remove();
+  });
+});
+</script>
+
+<style>
+#contents {
+    padding-bottom: 40px;
+}
+
+#privacy_header {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+}
+
+.privacy_title {
+    margin-top: 4px;
+    margin-bottom: 2px;
+    color: var(--G-900, #181818);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px; /* 130% */
+    letter-spacing: -0.4px;
+}
+
+.privacy_date {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    margin-bottom: 58px;
+}
+
+.fr-view-privacy-all strong {
+    color: var(--G-900, #181818);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+    padding: 12px 0;
+    border-top: 1px solid var(--G-700, #454545);
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    width: 100%;
+    display: flex;
+}
+
+.fr-view-privacy-all,
+.fr-view-privacy-all p,
+.fr-view-privacy-all span,
+.fr-view-privacy-all a {
+    margin-bottom: 48px !important;
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+</style>

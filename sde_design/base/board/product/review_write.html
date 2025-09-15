@@ -1,0 +1,173 @@
+﻿<!--@layout(/layout/basic/layout.html)-->
+<div class="section" module="board_writePackage_4">
+  <!--@css(/css/module/board/writePackage.css)-->
+
+  <div module="board_title_4">
+    <div class="titleArea">
+      <h2>{$board_title}</h2>
+    </div>
+  </div>
+
+  <div module="board_write_4">
+    <div class="ec-base-box typeProduct {$display_product|display}">
+      <p class="thumbnail">
+        <a href="{$link_product_detail}">
+          <img id="{$product_img_id}" src="{$url_product_img}" onerror="this.src='//img.echosting.cafe24.com/thumb/75x75.gif'" alt="" />
+        </a>
+      </p>
+      <div class="information">
+        <h3>
+          <a href="/product/detail.html{$param_product}" id="{$product_name_link_id}">{$product_name}</a>
+        </h3>
+        <p class="price">{$product_price} {$product_tax_type_text}</p>
+      </div>
+    </div>
+
+    <div id="custom-review-form" style="margin-top:40px;">
+      <div id="reviewForm">
+        <label>별점</label><br>
+        <div class="chip_group" data-target="rating">
+          <button type="button" data-value="2" class="chip">1~2점</button>
+          <button type="button" data-value="4" class="chip">3~4점</button>
+          <button type="button" data-value="6" class="chip">5~6점</button>
+          <button type="button" data-value="8" class="chip">7~8점</button>
+          <button type="button" data-value="10" class="chip">9~10점</button>
+        </div>
+        <input type="hidden" name="rating" required><br><br>
+
+        <label>프루티</label><br>
+        <div class="chip_group" data-target="fruity">
+          <button type="button" data-value="1" class="chip">1</button>
+          <button type="button" data-value="2" class="chip">2</button>
+          <button type="button" data-value="3" class="chip">3</button>
+          <button type="button" data-value="4" class="chip">4</button>
+          <button type="button" data-value="5" class="chip">5</button>
+        </div>
+        <input type="hidden" name="fruity" required><br><br>
+
+        <label>매운맛</label><br>
+        <div class="chip_group" data-target="spicy">
+          <button type="button" data-value="1" class="chip">1</button>
+          <button type="button" data-value="2" class="chip">2</button>
+          <button type="button" data-value="3" class="chip">3</button>
+          <button type="button" data-value="4" class="chip">4</button>
+          <button type="button" data-value="5" class="chip">5</button>
+        </div>
+        <input type="hidden" name="spicy" required><br><br>
+
+        <label>쓴맛</label><br>
+        <div class="chip_group" data-target="bitter">
+          <button type="button" data-value="1" class="chip">1</button>
+          <button type="button" data-value="2" class="chip">2</button>
+          <button type="button" data-value="3" class="chip">3</button>
+          <button type="button" data-value="4" class="chip">4</button>
+          <button type="button" data-value="5" class="chip">5</button>
+        </div>
+        <input type="hidden" name="bitter" required><br><br>
+
+        <label>코멘트</label><br>
+        <textarea name="comment" rows="4" required></textarea><br><br>
+
+        <label>이미지 업로드</label>
+        <input type="file" name="images[]" multiple accept="image/*"><br><br>
+
+        <label><input type="checkbox" name="agree" required> 개인정보 수집 및 이용에 동의합니다.</label><br><br>
+
+        <div class="info">
+          <p>- 상품과 관련없는 내용 또는 이미지, 욕설/비방, 개인정보유출, 광고/홍보글 등은 비공개 처리될 수 있습니다.</p>
+          <p>- 작성된 게시물은 운영 및 마케팅에 활용될 수 있습니다.</p>
+        </div>
+
+        <button type="button" id="customReviewSubmitBtn">리뷰 등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function getLoginMemberIdFromCookie() {
+    try {
+      const cookies = document.cookie.split('; ');
+      const loginCookie = cookies.find(c => c.startsWith('login_provider_1='));
+      if (!loginCookie) return null;
+
+      const encoded = loginCookie.split('=')[1];
+      if (!encoded) return null;
+
+      const decoded = decodeURIComponent(encoded);
+      const parsed = JSON.parse(decoded);
+
+      return parsed.member_id || null;
+    } catch (e) {
+      console.error('user_id 파싱 실패', e);
+      return null;
+    }
+  }
+
+  document.querySelectorAll('.chip_group').forEach(group => {
+    const targetName = group.dataset.target;
+    const hiddenInput = document.querySelector(`[name="${targetName}"]`);
+
+    group.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        chip.classList.add('selected');
+        hiddenInput.value = chip.dataset.value;
+      });
+    });
+  });
+
+  document.getElementById('customReviewSubmitBtn').addEventListener('click', async function () {
+    const formData = new FormData();
+    const getVal = selector => document.querySelector(selector)?.value || '';
+
+    const productName = document.querySelector('#sPrdName')?.textContent.trim() || '';
+
+    formData.append('rating', getVal('[name="rating"]'));
+    formData.append('fruity', getVal('[name="fruity"]'));
+    formData.append('spicy', getVal('[name="spicy"]'));
+    formData.append('bitter', getVal('[name="bitter"]'));
+    formData.append('comment', getVal('[name="comment"]'));
+    formData.append('product_id', getVal('[name="product_no"]'));
+    formData.append('product_name', productName);
+    formData.append('order_id', getVal('[name="order_id"]'));
+
+    const userId = getLoginMemberIdFromCookie() || 'guest';
+    formData.append('user_id', userId);
+
+    formData.append('agree', document.querySelector('[name="agree"]').checked ? '1' : '');
+
+    const imageInput = document.querySelector('[name="images[]"]');
+    if (imageInput && imageInput.files.length > 0) {
+      [...imageInput.files].forEach(file => formData.append('images[]', file));
+    }
+
+    try {
+      const res = await fetch('https://oliva.boundary.team/api/reviews', {
+        method: 'POST',
+        body: formData
+      });
+
+      const text = await res.text();
+      let result;
+
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        throw new Error('서버 응답이 JSON이 아님: ' + text);
+      }
+
+      if (res.ok) {
+        alert('리뷰가 등록되었습니다');
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('#reviewForm input[type="hidden"], textarea').forEach(e => e.value = '');
+        document.querySelector('[name="images[]"]').value = '';
+        document.querySelector('[name="agree"]').checked = false;
+      } else {
+        alert('리뷰 등록에 실패하였습니다.');
+      }
+    } catch (err) {
+      alert('리뷰 등록에 실패하였습니다.');
+    }
+  });
+</script>

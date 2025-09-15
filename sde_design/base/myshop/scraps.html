@@ -1,0 +1,590 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div id="scrapChips" class="scrap-chips"></div>
+<div id="myScrapList"></div>
+<div id="scrapModal" class="c-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="c-modal__backdrop" data-close></div>
+  <div class="c-modal__panel" role="document">
+    <div class="c-modal__content">
+      <p id="scrapModalMsg"></p>
+      <div class="c-modal__actions">
+        <button type="button" class="c-modal__btn c-modal__btn--cancel" data-cancel>취소</button>
+        <button type="button" class="c-modal__btn c-modal__btn--ok" data-ok>확인</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+<script>
+  (function () {
+    const modal = document.getElementById('scrapModal');
+    const msgEl = document.getElementById('scrapModalMsg');
+    const okBtn = modal.querySelector('[data-ok]');
+    const cancelBtn = modal.querySelector('[data-cancel]');
+    let resolver = null;
+    let lastFocused = null;
+
+    function open(message, {
+      showCancel = true,
+      okText = '확인',
+      cancelText = '취소'
+    } = {}) {
+      msgEl.textContent = message || '';
+      okBtn.textContent = okText;
+      cancelBtn.textContent = cancelText;
+      cancelBtn.style.display = showCancel ? '' : 'none';
+      lastFocused = document.activeElement;
+
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      (showCancel ? cancelBtn : okBtn).focus();
+
+      return new Promise((resolve) => {
+        resolver = resolve;
+      });
+    }
+
+    function resolveAndClose(value) {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      if (lastFocused) lastFocused.focus();
+      if (resolver) {
+        resolver(value);
+        resolver = null;
+      }
+    }
+
+    okBtn.addEventListener('click', () => resolveAndClose(true));
+    cancelBtn.addEventListener('click', () => resolveAndClose(false));
+    modal.addEventListener('click', (e) => {
+      if (e.target.matches('.c-modal__backdrop')) resolveAndClose(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('is-open') && (e.key === 'Escape' || e.key === 'Esc')) {
+        resolveAndClose(false);
+      }
+    });
+
+    window.modalConfirm = (message, opts = {}) => open(message, {
+      showCancel: true,
+      ...opts
+    });
+    window.modalAlert = (message, opts = {}) => open(message, {
+      showCancel: false,
+      ...opts
+    });
+  })();
+  (function ScrapPage() {
+    const API_BASE = 'https://oliva.boundary.team';
+    const API_TREE = `${API_BASE}/api/categories-tree`;
+    const API_MY_SCRAPS = `${API_BASE}/api/my/scraps`;
+    const API_CANCEL = id => `${API_BASE}/api/magazine/${id}/scrap-cancel`;
+
+    let CAT_NAME_BY_ID = {};
+    let TREE = [];
+    let ALL_SCRAPS = [];
+    let USER_UID = '';
+    let _chipSwiper = null;
+
+    function ensureSwiper() {
+      if (window.Swiper) return Promise.resolve();
+      return new Promise((resolve) => {
+        if (!document.querySelector('link[data-olv-swiper]')) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+          link.setAttribute('data-olv-swiper', '1');
+          document.head.appendChild(link);
+        }
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+        script.onload = () => resolve();
+        document.head.appendChild(script);
+      });
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function isSafeUrl(u) {
+      return !!u && (/^(https?:)?\/\//.test(u) || u.startsWith('/'));
+    }
+
+    function firstImage(html) {
+      try {
+        const safe = (window.DOMPurify) ? DOMPurify.sanitize(html) : html;
+        const d = new DOMParser().parseFromString(safe, 'text/html');
+        const img = d.querySelector('img');
+        const src = img ?.getAttribute('src') || img ?.getAttribute('data-src') || img ?.getAttribute(
+          'data-original') || '';
+        return isSafeUrl(src) ? src : '';
+      } catch {
+        return '';
+      }
+    }
+
+    function getCatName(raw) {
+      if (raw == null) return '';
+      const n = Number(raw);
+      if (Number.isFinite(n)) return CAT_NAME_BY_ID[n] || '';
+      const s = String(raw).trim();
+      if (/^\d+$/.test(s)) return CAT_NAME_BY_ID[Number(s)] || '';
+      return s;
+    }
+
+    function getUserUidFromCookie() {
+      try {
+        const c = document.cookie.split('; ').find(v => v.startsWith('login_provider_1='));
+        if (!c) return '';
+        const obj = JSON.parse(decodeURIComponent(c.split('=')[1] || ''));
+        const no = String(obj ?.member_no ?? '').trim();
+        if (/^\d+$/.test(no)) return no;
+        const mid = String(obj ?.member_id ?? '').trim();
+        return mid || '';
+      } catch {
+        return '';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      let chipsRoot = document.getElementById('scrapChips');
+      const listWrap = document.getElementById('myScrapList');
+      if (!listWrap) return;
+
+      USER_UID = getUserUidFromCookie();
+      if (!USER_UID) {
+        listWrap.innerHTML = '<p>로그인 후 이용해주세요.</p>';
+        return;
+      }
+
+      try {
+        await loadCategoryTree();
+        await ensureSwiper();
+        renderChips();
+        await loadMyScraps();
+        renderList(ALL_SCRAPS);
+      } catch (e) {
+        console.error(e);
+        listWrap.innerHTML = '<p>스크랩 데이터를 불러오지 못했습니다.</p>';
+      }
+
+      document.addEventListener('click', onCancelClick, true);
+      if (window.jQuery) {
+        $(document).off('click.scrap-cancel').on('click.scrap-cancel', '.scrap-card .btn-cancel', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          handleCancel(this.closest('.scrap-card'));
+        });
+      }
+    });
+
+    async function loadCategoryTree() {
+      const rows = await $.getJSON(API_TREE);
+      TREE = Array.isArray(rows) ? rows : [];
+      CAT_NAME_BY_ID = {};
+      TREE.forEach(p => {
+        CAT_NAME_BY_ID[p.id] = p.name;
+        (p.children || []).forEach(c => {
+          CAT_NAME_BY_ID[c.id] = c.name;
+        });
+      });
+    }
+    async function loadMyScraps() {
+      const res = await $.getJSON(API_MY_SCRAPS, {
+        user_uid: USER_UID
+      });
+      ALL_SCRAPS = Array.isArray(res) ? res : [];
+    }
+
+    function renderChips() {
+      const host = document.getElementById('scrapChips');
+      if (!host) return;
+
+      let slides = `
+      <div class="swiper-slide"><button type="button" class="chip active" data-cat="">ALL</button></div>`;
+      TREE.forEach(p => {
+        slides +=
+          `<div class="swiper-slide"><button type="button" class="chip" data-cat="${String(p.id)}">${esc(p.name)}</button></div>`;
+      });
+
+      host.innerHTML = `
+      <div id="scrapChipSwiper" class="swiper chip-swiper">
+        <div class="swiper-wrapper">
+          ${slides}
+        </div>
+      </div>
+    `;
+
+      if (_chipSwiper) {
+        try {
+          _chipSwiper.destroy(true, true);
+        } catch {}
+      }
+      _chipSwiper = new Swiper('#scrapChipSwiper', {
+        spaceBetween: 8,
+        freeMode: true,
+        mousewheel: {
+          forceToAxis: true
+        },
+        keyboard: {
+          enabled: true
+        }
+      });
+
+      host.addEventListener('click', onChipClick, {
+        passive: true
+      });
+    }
+
+    function onChipClick(e) {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+
+      const host = document.getElementById('scrapChips');
+      host.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const raw = btn.getAttribute('data-cat') || '';
+      if (!raw) {
+        renderList(ALL_SCRAPS);
+        return;
+      }
+
+      const catId = Number(raw);
+      const filtered = ALL_SCRAPS.filter(it => {
+        const c = it.category ?? it.category_id ?? it.category_name ?? '';
+        const n = Number(c);
+        if (Number.isFinite(n)) return n === catId;
+        return getCatName(c) === CAT_NAME_BY_ID[catId];
+      });
+      renderList(filtered);
+    }
+
+    function renderList(list) {
+      const wrap = document.getElementById('myScrapList');
+      if (!wrap) return;
+
+      if (!Array.isArray(list) || !list.length) {
+        wrap.innerHTML = '<p class="scrap_empty">스크랩한 올리브로그가 없습니다.</p>';
+        return;
+      }
+
+      let html = '<ul class="scrap-list">';
+      list.forEach(it => {
+        const id = Number(it.id);
+        const title = esc(it.title || '');
+        const img = firstImage(it.content || '');
+        const cat = esc(getCatName(it.category ?? it.category_id ?? it.category_name ?? ''));
+
+        html += `
+        <li class="scrap-card" data-id="${id}">
+          <a class="card-link" href="/magazine/detail.html?id=${id}">
+            <div class="thumb">${img ? `<img src="${esc(img)}" alt="${title}" loading="lazy">` : ''}</div>
+            <div class="info">
+              ${cat ? `<div class="cat">${cat}</div>` : ''}
+              <h3 class="title">${title}</h3>
+            </div>
+          </a>
+          <button type="button" class="btn-cancel" aria-label="스크랩 취소">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+            <mask id="mask0_2366_34506" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-1" y="0" width="25" height="25">
+              <rect x="-0.0078125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_2366_34506)">
+              <path d="M11.9922 17.8131L8.02294 19.5168C7.42044 19.7745 6.84802 19.7251 6.30569 19.3688C5.76335 19.0125 5.49219 18.5112 5.49219 17.8651V5.65931C5.49219 5.15415 5.66719 4.72656 6.01719 4.37656C6.36719 4.02656 6.79477 3.85156 7.29994 3.85156H16.6844C17.1896 3.85156 17.6172 4.02656 17.9672 4.37656C18.3172 4.72656 18.4922 5.15415 18.4922 5.65931V17.8651C18.4922 18.5112 18.221 19.0125 17.6787 19.3688C17.1364 19.7251 16.5639 19.7745 15.9614 19.5168L11.9922 17.8131Z" fill="#1B8862"/>
+            </g>
+          </svg>
+          </button>
+        </li>`;
+      });
+      html += '</ul>';
+      wrap.innerHTML = html;
+    }
+
+    function onCancelClick(e) {
+      const btn = e.target.closest('.scrap-card .btn-cancel');
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      handleCancel(btn.closest('.scrap-card'));
+    }
+    async function handleCancel(card) {
+      if (!card) return;
+
+      const ok = await modalConfirm('게시물 스크랩을 취소할까요? ');
+      if (!ok) return;
+
+      const id = Number(card.getAttribute('data-id'));
+      const btn = card.querySelector('.btn-cancel');
+
+      const btnHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.textContent = '처리중…';
+
+      $.post(API_CANCEL(id), {
+          user_uid: USER_UID
+        })
+        .done(() => {
+          ALL_SCRAPS = ALL_SCRAPS.filter(x => Number(x.id) !== id);
+          card.remove();
+          const active = document.querySelector('#scrapChips .chip.active');
+          if (active) {
+            active.click();
+          } else {
+            renderList(ALL_SCRAPS);
+          }
+        })
+        .fail(async () => {
+          await modalAlert('스크랩 취소에 실패했습니다.');
+          btn.disabled = false;
+          btn.innerHTML = btnHTML;
+        });
+    }
+  })();
+</script>
+
+<style>
+  #contents {
+    min-height: calc(100vh - 54px);
+    padding-bottom: 0;
+  }
+
+  #scrap_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #F8F8F8;
+  }
+
+  #scrap_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+  }
+
+  #scrap_header .header_back img {
+    width: 100%;
+  }
+
+  #scrap_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    /* 137.5% */
+    letter-spacing: -0.32px;
+  }
+
+  #scrapChips {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .scrap-card {
+    display: flex;
+    height: 88px;
+    padding: 8px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 10px;
+    background: var(--G-0, #FFF);
+  }
+
+  .thumb {
+    display: flex;
+    width: 110px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background: var(--Gray-200, #E3E3E3);
+  }
+
+  .thumb img {
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .card-link {
+    display: flex;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+  }
+
+  .cat {
+    color: var(--Olive-Green, #1B8862);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    /* 145.455% */
+    letter-spacing: -0.22px;
+  }
+
+  .title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* 2줄까지만 표시 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: #181818;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    /* 142.857% */
+    letter-spacing: -0.28px;
+  }
+
+  .btn-cancel {
+    border: none;
+  }
+
+  .scrap_empty {
+    color: var(--G-300, #B0B0B0);
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.36px;
+    margin: auto;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #scrapChips {
+    margin-bottom: 20px;
+  }
+
+  #scrapChips .chip-swiper {
+    overflow: visible;
+  }
+
+  #scrapChips .swiper-slide {
+    width: auto !important;
+  }
+
+  #scrapChips .chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  #scrapChips .chip.active {
+    font-weight: 600;
+  }
+
+  .c-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999
+  }
+
+  .c-modal.is-open {
+    display: flex
+  }
+
+  .c-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .5)
+  }
+
+  .c-modal__panel {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-radius: 10px;
+    min-width: 280px;
+    max-width: 90vw;
+    padding: 28px 14px 20px 14px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18)
+  }
+
+  .c-modal__content {
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .c-modal__actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .c-modal__btn {
+    padding: 8px 14px;
+    border: 0;
+    border-radius: 8px;
+background: var(--Olive-Green, #1B8862);
+    cursor: pointer;
+    width: 100%;
+    color: var(--G-0, #FFF);
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 142.857% */
+letter-spacing: -0.28px;
+height: 40px;
+  }
+
+  .c-modal__btn--cancel {
+background: var(--Gray-100, #F0F0F0);
+    color: var(--G-600, var(--Gray-600, #767676));
+/* M 14 */
+font-family: Pretendard;
+font-size: 14px;
+font-style: normal;
+font-weight: 500;
+line-height: 20px; /* 142.857% */
+letter-spacing: -0.28px;
+  }
+
+  #scrapModalMsg{
+    color: var(--G-900, #181818);
+text-align: center;
+/* SB 18 */
+font-family: Pretendard;
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: 26px; /* 144.444% */
+letter-spacing: -0.36px;
+  }
+</style>

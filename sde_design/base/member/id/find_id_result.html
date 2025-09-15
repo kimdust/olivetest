@@ -1,0 +1,36 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="member_findidresult" class="memberArea">
+    <!--@css(/css/module/member/find_id_result.css)-->
+    <div class="ec-base-box typeMember">
+        <div class="complete">
+            <div class="complete_title">
+                <p class="headDesc">아이디를 찾았어요!</p>
+                <p class="infoDesc">아래 계정으로 로그인 해주세요.</p>
+            </div>
+            <div class="description">
+                <p class="result_label">아이디</p>
+                {$searchIds}
+            </div>
+        </div>
+        <a href="javascript:go_findpwd('{$id}','{$mtype}');" class="btnSubmitFix sizeM goPwdFind">비밀번호 찾기</a>
+    </div>
+    <div class="ec-base-button gBottom">
+        <a href="javascript:go_findlogin('{$id}');" class="btnNormalFix sizeM goLogin">로그인 화면으로 돌아가기</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const desc = document.querySelector('.description');
+    if (!desc) return;
+
+    desc.querySelectorAll('br').forEach(br => br.remove());
+});
+</script>
+
+<style>
+    .description input {
+        display: none;
+    }
+</style>

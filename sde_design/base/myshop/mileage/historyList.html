@@ -1,0 +1,590 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div class="myshopArea">
+    <div module="Myshop_mileageHistoryPackage">
+    <!--@css(/css/module/myshop/mileageHistoryPackage.css)-->
+        <div class="total_oilmoney_wrap">
+            <div module="myshop_summary" class="ec-base-box gHalf">
+                <div class="oilmoney_wrap">
+                    <span class="title">적립된 Oil-Money</span>
+                    <span class="data">{$total_mileage}</span>
+                </div>
+            </div>
+            <div class="oilmoney_help_wrap">
+                <a href="#">
+                    <div class="oilmoney_help_left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                            <path d="M6.99189 11.1376C7.20226 11.1376 7.37996 11.065 7.525 10.9198C7.67003 10.7745 7.74255 10.5966 7.74255 10.3862C7.74255 10.1758 7.66991 9.99809 7.52463 9.85305C7.37935 9.70814 7.20153 9.63568 6.99116 9.63568C6.78079 9.63568 6.60309 9.70832 6.45805 9.85361C6.31302 9.99889 6.2405 10.1767 6.2405 10.3871C6.2405 10.5974 6.31314 10.7751 6.45842 10.9202C6.6037 11.0651 6.78153 11.1376 6.99189 11.1376ZM6.47003 8.49911H7.50732C7.51677 8.13646 7.56989 7.84669 7.66666 7.62982C7.76355 7.41306 7.99854 7.12569 8.37163 6.76771C8.69572 6.44362 8.94391 6.14434 9.11621 5.86987C9.28863 5.59552 9.37484 5.27149 9.37484 4.89779C9.37484 4.26349 9.14697 3.76803 8.69124 3.41139C8.23538 3.05489 7.69619 2.87663 7.07368 2.87663C6.45867 2.87663 5.94975 3.04076 5.54695 3.36903C5.14402 3.69729 4.85659 4.08389 4.68466 4.52882L5.63113 4.90847C5.7209 4.66384 5.87441 4.42554 6.09166 4.19355C6.3089 3.96169 6.63152 3.84576 7.0595 3.84576C7.49497 3.84576 7.81685 3.96501 8.02513 4.2035C8.23353 4.44211 8.33774 4.70449 8.33774 4.99063C8.33774 5.24103 8.26639 5.47013 8.12368 5.67792C7.9811 5.88571 7.79929 6.08644 7.57824 6.2801C7.0945 6.71656 6.78889 7.06472 6.66142 7.32458C6.53382 7.58432 6.47003 7.97582 6.47003 8.49911ZM7.00129 14C6.03308 14 5.12302 13.8163 4.2711 13.4488C3.41919 13.0814 2.67818 12.5827 2.04805 11.9529C1.41793 11.323 0.919026 10.5823 0.551342 9.73074C0.183781 8.87919 0 7.96938 0 7.00129C0 6.03308 0.183719 5.12302 0.551158 4.2711C0.918596 3.41919 1.41725 2.67818 2.04713 2.04805C2.67701 1.41793 3.41772 0.919026 4.26926 0.551342C5.12081 0.183781 6.03062 0 6.99871 0C7.96692 0 8.87698 0.183719 9.72889 0.551158C10.5808 0.918596 11.3218 1.41725 11.9519 2.04713C12.5821 2.67701 13.081 3.41772 13.4487 4.26926C13.8162 5.12081 14 6.03062 14 6.99871C14 7.96692 13.8163 8.87698 13.4488 9.72889C13.0814 10.5808 12.5827 11.3218 11.9529 11.9519C11.323 12.5821 10.5823 13.081 9.73074 13.4487C8.87919 13.8162 7.96938 14 7.00129 14Z" fill="#5BA071"/>
+                        </svg>
+                        <span>Oil-Money에 대해 궁금하신가요?</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M16.627 12.75H4.5V11.25H16.627L10.9308 5.55375L12 4.5L19.5 12L12 19.5L10.9308 18.4462L16.627 12.75Z" fill="#5BA071"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="oilmoney_tab">
+            <button class="oilmoney_tab_list total_list">전체</button>
+            <button class="oilmoney_tab_list add_list">적립</button>
+            <button class="oilmoney_tab_list del_list">사용</button>
+        </div>
+
+        <a class="rBox_wrap" href="../order/review.html">
+          <div class="rBox">
+            <div class="rLeft">
+              <div style="display: flex;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                <mask id="mask0_2366_33055" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
+                <rect x="0.796875" y="0.351562" width="18" height="18" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_2366_33055)">
+                <path d="M9.79706 12.9141C9.95656 12.9141 10.0901 12.8601 10.1978 12.7523C10.3055 12.6445 10.3594 12.5109 10.3594 12.3516V9.16406C10.3594 9.00469 10.3054 8.87106 10.1976 8.76319C10.0897 8.65544 9.95606 8.60156 9.79669 8.60156C9.63719 8.60156 9.50362 8.65544 9.396 8.76319C9.28825 8.87106 9.23438 9.00469 9.23438 9.16406V12.3516C9.23438 12.5109 9.28831 12.6445 9.39619 12.7523C9.50406 12.8601 9.63769 12.9141 9.79706 12.9141ZM9.79688 7.31794C9.9685 7.31794 10.1124 7.25988 10.2285 7.14375C10.3446 7.02763 10.4027 6.88375 10.4027 6.71212C10.4027 6.5405 10.3446 6.39663 10.2285 6.2805C10.1124 6.1645 9.9685 6.1065 9.79688 6.1065C9.62525 6.1065 9.48138 6.1645 9.36525 6.2805C9.24913 6.39663 9.19106 6.5405 9.19106 6.71212C9.19106 6.88375 9.24913 7.02763 9.36525 7.14375C9.48138 7.25988 9.62525 7.31794 9.79688 7.31794ZM9.79819 16.4766C8.81269 16.4766 7.88637 16.2896 7.01925 15.9156C6.15212 15.5416 5.39787 15.034 4.7565 14.3929C4.11512 13.7517 3.60731 12.9978 3.23306 12.1311C2.85894 11.2643 2.67188 10.3383 2.67188 9.35287C2.67188 8.36737 2.85887 7.44106 3.23287 6.57394C3.60688 5.70681 4.11444 4.95256 4.75556 4.31119C5.39669 3.66981 6.15062 3.162 7.01737 2.78775C7.88413 2.41362 8.81019 2.22656 9.79556 2.22656C10.7811 2.22656 11.7074 2.41356 12.5745 2.78756C13.4416 3.16156 14.1959 3.66913 14.8373 4.31025C15.4786 4.95138 15.9864 5.70531 16.3607 6.57206C16.7348 7.43881 16.9219 8.36487 16.9219 9.35025C16.9219 10.3357 16.7349 11.2621 16.3609 12.1292C15.9869 12.9963 15.4793 13.7506 14.8382 14.3919C14.1971 15.0333 13.4431 15.5411 12.5764 15.9154C11.7096 16.2895 10.7836 16.4766 9.79819 16.4766Z" fill="#FC944F"/>
+                </g>
+                </svg>
+              </div>
+              <p class="review_save_txt">
+                리뷰 작성하고 Oil-Money 적립하세요!
+              </p>
+            </div>
+            <div class="rRight">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M12.4239 9.10156H0.296875V7.60156H12.4239L6.72763 1.90531L7.79688 0.851562L15.2969 8.35156L7.79688 15.8516L6.72763 14.7978L12.4239 9.10156Z" fill="#FC944F"/>
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <div module="myshop_historyList">
+            <!--
+                $only_html = no
+                $count = 50
+                $login_page = /member/login.html
+            -->
+			<div class="{$display_history|display}">
+				<div class="item">
+					<h3>
+						<span class="date" title="주문날짜">{$issue_date}</span>
+					</h3>
+					<div class="ec-base-table gClearBorderTop">
+						<table border="0">
+                            <caption>적립금</caption>
+							<colgroup>
+								<col style="width:120px;">
+								<col style="width:auto;">
+							</colgroup>
+							<tbody>
+                                <tr>
+									<td>{$mileage_type}</td>
+                                    <td class="issue_date">{$issue_date}</td>
+								</tr>
+								<tr>
+									<td>{$mileage_money}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="item" style="margin-top: 32px;">
+					<h3>
+						<span class="date" title="주문날짜">{$issue_date}</span>
+					</h3>
+					<div class="ec-base-table gClearBorderTop">
+						<table border="0">
+                            <caption>적립금</caption>
+							<colgroup>
+								<col style="width:120px;">
+								<col style="width:auto;">
+							</colgroup>
+							<tbody>
+                                <tr>
+									<td>{$mileage_type}</td>
+                                    <td class="issue_date">{$issue_date}</td>
+								</tr>
+								<tr>
+									<td>{$mileage_money}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+            <p class="ec-base-prdEmpty {$display_history_none|display}">{$mileage_name} 내역이 없습니다.</p>
+        </div>
+    </div>
+    <!--@import(/myshop/myshop_main.html)-->
+</div>
+
+<div class="oilmoney-sheet" id="oilmoneySheet" hidden>
+  <div class="sheet-dim" data-role="close"></div>
+  <aside class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="oilmoneySheetTitle">
+    <h3 id="oilmoneySheetTitle">유의사항</h3>
+    <ul class="sheet-list">
+		<li>Olio Oliva 플랫폼에서 사용하는 현금성 포인트 입니다.</li>
+		<li>1 오일머니 부터 사용이 가능하며, 1 오일머니와 1원의 가치는 같습니다.</li>
+		<li>배송 완료 후 자동 적립 됩니다. (취소/반품 시 차감)</li>
+		<li>실결제 금액 (할인·쿠폰 제외, 배송비 제외) 기준으로 적립됩니다.</li>
+		<li>유효기간은 적립일로부터 1년 (365일) 만료 시 자동 소멸됩니다.</li>
+    </ul>
+    <button type="button" class="sheet-close" data-role="close">닫기</button>
+  </aside>
+</div>
+
+<script>
+(function(){
+  const trigger = document.querySelector('.oilmoney_help_wrap a, .oilmoney_help_wrap');
+  const sheet   = document.getElementById('oilmoneySheet');
+  if(!trigger || !sheet) return;
+
+  const panel   = sheet.querySelector('.sheet-panel');
+  const dim     = sheet.querySelector('.sheet-dim');
+
+  function lock(b){
+    document.documentElement.classList.toggle('is-sheet-lock', b);
+    document.body.classList.toggle('is-sheet-lock', b);
+  }
+
+  function openSheet(){
+    sheet.hidden = false;
+    requestAnimationFrame(()=>{
+      sheet.classList.add('open');
+      panel.style.transform = '';
+      panel.style.transition = '';
+      dim.style.opacity = '';
+      lock(true);
+    });
+  }
+
+  function closeSheet(){
+    if (!sheet.classList.contains('open')) return;
+
+    sheet.classList.remove('open');
+    lock(false);
+
+    panel.style.transition = '';
+    panel.style.transform  = '';
+    dim.style.opacity = '';
+
+    let done = false;
+    const finish = ()=>{
+      if (done) return;
+      done = true;
+      sheet.hidden = true;
+      panel.removeEventListener('transitionend', onEnd);
+      panel.removeEventListener('webkitTransitionEnd', onEnd);
+    };
+    const onEnd = (e)=>{
+      const name = e.propertyName || '';
+      if (name.indexOf('transform') !== -1) finish();
+    };
+    panel.addEventListener('transitionend', onEnd);
+    panel.addEventListener('webkitTransitionEnd', onEnd);
+    setTimeout(finish, 400);
+  }
+
+  trigger.addEventListener('click', (e)=>{
+    if (e.target.closest('a')) e.preventDefault();
+    openSheet();
+  });
+
+  sheet.addEventListener('click', (e)=>{
+    if (e.target.closest('[data-role="close"]') || e.target.closest('.sheet-dim')) {
+      e.preventDefault();
+      closeSheet();
+    }
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && !sheet.hidden) closeSheet();
+  });
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const listRoot = document.querySelector('.xans-myshop-historylist');
+  if (!listRoot) return;
+
+  const $items = [...listRoot.querySelectorAll('.item')];
+
+  const norm = s => (s||'').toString().trim();
+  const onlyNum = s => {
+    const m = (s||'').toString().match(/-?\d[\d,]*/);
+    return m ? parseInt(m[0].replace(/,/g, ''), 10) : 0;
+  };
+
+  const classify = (typeText, amtText) => {
+    const t = norm(typeText);
+    const v = onlyNum(amtText);
+    const hasMinus = /^-\s*\d/.test((amtText||'').toString());
+    if (/(만료|소멸)/.test(t)) return 'expire';
+    if (/(사용|차감)/.test(t)) return 'use';
+    if (/(적립|지급|복원|환불|보상|이벤트)/.test(t)) return 'add';
+    if (hasMinus || v < 0) return 'use';
+    return 'add';
+  };
+
+  const fmt = (val, kind) => {
+    const n = Math.abs(val);
+    const sign = kind === 'use' ? '-' : '+';
+    return `${sign}${n.toLocaleString('ko-KR')} Oil`;
+  };
+
+  $items.forEach(item => {
+    const typeCell = item.querySelector('tbody tr:first-child td:first-child');
+    const amtCell  = item.querySelector('tbody tr:last-child  td:first-child');
+    if (!typeCell || !amtCell) return;
+
+    const typeText = typeCell.textContent;
+    const rawAmt   = amtCell.textContent;
+
+    const kind = classify(typeText, rawAmt);
+    const val  = onlyNum(rawAmt) * (kind === 'use' ? -1 : 1);
+
+    amtCell.classList.add('oilmoney-amt', `amt--${kind}`);
+    amtCell.textContent = fmt(val, kind);
+
+    item.dataset.type = kind;
+  });
+
+  const btnAll  = document.querySelector('.oilmoney_tab .total_list');
+  const btnAdd  = document.querySelector('.oilmoney_tab .add_list');
+  const btnUse  = document.querySelector('.oilmoney_tab .del_list');
+  const allBtns = [btnAll, btnAdd, btnUse].filter(Boolean);
+
+  const setActive = (btn) => {
+    allBtns.forEach(b => b.classList.toggle('active', b === btn));
+  };
+
+  const applyFilter = (kind) => {
+    $items.forEach(it => {
+      it.style.display = (!kind || it.dataset.type === kind) ? '' : 'none';
+    });
+  };
+
+  btnAll?.addEventListener('click', () => { setActive(btnAll); applyFilter(null); });
+  btnAdd?.addEventListener('click', () => { setActive(btnAdd); applyFilter('add'); });
+  btnUse?.addEventListener('click', () => { setActive(btnUse); applyFilter('use'); });
+
+  if (btnAll) { setActive(btnAll); applyFilter(null); }
+});
+</script>
+
+<style>
+#oilmoney_header {
+  position: relative;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  align-items: center;
+  background-color: #FFF;
+}
+
+#oilmoney_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#oilmoney_header .header_back img {
+  width: 100%;
+}
+
+#oilmoney_header p {
+  color: var(--G-800, var(--Gray-800, #393939));
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 137.5% */
+  letter-spacing: -0.32px;
+}
+
+.oilmoney_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px;
+    margin-top: 0;
+}
+
+.oilmoney_wrap span {
+    color: var(--G-0, #FFF);
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 10px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.oilmoney_wrap .title {
+    width: 50%;
+    border-right: 1px solid #FFF;
+    text-align: left;
+}
+
+#xans_myshop_summary_total_mileage {
+    color: var(--G-0, #FFF);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: -0.44px;
+}
+
+.oilmoney-sheet[hidden] {
+	display: none;
+}
+
+.oilmoney-sheet {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+}
+
+.oilmoney-sheet .sheet-dim {
+	position: absolute; inset: 0;
+	background: rgba(0,0,0,.4);
+	opacity: 0;
+	transition: opacity .2s;
+}
+
+.oilmoney-sheet.open .sheet-dim {
+	opacity: 1;
+}
+
+.oilmoney-sheet .sheet-panel {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #fff;
+	border-radius: 12px 12px 0 0;
+	transform: translateY(100%);
+	transition: transform .28s;
+	padding: 24px 16px 26px;
+	max-height: 75vh;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	box-shadow: 0 -8px 28px rgba(0,0,0,.08);
+}
+
+.oilmoney-sheet.open .sheet-panel {
+	transform: translateY(0);
+}
+
+.sheet-list {
+	margin: 0;
+	padding: 0 4px;
+	list-style: none;
+	overflow: auto;
+	gap: 6px;
+	display: flex;
+	flex-direction: column;
+}
+
+.sheet-list li {
+	position: relative;
+	padding-left: 12px;
+	color: var(--G-500, var(--Gray-500, #888));
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+}
+
+.sheet-list li::before {
+	content: "•";
+	position: absolute;
+	left: 0;
+	top: 0;
+	color: #888;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+.sheet-close { 
+	width: 100%;
+	height: 56px;
+	border: 0;
+	border-radius: 12px;
+	background: #1B8862;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 700;
+	cursor: pointer;
+	margin-top: 24px;
+}
+
+html.is-sheet-lock, body.is-sheet-lock {
+	overflow: hidden;
+	touch-action: none;
+}
+
+#oilmoneySheetTitle {
+	color: var(--G-900, #181818);
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 22px; /* 137.5% */
+	letter-spacing: -0.32px;
+}
+
+.oilmoney_tab {
+    display: flex;
+    margin: 16px -16px 0;
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    background: #FFF;
+}
+
+.oilmoney_tab_list {
+    display: flex;
+    height: 48px;
+    padding: 14px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    color: var(--G-600, var(--Gray-600, #767676));
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+    border: none;
+}
+
+.oilmoney_tab_list.active {
+    border-bottom: 2px solid var(--Olive-Green, #1B8862);
+    color: var(--Olive-Green, #1B8862);
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.xans-myshop-historylist {
+    margin-top: 20px;
+}
+
+.date {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+tbody {
+    display: flex;
+    padding: 12px 16px;
+    gap: 2px;
+    align-self: stretch;
+    align-items: flex-start;
+    justify-content: space-between;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+}
+
+.item h3 {
+    margin-bottom: 10px;
+}
+
+tr {
+    display: flex;
+    flex-direction: column;
+}
+
+td {
+    overflow: hidden;
+    color: var(--G-900, #181818);
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.issue_date {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.amt--use {
+    color: #F44336;
+}
+
+.amt--add {
+    color: #1B8862;
+}
+
+.amt--expire {
+    color: #888;
+}
+
+.total_oilmoney_wrap {
+    margin: -16px;
+    padding: 24px 16px 32px;
+    background-color: #FFF;
+}
+
+.myshopArea .ec-base-prdEmpty{
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.review_save_txt{
+  color: #FC944F;
+
+/* SB 12 */
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+.rBox{
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  width: 100%;
+  border-radius: 8px;
+  background: var(--Gray-100, #F0F0F0);
+}
+
+.rLeft{
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  justify-items: center;
+}
+
+.rRight{
+  display: flex;
+  align-items: center;
+}
+
+.myshopArea .rBox_wrap{
+  display: none;
+}
+
+.myshopArea:has(.add_list.active) .rBox_wrap{
+  display: block;
+}
+</style>

@@ -1,0 +1,1036 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div id="magPage" class="mode-all">
+  <div class="top-tabs" id="topTabs"></div>
+
+  <section id="heroAll" class="hero-all">
+    <div class="hero-wrap">
+      <div id="heroAllCards" class="hero-grid"></div>
+    </div>
+  </section>
+
+  <section id="heroTop" class="hero-top">
+    <div class="hero-top-inner">
+      <div class="subchips" id="subChips" aria-live="polite"></div>
+      <div class="top-head">
+        <h2 id="topTitle"></h2>
+        <p id="topDesc" class="top-desc"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="recentSeen" class="recent-section" hidden>
+    <div class="section-head">
+      <h3>최근 본 올리브 로그</h3>
+    </div>
+    <div class="recent-swiper swiper" id="recentSwiper">
+      <div class="swiper-wrapper" id="recentSlides"></div>
+    </div>
+  </section>
+
+  <section id="topLoved" class="toploved-section" hidden>
+    <div class="section-head toploved-head">
+      <h3>지금 가장 사랑받는 올리브 로그</h3>
+      <div class="range-chips" id="rangeChips" role="tablist" aria-label="기간 선택">
+        <button class="chip active" data-range="daily"  role="tab" aria-selected="true">일간</button>
+        <button class="chip" data-range="weekly" role="tab" aria-selected="false">주간</button>
+        <button class="chip" data-range="monthly"role="tab" aria-selected="false">월간</button>
+      </div>
+    </div>
+    <div id="topLovedList"></div>
+  </section>
+
+<!-- 상위 카테고리 ALL 전용 영역 -->
+  <section id="topAllArea" hidden>
+    <div class="topall-hero">
+      <div id="topAllHero" class="swiper">
+        <div class="swiper-wrapper" id="topAllHeroSlides"></div>
+      </div>
+    </div>
+    <!-- 하위 카테고리 버킷 -->
+    <section id="childBuckets" class="child-buckets"></section>
+  </section>
+
+  <div id="magazineListArea" aria-live="polite"></div>
+</div>
+
+<div id="sortSheet" class="share-sheet" hidden>
+  <div class="sheet-dim" data-close="1"></div>
+
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sortTitle">
+    <div class="sheet-grabber"></div>
+    <h3 id="sortTitle" class="sheet-title">정렬 선택</h3>
+
+    <ul class="share-actions" role="listbox" aria-label="정렬 방식">
+      <li>
+        <button type="button" class="act-btn sort-option" data-sort="latest" aria-selected="false" style="margin-top: 16px;">
+          최신순
+        </button>
+      </li>
+      <li>
+        <button type="button" class="act-btn sort-option" data-sort="best" aria-selected="false">
+          인기순
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="shareSheet" class="share-sheet" hidden>
+  <div class="sheet-dim" data-close="1"></div>
+
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+    <div class="sheet-grabber"></div>
+    <h3 id="shareTitle" class="sheet-title">게시글 공유하기</h3>
+
+    <div class="share-preview">
+      <div class="pv-thumb"><img id="shareThumb" alt=""></div>
+      <div class="pv-text">
+        <div id="shareCat" class="pv-cat"></div>
+        <div id="shareTitleText" class="pv-title"></div>
+      </div>
+    </div>
+
+    <ul class="share-actions">
+      <li>
+        <button type="button" id="btnCopyLink" class="act-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_2172_30489" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <rect width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_2172_30489)">
+              <path d="M7.0385 16.5379C5.78283 16.5379 4.7125 16.0954 3.8275 15.2104C2.9425 14.3256 2.5 13.2554 2.5 11.9999C2.5 10.7444 2.9425 9.6741 3.8275 8.78894C4.7125 7.9036 5.78283 7.46094 7.0385 7.46094H10.0578C10.2703 7.46094 10.4483 7.53285 10.592 7.67669C10.7358 7.82052 10.8077 7.99877 10.8077 8.21144C10.8077 8.42394 10.7358 8.60202 10.592 8.74569C10.4483 8.88919 10.2703 8.96094 10.0578 8.96094H7.03725C6.19825 8.96094 5.48233 9.25744 4.8895 9.85044C4.2965 10.4434 4 11.1598 4 11.9994C4 12.8391 4.2965 13.5554 4.8895 14.1484C5.48233 14.7414 6.19825 15.0379 7.03725 15.0379H10.0578C10.2703 15.0379 10.4483 15.1099 10.592 15.2537C10.7358 15.3975 10.8077 15.5757 10.8077 15.7882C10.8077 16.0009 10.7358 16.1789 10.592 16.3224C10.4483 16.4661 10.2703 16.5379 10.0578 16.5379H7.0385ZM9 12.7494C8.7875 12.7494 8.60942 12.6775 8.46575 12.5337C8.32192 12.3899 8.25 12.2117 8.25 11.9992C8.25 11.7865 8.32192 11.6084 8.46575 11.4649C8.60942 11.3213 8.7875 11.2494 9 11.2494H15C15.2125 11.2494 15.3906 11.3214 15.5343 11.4652C15.6781 11.609 15.75 11.7872 15.75 11.9997C15.75 12.2124 15.6781 12.3904 15.5343 12.5339C15.3906 12.6776 15.2125 12.7494 15 12.7494H9ZM13.9423 16.5379C13.7298 16.5379 13.5517 16.466 13.408 16.3222C13.2642 16.1784 13.1923 16.0001 13.1923 15.7874C13.1923 15.5749 13.2642 15.3969 13.408 15.2532C13.5517 15.1097 13.7298 15.0379 13.9423 15.0379H16.9628C17.8018 15.0379 18.5177 14.7414 19.1105 14.1484C19.7035 13.5554 20 12.8391 20 11.9994C20 11.1598 19.7035 10.4434 19.1105 9.85044C18.5177 9.25744 17.8018 8.96094 16.9628 8.96094H13.9423C13.7298 8.96094 13.5517 8.88902 13.408 8.74519C13.2642 8.60135 13.1923 8.42319 13.1923 8.21069C13.1923 7.99802 13.2642 7.81994 13.408 7.67644C13.5517 7.53277 13.7298 7.46094 13.9423 7.46094H16.9615C18.2172 7.46094 19.2875 7.90344 20.1725 8.78844C21.0575 9.67327 21.5 10.7434 21.5 11.9989C21.5 13.2544 21.0575 14.3248 20.1725 15.2099C19.2875 16.0953 18.2172 16.5379 16.9615 16.5379H13.9423Z" fill="#181818"/>
+            </g>
+          </svg>
+          링크 복사하기
+        </button>
+      </li>
+      <li>
+        <button type="button" id="btnShareKakao" class="act-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12.45 18.3C17.6691 18.3 21.9 14.8746 21.9 10.65C21.9 6.4254 17.6691 3 12.45 3C7.2309 3 3 6.4254 3 10.65C3 13.3257 4.6965 15.681 7.266 17.0472L6.6 21L11.1 18.2226C11.541 18.2742 11.991 18.3 12.45 18.3Z" fill="black"/>
+            <path d="M5.70142 8.84766H8.40142M7.05142 12.8977V8.84766M8.85142 12.8977L10.4264 8.84766L12.0014 12.8977M9.30142 11.9977H11.5514M13.3514 8.84766V12.8977H15.1514M16.5014 8.84766V12.8977M16.5014 11.5477L19.2014 8.84766M17.4014 10.6477L19.2014 12.8977" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          카카오톡 공유하기
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.5.0/kakao.min.js" integrity="sha384-eo7q8oW2F1q4k2mYc1Qe6u4h0i3X9Qk4gq8XbO1I2i7q2v6S+bJ8+KVE5JgD2E3N" crossorigin="anonymous"></script>
+
+<script>
+const API_BASE = 'https://oliva.boundary.team';
+const API_TREE = `${API_BASE}/api/categories-tree`;
+const API_MAGS = `${API_BASE}/api/magazine-list`;
+const API_FEATURED = `${API_BASE}/api/magazine-featured`;
+
+let TREE = [];
+let NAME_BY_ID = {};
+let ID_BY_NAME = {};
+let STATE = { topId:null, topName:null, subId:null, subName:null };
+let ALL_MAGS = null;
+let _recentSwiper = null;
+let _topAllHero = null;
+let USER_UID = '';
+
+const H = s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+const A = s=>String(s).replace(/"/g,'&quot;');
+const loose = s=>String(s||'').toLowerCase().replace(/\s+/g,' ').trim();
+const isSafeUrl = u=>!!u && (/^(https?:)?\/\//.test(u)||u.startsWith('/'));
+const MAX_RECENT = 5;
+
+function getFirstImageSrc(html){
+  if (!html) return null;
+  try{
+    const cleaned = (window.DOMPurify)? DOMPurify.sanitize(html,{RETURN_TRUSTED_TYPE:false}) : html;
+    const doc = new DOMParser().parseFromString(cleaned,'text/html');
+    const img = doc.querySelector('img'); if(!img) return null;
+    const src = img.getAttribute('src') || img.getAttribute('data-src') || img.getAttribute('data-original');
+    return isSafeUrl(src)?src:null;
+  }catch(e){ return null; }
+}
+
+function catIdOf(raw){
+  if (raw == null) return null;
+  const n = Number(raw);
+  if (Number.isFinite(n)) return n;
+  return ID_BY_NAME[String(raw).trim()] ?? null;
+}
+
+function catNameOf(raw){
+  const n = Number(raw);
+  if (Number.isFinite(n)) return NAME_BY_ID[n] ?? String(raw ?? '');
+  return String(raw ?? '');
+}
+
+function setOn($btn, on){ $btn.toggleClass('on', !!on); }
+function fmtDate(iso){
+  if(!iso) return '';
+  const d = new Date(iso);
+  if(Number.isNaN(d.getTime())) return '';
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return `${y}. ${m}. ${day}`;
+}
+
+function getUidFromCookie(){
+  try{
+    const c = document.cookie.split('; ').find(v=>v.startsWith('login_provider_1='));
+    if(!c) return '';
+    const obj = JSON.parse(decodeURIComponent(c.split('=')[1]||''));
+    const no  = String(obj?.member_no ?? '').trim();
+    if (/^\d+$/.test(no)) return no;
+    const mid = String(obj?.member_id ?? '').trim();
+    return mid || '';
+  }catch{ return ''; }
+}
+
+function getUidFromAsync(timeoutMs=3000){
+  return new Promise(resolve=>{
+    const ready = ()=>window.CAPP_ASYNC_METHODS && typeof CAPP_ASYNC_METHODS.IS_LOGIN!=='undefined';
+    if (ready()){
+      const m = window.CAPP_ASYNC_METHODS.member || {};
+      const no = String(m?.member_no ?? '').trim();
+      if (/^\d+$/.test(no)) return resolve(no);
+      const mid = String(m?.member_id ?? '').trim();
+      return resolve(mid||'');
+    }
+    const t0 = Date.now(), iv = setInterval(()=>{
+      if (ready() || Date.now()-t0>timeoutMs){
+        clearInterval(iv);
+        const m = (ready() && window.CAPP_ASYNC_METHODS.member) ? window.CAPP_ASYNC_METHODS.member : {};
+        const no = String(m?.member_no ?? '').trim();
+        if (/^\d+$/.test(no)) return resolve(no);
+        const mid = String(m?.member_id ?? '').trim();
+        return resolve(mid||'');
+      }
+    },120);
+  });
+}
+
+async function resolveUserId(){
+  USER_UID = getUidFromCookie();
+  if (!USER_UID) USER_UID = await getUidFromAsync();
+  return USER_UID;
+}
+
+function fetchLikeStatus(id){
+  return $.ajax({ url:`${API_BASE}/api/magazine/${id}/like-status`, method:'GET', data:{ user_uid: USER_UID||'' }, crossDomain:true });
+}
+
+function fetchScrapStatus(id){
+  return $.ajax({ url:`${API_BASE}/api/magazine/${id}/scrap-status`, method:'GET', data:{ user_uid: USER_UID||'' }, crossDomain:true });
+}
+
+function toggleLike(id){
+  if (!USER_UID){ alert('로그인 후 이용해주세요.'); location.href='/member/login.html'; return $.Deferred().reject().promise(); }
+  return $.ajax({ url:`${API_BASE}/api/magazine/${id}/like-toggle`, method:'POST', data:{ user_uid: USER_UID }, crossDomain:true });
+}
+
+function toggleScrap(id){
+  if (!USER_UID){ alert('로그인 후 이용해주세요.'); location.href='/member/login.html'; return $.Deferred().reject().promise(); }
+  return $.ajax({ url:`${API_BASE}/api/magazine/${id}/scrap-toggle`, method:'POST', data:{ user_uid: USER_UID }, crossDomain:true });
+}
+
+const _abs  = (u)=>{ try { return new URL(u, location.origin).toString(); } catch(e){ return u; } };
+const _norm = (s)=>String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/[^\p{L}\p{N}\s]/gu,'').trim();
+function cacheGet(k){ try{ const raw=localStorage.getItem(k); if(!raw) return null; const {v,exp}=JSON.parse(raw); if(exp && Date.now()>exp){localStorage.removeItem(k); return null;} return v; }catch{ return null; } }
+function cacheSet(k,v,ttl=86400000){ try{ localStorage.setItem(k, JSON.stringify({v,exp:Date.now()+ttl})); }catch{} }
+function cleanLabel(t){ return String(t||'').replace(/(^|[\n\r\u00A0\s])\s*(상품명|제품명)\s*[:：]\s*/g,'$1').replace(/^\s*(상품명|제품명)\s*[:：]\s*/i,'').trim(); }
+
+async function searchCafe24First(keyword){
+  const K = `c24:first:${_norm(keyword)}`; const cached=cacheGet(K); if(cached) return cached;
+  try{
+    const res = await fetch(`/product/search.html?keyword=${encodeURIComponent(keyword)}`,{credentials:'same-origin'}); if(!res.ok) return null;
+    const doc = new DOMParser().parseFromString(await res.text(),'text/html');
+    const li  = doc.querySelector('.prdList li'); if(!li) return null;
+    const a   = li.querySelector('.thumbnail a[href*="/product/"]');
+    const img = li.querySelector('.thumbnail img');
+    const priceLi = Array.from(li.querySelectorAll('.spec li')).find(el=>/판매가/.test(el.textContent));
+    const listPrice = priceLi?.querySelector('span')?.textContent?.trim() || null;
+    let href=a?_abs(a.getAttribute('href')):null;
+    let src = img?.getAttribute('data-src') || img?.getAttribute('src') || null;
+    let brand='', name='', price=listPrice;
+    if(href){
+      try{
+        const dRes = await fetch(href,{credentials:'same-origin'});
+        if(dRes.ok){
+          const d = new DOMParser().parseFromString(await dRes.text(),'text/html');
+          const brandEl = d.querySelector('.product_detail_brand, .xans-product-detail .product_detail_brand, .product-info .product_detail_brand');
+          const nameEl  = d.querySelector('.product_detail_name,  .xans-product-detail .product_detail_name,  .product-info .product_detail_name');
+          if(brandEl) brand = brandEl.textContent.trim();
+          if(nameEl)  name  = cleanLabel(nameEl.textContent.trim());
+          const hero = d.querySelector('.detailArea img, .product-detail img, .xans-product-detail img, .content img');
+          const heroSrc = hero?.getAttribute('data-src') || hero?.getAttribute('src');
+          if (heroSrc && isSafeUrl(heroSrc)) src = heroSrc;
+          const pRow = Array.from(d.querySelectorAll('.spec li, .product_info_top .spec li')).find(el=>/판매가/.test(el.textContent));
+          const pSpan = pRow?.querySelector('span'); if(pSpan?.textContent) price = pSpan.textContent.trim();
+        }
+      }catch{}
+    }
+    name = cleanLabel(name);
+    const data = { brand, name, href, img:src, price }; cacheSet(K,data); return data;
+  }catch{ return null; }
+}
+
+async function hydrateMagProducts(){
+  const nodes = document.querySelectorAll('.mag-prods[data-names]'); if(!nodes.length) return;
+  for (const box of nodes){
+    let names=[]; try{ names=JSON.parse(box.getAttribute('data-names')||'[]'); }catch{}
+    if(!Array.isArray(names)||!names.length){ box.remove(); continue; }
+    const found=[]; for(const n of names){ const r=await searchCafe24First(n); if(r) found.push(r); if(found.length>=2) break; }
+    if(!found.length){ box.remove(); continue; }
+    box.innerHTML = found.map(p=>`
+      <a class="mag-prod" href="${A(p.href)}">
+        <div class="mp-thumb">${p.img?`<img src="${A(p.img)}" alt="${A(p.name)}" loading="lazy">`:''}</div>
+        <div class="mp-text">${p.brand?`<div class="mp-brand">${H(p.brand)}</div>`:''}<div class="mp-name">${H(p.name||'')}</div></div>
+      </a>
+    `).join('');
+  }
+}
+
+(async function init(){
+  await resolveUserId();
+  await loadTree();
+  buildTopTabs();
+  setCurrentSort('latest');
+  selectTopAll();
+})();
+
+async function loadTree(){
+  try{
+    const rows = await $.getJSON(API_TREE);
+    TREE = Array.isArray(rows)?rows:[];
+    NAME_BY_ID={}; ID_BY_NAME={};
+    TREE.forEach(p=>{
+      NAME_BY_ID[p.id]=p.name; ID_BY_NAME[p.name]=p.id;
+      (p.children||[]).forEach(c=>{ NAME_BY_ID[c.id]=c.name; ID_BY_NAME[c.name]=c.id; });
+    });
+  }catch{ TREE=[]; NAME_BY_ID={}; ID_BY_NAME={}; }
+}
+
+function buildTopTabs(){
+  const $tabs = $("#topTabs");
+  let html = `<button class="top-tab" data-id="" data-name="ALL">전체</button>`;
+  TREE.forEach(p=>{ html += `<button class="top-tab" data-id="${p.id}" data-name="${A(p.name)}">${H(p.name)}</button>`; });
+  $tabs.html(html);
+  $tabs.off("click").on("click",".top-tab",function(){
+    const id=$(this).data("id"); const name=$(this).data("name");
+    if (name==="ALL"){ selectTopAll(); return; }
+    applyTopSelect(Number(id)); reloadList();
+  });
+}
+
+function selectTopAll(){
+  STATE={ topId:null, topName:"ALL", subId:null, subName:null };
+  $("#topTabs .top-tab").removeClass("active");
+  $('#topTabs .top-tab[data-name="ALL"]').addClass("active");
+  $("#subChips").html("");
+  applyMode(); reloadList(true);
+}
+
+function applyTopSelect(id){
+  const top = TREE.find(t=>t.id===id); if(!top) return;
+  STATE.topId=top.id; STATE.topName=top.name; STATE.subId=null; STATE.subName=null;
+  $("#topTabs .top-tab").removeClass("active");
+  $(`#topTabs .top-tab[data-id="${id}"]`).addClass("active");
+  buildSubChips(top); applyMode();
+}
+
+function buildSubChips(top){
+  const $chips=$("#subChips"); const children=(top&&top.children)?top.children:[];
+  if(!children.length){ $chips.html(""); return; }
+  let html=''; html+=chipTpl({id:"",name:"ALL",active:true});
+  children.forEach(c=>{ html+=chipTpl({id:c.id,name:c.name,active:false}); });
+  $chips.html(html);
+  STATE.subId=null; STATE.subName=null;
+  $chips.off("click").on("click",".chip",function(){
+    $("#subChips .chip").removeClass("active"); $(this).addClass("active");
+    const sid=$(this).data("id"); const sname=String($(this).data("name")||'');
+    STATE.subId = sid?Number(sid):null; 
+    STATE.subName = (sname && sname!=='ALL')?sname:null;
+    setCurrentSort('latest'); updateSortLabel();
+    reloadList();
+  });
+}
+
+function chipTpl({id,name,active}){
+  return `<button type="button" class="chip ${active?'active':''}" data-id="${A(id)}" data-name="${A(name)}" aria-pressed="${active?'true':'false'}">${H(name)}</button>`;
+}
+
+function applyMode(){
+  const $root=$('#magPage');
+  if (!STATE.topId){
+    $root.removeClass('mode-top').addClass('mode-all');
+    buildAllHero(); buildRecentSeen(); buildTopLoved('daily'); bindRangeChips();
+    $('#topLoved').removeAttr('hidden');
+    $('#topAllArea').attr('hidden','hidden');
+    $('#magazineListArea').attr('hidden','hidden').empty();
+    $('#childBuckets').attr('hidden','hidden').empty();
+  }else{
+    $root.removeClass('mode-all').addClass('mode-top');
+    $('#topTitle').text(`👀 주목할만한 ${STATE.topName||''}`);
+    $('#topDesc').text('관련상품을 홍보할 수 있는 UX 라이팅 작성');
+    $('#recentSeen,#topLoved').attr('hidden','hidden');
+    if (!STATE.subName){
+      renderTopAllView();
+    }else{
+      $('#topAllArea').attr('hidden','hidden');
+      $('#magazineListArea').removeAttr('hidden');
+      $('#heroTop .top-head').attr('hidden','hidden');
+    }
+  }
+}
+
+async function buildAllHero(){
+  try {
+    const latestRes  = await $.getJSON(API_MAGS);
+    const latestList = Array.isArray(latestRes)
+      ? latestRes.slice().sort((a,b)=> Number(b.id) - Number(a.id))
+      : [];
+    const newest = latestList[0] || null;
+
+    let featured = null;
+    try {
+      const f = await $.getJSON(API_FEATURED);
+      if (f && f.id) featured = f;
+    } catch(e){ }
+
+    let best = null;
+    if (featured) {
+      if (!newest || Number(featured.id) !== Number(newest.id)) {
+        best = featured;
+      } else {
+        const second = latestList[1] || null;
+        best = featured;
+        if (second) {
+          newest.id    = second.id;
+          newest.title = second.title;
+          newest.content = second.content;
+        }
+      }
+    }
+
+    if (!best) {
+      let bestList = [];
+      try {
+        const bestRes = await $.getJSON(API_MAGS, { sort: 'best' });
+        bestList = Array.isArray(bestRes) ? bestRes : [];
+      } catch(e) { bestList = []; }
+      best = bestList.find(it => !newest || Number(it.id) !== Number(newest.id)) || null;
+    }
+
+    const makeCard = (item, badgeText, badgeClass) => {
+      const id    = Number(item?.id);
+      const title = H(item?.title || '');
+      const img   = getFirstImageSrc(item?.content || '');
+      return `
+        <a class="hero-card" href="/magazine/detail.html?id=${id}">
+          ${img ? `<img src="${A(img)}" alt="${title}" loading="lazy">` : ''}
+          <div class="hero-txt-wrap">
+            <span class="${badgeClass}">${badgeText}</span>
+            <div class="hero-title">${title}</div>
+          </div>
+        </a>`;
+    };
+
+    const cards = [];
+    if (best)   cards.push(makeCard(best,   'BEST REPORT', 'badge badge-best'));
+    if (newest) cards.push(makeCard(newest, 'NEW REPORT',  'badge badge-new'));
+
+    $('#heroAllCards').html(cards.join(''));
+  } catch (e) {
+    $('#heroAllCards').html('');
+  }
+}
+
+async function buildRecentSeen(){
+  const key='recent_mags'; 
+  let arr=[]; 
+  try{ arr=JSON.parse(localStorage.getItem(key)||'[]'); }catch{}
+
+  if(!Array.isArray(arr)||!arr.length){ 
+    $('#recentSeen').attr('hidden','hidden').find('#recentSlides').empty();
+    return; 
+  }
+
+  let items=arr.sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,MAX_RECENT);
+
+  const needFill=items.filter(it=>!(it&&it.title&&it.img));
+  if(needFill.length) {
+    try{
+      const all=await $.getJSON(API_MAGS); 
+      const map=new Map((all||[]).map(r=>[Number(r.id),r]));
+      items=items.map(it=>{
+        if(it.title&&it.img) return it;
+        const row=map.get(Number(it.id)); 
+        if(!row) return null;
+        return {
+          id:Number(row.id),
+          title:row.title||it.title||'',
+          img:getFirstImageSrc(row.content||'')||it.img||'',
+          category:catNameOf(row.category),
+          ts:it.ts||Date.now()
+        };
+      }).filter(Boolean);
+      localStorage.setItem(key, JSON.stringify(items.concat(arr.slice(MAX_RECENT))));
+    } catch {
+      items = items.filter(it=>it && it.title && it.img);
+    }
+  }
+
+  if(!items.length){
+    $('#recentSeen').attr('hidden','hidden').find('#recentSlides').empty();
+    return;
+  }
+
+  const slides=items.map(it=>{
+    const id=Number(it.id); 
+    const title=H(it.title||''); 
+    const img=A(it.img||''); 
+    const cat=H(it.category||'');
+    return `<div class="swiper-slide">
+      <a class="recent-card" href="/magazine/detail.html?id=${id}">
+        <div class="thumb">${img?`<img src="${img}" alt="${title}">`:''}</div>
+        <div class="info">${cat?`<div class="meta">${cat}</div>`:''}<p class="title">${title}</p></div>
+      </a>
+    </div>`;
+  }).join('');
+
+  $('#recentSlides').html(slides); 
+  $('#recentSeen').removeAttr('hidden');
+
+  if(_recentSwiper){ try{ _recentSwiper.destroy(true,true);}catch{} }
+  _recentSwiper=new Swiper('#recentSwiper',{
+    slidesPerView:1.4,
+    spaceBetween:12,
+    freeMode:true,
+    mousewheel:{forceToAxis:true},
+    keyboard:{enabled:true}
+  });
+}
+
+async function buildTopLoved(range='daily'){
+  $('#rangeChips .chip').removeClass('active').attr('aria-selected','false');
+  $(`#rangeChips .chip[data-range="${range}"]`).addClass('active').attr('aria-selected','true');
+  $('#topLoved').attr('data-range',range);
+  $('#topLovedList').html('<p style="padding:8px 0;">불러오는 중…</p>');
+  try{
+    const list=await $.getJSON(API_MAGS,{sort:'top',range});
+    renderTopLoved('#topLovedList',(Array.isArray(list)?list:[]).slice(0,5));
+    $('#topLoved').removeAttr('hidden');
+  }catch{ $('#topLovedList').html('<p>불러오기 실패</p>'); }
+}
+
+function renderTopLoved(sel,list){
+  if(!list||!list.length){ $(sel).html('<p style="padding:8px 0;">게시글이 없습니다.</p>'); return; }
+  let html='<ul class="mag-list toploved-list">';
+  list.forEach(item=>{
+    const id=Number(item?.id); const title=H(item?.title||''); const img=getFirstImageSrc(item?.content||''); const cat=catNameOf(item?.category);
+    html+=`<li><a class="mag-card mag-card--toploved" href="/magazine/detail.html?id=${id}">${img?`<div class="mag-thumb"><img src="${A(img)}" alt="${title}" loading="lazy"></div>`:''}<div class="mag-info">${cat?`<div class="mag-meta">${H(cat)}</div>`:''}<h3 class="mag-title">${title}</h3></div></a></li>`;
+  });
+  html+='</ul>'; $(sel).html(html);
+}
+
+function bindRangeChips(){ $('#rangeChips').off('click').on('click','.chip',function(){ buildTopLoved(String($(this).data('range'))); }); }
+
+async function fetchAllMags(){ if(ALL_MAGS) return ALL_MAGS; const rows=await $.getJSON(API_MAGS); ALL_MAGS=Array.isArray(rows)?rows:[]; return ALL_MAGS; }
+function magsInTop(topId){
+  const top=TREE.find(t=>t.id===topId); if(!top) return [];
+  const idSet=new Set([top.id,...(top.children||[]).map(c=>c.id)]);
+  const nameSet=new Set([top.name,...(top.children||[]).map(c=>c.name)]);
+  return (ALL_MAGS||[]).filter(r=>{ const raw=r?.category; const n=Number(raw); if (Number.isFinite(n)) return idSet.has(n); return nameSet.has(String(raw||'').trim()); });
+}
+
+async function renderTopAllView(){
+  await fetchAllMags();
+  const pool=magsInTop(STATE.topId).sort((a,b)=>Number(b.id)-Number(a.id));
+  const heroList=pool.slice(0,10);
+  const heroSlidesHTML=heroList.map(item=>{
+    const id=Number(item.id); const title=H(item.title||''); const img=getFirstImageSrc(item.content||'')||'';
+    const prodNames=[1,2,3,4].map(i=>(item[`product${i}_name`]||'').trim()).filter(Boolean).slice(0,2);
+    return `<div class="swiper-slide" style="width:auto"><a class="mag-card" href="/magazine/detail.html?id=${id}">${img?`<div class="mag-thumb"><img src="${A(img)}" alt="${title}" loading="lazy"></div>`:''}<div class="mag-info"><div class="mag-meta">${H(STATE.topName||'')}</div><h3 class="mag-title">${title}</h3><div class="mag-prods" data-names='${A(JSON.stringify(prodNames))}'></div></div></a></div>`;
+  }).join('');
+  $('#topAllHeroSlides').html(heroSlidesHTML);
+  if(_topAllHero){ try{ _topAllHero.destroy(true,true);}catch{} }
+  _topAllHero=new Swiper('#topAllHero',{slidesPerView:1.1,spaceBetween:12,freeMode:true,mousewheel:{forceToAxis:true},keyboard:{enabled:true},breakpoints:{768:{slidesPerView:1.2,spaceBetween:14}}});
+  hydrateMagProducts();
+  await buildChildBuckets(STATE.topId);
+  $('#topAllArea').removeAttr('hidden');
+  $('#magazineListArea').attr('hidden','hidden');
+}
+
+const BUCKET_TITLES = { 9:'⏳ 실시간 산지소식과 수확현황', 10:'👩‍🌾 지중해 농장 소식', 11:'🏷️ New 브랜드 스토리' };
+const bucketTitleFor = (child)=> (BUCKET_TITLES[child.id] || child.name || '');
+async function buildChildBuckets(topId){
+  const $area=$('#childBuckets'); const top=TREE.find(t=>t.id===Number(topId));
+  if(!top||!top.children||!top.children.length){ $area.attr('hidden','hidden').empty(); return; }
+  const renderedFor=Number($area.attr('data-rendered-for')||''); if(renderedFor===Number(topId)) return;
+  $area.removeAttr('hidden').attr('data-rendered-for',Number(topId)).empty();
+  for (const child of top.children){
+    const title=bucketTitleFor(child);
+    let list=[]; try{ list=await $.getJSON(API_MAGS,{child_id:child.id}); list=Array.isArray(list)?list.slice(0,3):[]; }catch{ list=[]; }
+    const html = `
+      <section class="bucket-sec" id="bucket-${child.id}">
+        <div class="bucket-head"><h3 class="bucket-title">${H(title)}</h3></div>
+        <div class="bucket-swiper swiper" data-child="${child.id}">
+          <div class="swiper-wrapper">
+            ${list.map(item=>{
+              const id=Number(item?.id); const title=H(item?.title||''); const img=getFirstImageSrc(item?.content||'');
+              return `<div class="swiper-slide" style="width:auto"><a class="mag-card" href="/magazine/detail.html?id=${id}">${img?`<div class="mag-thumb"><img src="${A(img)}" alt="${title}" loading="lazy"></div>`:''}<div class="mag-info"><div class="mag-meta">${H(child.name)}</div><h3 class="mag-title">${title}</h3></div></a></div>`;
+            }).join('')}
+          </div>
+        </div>
+        <button type="button" class="btn-more" data-child="${child.id}" data-child-name="${A(child.name)}">더보기 <span aria-hidden="true">›</span></button>
+      </section>`;
+    $area.append(html);
+  }
+  $area.find('.bucket-swiper').each(function(){
+    new Swiper(this,{slidesPerView:1.4,spaceBetween:12,freeMode:true,watchOverflow:true,mousewheel:{forceToAxis:true},keyboard:{enabled:true}});
+  });
+  hydrateMagProducts();
+}
+
+(function bindChildBucketMore(){
+  const $area=$('#childBuckets');
+  $area.off('click.bucketMore','.btn-more');
+  $area.on('click.bucketMore','.btn-more',function(e){
+    e.preventDefault(); e.stopPropagation();
+    const sid=Number($(this).data('child')); const sname=String($(this).data('childName')||'');
+    const $chip=$(`#subChips .chip[data-id="${sid}"]`);
+    if($chip.length){ $chip.trigger('click'); $('html,body').animate({scrollTop:$('#heroTop').offset()?.top||0},200); return; }
+    STATE.subId=sid; STATE.subName=sname|| (NAME_BY_ID[sid]||null);
+    $('#topAllArea').attr('hidden','hidden'); $('#magazineListArea').removeAttr('hidden'); $('#heroTop .top-head').attr('hidden','hidden');
+    requestSubList('latest'); $('html,body').animate({scrollTop:$('#magazineListArea').offset()?.top||0},200);
+  });
+})();
+
+function getCurrentSort(){
+  return $('#magazineListArea').data('sort') || sessionStorage.getItem('mag_sort') || 'latest';
+}
+
+function setCurrentSort(sort){
+  $('#magazineListArea').data('sort', sort);
+  sessionStorage.setItem('mag_sort', sort);
+}
+
+function updateSortLabel(){
+  const label = (getCurrentSort()==='best') ? '인기순' : '최신순';
+  $('.sort-dropdown .sort-toggle').text(label + ' ▾');
+}
+
+function reloadList(){
+  if (!STATE.topId){ $('#magazineListArea').attr('hidden','hidden').empty(); return; }
+  if (STATE.topId && !STATE.subName){ renderTopAllView(); return; }
+
+  $('#magazineListArea').removeAttr('hidden'); $('#topAllArea').attr('hidden','hidden'); $('#heroTop .top-head').attr('hidden','hidden');
+  $("#magazineListArea").html('<p style="padding:16px;">불러오는 중…</p>');
+
+  const currentSort = getCurrentSort();
+  const params = {};
+
+  if (currentSort === 'best' || STATE.subName === 'BEST'){
+    params.sort = 'best';
+    if (STATE.topId) params.parent_id = STATE.topId;
+  } else {
+    if (STATE.topId) params.parent_id = STATE.topId;
+    if (STATE.subId && STATE.subName) params.child_id = STATE.subId;
+  }
+
+  $.getJSON(API_MAGS, params).then(data=>{
+    let list = Array.isArray(data)?data:[];
+    if (currentSort === 'latest'){
+      list.sort((a,b)=> Number(b.id)-Number(a.id));
+    }
+    renderSubListView(list);
+  }).catch(()=>{
+    $("#magazineListArea").html('<p style="padding:16px;">매거진 데이터를 불러오지 못했습니다.</p>');
+  });
+}
+
+function requestSubList(sort='latest'){
+  setCurrentSort(sort);
+  updateSortLabel();
+
+  $('#magazineListArea').removeAttr('hidden'); $('#topAllArea').attr('hidden','hidden'); $('#heroTop .top-head').attr('hidden','hidden');
+  $("#magazineListArea").html('<p style="padding:16px;">불러오는 중…</p>');
+
+  const params = {};
+  if (sort === 'best'){
+    params.sort = 'best';
+    if (STATE.topId) params.parent_id = STATE.topId;
+  } else {
+    if (STATE.topId) params.parent_id = STATE.topId;
+    if (STATE.subId && STATE.subName) params.child_id = STATE.subId;
+  }
+
+  $.getJSON(API_MAGS, params).then((data)=>{
+    let list=Array.isArray(data)?data:[];
+    if (sort === 'latest'){
+      list.sort((a,b)=> Number(b.id)-Number(a.id));
+    }
+    renderSubListView(list);
+  }).catch(()=>{
+    $("#magazineListArea").html('<p style="padding:16px;">매거진 데이터를 불러오지 못했습니다.</p>');
+  });
+}
+
+function renderSubListView(list){
+  const $area=$("#magazineListArea");
+  $area.removeAttr('hidden'); $("#topAllArea").attr('hidden','hidden'); $("#heroTop .top-head").attr('hidden','hidden');
+
+  if(!Array.isArray(list)||!list.length){
+    $area.html('<div class="subview-head"><span>게시물 0개</span></div><ul class="subview-list"></ul>');
+    return;
+  }
+
+  const itemsHTML=list.map(item=>{
+    const id   = Number(item?.id);
+    const title= H(item?.title||'');
+    const img  = getFirstImageSrc(item?.content||'');
+    const likeCnt  = Number(item?.like_count ?? 0);
+    const scrapCnt = Number(item?.scrap_count ?? 0);
+    const dateTxt  = fmtDate(item?.created_at);
+
+    let prodNames = [];
+    if (Array.isArray(item?.products) && item.products.length){
+      prodNames = item.products.map(p=> (p?.name||'').trim()).filter(Boolean);
+    } else {
+      for(let i=1;i<=4;i++){
+        const n = (item?.[`product${i}_name`]||'').trim();
+        if(n) prodNames.push(n);
+      }
+    }
+    prodNames = prodNames.slice(0,2);
+
+    return `
+      <li class="subview-item" data-id="${id}">
+        <a href="/magazine/detail.html?id=${id}" class="subview-link">
+          ${img?`<div class="thumb"><img src="${A(img)}" alt="${title}"></div>`:''}
+          <div class="info">
+            <h3 class="title">${title}</h3>
+          </div>
+        </a>
+
+        <div class="sub-meta">
+          ${dateTxt ? `<span class="date">${dateTxt}</span>` : ''}
+          <div class="mag-actions">
+            <button type="button" class="btn-like"  data-id="${id}" aria-pressed="false" title="좋아요">
+              <span class="ico-heart" aria-hidden="true"></span>
+              <span class="like-count">${likeCnt}</span>
+            </button>
+            <button type="button" class="btn-scrap" data-id="${id}" aria-pressed="false" title="스크랩">
+              <span class="ico-scrap" aria-hidden="true"></span>
+              <span class="scrap-count">${scrapCnt}</span>
+            </button>
+            <button type="button" class="btn-export" data-id="${id}" aria-pressed="false" title="공유하기">
+              <img src="https://olivetest.cafe24.com/web/upload/export-gray.png" alt="공유하기" />
+            </button>
+          </div>
+        </div>
+
+        ${prodNames.length ? `
+          <div class="mag-prods" data-names='${A(JSON.stringify(prodNames))}'></div>
+        `:''}
+      </li>`;
+  }).join('');
+
+  const sortLabel = ($('#magazineListArea').data('sort')==='best') ? '인기순' : '최신순';
+
+  const html=`
+    <div class="subview-head">
+      <span>게시물 ${list.length}개</span>
+      <div class="sort-dropdown">
+        <button type="button" class="sort-toggle">${sortLabel}
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <mask id="mask0_2321_7975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
+              <rect y="14" width="14" height="14" transform="rotate(-90 0 14)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_2321_7975)">
+              <path d="M10.1008 5.84327L7.00464 8.93945L3.90845 5.84327L4.3213 5.43041L7.00464 8.11374L9.68797 5.43041L10.1008 5.84327Z" fill="#888888"/>
+            </g>
+          </svg>
+          </button>
+        <ul class="sort-menu" hidden>
+          <li><button type="button" data-sort="latest">최신순</button></li>
+          <li><button type="button" data-sort="best">인기순</button></li>
+        </ul>
+      </div>
+    </div>
+    <ul class="subview-list">${itemsHTML}</ul>`;
+  $area.html(html);
+
+  initReactionsIn($area);
+  hydrateMagProducts();
+}
+
+updateSortLabel();
+
+function initReactionsIn($scope){
+  const $items=$scope.find('.subview-item'); if(!$items.length) return;
+  const jobs=[];
+  $items.each(function(){
+    const $li=$(this); const id=Number($li.data('id'));
+    const $likeBtn=$li.find('.btn-like'); const $scrapBtn=$li.find('.btn-scrap');
+    jobs.push(fetchLikeStatus(id).then(res=>{ if(!res) return; setOn($likeBtn,!!res.liked); $likeBtn.attr('aria-pressed',!!res.liked); $likeBtn.find('.like-count').text(Number(res.like_count||0)); }).catch(()=>{}));
+    jobs.push(fetchScrapStatus(id).then(res=>{ if(!res) return; setOn($scrapBtn,!!res.scrapped); $scrapBtn.attr('aria-pressed',!!res.scrapped); $scrapBtn.find('.scrap-count').text(Number(res.scrap_count||0)); }).catch(()=>{}));
+  });
+  Promise.allSettled(jobs);
+}
+
+$(document).off('click.mag-like').on('click.mag-like','.mag-actions .btn-like',function(e){
+  e.preventDefault(); e.stopPropagation();
+  const $btn=$(this); const id=Number($btn.data('id'));
+  toggleLike(id).then(res=>{ const on=!!res.liked; setOn($btn,on); $btn.attr('aria-pressed',on); $btn.find('.like-count').text(Number(res.like_count||0)); }).catch(()=>{});
+});
+
+$(document).off('click.mag-scrap').on('click.mag-scrap','.mag-actions .btn-scrap',function(e){
+  e.preventDefault(); e.stopPropagation();
+  const $btn=$(this); const id=Number($btn.data('id'));
+  toggleScrap(id).then(res=>{ const on=!!res.scrapped; setOn($btn,on); $btn.attr('aria-pressed',on); $btn.find('.scrap-count').text(Number(res.scrap_count||0)); }).catch(()=>{});
+});
+
+$(document).off('click.sort.toggle').on('click.sort.toggle', '.sort-dropdown .sort-toggle', function(e){
+  e.stopPropagation();
+  const $menu = $(this).siblings('.sort-menu');
+  $('.sort-menu').prop('hidden', true);
+  $menu.prop('hidden', !$menu.prop('hidden'));
+});
+
+$(document).off('click.sort.option').on('click.sort.option', '.sort-dropdown .sort-menu button', function(e){
+  e.preventDefault();
+  const sort = String($(this).data('sort') || 'latest');
+  requestSubList(sort);
+  $(this).closest('.sort-menu').prop('hidden', true);
+});
+
+$(document).off('click.sort.close').on('click.sort.close', function(e){
+  if (!$(e.target).closest('.sort-dropdown').length){
+    $('.sort-menu').prop('hidden', true);
+  }
+});
+
+const KAKAO_APP_KEY = 'YOUR_KAKAO_JS_KEY';
+if (window.Kakao && !Kakao.isInitialized() && KAKAO_APP_KEY) {
+  Kakao.init(KAKAO_APP_KEY);
+}
+
+const $sheet     = $('#shareSheet');
+const $thumb     = $('#shareThumb');
+const $titleTxt  = $('#shareTitleText');
+const $catTxt    = $('#shareCat');
+let   _shareUrl  = '';
+let   _shareImg  = '';
+let   _shareTitle= '';
+
+function absUrl(path){
+  try { return new URL(path, location.origin).toString(); } catch(e){ return path; }
+}
+
+function openShareSheet({title, cat, img, url}){
+  _shareUrl   = url;
+  _shareImg   = img || '';
+  _shareTitle = title;
+
+  $titleTxt.text(title || '');
+  $catTxt.text(cat || '');
+  if (img) { $thumb.attr('src', img).show(); } else { $thumb.removeAttr('src').hide(); }
+
+  $('body').addClass('body-noscr');
+  $sheet.removeAttr('hidden');
+  requestAnimationFrame(()=> $sheet.addClass('open'));
+}
+
+function closeShareSheet(){
+  $sheet.removeClass('open');
+  setTimeout(()=>{ $sheet.attr('hidden', true); $('body').removeClass('body-noscr'); }, 200);
+}
+
+$(document).off('click.share.open').on('click.share.open', '.btn-export', function(e){
+  e.preventDefault(); e.stopPropagation();
+
+  const $li   = $(this).closest('.subview-item');
+  const id    = Number($li.data('id'));
+  const title = $li.find('.title').text().trim();
+  const img   = $li.find('.thumb img').attr('src') || '';
+  const cat   = ($('#subChips .chip.active').text().trim()) || (window.STATE?.topName || '');
+
+  const url   = absUrl(`/magazine/detail.html?id=${id}`);
+  openShareSheet({ title, cat, img, url });
+});
+
+$(document).off('click.share.dim').on('click.share.dim', '#shareSheet [data-close]', closeShareSheet);
+$(document).on('keydown', e => { if (e.key === 'Escape' && !$sheet.prop('hidden')) closeShareSheet(); });
+
+$('#btnCopyLink').off('click').on('click', async () => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(_shareUrl);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = _shareUrl; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    alert('링크가 복사됐습니다.');
+    closeShareSheet();
+  } catch {
+    alert('복사에 실패했어요. 다시 시도해주세요.');
+  }
+});
+
+$('#btnShareKakao').off('click').on('click', () => {
+  if (window.Kakao && Kakao.isInitialized()) {
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: _shareTitle || 'Olive Oliva',
+        description: $catTxt.text() || '',
+        imageUrl: _shareImg || 'https://olivetest.cafe24.com/web/upload/og-default.png',
+        link: { webUrl: _shareUrl, mobileWebUrl: _shareUrl }
+      },
+      buttons: [
+        { title: '자세히 보기', link: { webUrl: _shareUrl, mobileWebUrl: _shareUrl } }
+      ]
+    });
+    closeShareSheet();
+    return;
+  }
+
+  if (navigator.share) {
+    navigator.share({ title: _shareTitle, url: _shareUrl })
+      .catch(()=>{ });
+    closeShareSheet();
+  } else {
+    const kakaoSharer = `https://sharer.kakao.com/talk/friends/picker/link?app_key=${encodeURIComponent(KAKAO_APP_KEY||'')}&short_key=`;
+    window.open(kakaoSharer, '_blank');
+  }
+});
+
+const $sortSheet = $('#sortSheet');
+let _lastFocusEl = null;
+
+function openSortSheet() {
+  const current = getCurrentSort();
+  $sortSheet.find('.sort-option').each(function () {
+    const on = String($(this).data('sort')) === current;
+    $(this).attr('aria-selected', on ? 'true' : 'false')
+           .toggleClass('on', on);
+  });
+
+  _lastFocusEl = document.activeElement;
+  $('body').addClass('body-noscr');
+  $sortSheet.removeAttr('hidden');
+  requestAnimationFrame(()=> $sortSheet.addClass('open'));
+}
+
+function closeSortSheet() {
+  $sortSheet.removeClass('open');
+  setTimeout(() => {
+    $sortSheet.attr('hidden', true);
+    $('body').removeClass('body-noscr');
+    if (_lastFocusEl && typeof _lastFocusEl.focus === 'function') {
+      _lastFocusEl.focus();
+    }
+  }, 200);
+}
+
+$(document).off('click.sort.toggle');
+$(document).on('click.sort.toggle', '.sort-dropdown .sort-toggle', function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  $(this).siblings('.sort-menu').prop('hidden', true);
+  openSortSheet();
+});
+
+$(document).off('click.sort.sheet.option');
+$(document).on('click.sort.sheet.option', '#sortSheet .sort-option', function (e) {
+  e.preventDefault();
+  const sort = String($(this).data('sort') || 'latest');
+  requestSubList(sort);
+  updateSortLabel();
+  closeSortSheet();
+});
+
+$(document).off('click.sort.sheet.dim').on('click.sort.sheet.dim', '#sortSheet [data-close]', closeSortSheet);
+$(document).on('keydown.sort.sheet', (e) => {
+  if (e.key === 'Escape' && !$sortSheet.prop('hidden')) closeSortSheet();
+});
+
+$(document).on('keydown.sort.trap', function (e) {
+  if ($sortSheet.prop('hidden')) return;
+  if (e.key !== 'Tab') return;
+
+  const focusables = $sortSheet.find('button, [href], [tabindex]:not([tabindex="-1"])')
+                               .filter(':visible');
+  if (!focusables.length) return;
+
+  const first = focusables[0], last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault(); last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus();
+  }
+});
+
+(function () {
+  const QS = new URLSearchParams(location.search);
+  const targetId   = QS.get('tab_id');
+  const targetName = (QS.get('tab_name') || '').trim();
+  if (!targetId && !targetName) return;
+
+  function activateTab() {
+    let btn = null;
+
+    if (targetId) {
+      btn = document.querySelector(`.top-tab[data-id="${CSS.escape(String(targetId))}"]`);
+    }
+
+    if (!btn && targetName) {
+      const norm = s => String(s).toLowerCase().replace(/\s+/g, ' ').trim();
+      const want = norm(targetName);
+      btn = Array.from(document.querySelectorAll('.top-tab')).find(el => norm(el.dataset.name || el.textContent) === want);
+    }
+
+    if (!btn) return false;
+
+    btn.click?.();
+    if (!btn.classList.contains('active')) {
+      document.querySelectorAll('.top-tab.active').forEach(el => el.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    btn.setAttribute('aria-selected', 'true');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return true;
+  }
+
+  if (activateTab()) return;
+
+  let tries = 0;
+  const maxTries = 15;
+  const timer = setInterval(() => {
+    tries++;
+    if (activateTab() || tries >= maxTries) clearInterval(timer);
+  }, 100);
+
+  const mo = new MutationObserver(() => {
+    if (activateTab()) mo.disconnect();
+  });
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+
+<style>
+  .subview-list .subview-item .mag-prods {
+    display: none;
+  }
+
+  .sort-dropdown .sort-menu { display: none !important; }
+</style>

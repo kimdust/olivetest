@@ -1,0 +1,379 @@
+<div class="snb">
+    <div class="snb_close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_3021_68542" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <rect width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3021_68542)">
+                <path d="M12.3443 13.398L7.27125 18.4713C7.13275 18.6096 6.95867 18.6804 6.749 18.6838C6.5395 18.6869 6.36225 18.6161 6.21725 18.4713C6.07242 18.3263 6 18.1506 6 17.9443C6 17.7379 6.07242 17.5623 6.21725 17.4173L11.2905 12.3443L6.21725 7.27125C6.07892 7.13275 6.00808 6.95867 6.00475 6.749C6.00158 6.5395 6.07242 6.36225 6.21725 6.21725C6.36225 6.07242 6.53792 6 6.74425 6C6.95058 6 7.12625 6.07242 7.27125 6.21725L12.3443 11.2905L17.4173 6.21725C17.5558 6.07892 17.7298 6.00808 17.9395 6.00475C18.149 6.00158 18.3263 6.07242 18.4713 6.21725C18.6161 6.36225 18.6885 6.53792 18.6885 6.74425C18.6885 6.95058 18.6161 7.12625 18.4713 7.27125L13.398 12.3443L18.4713 17.4173C18.6096 17.5558 18.6804 17.7298 18.6838 17.9395C18.6869 18.149 18.6161 18.3263 18.4713 18.4713C18.3263 18.6161 18.1506 18.6885 17.9443 18.6885C17.7379 18.6885 17.5623 18.6161 17.4173 18.4713L12.3443 13.398Z" fill="#393939"/>
+            </g>
+        </svg>
+    </div>
+    <div class="snb_list">
+        <div class="snb_brand">
+            <h3 class="brand_title">브랜드</h3>
+            <div class="snb_list_item snb_brand_list"></div>
+        </div>
+        <div class="snb_list_item snb_kind">
+            <h3 class="kind_title" style="margin-top: 44px;">품종</h3>
+            <div class="snb_list_item snb_kind_list"></div>
+        </div>
+    </div>
+</div>
+
+<div class="snb_dimmed"></div>
+
+<script>
+(function(){
+  const sections = [...document.querySelectorAll('.snb_brand, .snb_kind')];
+  if (!sections.length) return;
+  sections.forEach(s => s.classList.add('snb_section'));
+
+  const getPanel = (sec) => sec.querySelector(':scope > .snb_list_item');
+  const setHeight = (el, h) => { el.style.height = (h == null ? '' : h + 'px'); };
+  const expand  = (panel) => { const h = panel.scrollHeight; setHeight(panel, h);
+    const done = () => { panel.removeEventListener('transitionend', done); setHeight(panel, null); };
+    panel.addEventListener('transitionend', done);
+  };
+  const collapse = (panel) => { const h = panel.getBoundingClientRect().height; setHeight(panel, h); requestAnimationFrame(() => setHeight(panel, 0)); };
+
+  sections.forEach(sec => { const p = getPanel(sec); sec.setAttribute('aria-expanded', 'false'); if (p) setHeight(p, 0); });
+
+  document.addEventListener('click', (e) => {
+    const header = e.target.closest('.snb_section > h3');
+    if (!header) return;
+    const current = header.parentElement;
+
+    sections.forEach(sec => {
+      const p = getPanel(sec);
+      const isTarget = (sec === current);
+      const expanded = sec.getAttribute('aria-expanded') === 'true';
+      if (isTarget && !expanded){ sec.setAttribute('aria-expanded','true'); if (p) expand(p); }
+      else if (!isTarget && expanded){ sec.setAttribute('aria-expanded','false'); if (p) collapse(p); }
+    });
+  });
+
+  window.__snbOpenOnlySection = function(secToOpen){
+    sections.forEach(sec => {
+      const p = getPanel(sec);
+      const shouldOpen = (sec === secToOpen);
+      const isOpen = sec.getAttribute('aria-expanded') === 'true';
+      if (shouldOpen && !isOpen){ sec.setAttribute('aria-expanded','true'); if (p) expand(p); }
+      else if (!shouldOpen && isOpen){ sec.setAttribute('aria-expanded','false'); if (p) collapse(p); }
+    });
+  };
+})();
+
+(function(){
+  const snb = document.querySelector('.snb');
+  const dimmed = document.querySelector('.snb_dimmed');
+  if (!snb || !dimmed) return;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => document.documentElement.classList.add('js-ready'));
+  } else {
+    document.documentElement.classList.add('js-ready');
+  }
+
+  function openSnb(){ snb.classList.add('is-open'); dimmed.classList.add('is-visible'); document.documentElement.style.overflow='hidden'; }
+  function closeSnb(){ snb.classList.remove('is-open'); dimmed.classList.remove('is-visible'); document.documentElement.style.overflow=''; }
+
+  document.addEventListener('click', (e) => {
+    const openTarget  = e.target.closest('.header_menu');
+    const closeTarget = e.target.closest('.snb .snb_close');
+    const dimmedHit   = e.target.closest('.snb_dimmed');
+    if (openTarget){ e.preventDefault(); openSnb(); return; }
+    if (closeTarget || dimmedHit){ e.preventDefault(); closeSnb(); return; }
+  });
+})();
+
+(function(){
+  const API_BASE = 'https://oliva.boundary.team/api';
+  const DETAIL_URL = {
+    brand: '/contents/brand_detail.html?brand_id={id}',
+    kind:  '/contents/kind_detail.html?kind_id={id}',
+  };
+
+  async function f(url){ const r = await fetch(url, {mode:'cors', cache:'no-store'}); return r.json(); }
+  const buildUrl = (t,id) => DETAIL_URL[t].replace('{id}', encodeURIComponent(id));
+
+  const el = (tag, attrs={}, children=[]) => {
+    const n = document.createElement(tag);
+    Object.entries(attrs).forEach(([k,v])=>{
+      if (k==='class') n.className=v;
+      else if (k==='html') n.innerHTML=v;
+      else n.setAttribute(k,v);
+    });
+    children.forEach(c=>n.appendChild(c));
+    return n;
+  };
+
+  const getItemId = (item, type) => {
+    return String(
+      item?.id ??
+      (type==='brand' ? item?.brand_id : type==='kind' ? item?.kind_id : null)
+    );
+  };
+
+  const getActiveId = (type) => {
+    const qs = new URLSearchParams(location.search);
+    const raw = qs.get(type==='brand' ? 'brand_id' : type==='kind' ? 'kind_id' : '');
+    if (!raw) return null;
+    try { return String(decodeURIComponent(raw)).split(':')[0]; } catch { return String(raw).split(':')[0]; }
+  };
+
+  const sameTargetByUrl = (href) => {
+    try{
+      const A = new URL(href, location.origin);
+      const C = new URL(location.href);
+      const norm = (u)=> u.pathname + (u.search ? '?' + [...u.searchParams.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([k,v])=>`${k}=${v}`).join('&') : '');
+      return norm(A) === norm(C);
+    }catch{ return false; }
+  };
+
+  const getBrandLogo = (item) =>
+    item.logo_path || item.logo || item.image_logo || item.brand_logo || item.image_path || null;
+
+  function renderList({ type, containerSel, rows }){
+    const wrap = document.querySelector(containerSel);
+    if (!wrap) return;
+
+    wrap.querySelectorAll('a.snb-item').forEach(a => a.remove());
+
+    const activeId = getActiveId(type);
+    let activeEl = null;
+
+    (rows || []).forEach(item => {
+      const name = item.name ?? '';
+      const id   = getItemId(item, type);
+      const href = buildUrl(type, id);
+
+      const isActive = (activeId != null && String(id) === String(activeId)) || sameTargetByUrl(href);
+
+      const a = el('a', { href, class: `snb-item${isActive ? ' is-active' : ''}`, ...(isActive?{'aria-current':'page'}:{}) });
+
+      if (type === 'brand') {
+        const thumb = el('span', { class: 'snb-item__thumb' });
+        const logo  = getBrandLogo(item);
+        if (logo) thumb.appendChild(el('img', { src: logo, alt: `${name} 로고`, loading: 'lazy', decoding: 'async' }));
+        else thumb.classList.add('snb-item__thumb--placeholder');
+        a.appendChild(thumb);
+      }
+
+      a.appendChild(el('span', { class: 'snb-item__name', html: name }));
+      wrap.appendChild(a);
+
+      if (isActive) activeEl = a;
+    });
+
+    if (activeEl) { try { activeEl.scrollIntoView({ block: 'center' }); } catch {} }
+    return activeEl;
+  }
+
+  async function boot(){
+    const [brands, kinds] = await Promise.all([
+      f(`${API_BASE}/brands`),
+      f(`${API_BASE}/kinds`)
+    ]);
+
+    const activeBrandEl = renderList({ type:'brand', containerSel:'.snb_brand_list', rows:brands });
+    const activeKindEl  = renderList({ type:'kind',  containerSel:'.snb_kind_list',  rows:kinds  });
+
+    const openSec =
+      (activeKindEl && activeKindEl.closest('.snb_kind')) ||
+      (activeBrandEl && activeBrandEl.closest('.snb_brand')) ||
+      document.querySelector('.snb_brand');
+
+    if (window.__snbOpenOnlySection && openSec) window.__snbOpenOnlySection(openSec);
+  }
+
+  (document.readyState==='loading') ? document.addEventListener('DOMContentLoaded', boot) : boot();
+})();
+</script>
+
+<style>
+.snb {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  height: 100vh;
+  width: 90%;
+  max-width: 420px;
+  background-color: #F8F8F8;
+  transform: translateX(100%);
+  transition: none;
+}
+
+.snb.is-open {
+  transform: translateX(0);
+}
+
+.js-ready .snb {
+  transition: transform 0.35s ease;
+}
+
+.snb_dimmed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.40);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: none;
+}
+
+.snb_dimmed.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.js-ready .snb_dimmed {
+  transition: opacity 0.25s ease;
+}
+
+.snb_close {
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+}
+
+.snb_list {
+  padding: 27px 16px 0 16px;
+}
+
+.snb_list h3 {
+    color: #1E1E1E;
+    font-family: Pretendard, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: -0.4px;
+    margin-bottom: 16px;
+}
+
+.snb_brand_list,
+.snb_kind_list {
+    display: flex;
+    width: 100%;
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+}
+
+.snb-item {
+    display: flex;
+    padding: 10px 8px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+}
+
+.snb-item span {
+    overflow: hidden;
+    color: var(--G-700, #454545);
+    text-overflow: ellipsis;
+
+    /* M 14 */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.snb_brand,
+.snb_kind {
+    position: relative;
+}
+
+.snb_brand h3,
+.snb_kind h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.snb_brand h3::after,
+.snb_kind h3::after {
+  content: "";
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><mask id="mask0_3109_70936" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="%23D9D9D9"/></mask><g mask="url(%23mask0_3109_70936)"><path d="M17.0081 9.70006L11.7003 15.0078L6.39258 9.70006L7.10033 8.99231L11.7003 13.5923L16.3003 8.99231L17.0081 9.70006Z" fill="%23888888"/></g></svg>') center/24px 24px no-repeat;
+  transition: transform .2s ease;
+}
+
+.snb_section[aria-expanded="false"] > h3::after {
+    transform: rotate(-1800deg);
+}
+
+.snb_section .snb_list_item{
+  overflow: hidden;
+  transition: height .28s ease, padding .25s ease, opacity .25s ease, transform .25s ease;
+  will-change: height;
+}
+
+.snb_section[aria-expanded="false"] > .snb_list_item {
+  opacity: .0;
+  transform: translateY(-4px);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.snb_section[aria-expanded="false"] > .brand_title {
+  margin-bottom: 0;
+}
+
+.snb_section[aria-expanded="true"]  > .snb_list_item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.snb-item__thumb {
+    width: 24px;
+    height: 24px;
+    aspect-ratio: 1/1;
+}
+
+.snb-item__thumb img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50px;
+    border: 1px solid var(--Gray-50, #F8F8F8);
+    background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+}
+
+.snb_kind_list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.snb_kind_list .snb-item::before {
+    content: "•";
+    display: inline-block;
+    transform: translateY(-0.5px);
+}
+
+.snb-item.is-active{
+  background: #F8F8F8; 
+  border-radius: 8px;
+}
+
+.snb-item.is-active .snb-item__name {
+  color: #1B8862;
+}
+</style>

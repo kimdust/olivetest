@@ -1,0 +1,548 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div class="find_tab">
+    <a href="/member/id/find_id.html">아이디 찾기</a>
+    <a href="/member/passwd/find_passwd_info.html" class="tab_active">비밀번호 찾기</a>
+</div>
+
+<div module="member_findpasswd" class="memberArea">
+    <!--@css(/css/module/member/find_passwd.css)-->
+    <!--
+        $nextURL = /member/passwd/find_passwd_question.html
+     -->
+    <div class="ec-base-box typeMember">
+        <fieldset class="content">
+            <ul class="ec-base-desc gVer">
+                <li>
+                    <strong class="term">회원유형</strong>
+                    <div class="desc">
+                        {$form.searchType}
+                        <span class="check gBlank10">{$form.check_method}</span>
+                    </div>
+                </li>
+                <li class="gBlank20 {$display_id|display}">
+                    <strong class="term">아이디</strong>
+                    <div class="desc">{$form.member_id}</div>
+                </li>
+                <li id="name_view" class="name">
+                    <strong class="term" id="name_lable">이름</strong>
+                    <div class="desc">{$form.name}</div>
+                </li>
+                <li id="ssn_view" class="ssn_no">
+                    <strong class="term" id="ssn_name">법인번호로 찾기</strong>
+                    <div class="desc">{$form.ssn}
+                    </div>
+                </li>
+                <li id="email_view" class="email" style="display:none;">
+                    <strong class="term">이메일로 찾기</strong>
+                    <div class="desc">{$form.email}</div>
+                </li>
+                <li id="mobile_view" class="mobile" style="display:none;">
+                    <strong class="term">휴대폰 번호로 찾기</strong>
+                    <div class="desc">
+                        <span class="ec-base-field code">{$form.mobile1} - {$form.mobile2} - {$form.mobile3}</span>
+                    </div>
+                </li>
+                <li id="ipin_view" class="ipin" style="display:none;">
+                    <strong class="term">아이핀인증으로 찾기</strong>
+                    <div class="desc">
+                        <p class="info">회원가입을 아이핀으로 가입하신 회원님께서는 아이핀으로 인증하세요.</p>
+                        <a href="#none" class="btnNormal sizeS gBlank10" onclick="{$action_func_find_passwd_question}">아이핀인증</a>
+                    </div>
+                </li>
+                <li id="mobile_auth_view" class="mobileauth" style="display:none;">
+                    <strong class="term">휴대폰인증으로 찾기</strong>
+                    <div class="desc">
+                        <p class="info">본인 명의의 휴대폰으로 아이디 찾기를 진행할 수 있습니다. <br />휴대폰 명의자의 정보로 가입한 아이디 찾기가 가능합니다.</p>
+                        <a href="#none" class="btnNormal sizeS gBlank10" onclick="{$action_func_find_passwd_question}">휴대폰 인증</a>
+                    </div>
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+    <div class="ec-base-button gBottom">
+        <a href="#none" class="btnSubmitFix sizeM gFull" onclick="{$action_func_find_passwd_question}">조회하기</a>
+    </div>
+</div>
+
+<script>
+(function(){
+  const native = document.getElementById('searchType');
+  if (!native) return;
+
+  function removeForeign() {
+    const fore = native.querySelector('option[value="fore"]');
+    if (fore) fore.remove();
+    if (native.value === 'fore' || !native.value) {
+      native.value = native.querySelector('option[selected]')?.value
+                  || native.querySelector('option')?.value || 'indi';
+    }
+  }
+  removeForeign();
+
+  (function ensureHidden(){
+    if (!document.getElementById('visually-hidden-style')) {
+      const st = document.createElement('style');
+      st.id = 'visually-hidden-style';
+      st.textContent = `
+        .select-visually-hidden{
+          position:absolute !important;width:1px !important;height:1px !important;
+          padding:0 !important;margin:-1px !important;overflow:hidden !important;
+          clip:rect(0 0 0 0) !important;white-space:nowrap !important;border:0 !important;
+        }`;
+      document.head.appendChild(st);
+    }
+    native.classList.add('select-visually-hidden');
+  })();
+
+  const desc = native.closest('.desc') || native.parentElement;
+  const wrap = document.createElement('div');
+  wrap.className = 'cs-wrap';
+  desc.insertBefore(wrap, native);
+  wrap.appendChild(native);
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'cs-trigger';
+  trigger.setAttribute('aria-haspopup', 'listbox');
+  trigger.setAttribute('aria-expanded', 'false');
+  trigger.innerHTML = `
+    <span class="cs-label"></span>
+    <svg class="cs-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <mask id="mask0_1909_10257" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+            <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+        </mask>
+        <g mask="url(#mask0_1909_10257)">
+            <path d="M17.3079 9.99999L12.0001 15.3077L6.69238 9.99999L7.40013 9.29224L12.0001 13.8922L16.6001 9.29224L17.3079 9.99999Z" fill="#3D3D3D"/>
+        </g>
+    </svg>
+  `;
+  wrap.appendChild(trigger);
+
+  const list = document.createElement('div');
+  list.className = 'cs-list';
+  list.setAttribute('role', 'listbox');
+  wrap.appendChild(list);
+
+  function buildOptions() {
+    list.innerHTML = '';
+    [...native.options].forEach(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cs-opt';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-value', opt.value);
+      btn.setAttribute('tabindex', '-1');
+      btn.innerHTML = `<span>${opt.textContent.trim()}</span>`;
+      if (opt.value === native.value) btn.setAttribute('aria-selected', 'true');
+      list.appendChild(btn);
+    });
+    syncLabel();
+  }
+
+  function syncLabel() {
+    const current = [...native.options].find(o => o.value === native.value);
+    const label = trigger.querySelector('.cs-label');
+    label.textContent = current ? current.textContent.trim() : '선택';
+  }
+
+  function openList() {
+    if (wrap.classList.contains('open')) return;
+    wrap.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+    focusCurrent();
+  }
+
+  function closeList() {
+    if (!wrap.classList.contains('open')) return;
+    wrap.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.focus();
+  }
+
+  function toggleList() { (wrap.classList.contains('open') ? closeList : openList)(); }
+
+  function focusCurrent() {
+    const current = list.querySelector('.cs-opt[aria-selected="true"]') || list.querySelector('.cs-opt');
+    if (current) current.focus({ preventScroll: false });
+  }
+
+  function selectValue(v) {
+    if (native.value === v) { closeList(); return; }
+    native.value = v;
+    list.querySelectorAll('.cs-opt[aria-selected="true"]').forEach(el => el.removeAttribute('aria-selected'));
+    const hit = list.querySelector(`.cs-opt[data-value="${CSS.escape(v)}"]`);
+    if (hit) hit.setAttribute('aria-selected', 'true');
+    syncLabel();
+    native.dispatchEvent(new Event('change', { bubbles: true }));
+    closeList();
+  }
+
+  trigger.addEventListener('click', (e) => { e.preventDefault(); toggleList(); });
+
+  list.addEventListener('click', (e) => {
+    const btn = e.target.closest('.cs-opt');
+    if (!btn) return;
+    selectValue(btn.getAttribute('data-value'));
+  });
+
+  trigger.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault(); openList();
+    }
+  });
+
+  list.addEventListener('keydown', (e) => {
+    const items = [...list.querySelectorAll('.cs-opt')];
+    const i = items.indexOf(document.activeElement);
+    if (e.key === 'Escape') { e.preventDefault(); closeList(); }
+    else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = items[Math.min(items.length - 1, (i < 0 ? 0 : i + 1))];
+      next && next.focus({ preventScroll: false });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = items[Math.max(0, (i < 0 ? 0 : i - 1))];
+      prev && prev.focus({ preventScroll: false });
+    } else if (e.key === 'Home') {
+      e.preventDefault(); items[0]?.focus({ preventScroll: false });
+    } else if (e.key === 'End') {
+      e.preventDefault(); items[items.length - 1]?.focus({ preventScroll: false });
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const btn = document.activeElement?.classList?.contains('cs-opt') ? document.activeElement : null;
+      if (btn) selectValue(btn.getAttribute('data-value'));
+    }
+  });
+
+  document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) closeList(); });
+
+  const mo = new MutationObserver(() => { removeForeign(); buildOptions(); });
+  mo.observe(native, { childList: true, subtree: true, attributes: true });
+
+  buildOptions();
+})();
+
+(function(){
+  const container = document.querySelector('.memberArea');
+  const submitBtn = document.querySelector('.memberArea .btnSubmitFix');
+  if (!container || !submitBtn) return;
+
+  function isVisible(el){
+    if (!el || el.disabled) return false;
+    if (el.offsetParent === null) return false;
+    if (el.tagName === 'INPUT' && el.type === 'hidden') return false;
+    return true;
+  }
+
+  function isGroupChecked(name){
+    const group = container.querySelectorAll(`[name="${CSS.escape(name)}"]`);
+    return Array.from(group).some(i => i.checked && isVisible(i));
+  }
+
+  function getActiveInputs(){
+    const nodes = container.querySelectorAll(
+      'input[type="text"], input[type="tel"], input[type="email"], '+
+      'input[type="number"], input[type="password"], '+
+      'input[type="radio"], input[type="checkbox"], select, textarea'
+    );
+    return Array.from(nodes).filter(isVisible);
+  }
+
+  function allFilled(){
+    const inputs = getActiveInputs();
+    const seenGroup = new Set();
+
+    for (const el of inputs){
+      const tag = el.tagName;
+      const type = (el.type || '').toLowerCase();
+
+      if (type === 'radio' || type === 'checkbox'){
+        const key = `grp:${el.name}`;
+        if (seenGroup.has(key)) continue;
+        seenGroup.add(key);
+        if (!isGroupChecked(el.name)) return false;
+        continue;
+      }
+
+      if (tag === 'SELECT'){
+        const v = (el.value || '').trim();
+        if (!v) return false;
+        continue;
+      }
+
+      const v = (el.value || '').trim();
+      if (!v) return false;
+    }
+
+    return true;
+  }
+
+  function updateButton(){
+    const filled = allFilled();
+    submitBtn.classList.toggle('active', filled);
+    submitBtn.setAttribute('aria-disabled', filled ? 'false' : 'true');
+  }
+
+  submitBtn.addEventListener('click', function(e){
+    if (!submitBtn.classList.contains('active')){
+      e.preventDefault();
+    }
+  });
+
+
+  function bindInputs(){
+    const inputs = container.querySelectorAll('input, select, textarea');
+    inputs.forEach(el=>{
+      el.addEventListener('input', updateButton);
+      el.addEventListener('change', updateButton);
+    });
+  }
+
+  const mo = new MutationObserver(() => {
+    bindInputs();
+    updateButton();
+  });
+  mo.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ['style','class'] });
+
+  bindInputs();
+  updateButton();
+})();
+
+(function () {
+  const root = document.querySelector('.memberArea');
+  if (!root) return;
+
+  function clearErrors(scope = root) {
+    scope.querySelectorAll('.is-error').forEach(el => el.classList.remove('is-error'));
+    scope.querySelectorAll('.field-error').forEach(el => el.remove());
+  }
+
+  function showErrorFor(el, message) {
+    if (!el) return;
+    const fieldWrap = el.closest('.desc') || el.parentElement || el;
+    fieldWrap.classList.add('is-error');
+
+    const old = fieldWrap.querySelector('.field-error');
+    if (old) old.remove();
+    const msg = document.createElement('div');
+    msg.className = 'field-error';
+    msg.textContent = message;
+
+    fieldWrap.appendChild(msg);
+  }
+
+  function bindLiveClear() {
+    root.addEventListener('input', (e) => {
+      const target = e.target;
+      const wrap = target.closest('.desc');
+      if (!wrap) return;
+      wrap.classList.remove('is-error');
+      const m = wrap.querySelector('.field-error');
+      if (m) m.remove();
+    }, true);
+
+    root.addEventListener('change', (e) => {
+      const target = e.target;
+      const wrap = target.closest('.desc');
+      if (!wrap) return;
+      wrap.classList.remove('is-error');
+      const m = wrap.querySelector('.field-error');
+      if (m) m.remove();
+    }, true);
+  }
+  bindLiveClear();
+
+  function guessFieldByMessage(msg) {
+    msg = String(msg || '');
+
+    if (/회원유형|회원 유형|검색유형|검색 방식|찾기 방법|인증 방법/i.test(msg)) {
+      const sel = document.getElementById('searchType') || root.querySelector('select[name="searchType"]');
+      if (sel) return sel;
+
+      const cs = root.querySelector('.cs-wrap .cs-trigger');
+      if (cs) return cs;
+    }
+
+    if (/이름|성명/i.test(msg)) {
+      return root.querySelector('#name_view input, input[name="name"]');
+    }
+
+    if (/법인번호|주민번호|주민등록번호|사업자등록번호|번호를 입력/i.test(msg)) {
+      return root.querySelector('#ssn_view input, input[name="ssn1"], input[name="ssn2"]');
+    }
+
+    if (/이메일|e-?mail/i.test(msg)) {
+      return root.querySelector('#email_view input[type="email"], input[name="email"]');
+    }
+
+    if (/휴대폰|핸드폰|전화/i.test(msg)) {
+      return root.querySelector('#mobile_view input, input[name="mobile1"], input[name="mobile2"], input[name="mobile3"]');
+    }
+
+    if (/아이핀|휴대폰 인증|본인인증/i.test(msg)) {
+      return root.querySelector('#ipin_view a, #mobile_auth_view a');
+    }
+
+    return root.querySelector('input, select, textarea, .cs-wrap .cs-trigger');
+  }
+
+  const nativeAlert = window.alert;
+  window.alert = function (message) {
+    try {
+      clearErrors();
+      const target = guessFieldByMessage(message);
+      if (target) {
+        const wrap = target.closest('.cs-wrap');
+        if (wrap) {
+          wrap.classList.add('is-error');
+          let host = wrap.parentElement || wrap;
+          const msg = document.createElement('div');
+          msg.className = 'field-error';
+          msg.textContent = String(message || '입력값을 확인해주세요.');
+          host.appendChild(msg);
+          target.focus?.();
+          return;
+        }
+
+        showErrorFor(target, String(message || '입력값을 확인해주세요.'));
+
+        if (target.offsetParent !== null) target.focus?.();
+        return;
+      }
+    } catch (_) {
+    }
+    nativeAlert.call(window, message);
+  };
+
+  const triggerBtn = root.querySelector('.btnSubmitFix');
+  if (triggerBtn) {
+    triggerBtn.addEventListener('click', function (e) {
+      function isVisible(el) {
+        if (!el) return false;
+        if (el.type === 'hidden') return false;
+        if (el.offsetParent === null) return false;
+        return true;
+      }
+      const visibleInputs = Array.from(root.querySelectorAll(
+        'input[type="text"], input[type="tel"], input[type="email"], input[type="number"], input[type="password"], select, textarea'
+      )).filter(isVisible);
+
+      clearErrors();
+
+      let firstBad = null;
+      visibleInputs.forEach(el => {
+        const v = (el.value || '').trim();
+        if (!v && !firstBad) firstBad = el;
+      });
+
+      const m1 = root.querySelector('input[name="mobile1"]');
+      const m2 = root.querySelector('input[name="mobile2"]');
+      const m3 = root.querySelector('input[name="mobile3"]');
+      if (isVisible(m1) || isVisible(m2) || isVisible(m3)) {
+        if (!m1 || !m1.value.trim() || !m2 || !m2.value.trim() || !m3 || !m3.value.trim()) {
+          firstBad = firstBad || (m1 || m2 || m3);
+          showErrorFor(m3 || m2 || m1, '휴대폰 번호를 모두 입력해주세요.');
+        }
+      }
+
+      const em = root.querySelector('input[type="email"], input[name="email"]');
+      if (isVisible(em) && em && em.value) {
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value.trim());
+        if (!ok) {
+          firstBad = firstBad || em;
+          showErrorFor(em, '올바른 이메일 형식이 아닙니다.');
+        }
+      }
+
+      const nm = root.querySelector('#name_view input, input[name="name"]');
+      if (isVisible(nm) && nm && !nm.value.trim()) {
+        firstBad = firstBad || nm;
+        showErrorFor(nm, '이름을 입력해주세요.');
+      }
+
+      const s1 = root.querySelector('input[name="ssn1"]');
+      const s2 = root.querySelector('input[name="ssn2"]');
+      if ((isVisible(s1) || isVisible(s2)) && (!s1?.value.trim() || !s2?.value.trim())) {
+        firstBad = firstBad || (s2 || s1);
+        showErrorFor(s2 || s1, '번호를 정확히 입력해주세요.');
+      }
+
+      if (firstBad) {
+        e.preventDefault();
+        const wrap = firstBad.closest('.desc') || firstBad.parentElement;
+        if (wrap && !wrap.querySelector('.field-error')) {
+          showErrorFor(firstBad, '필수 항목을 입력해주세요.');
+        }
+        if (firstBad.offsetParent !== null) firstBad.focus?.();
+        return;
+      }
+
+    });
+  }
+})();
+
+document.addEventListener("DOMContentLoaded", function() {
+  const idInput = document.querySelector('input[name="member_id"]');
+  const nameInput = document.querySelector('input[name="name"]');
+  const emailInput = document.querySelector('input[name="email"]');
+  const ssnInput = document.querySelector('input[name="ssn"]');
+  
+  if (idInput) {
+    idInput.setAttribute("placeholder", "아이디를 입력해주세요.");
+  }
+  if (nameInput) {
+    nameInput.setAttribute("placeholder", "이름을 입력해주세요.");
+  }
+  if (emailInput) {
+    emailInput.setAttribute("placeholder", "이메일을 입력해주세요.");
+  }
+  if (ssnInput) {
+    ssnInput.setAttribute("placeholder", "법인번호를 (-) 없이 숫자만 입력해주세요.");
+  }
+});
+
+</script>
+
+<style>
+.cs-opt {
+  position: relative;
+  padding-left: 47px;
+  min-height: 48px;
+}
+
+.cs-opt::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.cs-opt::before {
+  background-image: url("https://olivetest.cafe24.com/web/upload/check%20box%20circle.png");
+}
+
+.cs-opt[aria-selected="true"]::before {
+  background-image: url("https://olivetest.cafe24.com/web/upload/check%20box%20fill%20circle.png");
+}
+
+.gBlank5 {
+  color: #767676;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+  margin-top: 4px;
+}
+
+#findPasswdForm #ssn_view input {
+  width: 100% !important;
+}
+</style>

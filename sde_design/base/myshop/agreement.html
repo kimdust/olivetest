@@ -1,0 +1,71 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="mall_term">
+    <!--@css(/css/module/mall/term.css)-->
+    <div class="agreement">
+        <h2 class="privacy_title">서비스 이용약관</h2>
+        <p class="privacy_date">시행일자: 2025.08.10</p>
+        {$mall_agreement}
+    </div>
+</div>
+
+
+<style>
+#contents {
+    padding-bottom: 40px;
+}
+
+#privacy_header {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+}
+
+.privacy_title {
+    margin-top: 4px;
+    margin-bottom: 2px;
+    color: var(--G-900, #181818);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px; /* 130% */
+    letter-spacing: -0.4px;
+}
+
+.privacy_date {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    margin-bottom: 58px;
+}
+
+.fr-view-mall-agreement strong {
+    color: var(--G-900, #181818);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+    padding: 12px 0;
+    border-top: 1px solid var(--G-700, #454545);
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    width: 100%;
+    display: flex;
+}
+
+.fr-view-mall-agreement,
+.fr-view-mall-agreement p {
+    margin-bottom: 48px !important;
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+</style>
+

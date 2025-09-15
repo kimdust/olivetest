@@ -1,0 +1,1366 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="myshopArea">
+    <div module="Myshop_OrderHistoryApplyReturn">
+        <!--@css(/css/module/myshop/orderHistoryApplyReturn.css)-->
+        <!--
+            $isRuleBasedAddrForm = T
+        -->
+        <div class="order">
+            <div class="order__number">
+                <span class="date" title="주문일자">{$order_date_ymd}</span>
+                <span class="number" title="주문번호">({$order_id})</span>
+            </div>
+        	<div class="{$product_no_receiver_display|display}">
+                <div module="Myshop_products">
+                    <div class="ec-base-prdInfo gCheck">
+                        <div class="prdBox">
+                            <span class="check">{$form.checkbox}</span>
+                            <span class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$product_image}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" alt="" /></a></span>
+                            <div class="description">
+                                <p class="prdBrand"></p>
+                                <strong class="prdName">{$product_name_link}</strong>
+                            </div>
+                            <div class="quantity">
+                                <span class="ec-base-qty">
+                                    <a href="javascript:;" class="down" onclick="{$out_shortcut}">수량감소</a>
+                                    {$form.quantity}
+                                    <a href="javascript:;" class="up" onclick="{$add_shortcut}">수량증가</a>
+                                </span>
+                                <a class="btnNormal sizeQty" href="javascript:;" onclick="{$action_modify}">변경</a>
+                            </div>
+                        </div>
+                        <div class="option_wrap">
+                            <div class="optionGroup {$option_display|display}">
+                                <div>{$option_str}</div>
+                                <ul module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str} ({$qty}개)</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str} ({$qty}개)</li>
+                                </ul>
+                            </div>
+                            <span class="qty">수량 / {$quantity}개</span>
+                        </div>
+                        <div class="prdFoot" title="주문처리상태">
+                            <div class="gLeft">
+                                <span class="txtStatus">{$cur_state}</span>
+                            </div>
+                            <div class="price">
+                                <span class="price" title="판매가">{$item_price_raw_front_head}<strong>{$item_price_raw_front}</strong>{$item_price_raw_front_tail}<span class="{$item_price_ref_display|display}"> {$item_price_raw_back_head}{$item_price_raw_back}{$item_price_raw_back_tail}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ec-base-prdInfo gCheck">
+                        <div class="prdBox">
+                            <span class="check">{$form.checkbox}</span>
+                            <span class="thumbnail"><a href="/product/detail.html{$param_product}"><img src="{$product_image}" onerror="this.src='//img.echosting.cafe24.com/thumb/img_product_small.gif';" alt="" /></a></span>
+                            <div class="description">
+                                <p class="prdBrand"></p>
+                                <strong class="prdName">{$product_name_link}</strong>
+                            </div>
+                            <div class="quantity">
+                                <span class="ec-base-qty">
+                                    <a href="javascript:;" class="down" onclick="{$out_shortcut}">수량감소</a>
+                                    {$form.quantity}
+                                    <a href="javascript:;" class="up" onclick="{$add_shortcut}">수량증가</a>
+                                </span>
+                                <a class="btnNormal sizeQty" href="javascript:;" onclick="{$action_modify}">변경</a>
+                            </div>
+                        </div>
+                        <div class="option_wrap">
+                            <div class="optionGroup {$option_display|display}">
+                                <div>{$option_str}</div>
+                                <ul module="Myshop_optionSet">
+                                    <li><span class="product">{$product_name}</span>{$option_str} ({$qty}개)</li>
+                                    <li><span class="product">{$product_name}</span>{$option_str} ({$qty}개)</li>
+                                </ul>
+                            </div>
+                            <span class="qty">수량 / {$quantity}개</span>
+                        </div>
+                        <div class="prdFoot" title="주문처리상태">
+                            <div class="gLeft">
+                                <span class="txtStatus">{$cur_state}</span>
+                            </div>
+                            <div class="price">
+                                <span class="price" title="판매가">{$item_price_raw_front_head}<strong>{$item_price_raw_front}</strong>{$item_price_raw_front_tail}<span class="{$item_price_ref_display|display}"> {$item_price_raw_back_head}{$item_price_raw_back}{$item_price_raw_back_tail}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="titleArea titleArea--middle">
+            <h3>반품사유</h3>
+        </div>
+        <div class="ec-base-table typeWrite reason_wrap">
+            {$form.reason_select}
+            {$form.reason_detail}
+        </div>
+
+        <div class="{$cs_add_item_display|display}">
+            <div class="titleArea titleArea--middle">
+                <h3>추가 정보</h3>
+            </div>
+            <div class="ec-base-table typeWrite">
+                <table border="1" >
+                    <caption>추가 정보</caption>
+                    <colgroup>
+                        <col style="width:200px;" />
+                        <col style="width:auto;" />
+                    </colgroup>
+                    <tbody module="Myshop_Csadd">
+                        <tr>
+                            <th scope="row">{$item_title}</th>
+                            <td>
+                                {$item_value}
+                                <p class="gBlank5">{$guide_content}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{$item_title}</th>
+                            <td>
+                                {$item_value}
+                                <p class="gBlank5">{$guide_content}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="{$pickuplist_display|display}">
+            <div class="titleArea titleArea--middle">
+                <h3>수거신청</h3>
+            </div>
+            <div class="ec-base-table typeWrite pickup_wrap">
+                <table border="1" >
+                    <caption>수거신청</caption>
+                    <colgroup>
+                        <col style="width:200px;" />
+                        <col style="width:auto;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">수거신청 여부</th>
+                            <td>
+                                {$form.ispickup}
+                                <div id="{$pickup_direct_id}" class="direct gBlank5 {$display_direct_pickup|display}">
+                                    <span class="input">
+                                    	{$form.pickup_csname}
+                                    	{$form.pickup_invoiceno}
+                                    </span>
+                                    {$form.pickup_check}
+                                </div>
+                                <p class="gBlank5 txtInfo">- 반품 상품에 대해 "수거 신청"하시면 택배사에 직접 연락하지 않아도 되며, 수거 전 택배기사님이 연락 후 방문합니다.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="{$pickup_detail_id}">
+            <div class="titleArea titleArea--middle">
+                <h3>수거지 정보</h3>
+            </div>
+            <div class="ec-base-table typeWrite">
+                <table border="1" >
+                    <caption>수거지 정보</caption>
+                    <colgroup>
+                        <col style="width:200px;" />
+                        <col style="width:auto;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">수거지 선택</th>
+                            <td>{$form.sameaddr}</td>
+                        </tr>
+                        <tr id="{$pickup_sameaddr_id}" class="{$pickup_order_address_display|display}">
+                            <th scope="row">수거지 주소 </th>
+                            <td>
+                                {$r_name}<br />
+                                ({$r_zipcode}) {$r_addr1} {$r_addr2}<br />
+                                {$r_phone1} | {$r_phone2}<br />
+                            </td>
+                        </tr>
+                        <tr id="{$pickup_name_id}" class="{$pickup_name_display|display}">
+                            <th scope="row">이름 <img src="//img.echosting.cafe24.com/skin/skin/common/ico_required.svg" class="icon icoRequired" alt="필수" /></th>
+                            <td>{$form.pickup_name}</td>
+                        </tr>
+                        <tr id="{$pickup_address_id}" class="{$pickup_address_display|display}">
+                            <th scope="row">수거지 주소 <img src="//img.echosting.cafe24.com/skin/skin/common/ico_required.svg" class="icon icoRequired" alt="필수" /></th>
+                            <td>{$form.address}</td>
+                        </tr>
+                        <tr id="{$pickup_phone1_id}" class="{$pickup_phone1_display|display}">
+
+                            <th scope="row">일반전화 <img src="//img.echosting.cafe24.com/skin/skin/common/ico_required.svg" class="icon icoRequired {$is_pickup_phone1_required_display|display}" alt="필수" /></th>
+                            <td class="formGroup code">{$form.pickup_phone1_}</td>
+                        </tr>
+                        <tr id="{$pickup_phone2_id}" class="{$pickup_phone2_display|display}">
+                            <th scope="row">휴대전화 <img src="//img.echosting.cafe24.com/skin/skin/common/ico_required.svg" class="icon icoRequired {$is_pickup_phone2_required_display|display}" alt="필수" /></th>
+                            <td class="formGroup code">{$form.pickup_phone2_}</td>
+                        </tr>
+                        <tr id="{$pickup_delivery_info_id}" class="{$delivery_info_offer_display|display}">
+                            <th scope="row">배송정보제공방침</th>
+                            <td>
+                                {$form.delivery_info_offer_content}
+                                <p class="grid"><span class="question">배송정보제공방침에 대하여 동의하십니까?</span>{$form.delivery_info_offer_check}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="{$cs_shipfee_payment_id}" class="{$cs_shipfee_payment_display|display}">
+            <div class="titleArea titleArea--middle">
+                <h3>반품배송비 결제</h3>
+            </div>
+            <div class="ec-base-table typeWrite">
+                <table border="1" >
+                    <caption>반품배송비 결제 정보</caption>
+                    <colgroup>
+                        <col style="width:200px;" />
+                        <col style="width:auto;" />
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th scope="row">반품배송비</th>
+                        <td>
+                        <span id="{$cs_shipfee_paid_by_select_id}">반품 사유를 선택하세요.</span>
+                        <span id="{$cs_shipfee_paid_by_customer_id}" class="displaynone"><span class="txtEm">구매자 책임사유</span>에 의한 반품이므로 반품배송비 <span class="txtEm">{$price_front_head}<span id="{$cs_shipfee_price_slot_id}">{$shipfee_return}</span>{$price_front_tail}</span>을 구매자가 부담합니다.</span>
+                        <span id="{$cs_shipfee_paid_by_store_id}" class="displaynone"><span class="txtEm">판매자 책임사유</span>에 의한 반품이므로 반품배송비는 판매자가 부담합니다.</span>
+                        </td>
+                    </tr>
+                    <tr id="{$cs_shipfee_paymethod_id}" class="displaynone">
+                        <th scope="row">반품배송비 결제방법</th>
+                        <td>
+                            <div class="ec-base-radio typeDelivery">
+                            {$form.shipfee_paymethod}
+                            </div>
+                            {$direct_pay_form}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {$form.is_new_cs_form}
+        <div class="{$refund_info_display|display}">
+            <div class="titleArea titleArea--middle">
+                <h3>환불 정보</h3>
+            </div>
+            <div class="ec-base-table typeWrite">
+                <table border="1" >
+                    <caption>환불 계좌 정보</caption>
+                    <colgroup>
+                        <col style="width:200px;" />
+                        <col style="width:auto;" />
+                    </colgroup>
+                    <tbody class="{$refund_notice_display|display}">
+                        <tr>
+                            <th scope="row">환불예정금액</th>
+                            <td>환불예정금액은 판매자가 접수처리 완료 후 '주문상세조회'에서 확인할 수 있습니다.</td>
+                        </tr>
+                        <tr id="{$delivery_fee_notice_id}" class="{$delivery_fee_notice_display|display}">
+                            <th scope="row">배송비 안내</th>
+                            <td>{$cs_info_desc}</td>
+                        </tr>
+                    </tbody>
+                    <tbody class="{$refund_account_display|display}">
+                        <tr>
+                            <th scope="row">환불계좌</th>
+                            <td>
+                                <span id="{$id_acc_full_str}" class="{$acc_full_str_display|display} gSpace10">{$acc_full_str}</span>
+                                <span id="{$id_acc_reg_disp}" class="{$acc_reg_display|display}"><a href="#none" class="btnNormal sizeS" onclick="OrderApply.popupAccount('./account.html');">환불계좌등록</a></span>
+                                <span id="{$id_acc_mod_disp}" class="{$acc_mod_display|display}"><a href="#none" class="btnNormal sizeS" onclick="OrderApply.popupAccount('./account.html');">환불계좌변경</a></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody class="{$product_notice_display|display}">
+                        <tr>
+                            <th scope="row">취소 수수료</th>
+                            <td id="{$product_notice_id}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="ec-base-button gBottom">
+            <a href="#none" class="btnSubmitFix sizeM" onclick="OrderApply.apply(); return false;">반품 신청하기</a>
+        </div>
+    </div>
+
+    <!--@import(/myshop/myshop_main.html)-->
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const items = document.querySelectorAll('.order .ec-base-prdInfo .prdBox');
+  if (!items.length) return;
+
+  const cache = window.sessionStorage;
+  const concurrency = 4;
+  const queue = Array.from(items);
+
+  function getDetailUrl(box){
+    const a = box.querySelector('.thumbnail a, .description .prdName a');
+    return a ? a.getAttribute('href') : null;
+  }
+
+  function getProductKey(url){
+    if (!url) return null;
+    const m = url.match(/product_no=(\d+)/) || url.match(/\/product\/.*?\/(\d+)(?:\/|$)/);
+    return m ? m[1] : url;
+  }
+
+  async function fetchBrand(url){
+    const res  = await fetch(url, { credentials: 'same-origin' });
+    const html = await res.text();
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+
+    const cand = [
+      '.product_detail_brand',
+      '.product_brand',
+      '[data-role="productBrand"]',
+      '.xans-product-detail .infoArea .brand',
+    ];
+    for (const sel of cand){
+      const el = doc.querySelector(sel);
+      if (el && el.textContent.trim()) return el.textContent.trim();
+    }
+
+    const meta = doc.querySelector('meta[itemprop="brand"], meta[property="product:brand"]');
+    if (meta?.content) return meta.content.trim();
+
+    return '';
+  }
+
+  async function worker(){
+    while (queue.length){
+      const box = queue.shift();
+      const brandEl = box.querySelector('.prdBrand');
+      const url = getDetailUrl(box);
+      const key = 'brand:' + getProductKey(url);
+
+      if (!brandEl || !url || !key) continue;
+
+      const cached = cache.getItem(key);
+      if (cached != null){
+        brandEl.textContent = cached;
+        continue;
+      }
+
+      brandEl.textContent = '…';
+
+      try{
+        const brand = await fetchBrand(url);
+        brandEl.textContent = brand ? `[${brand}]` : '';
+        if (brand) cache.setItem(key, brand);
+      }catch(e){
+        brandEl.textContent = '';
+      }
+    }
+  }
+
+  for (let i=0; i<concurrency; i++) worker();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const MAP = [
+    {
+      key: 'prep',
+      labels: ['상품준비중'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#393939"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'ready',
+      labels: ['배송준비중','배송대기'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#393939"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'shipping',
+      labels: ['배송중'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_61029" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_61029)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#1B8862"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'done',
+      labels: ['배송완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_58144" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_58144)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F46200"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'change',
+      labels: ['교환완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#393939"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'cancel',
+      labels: ['취소신청'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'cancel-done',
+      labels: ['취소완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'return',
+      labels: ['반품신청'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+    {
+      key: 'return_done',
+      labels: ['반품완료'],
+      icon: `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+            <mask id="mask0_3276_60975" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                <rect x="0.78125" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3276_60975)">
+                <path d="M7.58083 19.3516C6.92134 19.3516 6.36147 19.1159 5.90121 18.6445C5.44095 18.1731 5.21082 17.6008 5.21082 16.9275H4.54471C4.32845 16.9275 4.14711 16.8528 4.00068 16.7033C3.85439 16.5536 3.78125 16.3683 3.78125 16.1473V7.91227C3.78125 7.47614 3.92909 7.10699 4.22476 6.80482C4.52043 6.50265 4.88157 6.35156 5.30818 6.35156H15.283C15.703 6.35156 16.0626 6.50437 16.3616 6.81C16.6607 7.11562 16.8102 7.48305 16.8102 7.91227V9.63896H18.2885C18.5303 9.63896 18.7594 9.69421 18.9758 9.80472C19.192 9.91523 19.3701 10.068 19.5101 10.2632L21.6286 13.162C21.6795 13.2271 21.7178 13.2986 21.7432 13.3766C21.7686 13.4547 21.7812 13.5393 21.7812 13.6302V16.1473C21.7812 16.3683 21.7081 16.5536 21.5618 16.7033C21.4154 16.8528 21.234 16.9275 21.0178 16.9275H20.2543C20.2543 17.6008 20.0235 18.1731 19.5618 18.6445C19.1003 19.1159 18.5399 19.3516 17.8805 19.3516C17.2212 19.3516 16.6613 19.1159 16.2009 18.6445C15.7406 18.1731 15.5105 17.6008 15.5105 16.9275H9.95443C9.95443 17.6026 9.72366 18.1754 9.26214 18.6458C8.80061 19.1163 8.24017 19.3516 7.58083 19.3516ZM7.58273 18.0565C7.89248 18.0565 8.15401 17.9475 8.36731 17.7293C8.58062 17.5113 8.68727 17.2441 8.68727 16.9275C8.68727 16.611 8.58062 16.3436 8.36731 16.1255C8.15401 15.9075 7.89248 15.7985 7.58273 15.7985C7.27298 15.7985 7.01138 15.9075 6.79793 16.1255C6.58463 16.3436 6.47798 16.611 6.47798 16.9275C6.47798 17.2441 6.58463 17.5113 6.79793 17.7293C7.01138 17.9475 7.27298 18.0565 7.58273 18.0565ZM5.04841 15.6325H5.65918C5.83898 15.3126 6.0986 15.0445 6.43806 14.8281C6.77766 14.6117 7.15922 14.5035 7.58273 14.5035C7.99526 14.5035 8.374 14.6103 8.71895 14.824C9.0639 15.0377 9.32627 15.3072 9.50606 15.6325H15.543V7.91227C15.543 7.83471 15.5187 7.77104 15.47 7.72126C15.4212 7.67147 15.3589 7.64658 15.283 7.64658H5.30818C5.24327 7.64658 5.18371 7.67428 5.12951 7.72967C5.07544 7.78493 5.04841 7.84579 5.04841 7.91227V15.6325ZM17.8824 18.0565C18.1922 18.0565 18.4537 17.9475 18.667 17.7293C18.8804 17.5113 18.9872 17.2441 18.9872 16.9275C18.9872 16.611 18.8804 16.3436 18.667 16.1255C18.4537 15.9075 18.1922 15.7985 17.8824 15.7985C17.5727 15.7985 17.3111 15.9075 17.0976 16.1255C16.8843 16.3436 16.7777 16.611 16.7777 16.9275C16.7777 17.2441 16.8843 17.5113 17.0976 17.7293C17.3111 17.9475 17.5727 18.0565 17.8824 18.0565ZM16.8102 13.9058H20.5954L18.4835 11.0419C18.4564 11.0086 18.4253 10.9823 18.3901 10.9629C18.3549 10.9436 18.3156 10.934 18.2723 10.934H16.8102V13.9058Z" fill="#F44336"/>
+            </g>
+        </svg>`,
+    },
+  ];
+
+  function classify(label){
+    const t = (label || '').replace(/\s+/g,'').trim();
+    for (const m of MAP){
+      if (m.labels.some(x => t.includes(x.replace(/\s+/g,'')))) return m;
+    }
+    return null;
+  }
+
+  document.querySelectorAll('.order .txtStatus').forEach(el => {
+    if (el.dataset.styled === '1') return;
+    const original = (el.textContent || '').trim();
+    const matched = classify(original);
+    if (!matched) return;
+
+    el.dataset.styled = '1';
+    el.classList.add('status-badge', `is-${matched.key}`);
+
+    const iconWrap = document.createElement('span');
+    iconWrap.className = 'status-icon';
+    iconWrap.innerHTML = matched.icon;
+
+    const labelWrap = document.createElement('span');
+    labelWrap.className = 'status-label';
+    labelWrap.textContent = original;
+
+    el.textContent = '';
+    el.appendChild(iconWrap);
+    el.appendChild(labelWrap);
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.querySelector('#reason_select');
+  if (!sel) return;
+  enhanceSelect(sel);
+});
+
+function enhanceSelect(sel) {
+  sel.style.position = 'absolute';
+  sel.style.opacity = '0';
+  sel.style.pointerEvents = 'none';
+  sel.tabIndex = -1;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'cs-wrap';
+  sel.parentNode.insertBefore(wrap, sel);
+  wrap.appendChild(sel);
+
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'cs-trigger';
+  trigger.setAttribute('aria-haspopup', 'listbox');
+  trigger.setAttribute('aria-expanded', 'false');
+
+  const icon = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+        <mask id="mask0_3339_43950" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+            <rect x="24.5938" y="24" width="24" height="24" transform="rotate(-180 24.5938 24)" fill="#D9D9D9"/>
+        </mask>
+        <g mask="url(#mask0_3339_43950)">
+            <path d="M17.6018 9.70006L12.2941 15.0078L6.98633 9.70006L7.69408 8.99231L12.2941 13.5923L16.8941 8.99231L17.6018 9.70006Z" fill="#393939"/>
+        </g>
+    </svg>`;
+
+  trigger.innerHTML = `<span class="cs-label"></span>${icon}`;
+  wrap.appendChild(trigger);
+
+  const list = document.createElement('div');
+  list.className = 'cs-list';
+  list.setAttribute('role', 'listbox');
+  list.id = 'cs-' + Math.random().toString(36).slice(2, 8);
+  trigger.setAttribute('aria-controls', list.id);
+  wrap.appendChild(list);
+
+  Array.from(sel.options).forEach(opt => {
+  if (opt.value === "") return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'cs-opt';
+  btn.setAttribute('role', 'option');
+  btn.dataset.value = opt.value;
+  btn.textContent = opt.textContent;
+  if (opt.disabled) btn.setAttribute('aria-disabled', 'true');
+  if (opt.selected) btn.setAttribute('aria-selected', 'true');
+
+  btn.addEventListener('click', () => {
+    if (opt.disabled) return;
+    sel.value = opt.value;
+    sel.dispatchEvent(new Event('change', { bubbles: true }));
+    updateUI();
+    close();
+    trigger.focus();
+  });
+
+  list.appendChild(btn);
+});
+
+  function currentLabel() {
+    const o = sel.options[sel.selectedIndex];
+    return o ? o.textContent : '';
+  }
+
+  function updateUI() {
+  const o = sel.options[sel.selectedIndex];
+  const label = trigger.querySelector('.cs-label');
+  if (o && o.value === "") {
+    label.textContent = "반품 사유를 선택해주세요.";
+    label.style.color = "#ABABAB";
+  } else if (o) {
+    label.textContent = o.textContent;
+    label.style.color = "#3D3D3D";
+  }
+  list.querySelectorAll('.cs-opt').forEach(b => {
+    b.setAttribute('aria-selected', b.dataset.value === sel.value ? 'true' : 'false');
+  });
+}
+  function open() {
+    wrap.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+    const focused = list.querySelector('.cs-opt[aria-selected="true"]') || list.querySelector('.cs-opt');
+    focused && focused.focus();
+    document.addEventListener('click', onDocClick);
+    document.addEventListener('keydown', onDocKey);
+  }
+  function close() {
+    wrap.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('click', onDocClick);
+    document.removeEventListener('keydown', onDocKey);
+  }
+  function onDocClick(e) {
+    if (!wrap.contains(e.target)) close();
+  }
+  function onDocKey(e) {
+    if (e.key === 'Escape') { close(); trigger.focus(); }
+  }
+
+  trigger.addEventListener('click', () => wrap.classList.contains('open') ? close() : open());
+  list.addEventListener('keydown', (e) => {
+    const opts = Array.from(list.querySelectorAll('.cs-opt:not([aria-disabled="true"])'));
+    const idx = opts.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); (opts[idx + 1] || opts[0]).focus(); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); (opts[idx - 1] || opts[opts.length - 1]).focus(); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.activeElement.click(); }
+  });
+
+  sel.addEventListener('change', updateUI);
+
+  updateUI();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const textarea = document.querySelector('#reason_detail');
+  if (!textarea) return;
+
+  textarea.setAttribute('placeholder', '상세 사유를 입력해주세요.');
+
+  const counter = document.createElement('div');
+  counter.className = 'reason-counter';
+  counter.style.textAlign = 'right';
+  counter.style.fontSize = '12px';
+  counter.style.color = '#ABABAB';
+  counter.textContent = `0/200`;
+
+  textarea.insertAdjacentElement('afterend', counter);
+
+  textarea.addEventListener('input', () => {
+    let val = textarea.value;
+
+    if (val.length > 200) {
+      val = val.substring(0, 200);
+      textarea.value = val;
+    }
+
+    counter.textContent = `${val.length} / 200`;
+  });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const checkboxes = document.querySelectorAll('.order .ec-base-prdInfo input[type="checkbox"]');
+  const reasonSelect = document.querySelector('#reason_select');
+  const reasonDetail = document.querySelector('#reason_detail');
+  const submitBtn = document.querySelector('.btnSubmitFix');
+
+  if (!submitBtn) return;
+
+  function updateButtonState() {
+    const hasChecked = Array.from(checkboxes).some(cb => cb.checked);
+    const hasReason = reasonSelect && reasonSelect.value !== '';
+    const hasDetail = reasonDetail && reasonDetail.value.trim().length > 0;
+
+    if (hasChecked && hasReason && hasDetail) {
+      submitBtn.style.background = '#F44336';
+      submitBtn.style.pointerEvents = 'auto';
+    } else {
+      submitBtn.style.background = '#D9D9D9';
+      submitBtn.style.pointerEvents = 'none';
+    }
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener('change', updateButtonState));
+  reasonSelect?.addEventListener('change', updateButtonState);
+  reasonDetail?.addEventListener('input', updateButtonState);
+
+  updateButtonState();
+});
+
+(function(){
+  const SELECTOR_TARGETS = [
+    '.phone_group select',
+    'select[id*="mobile1"]',
+    'select[name*="mobile1"]',
+    'select[id*="phone1"]',
+    'select[name*="phone1"]',
+    'select[name="pickup_phone2_[]"]'
+  ];
+  document.addEventListener('DOMContentLoaded', () => {
+    const seen = new Set();
+    const selects = [];
+    SELECTOR_TARGETS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(s => {
+        if (!seen.has(s) && !s.dataset.csEnhanced) {
+          seen.add(s); selects.push(s);
+        }
+      });
+    });
+    selects.forEach(enhanceSelect);
+    document.addEventListener('click', onDocClick, true);
+  });
+  function enhanceSelect(select){
+    select.dataset.csEnhanced = '1';
+
+    select.style.position = 'absolute';
+    select.style.inset = '0 auto auto 0';
+    select.style.width = '1px';
+    select.style.height = '1px';
+    select.style.opacity = '0';
+    select.style.pointerEvents = 'none';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cs-wrap';
+    wrap.setAttribute('data-cs', 'select');
+    wrap.style.position = 'relative';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'cs-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+    const labelSpan = document.createElement('span');
+    labelSpan.className = 'cs-label';
+    labelSpan.textContent = currentOptionText(select) || placeholderFromSelect(select) || '선택';
+    const icon = document.createElement('span');
+    icon.className = 'cs-icon';
+    icon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+            <mask id="mask0_3349_18510" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                <rect x="24.6953" y="24" width="24" height="24" transform="rotate(-180 24.6953 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3349_18510)">
+                <path d="M17.7031 9.70006L12.3954 15.0078L7.08765 9.70006L7.7954 8.99231L12.3954 13.5923L16.9954 8.99231L17.7031 9.70006Z" fill="#393939"/>
+            </g>
+        </svg>
+    `;
+    trigger.appendChild(labelSpan);
+    trigger.appendChild(icon);
+
+    const list = document.createElement('div');
+    list.className = 'cs-list';
+    list.setAttribute('role', 'listbox');
+    list.tabIndex = -1;
+
+    const opts = [];
+    Array.from(select.options).forEach((opt, idx) => {
+
+      if (opt.parentElement && opt.parentElement.tagName === 'OPTGROUP') {
+        const groupLabel = opt.parentElement.label;
+        if (!list.querySelector(`.cs-group[data-label="${cssEscape(groupLabel)}"]`)) {
+          const g = document.createElement('div');
+          g.className = 'cs-group';
+          g.dataset.label = groupLabel;
+          g.textContent = groupLabel;
+          list.appendChild(g);
+        }
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cs-opt';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-value', opt.value);
+      btn.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+      if (opt.disabled) btn.setAttribute('aria-disabled', 'true');
+
+      const txt = document.createElement('span');
+      txt.textContent = opt.textContent.trim();
+      btn.appendChild(txt);
+      list.appendChild(btn);
+      opts.push({btn, opt});
+      btn.addEventListener('click', () => {
+        if (opt.disabled) return;
+        selectValue(select, wrap, opt.value);
+        close(wrap);
+        trigger.focus();
+      });
+    });
+
+    select.parentNode.insertBefore(wrap, select);
+    wrap.appendChild(select);
+    wrap.appendChild(trigger);
+    wrap.appendChild(list);
+
+    trigger.addEventListener('click', () => toggle(wrap));
+    trigger.addEventListener('keydown', (e) => {
+      const k = e.key;
+      if (k === 'ArrowDown' || k === 'ArrowUp') {
+        e.preventDefault();
+        open(wrap);
+        focusFirstOrSelected(list, k === 'ArrowDown' ? 1 : -1);
+      } else if (k === 'Enter' || k === ' ') {
+        e.preventDefault(); toggle(wrap);
+      }
+    });
+
+    list.addEventListener('keydown', (e) => {
+      const k = e.key;
+      const focusable = getFocusableOptions(list);
+      const idx = focusable.indexOf(document.activeElement);
+      if (k === 'ArrowDown') {
+        e.preventDefault();
+        const next = focusable[Math.min(idx + 1, focusable.length - 1)];
+        next?.focus();
+      } else if (k === 'ArrowUp') {
+        e.preventDefault();
+        const prev = focusable[Math.max(idx - 1, 0)];
+        prev?.focus();
+      } else if (k === 'Home') {
+        e.preventDefault(); focusable[0]?.focus();
+      } else if (k === 'End') {
+        e.preventDefault(); focusable[focusable.length - 1]?.focus();
+      } else if (k === 'Enter' || k === ' ') {
+        e.preventDefault();
+        const activeBtn = document.activeElement;
+        if (activeBtn && activeBtn.classList.contains('cs-opt')) {
+          activeBtn.click();
+        }
+      } else if (k === 'Escape') {
+        e.preventDefault(); close(wrap); trigger.focus();
+      } else if (k.length === 1) {
+ 
+        const ch = k.toLowerCase();
+        const found = focusable.find(btn => btn.textContent.trim().toLowerCase().startsWith(ch));
+        found?.focus();
+      }
+    });
+
+    select.addEventListener('change', () => {
+      const opt = select.options[select.selectedIndex];
+      syncUI(wrap, select, opt?.value || '');
+    });
+
+    syncUI(wrap, select, select.value);
+  }
+
+  function cssEscape(s){ return String(s).replace(/"/g, '\\"'); }
+  function getFocusableOptions(list){
+    return Array.from(list.querySelectorAll('.cs-opt:not([aria-disabled="true"])'));
+  }
+
+  function focusFirstOrSelected(list, direction = 1){
+    const focusable = getFocusableOptions(list);
+    const selected = focusable.find(btn => btn.getAttribute('aria-selected') === 'true');
+    (selected || (direction > 0 ? focusable[0] : focusable[focusable.length - 1]))?.focus();
+  }
+
+  function currentOptionText(select){
+    const opt = select.options[select.selectedIndex];
+    if (!opt) return '';
+    return opt.textContent.trim();
+  }
+
+  function placeholderFromSelect(select){
+    const first = select.options[0];
+    if (first && (first.disabled || first.value === '')) {
+      return first.textContent.trim();
+    }
+    return '';
+  }
+
+  function selectValue(select, wrap, value){
+    if (select.value !== value) {
+      select.value = value;
+      select.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+    syncUI(wrap, select, value);
+  }
+
+  function syncUI(wrap, select, value){
+    const trigger = wrap.querySelector('.cs-trigger');
+    const label = wrap.querySelector('.cs-label');
+    const list = wrap.querySelector('.cs-list');
+    const btns = list.querySelectorAll('.cs-opt');
+    btns.forEach(b => b.setAttribute('aria-selected', b.dataset.value === value ? 'true' : 'false'));
+    label.textContent = currentOptionText(select) || placeholderFromSelect(select) || '선택';
+    trigger.setAttribute('aria-expanded', isOpen(wrap) ? 'true' : 'false');
+  }
+
+  function open(wrap){
+    if (isOpen(wrap)) return;
+    wrap.classList.add('open');
+    const trigger = wrap.querySelector('.cs-trigger');
+    trigger.setAttribute('aria-expanded', 'true');
+
+    const list = wrap.querySelector('.cs-list');
+    setTimeout(() => { list.focus(); focusFirstOrSelected(list, 1); }, 0);
+  }
+
+  function close(wrap){
+    if (!isOpen(wrap)) return;
+    wrap.classList.remove('open');
+    const trigger = wrap.querySelector('.cs-trigger');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggle(wrap){ isOpen(wrap) ? close(wrap) : open(wrap); }
+  function isOpen(wrap){ return wrap.classList.contains('open'); }
+  function onDocClick(e){
+    const wrap = e.target.closest('.cs-wrap');
+    document.querySelectorAll('.cs-wrap.open').forEach(w => {
+      if (w !== wrap) close(w);
+    });
+  }
+})();
+</script>
+
+<style>
+#order_return_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #F8F8F8;
+}
+
+#order_return_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#order_return_header .header_back img {
+    width: 100%;
+}
+
+#order_return_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.order__number {
+    margin-bottom: 16px;
+}
+
+.order__number span {
+    color: var(--G-800, #454545);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.ec-base-prdInfo {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    margin-top: 12px;
+}
+
+.ec-base-prdInfo:first-child {
+    margin-top: 0;
+}
+
+.prdBox {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.thumbnail a {
+    width: 48px;
+    height: 48px;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.thumbnail a img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+}
+
+.prdName a {
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    color: var(--G-900, #3D3D3D);
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.prdBrand {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.prdFoot {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.status-badge span {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.status-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-badge.is-prep span {
+    color: #181818;
+} 
+
+.status-badge.is-ready span {
+    color: #181818;
+}
+
+.status-badge.is-shipping span {
+    color: #1B8862;
+}
+
+.status-badge.is-done span {
+    color: #F46200;
+}
+
+.status-badge.is-cancel span,
+.status-badge.is-return span,
+.status-badge.is-cancel-done span,
+.status-badge.is-return-done span {
+    color: #F44336;
+}
+
+.price strong,
+.price span {
+    color: var(--Oilve-Green, #1B8862);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.orderList .price .qty { 
+  display: none !important;
+}
+
+.qty {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.qty::before {
+    content: "•";
+    display: inline-block;
+    margin-right: 4px;
+    transform: translateY(-0.5px);
+}
+
+.gLeft {
+    display: flex;
+}
+
+.titleArea--middle h3 {
+    padding: 0 !important;
+    margin: 32px 0 12px;
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+}
+
+.titleArea {
+    padding: 0 !important;
+}
+
+.titleArea--middle span {
+    color: var(--Point, #F46200);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.32px;
+    margin-left: 2px;
+}
+
+#reason_detail {
+    resize: none;
+    display: flex;
+    width: 100%;
+    height: 120px;
+    padding: 12px 14px;
+    align-items: flex-start;
+    border-radius: 8px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+#reason_detail::placeholder {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.reason-counter {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    width: 100%;
+}
+
+.cs-wrap {
+    width: 100%;
+}
+
+.reason_wrap .cs-opt {
+  position: relative;
+  padding-left: 47px;
+  min-height: 48px;
+}
+
+.reason_wrap .cs-opt::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.reason_wrap .cs-opt::before {
+  background-image: url("https://olivetest.cafe24.com/web/upload/check%20box%20circle.png");
+}
+
+.reason_wrap .cs-opt[aria-selected="true"]::before {
+  background-image: url("https://olivetest.cafe24.com/web/upload/check%20box%20fill%20circle.png");
+}
+
+.reason_wrap {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    width: 100%;
+}
+
+#pickupDetail label{
+        color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+#pickupDetail .typeWrite{
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    width: 100%;
+}
+
+#pickupDetail tr th {
+    border: none;
+}
+
+#pickupDetail tr td {
+    border: none;
+}
+
+#pickupDetail .typeWrite .inputTypeText{
+    width: 100%;
+}
+
+#returnExchange_zipcode_wrap{
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+#returnExchange_baseAddr_wrap{
+    margin-bottom: 8px;
+}
+
+#returnExchange_detailAddr_wrap {
+    margin-bottom: 8px;
+}
+
+#returnExchange_zipcode_wrap #btn_search_rzipcode{
+    white-space: nowrap;
+    padding: 0px 12px;
+    border-radius: 8px;
+    color: var(--G-0, #FFF);
+    border: none;
+    background: var(--Olive-Green, #1B8862);
+}
+
+#returnExchange_zipcode_wrap .ec-base-label{
+    display: none;
+}
+
+tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+tr {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+th {
+    text-align: left;
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+td {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.refund_wrap {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 10px;
+    background: #FFF;
+}
+
+#acc_reg_disp a,
+#acc_mod_disp a {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btnSubmitFix {
+    display: flex;
+    width: 100%;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    background: var(--G-300, #D9D9D9);
+    color: var(--G-0, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+    margin-top: 100px;
+    transition: background-color 0.2s ease;
+}
+
+#contents {
+    padding-bottom: 32px;
+}
+
+.quantity {
+    display: none;
+}
+</style>

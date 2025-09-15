@@ -1,0 +1,83 @@
+<li id="anchorBoxId_{$product_no}">
+	<a class="product_list_item" href="{$link_product_detail}">
+		<div class="product_info_top">
+			<div class="thumbnail">
+				<img src="{$image_medium}" id="{$image_medium_id}" alt="{$seo_alt_tag}" loading="lazy">
+					<span module="product_Imagestyle">
+						<span class="prdIcon {$icon_class_name}" style="background-image:url('{$icon_url}');">
+					</span>
+				</span>
+				<div class="likeButton {$disp_likeprd_class}">
+					<button type="button">{$disp_likeprd_icon}
+						<strong>{$disp_likeprd_count}</strong>
+					</button>
+				</div>
+				<div class="badge"><span></span></div>
+				<!-- <div class="product_icon_wrap">
+					<span class="wish">WISH</span>
+					<span class="cart">ADD</span>
+					<span class="option">OPTION</span>
+				</div> -->
+			</div>
+			<div class="description" ec-data-custom="{$product_custom}" ec-data-price="{$product_price}">
+				<span class="price_original">{$product_custom|numberformat}원</span>
+				<span class="price_discount">{$product_price|numberformat}원</span>
+				<span class="price_discount_rate"></span>
+				<div class="icon">{$soldout_icon} {$stock_icon} {$recommend_icon} {$new_icon} {$product_icons} {$today_arrival_icon} {$pickup_icon} {$benefit_icons} {$regular_delivery_icon}</div>
+			</div>
+		</div>
+		<div class="description_name" ec-data-custom="{$product_custom}" ec-data-price="{$product_price}">
+			<span class="origin origin-{$made_in|lower}">{$made_in}</span>
+			<span class="brand">{$prd_brand}</span>
+			<div class="name">{$product_name}</div>
+		</div>
+	</a>
+</li>
+<li id="anchorBoxId_{$product_no}">
+	<a class="product_list_item" href="{$link_product_detail}">
+		<div class="product_info_top">
+			<div class="thumbnail">
+				<img src="{$image_medium}" id="{$image_medium_id}" alt="{$seo_alt_tag}" loading="lazy">
+					<span module="product_Imagestyle">
+						<span class="prdIcon {$icon_class_name}" style="background-image:url('{$icon_url}');">
+					</span>
+				</span>
+				<div class="likeButton {$disp_likeprd_class}">
+					<button type="button">{$disp_likeprd_icon}
+						<strong>{$disp_likeprd_count}</strong>
+					</button>
+				</div>
+				<div class="badge"><span></span></div>
+				<!-- <div class="product_icon_wrap">
+					<span class="wish">WISH</span>
+					<span class="cart">ADD</span>
+					<span class="option">OPTION</span>
+				</div> -->
+			</div>
+			<div class="description" ec-data-custom="{$product_custom}" ec-data-price="{$product_price}">
+				<span class="price_original">{$product_custom|numberformat}원</span>
+				<span class="price_discount">{$product_price|numberformat}원</span>
+				<span class="price_discount_rate"></span>
+				<div class="icon">{$soldout_icon} {$stock_icon} {$recommend_icon} {$new_icon} {$product_icons} {$today_arrival_icon} {$pickup_icon} {$benefit_icons} {$regular_delivery_icon}</div>
+			</div>
+		</div>
+		<div class="description_name" ec-data-custom="{$product_custom}" ec-data-price="{$product_price}">
+			<span class="origin origin-{$made_in|lower}">{$made_in}</span>
+			<span class="brand">{$prd_brand}</span>
+			<div class="name">{$product_name}</div>
+		</div>
+	</a>
+</li>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+			const desc = document.querySelector('.description');
+			const customPrice = parseInt(desc.getAttribute('ec-data-custom'));
+			const salePrice = parseInt(desc.getAttribute('ec-data-price'));
+			const discountRate = Math.round(((customPrice - salePrice) / customPrice) * 100);
+
+			if (!isNaN(discountRate) && isFinite(discountRate)) {
+			desc.querySelector('.price_discount_rate').textContent = `(${discountRate}% OFF)`;
+			}
+		});
+</script>

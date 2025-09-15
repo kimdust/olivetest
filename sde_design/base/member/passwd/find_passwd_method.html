@@ -1,0 +1,36 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div module="member_findpasswdmethod" class="memberArea">
+    <!--@css(/css/module/member/find_passwd_method.css)-->
+    <!--
+        $nextURL = /member/passwd/find_passwd_result.html
+     -->
+    <div class="ec-base-box typeMember">
+        <fieldset class="content">
+            <div class="complete_title">
+                <p class="headDesc">계정을 찾았어요!</p>
+                <p class="infoDesc">선택한 수단으로 임시 비밀번호를 보내드릴게요.</p>
+            </div>
+            <ul class="ec-base-desc gVer">
+                <li>
+                    <strong class="term">임시 비밀번호</strong>
+                    <span class="desc">{$form.passwd_method_type}</span>
+                </li>
+                <li id="{$passwd_method_email_info}">
+                    <strong class="term">이메일</strong>
+                    <span class="desc">
+                        <strong class="txtEm">{$passwd_method_email}</strong>
+                    </span>
+                </li>
+                <li id="{$passwd_method_mobile_info}">
+                    <strong class="term">휴대폰 번호</strong>
+                    <span class="desc">
+                        <strong class="txtEm">{$passwd_method_mobile}</strong>
+                    </span>
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+    <div class="ec-base-button gBottom">
+        <a href="#none" class="btnSubmitFix sizeM goPwdSend" onclick="{$action_func_find_passwd_send}">임시 비밀번호 전송</a>
+    </div>
+</div>

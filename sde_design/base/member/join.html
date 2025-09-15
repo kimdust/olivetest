@@ -1,0 +1,2051 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="member_join" class="memberArea">
+    <!--@css(/css/module/member/join.css)-->
+    <!--
+        $returnUrl = /member/join_result.html
+        $checkIdUrl = /member/check_id.html
+        $personalName = 이름
+        $companyName = 법인명
+        $companySsn = 법인번호
+        $foreignerSsn1 = 외국인 등록번호
+        $foreignerSsn2 = 여권번호
+        $foreignerSsn3 = 국제운전면허증번호
+        $isRuleBasedAddrForm = T
+     -->
+	<div class="ec-base-table typeWrite {$display_base_column_title|display}">
+		<table>
+      <colgroup>
+        <col style="width:100%;">
+        <col style="width:100%;">
+      </colgroup>
+      <tbody>
+        <div class="tr_title">기본 정보</div>
+        <tr class="{$display_member_type|display} member_type" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+          <th scope="row">
+              회원구분
+              <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+              </svg>
+          </th>
+          <td style="display: flex; align-items: center; gap: 4px; padding: 10px 0;">{$form.member_type}</td>
+        </tr>
+        <tr id="companyWrap" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+          <th scope="row">
+              사업자구분
+              <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+              </svg>
+          </th>
+          <td style="display: flex; align-items: center; gap: 4px; padding: 10px 0;">{$form.company_type}</td>
+        </tr>
+        <tr id="authMember" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+          <td class="formMultiple">
+            <div id="authWrap" style="display:none;">
+              <div id="personAuth">
+                <div id="personalTypeWrap">{$form.personal_type}</div>
+                <div id="ipinWrap">
+                  <a href="#none" class="btnNormal sizeS" onclick="{$action_ipin_open}">아이핀인증</a>
+                  <p class="gBlank5">아이핀이란, 회원님의 개인정보 보호를 위해 웹사이트에 주민등록번호를 제공하지 않고 본인임을 확인하는 인터넷상의 개인식별번호 서비스입니다. <br>아이핀을 통한 가입을 원하시면 아이핀 인증 버튼을 눌러 진행해 주십시오.</p>
+                </div>
+                <div id="mobileWrap">
+                  <a href="#none" class="btnNormal sizeS" onclick="{$action_mobile_open}">휴대폰인증</a>
+                  <p class="gBlank5">본인 명의의 휴대폰으로 본인인증을 진행합니다.</p>
+                </div>
+                <div id="emailWrap">
+                  <ul class="txtInfo">
+                    <li>기본정보 &gt; 이메일 항목에 입력하신 정보로 본인인증을 진행합니다.</li>
+                    <li>회원가입 후에 입력하신 이메일 주소로 인증 메일이 발송되오니, 확인해 주시기 바랍니다.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div id="businessAuth">
+                <dl>
+                  <dt>법인명
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                      </svg>
+                    </span>
+                  </dt>
+                  <dd>{$form.bname}</dd>
+                  <dt style="margin-top: 12px;">법인번호
+                    <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                      </svg>
+                    </span>
+                  </dt>
+                  <dd class="formGroup code">{$form.bssn1} - {$form.bssn2} <a href="#none" class="btnNormal" onclick="{$action_business_dupl}">중복확인</a></dd>
+                </dl>
+              </div>
+
+              <div id="foreignerAuth">
+                <dl>
+                  <dt>이름(Name)</dt>
+                  <dd>{$form.foreigner_name}</dd>
+                  <dt>{$form.foreigner_type}</dt>
+                  <dd class="formGroup">{$form.foreigner_ssn} <a href="#none" class="btnNormal" onclick="{$action_foreigner_check}">중복확인</a></dd>
+                  <div id="foreignerPersonWrap">
+                    <p class="txtInfo"></p><div class="content">{$desc_id_info_consent}</div>
+                    <p>{$form.f_identification_check}</p>
+                  </div>
+                  <div id="foreignerEmailWrap">
+                    <ul class="txtInfo">
+                      <li>기본정보 &gt; 이메일 항목에 입력하신 정보로 본인인증을 진행합니다.</li>
+                      <li>회원가입 후에 입력하신 이메일 주소로 인증 메일이 발송되오니, 확인해 주시기 바랍니다.</li>
+                    </ul>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr class="{$display_use_id|display}" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+            <th scope="row">
+                아이디
+                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                  <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                </svg>
+            </th>
+            <td>{$form.member_id}
+                <p id="{$idMsg_id}" class="txtInfo txtSuccess"></p>
+            </td>
+        </tr>
+        <!-- <tr style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+            <th scope="row">
+                비밀번호
+                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                  <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                </svg>
+            </th>
+            <td>
+                <div class="eTooltip">
+                    <div class="ec-base-tooltip typeUpper">
+                        <div class="content">
+                            <strong>※ {$passwd_terms}</strong>
+                            <ul class="typeDash txtInfo">
+                                {$passwd_chk_info}
+                            </ul>
+                        </div>
+                        <span class="edge"></span>
+                    </div>
+                </div>
+            </td>
+        </tr> -->
+        <tr style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+          <th scope="row">
+            비밀번호
+            <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none" aria-hidden="true">
+              <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"></path>
+            </svg>
+          </th>
+          <td>
+            <div class="eTooltip">
+                    {$form.passwd}
+              <!-- 에러메시지 영역 (툴팁 삭제하고 이걸 사용) -->
+              <p id="pw" class="form-error" role="alert" aria-live="polite" style="display:none;"></p>
+            </div>
+          </td>
+        </tr>
+
+        <tr style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+            <th scope="row">
+                비밀번호 확인
+                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                  <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                </svg>
+            </th>
+            <td>{$form.user_passwd_confirm}
+                <p class="txtInfo" id="{$pwConfirmMsg_id}"></p>
+            </td>
+        </tr>
+        <tr class="{$display_hint|display}">
+            <th scope="row">
+                비밀번호 확인 질문
+                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                  <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                </svg>
+            </th>
+            <td>{$form.hint}</td>
+        </tr>
+        <tr class="{$display_hint_answer|display}">
+            <th scope="row">
+                비밀번호 확인 답변
+                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                  <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                </svg>
+            </th>
+            <td>{$form.hint_answer}</td>
+        </tr>
+        <tr style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0; margin-top: -12px;">
+            <th scope="row" id="{$name_title}">
+                이름
+                <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                  <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                </svg>
+            </th>
+            <td>
+                <span id="{$name_contents}">{$form.name}</span>
+                <p id="under14Msg" class="txtInfo displaynone">14세 미만 사용자는 법정대리인 동의가 필요합니다.</p>
+            </td>
+        </tr>
+        <tr style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0; margin-top: -12px;">
+            <th scope="row" id="ssnTitle"></th>
+            <td id="ssnContents"></td>
+        </tr>
+      </tbody>
+		</table>
+	</div>
+
+    <div class="ec-base-table typeWrite">
+        <table>
+        <colgroup>
+            <col style="width:190px;">
+            <col style="width:auto;">
+        </colgroup>
+        <tbody>
+            <div class="tr_title tr_company" style="margin-top: 40px;">사업자 정보</div>
+            <tr id="{$companyRow}" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <th scope="row">
+                    상호명
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                      <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td id="companyName">{$form.cname}</td>
+            </tr>
+            <tr id="{$companyNoRow}" style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0; margin-top: -12px;">
+                <th scope="row">
+                    사업자번호
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                      <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td class="formGroup" id="companySsn">
+                  <div class="ssn_input_wrap" style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                    {$form.cssn}
+                    <a href="#none" class="btnNormal {$display_cssn_dupl|display}" onclick="{$action_cssn_dupl}">중복확인</a>
+                  </div>
+                    <p id="{$cssnMsg_id}"></p>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="ec-base-table typeWrite">
+        <table>
+        <colgroup>
+            <col style="width:190px;">
+            <col style="width:auto;">
+        </colgroup>
+        <tbody>
+            <div class="tr_title" style="margin-top: 40px;">연락처</div>
+            <tr class="{$display_mobile|display}" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <th scope="row">
+                    휴대전화
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                      <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td class="formGroup code">
+                    <div class="form_phone_input_wrap" style="display: flex; align-items: center; gap: 8px;">
+                      {$form.mobile}
+                      <button type="button" id="{$btn_action_verify_mobile}" class="btnNormal {$display_verify_mobile|display}" onclick="{$action_verify_mobile}">
+                          인증번호
+                      </button>
+                    </div>
+                    <div class="form_phone_txt">
+                      <p class="txtInfo {$bDisplayMobileVerifyInfoDefault|display} error" id="{$result_send_verify_mobile_fail}"></p>
+                      <ul class="txtInfo {$bDisplayMobileVerifyInfoDefault|display}" id="{$result_send_verify_mobile_success}">
+                          <li>인증번호가 발송되었습니다.</li>
+                          <li>인증번호를 받지 못하셨다면 휴대폰 번호를 확인해 주세요.</li>
+                      </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr class="{$display_verify_mobile_confirm|display}" id="{$confirm_verify_mobile}" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+                <th scope="row">
+                    인증번호
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                      <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td class="formGroup">
+                    <div class="verify">
+                        <div>{$form.verify_sms_number}</div>
+                        <span class="time" id="{$expiryTime}"></span>
+                    </div>
+                    <button type="button" class="btnNormal" id="{$btn_verify_mobile_confirm}" onclick="{$action_verify_mobile_confirm}">확인</button>
+                </td>
+            </tr>
+            <tr class="{$display_phone|display}" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+                <th scope="row">
+                    일반전화
+                    <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_phone|display}" alt="필수">
+                </th>
+                <td class="formGroup code" style="display: flex; align-items: center; gap: 8px;">{$form.phone}</td>
+            </tr>
+            <tr style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0; margin-top: -12px;">
+                <th scope="row">
+                    이메일
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                      <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td>{$form.email} <p class="txtInfo" id="{$emailMsg_id}"></p></td>
+            </tr>
+            <tr class="{$display_is_lifetime|display}">
+                <th scope="row">평생회원</th>
+                <td>
+                    {$form.is_lifetime}
+                    <ul class="txtInfo">
+                        <li>평생회원으로 가입하시면 <strong>{$mall_name}</strong> 회원 탈퇴시까지는 휴면회원으로 전환되지 않으며, 고객님의 개인정보가 탈퇴시까지 안전하게 보관됩니다.</li>
+                        <li class="{$display_is_lifetime_benefit|display}">지금 평생회원으로 가입하시면 쿠폰혜택을 드립니다. (쿠폰혜택을 받으신 경우, 3개월간 평생회원을 유지하셔야 합니다.)</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="ec-base-table typeWrite">
+        <table>
+        <colgroup>
+            <col style="width:190px;">
+            <col style="width:auto;">
+        </colgroup>
+        <tbody>
+            <div class="tr_title" style="margin-top: 40px;">주소</div>
+            <tr class="{$display_addr|display}" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <th scope="row">
+                    주소
+                    <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_address|display}" alt="필수">
+                </th>
+                <td class="formMultiple">{$form.address}</td>
+            </tr>
+            <tr class="{$display_add1|display}" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+                <th scope="row">{$title_add1} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add1|display}" alt="필수"></th>
+                <td style="display: flex; align-items: center; gap: 8px; padding: 10px 0;">{$form.add1}</td>
+            </tr>
+            <tr class="{$display_add2|display}" style="border-radius: 0; padding-top: 0; margin-top: -12px;">
+                <th scope="row">{$title_add2} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add2|display}" alt="필수"></th>
+                <td>{$form.add2}</td>
+            </tr>
+            <tr class="{$display_add3|display}" style="border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0; margin-top: -24px;">
+                <th scope="row">{$title_add3} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add3|display}" alt="필수"></th>
+                <td>{$form.add3}</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="ec-base-table typeWrite {$display_add_title|display}">
+        <table>
+        <caption>회원 추가정보</caption>
+        <colgroup>
+            <col style="width:190px;">
+            <col style="width:auto;">
+        </colgroup>
+        <tbody>
+            <tr class="{$display_nick|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_nick_name_flag|display}" alt="필수"> 별명</th>
+                <td>{$form.nick_name} <span class="txtInfo" id="{$nick_msg}"></span></td>
+            </tr>
+            <tr class="{$display_is_sex|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_sex|display}" alt="필수"> 성별</th>
+                <td>{$form.is_sex}</td>
+            </tr>
+            <tr class="{$display_birthday|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_is_birthday|display}" alt="필수"> 생년월일</th>
+                <td class="formGroup date">{$form.birth_year} 년 {$form.birth_month} 월 {$form.birth_day} 일<br><span class="gFlow {$display_calendar_type|display}">{$form.is_solar_calendar}</span></td>
+            </tr>
+            <tr class="{$display_marry|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_is_wedding_anniversary|display}" alt="필수"> 결혼기념일</th>
+                <td class="formGroup date">{$form.marry_year} 년 {$form.marry_month} 월 {$form.marry_day} 일</td>
+            </tr>
+            <tr class="{$display_partner|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_is_life_partner|display}" alt="필수"> 배우자생일</th>
+                <td class="formGroup date">{$form.partner_year} 년 {$form.partner_month} 월 {$form.partner_day} 일</td>
+            </tr>
+            <tr class="{$display_child|display}">
+                <th scope="row">자녀 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_child|display}" alt="필수"></th>
+                <td>{$form.child}</td>
+            </tr>
+            <tr class="{$display_school|display}">
+                <th scope="row">최종학력 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_school|display}" alt="필수"></th>
+                <td>{$form.school}</td>
+            </tr>
+            <tr class="{$display_job_class|display}">
+                <th scope="row">직종 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_job_class|display}" alt="필수"></th>
+                <td>{$form.job_class}</td>
+            </tr>
+            <tr class="{$display_job|display}">
+                <th scope="row">직업 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_job|display}" alt="필수"></th>
+                <td>{$form.job}</td>
+            </tr>
+            <tr class="{$display_earning|display}">
+                <th scope="row">연소득 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_earning|display}" alt="필수"></th>
+                <td>{$form.earning}</td>
+            </tr>
+            <tr class="{$display_car|display}">
+                <th scope="row">자동차 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_car|display}" alt="필수"></th>
+                <td>{$form.car}</td>
+            </tr>
+            <tr class="{$display_region|display}">
+                <th scope="row">지역 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_region|display}" alt="필수"></th>
+                <td>{$form.region}</td>
+            </tr>
+            <tr class="{$display_internet|display}">
+                <th scope="row">인터넷 이용장소 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_internet|display}" alt="필수"></th>
+                <td>{$form.internet}</td>
+            </tr>
+            <tr class="{$display_inter|display}">
+                <th scope="row">관심분야 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_interest|display}" alt="필수"></th>
+                <td><div class="interest">{$form.inter_check}</div></td>
+            </tr>
+            
+            
+            <tr class="{$display_add4|display}">
+                <th scope="row">{$title_add4} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add4|display}" alt="필수"></th>
+                <td>{$form.add4}</td>
+            </tr>
+            <tr class="{$display_add5|display}">
+                <th scope="row">{$title_add5} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add5|display}" alt="필수"></th>
+                <td>{$form.add5}</td>
+            </tr>
+            <tr class="{$display_add6|display}">
+                <th scope="row">{$title_add6} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired $display_required_add6|display}" alt="필수"></th>
+                <td>{$form.add6}</td>
+            </tr>
+            <tr class="{$display_add7|display}">
+                <th scope="row">{$title_add7} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add7|display}" alt="필수"></th>
+                <td>{$form.add7}</td>
+            </tr>
+            <tr class="{$display_add8|display}">
+                <th scope="row">{$title_add8} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add8|display}" alt="필수"></th>
+                <td>{$form.add8}</td>
+            </tr>
+            <tr class="{$display_add9|display}">
+                <th scope="row">{$title_add9} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add9|display}" alt="필수"></th>
+                <td>{$form.add9}</td>
+            </tr>
+            <tr class="{$display_add10|display}">
+                <th scope="row">{$title_add10} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add10|display}" alt="필수"></th>
+                <td>{$form.add10}</td>
+            </tr>
+            <tr class="{$display_add11|display}">
+                <th scope="row">{$title_add11} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add11|display}" alt="필수"></th>
+                <td>{$form.add11}</td>
+            </tr>
+            <tr class="{$display_add12|display}">
+                <th scope="row">{$title_add12} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add12|display}" alt="필수"></th>
+                <td>{$form.add12}</td>
+            </tr>
+            <tr class="{$display_add13|display}">
+                <th scope="row">{$title_add13} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add13|display}" alt="필수"></th>
+                <td>{$form.add13}</td>
+            </tr>
+            <tr class="{$display_add14|display}">
+                <th scope="row">{$title_add14} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add14|display}" alt="필수"></th>
+                <td>{$form.add14}</td>
+            </tr>
+            <tr class="{$display_add15|display}">
+                <th scope="row">{$title_add15} <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_add15|display}" alt="필수"></th>
+                <td>{$form.add15}</td>
+            </tr>
+            <tr class="{$display_reco_id|display}">
+                <th scope="row">추천인 아이디 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_reco_id|display}" alt="필수"></th>
+                <td>{$form.reco_id}</td>
+            </tr>
+            <tr class="{$display_bank|display}">
+                <th scope="row">환불계좌 정보 <img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_bank_account_no|display}" alt="필수"></th>
+                <td class="formMultiple">
+                    <dl>
+                        <dt>예금주</dt>
+                        <dd>{$form.bank_account_owner}</dd>
+                        <dt>은행명</dt>
+                        <dd>{$form.refund_bank_code}</dd>
+                        <dt>계좌번호</dt>
+                        <dd>{$form.bank_account_no} <span class="txtInfo">('-'와 숫자만 입력해주세요.)</span></dd>
+                    </dl>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div class="ec-base-button gBottom">
+        <a href="#none" class="btnSubmitFix sizeM" id="customJoinButton" data-action="{$action_func_join}" onclick="sendToLaravelThenJoin()">가입하기</a>
+    </div>
+
+    <!--@import(/member/join_confirm.html)-->
+</div>
+
+<script>
+function sendToLaravelThenJoin() {
+  const btn = document.getElementById('customJoinButton');
+  const actionCode = btn?.dataset?.action;
+
+  const memberId   = document.querySelector('[name="member_id"]')?.value?.trim();
+  const memberType = document.querySelector('[name="member_type"]:checked, [name="memberType"]:checked')?.value;
+
+  if (!memberId || !memberType) {
+    alert("아이디나 회원구분을 입력해주세요.");
+    return;
+  }
+  const isBusiness = String(memberType).toLowerCase() === 'c';
+
+  const val = (sel) => document.querySelector(sel)?.value?.trim() || '';
+  const visible = (el) => !!el && el.getClientRects().length && getComputedStyle(el).display !== 'none' && getComputedStyle(el).visibility !== 'hidden';
+
+  let companyName = '';
+  let businessNumber = '';
+
+  if (isBusiness) {
+    const isCorporate = (() => {
+      const r = document.querySelector('input[name="company_type"]:checked, input[name="companyType"]:checked');
+      const v = (r?.value || '').toLowerCase();
+      const byVal = /(corp|corporat|inc|법인|b|2)/i.test(v);
+      const byText = /법인/.test((r && (document.querySelector(`label[for="${r.id}"]`)?.textContent || r.closest('label')?.textContent || '')) || '');
+      return byVal || byText;
+    })();
+
+    if (isCorporate) {
+
+      const bnameEl = document.querySelector('[name="bname"]');
+      const bssn1El = document.querySelector('[name="bssn1"]');
+      const bssn2El = document.querySelector('[name="bssn2"]');
+
+      companyName = (bnameEl?.value || '').trim();
+      businessNumber = [bssn1El?.value, bssn2El?.value].filter(Boolean).join('-').trim();
+    } else {
+      companyName = val('[name="cname"]');
+      businessNumber = val('[name="cssn"]') || [val('[name="cssn1"]'), val('[name="cssn2"]')].filter(Boolean).join('-');
+    }
+
+    const cnameVis = document.querySelector('[name="cname"]');
+    const bnameVis = document.querySelector('[name="bname"]');
+    if (visible(bnameVis)) companyName = (bnameVis.value || '').trim();
+    if (visible(cnameVis)) companyName = (cnameVis.value || companyName).trim();
+
+    const cssnVis = document.querySelector('[name="cssn"]');
+    if (visible(cssnVis)) businessNumber = (cssnVis.value || businessNumber).trim();
+
+    if (!businessNumber) {
+      alert("사업자 회원은 사업자/법인번호를 입력해야 합니다.");
+      return;
+    }
+    if (!companyName) {
+      alert("사업자 회원은 상호명(또는 법인명)을 입력해야 합니다.");
+      return;
+    }
+  }
+
+  const payload = {
+    user_id: memberId,
+    is_business: isBusiness,
+  };
+  if (isBusiness) {
+    payload.business_number = businessNumber;
+    payload.company_name = companyName;
+  }
+
+  fetch('https://oliva.boundary.team/api/register-business-user', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(payload)
+  }).finally(() => {
+    if (actionCode) {
+      try { new Function(actionCode)(); }
+      catch (e) { alert("가입 처리 중 오류 발생: " + e.message); }
+    } else {
+      alert("가입 처리 코드가 정의되지 않았습니다.");
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  const tooltip = document.querySelector(".ec-base-tooltip");
+  const btnClose = tooltip.querySelector(".btnClose");
+
+  const btnOpen = document.querySelector("#btnPasswordHelp"); 
+
+  if (btnOpen && tooltip) {
+    btnOpen.addEventListener("click", function(e) {
+      e.preventDefault();
+      tooltip.classList.toggle("active");
+    });
+  }
+
+  if (btnClose) {
+    btnClose.addEventListener("click", function(e) {
+      e.preventDefault();
+      tooltip.classList.remove("active");
+    });
+  }
+
+  document.addEventListener("click", function(e) {
+    if (tooltip.classList.contains("active")) {
+      if (!tooltip.contains(e.target) && e.target !== btnOpen) {
+        tooltip.classList.remove("active");
+      }
+    }
+  });
+});
+
+function initCustomSelects(selector = '.ec-base-table select') {
+  const selects = Array.from(document.querySelectorAll(selector))
+    .filter(s => !s.multiple);
+
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.cs-wrap.open').forEach(wrap => {
+      if (!wrap.contains(e.target)) closeWrap(wrap);
+    });
+  });
+
+  document.addEventListener('focusin', (e) => {
+    document.querySelectorAll('.cs-wrap.open').forEach(wrap => {
+      if (!wrap.contains(e.target)) closeWrap(wrap);
+    });
+  });
+
+  selects.forEach(buildOne);
+
+  function buildOne(selectEl) {
+    if (selectEl.dataset.csInitialized === '1') return;
+
+    selectEl.style.position = 'absolute';
+    selectEl.style.opacity = '0';
+    selectEl.style.pointerEvents = 'none';
+    selectEl.tabIndex = -1;
+    selectEl.dataset.csInitialized = '1';
+
+    const wrap   = document.createElement('div');
+    wrap.className = 'cs-wrap';
+    wrap.dataset.name = selectEl.name || '';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'cs-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    const labelSpan = document.createElement('span');
+    labelSpan.className = 'cs-label';
+    labelSpan.textContent = getSelectedText(selectEl) || (getPlaceholder(selectEl) || '선택하세요');
+
+    const icon = document.createElement('span');
+    icon.className = 'cs-icon';
+    icon.innerHTML = svgChevron();
+
+    trigger.appendChild(labelSpan);
+    trigger.appendChild(icon);
+
+    const list = document.createElement('ul');
+    list.className = 'cs-list';
+    list.setAttribute('role', 'listbox');
+    list.tabIndex = -1;
+
+    Array.from(selectEl.children).forEach(child => {
+      if (child.tagName === 'OPTGROUP') {
+        Array.from(child.children).forEach(opt => list.appendChild(makeOpt(opt)));
+      } else if (child.tagName === 'OPTION') {
+        list.appendChild(makeOpt(child));
+      }
+    });
+
+    selectEl.insertAdjacentElement('afterend', wrap);
+    wrap.appendChild(trigger);
+    wrap.appendChild(list);
+
+    selectEl.addEventListener('change', () => {
+      updateFromSelect(selectEl, wrap);
+    });
+
+    trigger.addEventListener('click', () => {
+      if (wrap.classList.contains('open')) {
+        closeWrap(wrap);
+      } else {
+        openWrap(wrap);
+        const cur = list.querySelector('.cs-opt[aria-selected="true"]');
+        (cur || list.querySelector('.cs-opt'))?.focus({preventScroll:true});
+      }
+    });
+
+    trigger.addEventListener('keydown', (e) => {
+      const key = e.key;
+      if (key === 'Enter' || key === ' ' || key === 'ArrowDown') {
+        e.preventDefault();
+        openWrap(wrap);
+        (list.querySelector('.cs-opt[aria-selected="true"]') || list.querySelector('.cs-opt'))?.focus();
+      }
+      if (key === 'ArrowUp') {
+        e.preventDefault();
+        openWrap(wrap);
+        const opts = Array.from(list.querySelectorAll('.cs-opt'));
+        (opts[opts.length - 1])?.focus();
+      }
+    });
+
+    function makeOpt(optionEl) {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cs-opt';
+      btn.setAttribute('role', 'option');
+      btn.dataset.value = optionEl.value;
+
+      if (optionEl.disabled) {
+        btn.setAttribute('aria-disabled', 'true');
+      }
+
+      const text = optionEl.textContent.trim();
+      const valSpan = document.createElement('span');
+      valSpan.textContent = text;
+      btn.appendChild(valSpan);
+
+      if (optionEl.selected) {
+        btn.setAttribute('aria-selected', 'true');
+      } else {
+        btn.setAttribute('aria-selected', 'false');
+      }
+
+      btn.addEventListener('click', () => {
+        if (optionEl.disabled) return;
+        selectEl.value = optionEl.value;
+        selectEl.dispatchEvent(new Event('change', {bubbles:true}));
+        closeWrap(wrap);
+        trigger.focus();
+      });
+
+      btn.addEventListener('keydown', (e) => {
+        const opts = Array.from(list.querySelectorAll('.cs-opt'));
+        const idx = opts.indexOf(btn);
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          (opts[idx + 1] || opts[0])?.focus();
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          (opts[idx - 1] || opts[opts.length - 1])?.focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          closeWrap(wrap);
+          trigger.focus();
+        }
+      });
+
+      li.appendChild(btn);
+      return li;
+    }
+
+    function openWrap(w) {
+      document.querySelectorAll('.cs-wrap.open').forEach(closeWrap);
+      w.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+    function closeWrap(w) {
+      w.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    function updateFromSelect(sel, w) {
+      labelSpan.textContent = getSelectedText(sel) || (getPlaceholder(sel) || '선택하세요');
+      const val = sel.value;
+      w.querySelectorAll('.cs-opt').forEach(b => {
+        b.setAttribute('aria-selected', b.dataset.value === String(val) ? 'true' : 'false');
+      });
+    }
+  }
+
+  function getSelectedText(selectEl) {
+    const opt = selectEl.selectedOptions?.[0] || selectEl.querySelector('option[selected]');
+    return opt ? opt.textContent.trim() : '';
+  }
+  function getPlaceholder(selectEl) {
+    const first = selectEl.querySelector('option[value=""], option:not([value])');
+    return first ? first.textContent.trim() : '';
+  }
+  function svgChevron() {
+    return `
+      <svg class="cs-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <mask id="mask0_1909_10257" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+            <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"></rect>
+        </mask>
+        <g mask="url(#mask0_1909_10257)">
+            <path d="M17.3079 9.99999L12.0001 15.3077L6.69238 9.99999L7.40013 9.29224L12.0001 13.8922L16.6001 9.29224L17.3079 9.99999Z" fill="#3D3D3D"></path>
+        </g>
+      </svg>
+    `;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initCustomSelects('.ec-base-table select');
+});
+
+(function () {
+    const row = document.querySelector('tr.member_type');
+    const companyWrap = document.getElementById('companyWrap');
+    if (!row || !companyWrap) return;
+
+    const isVisible = (el) =>
+        el && el.getClientRects().length > 0 &&
+        getComputedStyle(el).display !== 'none' &&
+        getComputedStyle(el).visibility !== 'hidden';
+
+    const apply = () => {
+        row.classList.toggle('no-radius', isVisible(companyWrap));
+    };
+
+    apply();
+    setTimeout(apply, 200);
+    setTimeout(apply, 800);
+
+    const mo = new MutationObserver(apply);
+    mo.observe(companyWrap, { attributes: true, attributeFilter: ['style', 'class'] });
+
+    document.addEventListener('change', (e) => {
+        if (e.target.matches('input[name="member_type"], input[name="memberType"]')) {
+        setTimeout(apply, 0);
+        }
+    });
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const joinBtn = document.getElementById('customJoinButton');
+
+  const isVisible = el =>
+    el && el.getClientRects().length > 0 &&
+    getComputedStyle(el).display !== 'none' &&
+    getComputedStyle(el).visibility !== 'hidden';
+
+  function getRequiredRows() {
+    return Array.from(document.querySelectorAll('tr')).filter(tr => {
+      const reqIcon = tr.querySelector('img.icoRequired:not(.displaynone)');
+      return reqIcon && isVisible(reqIcon) && isVisible(tr);
+    });
+  }
+
+  function rowIsValid(tr) {
+    const ctrls = Array.from(tr.querySelectorAll('input, select, textarea'))
+      .filter(el => !el.disabled && isVisible(el));
+
+    if (ctrls.length === 0) return true;
+
+    const radios = ctrls.filter(el => el.type === 'radio');
+    const checks = ctrls.filter(el => el.type === 'checkbox');
+
+    const radioGroups = [...new Set(radios.map(r => r.name))];
+    for (const name of radioGroups) {
+      const group = radios.filter(r => r.name === name);
+      if (!group.some(r => r.checked)) return false;
+    }
+
+    const checkGroups = [...new Set(checks.map(c => c.name))];
+    for (const name of checkGroups) {
+      const group = checks.filter(c => c.name === name);
+      if (!group.some(c => c.checked)) return false;
+    }
+
+    const selects = ctrls.filter(el => el.tagName === 'SELECT' && el.type !== 'select-multiple');
+    for (const s of selects) {
+      if ((s.value ?? '').trim() === '') return false;
+    }
+
+    const texts = ctrls.filter(el =>
+      ['text','password','email','number','tel','search','url'].includes(el.type)
+    );
+
+    const byName = new Map();
+    texts.forEach(t => {
+      const key = t.name || t.id || Symbol();
+      if (!byName.has(key)) byName.set(key, []);
+      byName.get(key).push(t);
+    });
+
+    for (const [, group] of byName) {
+      const allFilled = group.every(el => (el.value ?? '').trim() !== '');
+      if (!allFilled) return false;
+    }
+
+    const others = ctrls.filter(el =>
+      el.tagName === 'TEXTAREA'
+    );
+    for (const ta of others) {
+      if ((ta.value ?? '').trim() === '') return false;
+    }
+
+    return true;
+  }
+
+  function checkValidity() {
+    const rows = getRequiredRows();
+    const allValid = rows.every(rowIsValid);
+    joinBtn.classList.toggle('active', allValid);
+    joinBtn.classList.toggle('disabled', !allValid);
+  }
+
+  document.addEventListener('input', checkValidity, true);
+  document.addEventListener('change', checkValidity, true);
+
+  const mo = new MutationObserver(checkValidity);
+  mo.observe(document.body, {
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class','style']
+  });
+
+  checkValidity();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const add2Input = document.getElementById('add2');
+  const add2Row   = add2Input ? add2Input.closest('tr') : null;
+
+  const add3Input = document.querySelector('[name="add3"]') || document.getElementById('add3');
+  const add3Row   = add3Input ? add3Input.closest('tr') : null;
+
+  const radios   = Array.from(document.querySelectorAll('input[name="add1"]'));
+  const pwRadio  = document.getElementById('add1__0');
+  const etcRadio = document.getElementById('add1__3');
+  const opt1Radio= document.getElementById('add1__1');
+  const opt2Radio= document.getElementById('add1__2');
+
+  const methodRow = radios.length > 0 ? radios[0].closest('tr') : null;
+
+  if (radios.length === 0 || !methodRow) return;
+
+  function toggleRow(row, show) {
+    if (!row) return;
+    row.classList.toggle('row-hidden', !show);
+  }
+
+  function syncVisibility() {
+    const showAdd2 = !!(pwRadio && pwRadio.checked);
+    toggleRow(add2Row, showAdd2);
+    if (add2Input) {
+      if (showAdd2) {
+        add2Input.setAttribute('required', 'required');
+      } else {
+        add2Input.removeAttribute('required');
+        add2Input.value = '';
+      }
+    }
+
+    const showAdd3 = !!(etcRadio && etcRadio.checked);
+    toggleRow(add3Row, showAdd3);
+    if (add3Input && !showAdd3) {
+      add3Input.value = '';
+    }
+
+    const noRadioChecked = !radios.some(r => r.checked);
+    if ((opt1Radio && opt1Radio.checked) || (opt2Radio && opt2Radio.checked) || noRadioChecked) {
+      methodRow.style.borderBottomLeftRadius = '12px';
+      methodRow.style.borderBottomRightRadius = '12px';
+    } else {
+      methodRow.style.borderBottomLeftRadius = '0';
+      methodRow.style.borderBottomRightRadius = '0';
+    }
+  }
+
+  syncVisibility();
+  radios.forEach(r => r.addEventListener('change', syncVisibility));
+});
+
+document.addEventListener('DOMContentLoaded', function(){
+  const cell  = document.getElementById('companySsn');
+  const input = document.getElementById('cssn');
+  const btn   = cell ? cell.querySelector('.btnNormal') : null;
+  const msgEl = document.getElementById('cssnMsg');
+  if (!cell || !input || !btn || !msgEl) return;
+
+  let suppress = false;
+
+  function setMsg(kind, text){
+    suppress = true;
+    if (typeof text === 'string' && msgEl.textContent !== text) {
+      msgEl.textContent = text;
+    }
+    msgEl.classList.remove('help-err','help-ok','help-info','show');
+    if (kind) msgEl.classList.add('show', kind);
+    setTimeout(() => { suppress = false; }, 0);
+  }
+
+  function setInputError(on){
+    input.classList.toggle('is-invalid', !!on);
+    if (on) input.setAttribute('aria-invalid','true');
+    else    input.removeAttribute('aria-invalid');
+  }
+
+  const okRe      = /(등록\s*가능|사용\s*가능|가능합니다|확인되었습니다|available|ok)/i;
+  const dupRe = /(이미\s*(가입|사용|등록|존재)|기\s*가입|기가입|가입\s*되어|가입됨|등록\s*되어|등록됨|중복|duplicate)/i;
+  const invalidRe = /(올바른|유효하지|형식|잘못|없는\s*번호|존재하지|조회되지|invalid|not\s*found)/i;
+
+  const FIXED = {
+    ok: '등록 가능한 사업자 번호입니다.',
+    dup: '이미 등록된 사업자 번호입니다.',
+    invalid: '올바른 사업자 번호를 입력해주세요.'
+  };
+
+  function classify(text){
+    const s = String(text || '');
+    if (okRe.test(s))      return 'ok';
+    if (dupRe.test(s))     return 'dup';
+    if (invalidRe.test(s)) return 'invalid';
+    return 'info';
+  }
+
+  const observer = new MutationObserver(() => {
+    if (suppress) return;
+    const raw = (msgEl.textContent || '').trim();
+    if (!raw) { setMsg(null, ''); setInputError(false); return; }
+
+    const kind = classify(raw);
+    if (kind === 'ok') {
+      setMsg('help-ok', FIXED.ok);
+      setInputError(false);
+    } else if (kind === 'dup') {
+      setMsg('help-err', FIXED.dup);
+      setInputError(true);
+    } else if (kind === 'invalid') {
+      setMsg('help-err', FIXED.invalid);
+      setInputError(true);
+    } else {
+      setMsg('help-info', raw);
+      setInputError(false);
+    }
+  });
+
+  observer.observe(msgEl, { childList:true, characterData:true, subtree:true });
+
+  btn.addEventListener('click', function(){
+    setMsg('help-info', '중복 확인 중…');
+    setInputError(false);
+  }, true);
+
+  input.addEventListener('input', function(){
+    setInputError(false);
+  });
+
+  (function syncOnLoad(){
+    const raw = (msgEl.textContent || '').trim();
+    if (!raw) return;
+    const kind = classify(raw);
+    if (kind === 'ok') {
+      setMsg('help-ok', FIXED.ok);
+      setInputError(false);
+    } else if (kind === 'dup') {
+      setMsg('help-err', FIXED.dup);
+      setInputError(true);
+    } else if (kind === 'invalid') {
+      setMsg('help-err', FIXED.invalid);
+      setInputError(true);
+    } else {
+      setMsg('help-info', raw);
+      setInputError(false);
+    }
+  })();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const title = document.querySelector(".tr_company");
+  const companyRow = document.getElementById("companyRow");
+  const companyNoRow = document.getElementById("companyNoRow");
+
+  if (!title || !companyRow || !companyNoRow) return;
+
+  const applyVisibility = () => {
+    const isVisible = (el) =>
+      el && el.getClientRects().length > 0 &&
+      getComputedStyle(el).display !== "none" &&
+      getComputedStyle(el).visibility !== "hidden";
+
+    if (isVisible(companyRow) || isVisible(companyNoRow)) {
+      title.style.display = "";
+    } else {
+      title.style.display = "none";
+    }
+  };
+
+  applyVisibility();
+
+  const mo = new MutationObserver(applyVisibility);
+  mo.observe(companyRow, { attributes: true, attributeFilter: ["style", "class"] });
+  mo.observe(companyNoRow, { attributes: true, attributeFilter: ["style", "class"] });
+
+  document.addEventListener("change", (e) => {
+    if (e.target.matches('input[name="member_type"], input[name="memberType"]')) {
+      setTimeout(applyVisibility, 0);
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const nameRow = document.querySelector('tr th[id="nameTitle"]')?.closest("tr");
+  const ssnRow  = document.getElementById("ssnTitle")?.closest("tr");
+
+  if (!nameRow || !ssnRow) return;
+
+  const applyRadius = () => {
+    const isVisible =
+      ssnRow.getClientRects().length > 0 &&
+      getComputedStyle(ssnRow).display !== "none" &&
+      getComputedStyle(ssnRow).visibility !== "hidden";
+
+    if (isVisible) {
+      nameRow.classList.add("no-radius");
+    } else {
+      nameRow.classList.remove("no-radius");
+    }
+  };
+
+  applyRadius();
+
+  const mo = new MutationObserver(applyRadius);
+  mo.observe(ssnRow, { attributes: true, attributeFilter: ["style", "class"] });
+
+  document.addEventListener("change", (e) => {
+    if (e.target.matches('input[name="member_type"], input[name="memberType"]')) {
+      setTimeout(applyRadius, 0);
+    }
+  });
+});
+
+(function () {
+  const TARGET_IDS = ['nameContents','ssnContents','companyName'];
+
+  const checked = (name) =>
+    Array.from(document.querySelectorAll(`input[name="${name}"]`)).find(el => el.checked);
+
+  function isBusinessMember() {
+    const c1 = checked('member_type') || checked('memberType');
+    return (c1?.value || '').toLowerCase() === 'c';
+  }
+
+  function isCorporate() {
+    const c2 = checked('company_type') || checked('companyType');
+    if (!c2) return false;
+
+    const val = (c2.value || '').toLowerCase();
+    const label = (document.querySelector(`label[for="${c2.id}"]`)?.textContent || c2.closest('label')?.textContent || '').trim();
+
+    const byVal   = /(corp|corporat|inc|법인|b|2)/i.test(val);
+    const byLabel = /법인\s*사업자|법인/i.test(label);
+    return byVal || byLabel;
+  }
+
+  function ensureBox(el){
+    if (!el) return null;
+    let box = el.querySelector(':scope > .corp-box');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'corp-box';
+      while (el.firstChild) box.appendChild(el.firstChild);
+      el.appendChild(box);
+    }
+    return box;
+  }
+
+  function applyStyles(on){
+    TARGET_IDS.forEach(id => {
+      const host = document.getElementById(id);
+      if (!host) return;
+      const box = ensureBox(host);
+      box.classList.toggle('corp-highlight', !!on);
+    });
+  }
+
+  function refresh(){
+    applyStyles(isBusinessMember() && isCorporate());
+  }
+
+  document.addEventListener('change', (e) => {
+    if (e.target.matches('input[name="member_type"], input[name="memberType"], input[name="company_type"], input[name="companyType"]')) {
+      setTimeout(refresh, 0);
+    }
+  });
+
+  const mo = new MutationObserver(() => setTimeout(refresh, 0));
+  mo.observe(document.body, {subtree:true, attributes:true, childList:true, attributeFilter:['class','style']});
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', refresh);
+  } else {
+    refresh();
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  function getPwInput() {
+    return document.querySelector('#passwd, input[name="passwd"][type="password"], input[type="password"][id*="passwd"]');
+  }
+  function getErrEl(pwInput) {
+    let el = document.getElementById('pw');
+    if (!el) {
+      el = document.createElement('p');
+      el.id = 'pw';
+      el.className = 'form-error';
+      el.setAttribute('role', 'alert');
+      el.setAttribute('aria-live', 'polite');
+      el.style.display = 'none';
+      pwInput.insertAdjacentElement('afterend', el);
+    }
+    return el;
+  }
+
+  const allowedSpecialChars = Array.from("~`!@#$%^()*_-={}[]|;:<>,.?/");
+  const allowedSet = new Set(allowedSpecialChars);
+
+  function isAsciiLetterOrDigit(ch){
+    const c = ch.charCodeAt(0);
+    return (c>=48 && c<=57) || (c>=65 && c<=90) || (c>=97 && c<=122);
+  }
+  function allCharsAllowed(str){
+    for (const ch of str) {
+      if (!(isAsciiLetterOrDigit(ch) || allowedSet.has(ch))) return false;
+    }
+    return true;
+  }
+  function containsAllowedSpecial(str){
+    for (const ch of str) if (allowedSet.has(ch)) return true;
+    return false;
+  }
+
+  function hasSequential3(str){
+    for (let i=0;i<str.length-2;i++){
+      const a=str.charCodeAt(i), b=str.charCodeAt(i+1), c=str.charCodeAt(i+2);
+      if ((b===a+1 && c===b+1) || (b===a-1 && c===b-1)) return true;
+    }
+    return false;
+  }
+  function hasTripleRepeat(str){
+    for (let i=0;i<str.length-2;i++){
+      if (str[i]===str[i+1] && str[i+1]===str[i+2]) return true;
+    }
+    return false;
+  }
+  function getUserId(){
+    const sel = document.querySelector('#member_id, #user_id, input[name="id"], input[name="userid"]');
+    return (sel && sel.value) ? sel.value : '';
+  }
+
+  function validatePassword(pw){
+    if (!pw) return '비밀번호를 입력해 주세요.';
+    if (/\s/.test(pw)) return '공백은 사용할 수 없습니다.';
+    if (pw.length < 10 || pw.length > 16) return '10~16자의 영문 대소문자, 숫자, 특수문자 조합을 사용해주세요.';
+
+    if (!allCharsAllowed(pw)) return '허용되지 않은 특수문자가 포함되어 있습니다.';
+
+    const hasLower = /[a-z]/.test(pw);
+    const hasUpper = /[A-Z]/.test(pw);
+    const hasDigit = /\d/.test(pw);
+    const hasSpecial = containsAllowedSpecial(pw);
+
+    const kinds = (hasLower?1:0) + (hasUpper?1:0) + (hasDigit?1:0) + (hasSpecial?1:0);
+    if (kinds < 2) return '대소문자/숫자/특수문자 중 2가지 이상을 조합해 주세요.';
+
+    if (hasSequential3(pw)) return '연속된 문자/숫자를 3자 이상 사용할 수 없습니다.';
+    if (hasTripleRepeat(pw)) return '동일한 문자/숫자를 3회 이상 반복할 수 없습니다.';
+
+    const uid = (getUserId() || '').toLowerCase();
+    if (uid && uid.length >= 3 && pw.toLowerCase().includes(uid)) {
+      return '아이디가 포함된 비밀번호는 사용할 수 없습니다.';
+    }
+    return '';
+  }
+
+  function attach() {
+    const pwInput = getPwInput();
+    if (!pwInput) return false;
+    const errEl = getErrEl(pwInput);
+
+    function showError(msg){
+      if (msg) {
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+        pwInput.classList.add('is-invalid');
+        pwInput.setAttribute('aria-invalid', 'true');
+      } else {
+        errEl.textContent = '';
+        errEl.style.display = 'none';
+        pwInput.classList.remove('is-invalid');
+        pwInput.removeAttribute('aria-invalid');
+      }
+    }
+
+    const onChange = () => showError(validatePassword(pwInput.value));
+    pwInput.addEventListener('input', onChange);
+    pwInput.addEventListener('blur', onChange);
+
+    const form = pwInput.closest('form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        const msg = validatePassword(pwInput.value);
+        if (msg) {
+          e.preventDefault();
+          showError(msg);
+          pwInput.focus();
+        }
+      });
+    }
+    return true;
+  }
+
+  if (!attach()) {
+    const observer = new MutationObserver(() => { if (attach()) observer.disconnect(); });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+    setTimeout(() => observer.disconnect(), 5000);
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const auth = document.getElementById('businessAuth');
+  const dd   = auth ? auth.querySelector('dd.formGroup.code') : null;
+  const btn  = dd ? dd.querySelector('.btnNormal') : null;
+  if (!auth || !dd || !btn) return;
+
+  const in1 = document.getElementById('bssn1');
+  const in2 = document.getElementById('bssn2');
+  if (!in1 || !in2) return;
+
+  let msgDD = document.getElementById('biz-check-msg-dd');
+  if (!msgDD) {
+    msgDD = document.createElement('dd');
+    msgDD.id = 'biz-check-msg-dd';
+    msgDD.className = 'form-help-dd';
+    msgDD.style.display = 'none';
+    msgDD.innerHTML = '<span id="biz-check-msg" class="form-help" role="alert" aria-live="polite"></span>';
+    dd.insertAdjacentElement('afterend', msgDD);
+  }
+  const msgEl = msgDD.querySelector('#biz-check-msg');
+
+  function digitsOnly(el, maxLen){
+    const before = el.value;
+    const after  = before.replace(/\D+/g, '').slice(0, maxLen);
+    if (before !== after) el.value = after;
+  }
+
+  function clearErrorUI() {
+    [in1, in2].forEach(el => {
+      el.classList.remove('is-invalid');
+      el.removeAttribute('aria-invalid');
+    });
+    msgDD.style.display = 'none';
+    msgEl.textContent = '';
+    msgEl.className = 'form-help';
+  }
+
+  in1.addEventListener('input', () => {
+    digitsOnly(in1, 6);
+    if (in1.value.length === 6) in2.focus();
+    clearErrorUI();
+  });
+
+  in2.addEventListener('input', () => {
+    digitsOnly(in2, 7);
+    clearErrorUI();
+  });
+
+  in2.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && in2.selectionStart === 0 && in2.selectionEnd === 0 && in1.value.length) {
+      in1.focus();
+      in1.setSelectionRange(in1.value.length, in1.value.length);
+    }
+  });
+
+  function locallyValid(){
+    return /^\d{6}$/.test(in1.value) && /^\d{7}$/.test(in2.value);
+  }
+
+  function markInputs(klass){
+    const isErr = (klass === 'help-err');
+    [in1, in2].forEach(el => {
+      el.classList.toggle('is-invalid', isErr);
+      if (isErr) el.setAttribute('aria-invalid','true'); else el.removeAttribute('aria-invalid');
+    });
+  }
+
+  function show(text, klass){
+    msgEl.textContent = text;
+    msgEl.className = 'form-help ' + klass;
+    msgDD.style.display = 'block';
+    markInputs(klass);
+  }
+
+  const nativeAlert = window.alert;
+  let session = null;
+
+  const okRe      = /(등록\s*가능|사용\s*가능|가능합니다|확인되었습니다|available|ok)/i;
+  const dupRe     = /(이미\s*(사용|등록|존재)|중복|duplicate)/i;
+  const invalidRe = /(올바르지|유효하지|형식|잘못|없는\s*번호|존재하지|조회되지|invalid|not\s*found)/i;
+
+  function classify(text){
+    const s = String(text || '');
+    if (okRe.test(s))      return {txt:'등록 가능한 법인 번호입니다.', klass:'help-ok'};
+    if (dupRe.test(s))     return {txt:'이미 등록된 법인 번호입니다.', klass:'help-err'};
+    if (invalidRe.test(s)) return {txt:'올바른 법인 번호를 입력해주세요.', klass:'help-err'};
+    return {txt:s || '확인 결과를 표시할 수 없습니다.', klass:'help-info'};
+  }
+
+  function finalize(){
+    if (!session) return;
+    const last = session.buf.length ? session.buf[session.buf.length - 1] : '';
+    const {txt, klass} = classify(last);
+    show(txt, klass);
+    clearTimeout(session.timeout);
+    session = null;
+  }
+
+  window.alert = function(msg){
+    if (session) {
+      session.buf.push(String(msg || ''));
+      clearTimeout(session.timer);
+      session.timer = setTimeout(finalize, 600);
+      return;
+    }
+    nativeAlert(msg);
+  };
+
+  btn.addEventListener('click', function (e){
+    if (!locallyValid()) {
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      show('올바른 법인 번호를 입력해주세요.', 'help-err');
+      return;
+    }
+
+    if (session) { clearTimeout(session.timeout); session = null; }
+
+    session = {
+      buf: [],
+      timer: null,
+      timeout: setTimeout(() => { session = null; }, 10000)
+    };
+    show('중복 확인 중…', 'help-info');
+  }, true);
+
+  window.addEventListener('beforeunload', function (){
+    window.alert = nativeAlert;
+  });
+
+  (function syncOnLoad(){
+    const current = msgEl.textContent.trim();
+    if (!current) return;
+    const { klass } = classify(current);
+    msgDD.style.display = 'block';
+    markInputs(klass);
+  })();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const pwInput =
+    document.querySelector('#passwd') ||
+    document.querySelector('input[name="passwd"][type="password"]') ||
+    document.querySelector('input[type="password"][id*="passwd"]');
+
+  const confirmInput = document.getElementById('user_passwd_confirm');
+  const msg = document.getElementById('pwConfirmMsg');
+  if (!confirmInput || !msg) return;
+
+  function setInvalid(on) {
+    confirmInput.classList.toggle('is-invalid', on);
+    if (on) {
+      msg.classList.add('show');
+      confirmInput.setAttribute('aria-invalid', 'true');
+      confirmInput.setAttribute('aria-describedby', 'pwConfirmMsg');
+    } else {
+      msg.classList.remove('show');
+      confirmInput.removeAttribute('aria-invalid');
+      confirmInput.removeAttribute('aria-describedby');
+    }
+  }
+
+  function check() {
+    const pw = (pwInput && pwInput.value) || '';
+    const cf = confirmInput.value;
+
+    if (!cf) return setInvalid(false);
+
+    setInvalid(pw !== cf);
+  }
+
+  confirmInput.addEventListener('input', check);
+  confirmInput.addEventListener('blur', check);
+  if (pwInput) pwInput.addEventListener('input', check);
+
+  const form = confirmInput.closest('form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      check();
+      if (confirmInput.classList.contains('is-invalid')) {
+        e.preventDefault();
+        confirmInput.focus();
+      }
+    });
+  }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  const idInput = document.getElementById('member_id');
+  const idMsg   = document.getElementById('idMsg');
+  if (!idInput || !idMsg) return;
+
+  const idRe = /^[a-z0-9]{4,16}$/;
+
+  function setInvalid(on, text) {
+    idInput.classList.toggle('is-invalid', on);
+    if (on) {
+      if (text) idMsg.textContent = text;
+      idMsg.classList.add('show');
+      idInput.setAttribute('aria-invalid', 'true');
+      idInput.setAttribute('aria-describedby', 'idMsg');
+    } else {
+      idMsg.classList.remove('show');
+      idInput.removeAttribute('aria-invalid');
+      idInput.removeAttribute('aria-describedby');
+    }
+  }
+
+  function validateId(value) {
+    if (!value) {
+      return { invalid: false, msg: '' };
+    }
+    if (!idRe.test(value)) {
+      return { invalid: true, msg: '아이디는 영문 소문자 또는 숫자 4~16자로 입력해 주세요.' };
+    }
+    return { invalid: false, msg: '' };
+  }
+
+  function check() {
+    const { invalid, msg } = validateId(idInput.value.trim());
+    setInvalid(invalid, msg);
+  }
+
+  idInput.addEventListener('input', check);
+  idInput.addEventListener('blur', check);
+
+  const form = idInput.closest('form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      check();
+      if (idInput.classList.contains('is-invalid')) {
+        e.preventDefault();
+        idInput.focus();
+      }
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const emailInput = document.getElementById('email1');
+  const emailMsg   = document.getElementById('emailMsg');
+  if (!emailInput || !emailMsg) return;
+
+  const emailRe = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+  function setInvalid(on, text) {
+    emailInput.classList.toggle('is-invalid', on);
+    if (on) {
+      if (text) emailMsg.textContent = text;
+      emailMsg.classList.add('show');
+      emailInput.setAttribute('aria-invalid', 'true');
+      emailInput.setAttribute('aria-describedby', 'emailMsg');
+    } else {
+      emailMsg.classList.remove('show');
+      emailInput.removeAttribute('aria-invalid');
+      emailInput.removeAttribute('aria-describedby');
+    }
+  }
+
+  function validateEmail(value) {
+    const v = value.trim();
+
+    if (!v) return { invalid: false, msg: '' };
+
+    if (/\s/.test(v)) return { invalid: true, msg: '이메일에 공백은 사용할 수 없습니다.' };
+
+    if (!emailRe.test(v)) {
+      return { invalid: true, msg: '유효한 이메일을 입력해 주세요.' };
+    }
+
+    const [local, domain] = v.split('@');
+    if (local.startsWith('.') || local.endsWith('.') || /\.\./.test(local)) {
+      return { invalid: true, msg: '이메일의 로컬 부분에 연속된 점은 사용할 수 없습니다.' };
+    }
+    if (!domain || domain.startsWith('.') || domain.endsWith('.') || /\.\./.test(domain)) {
+      return { invalid: true, msg: '도메인 형식이 올바르지 않습니다.' };
+    }
+
+    return { invalid: false, msg: '' };
+  }
+
+  function check() {
+    const { invalid, msg } = validateEmail(emailInput.value);
+    setInvalid(invalid, msg);
+  }
+
+  emailInput.addEventListener('input', check);
+  emailInput.addEventListener('blur', check);
+
+  const form = emailInput.closest('form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      check();
+      if (emailInput.classList.contains('is-invalid')) {
+        e.preventDefault();
+        emailInput.focus();
+      }
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function(){
+  const wrap   = document.querySelector('.form_phone_input_wrap');
+  const sel    = document.getElementById('mobile1');
+  const m2     = document.getElementById('mobile2');
+  const m3     = document.getElementById('mobile3');
+  const btn    = document.getElementById('btn_action_verify_mobile');
+  const msgErr = document.getElementById('result_send_verify_mobile_fail');
+  const msgOk  = document.getElementById('result_send_verify_mobile_success');
+  if (!wrap || !sel || !m2 || !m3 || !btn || !msgErr || !msgOk) return;
+
+  const max2 = Number(m2.getAttribute('maxlength')) || 4;
+  const max3 = Number(m3.getAttribute('maxlength')) || 4;
+
+  function digitsOnly(el){
+    const before = el.value;
+    const after  = before.replace(/\D+/g, '').slice(0, Number(el.maxLength || 4));
+    if (before !== after) el.value = after;
+  }
+
+  function showError(){
+    msgErr.textContent = '올바른 휴대폰 번호를 입력해주세요.';
+    msgErr.classList.remove('displaynone');
+    msgOk.classList.add('displaynone');
+    [m2, m3].forEach(el => {
+      el.classList.add('is-invalid');
+      el.setAttribute('aria-invalid', 'true');
+    });
+  }
+
+  function clearError(){
+    msgErr.classList.add('displaynone');
+    [m2, m3].forEach(el => {
+      el.classList.remove('is-invalid');
+      el.removeAttribute('aria-invalid');
+    });
+  }
+
+  function allEmpty(){
+    return !m2.value && !m3.value;
+  }
+
+  function isLocallyValid(){
+    return /^\d+$/.test(m2.value) && m2.value.length === max2 &&
+           /^\d+$/.test(m3.value) && m3.value.length === max3;
+  }
+
+  function validateLive(){
+    if (allEmpty()) { clearError(); return; }
+    if (isLocallyValid()) clearError(); else showError();
+  }
+
+  m2.addEventListener('input', () => {
+    digitsOnly(m2);
+    if (m2.value.length === max2) m3.focus();
+    validateLive();
+  });
+  m3.addEventListener('input', () => {
+    digitsOnly(m3);
+    validateLive();
+  });
+
+  m3.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && m3.selectionStart === 0 && m3.selectionEnd === 0 && m2.value.length) {
+      m2.focus();
+      m2.setSelectionRange(m2.value.length, m2.value.length);
+    }
+  });
+
+  btn.addEventListener('click', function(e){
+    if (!isLocallyValid()){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      showError();
+      m2.focus();
+    } else {
+      clearError();
+    }
+  }, true);
+
+  validateLive();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="passwd"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.style = 'top:25px';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="user_passwd_confirm"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return; 
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.style = 'top:25px';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+</script>
+
+<style>
+.ec-base-tooltip {
+    position: absolute;
+    z-index: 100;
+    display: none;
+    max-width: 320px;
+    background: #fff;
+    border: 1px solid #D9D9D9;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.ec-base-tooltip.active {
+    display: block;
+}
+
+.ec-base-tooltip .content strong {
+    font-size: 14px;
+    color: #393939;
+}
+
+.xans-member-join .cs-trigger {
+    display: flex;
+    padding: 12px;
+    align-items: center;
+    gap: 11px;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+}
+
+.xans-member-join .cs-list {
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    max-height: var(--cs-h, 0px);
+    transition: max-height .22s cubic-bezier(.2,.8,.2,1), opacity .16s ease, border-color .18s ease;
+}
+
+.xans-member-join .cs-label {
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+.xans-member-join td.formGroup.code p.txtInfo,
+.xans-member-join td.formGroup.code ul.txtInfo {
+    flex: 1 1 100%;
+    margin-top: 4px;
+}
+
+#confirm_verify_mobile td {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#join_zipcode_wrap .ec-base-label {
+    display: none;
+}
+
+tr.member_type { 
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+tr.member_type.no-radius {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+tr.no-radius {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+tr.row-hidden {
+  overflow: hidden;
+  height: 0;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  border-top-width: 0 !important;
+  border-bottom-width: 0 !important;
+  opacity: 0;
+}
+tr:not(.row-hidden) {
+  opacity: 1;
+  transition: height .24s ease, opacity .16s ease;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.tr_title {
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+    margin-bottom: 12px;
+}
+
+#contents {
+  padding: 20px 16px 126px 16px;
+}
+
+#nameContents, #ssnContents, #companyName {
+  color: var(--G-800, var(--Gray-800, #393939));
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.28px;
+}
+
+.corp-box {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.corp-highlight {
+  height: 48px;
+  border-radius: 8px;
+  border: 1px solid var(--G-300, #D9D9D9);
+  background: var(--Gray-100, #F0F0F0);
+  color: var(--G-600, var(--Gray-600, #767676));
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  padding: 12px 14px;
+}
+
+
+.eTooltip #pw.form-error{
+  display:block !important;
+  visibility:visible !important;
+  color:#F44336 !important;
+  font-size:12px !important;
+  line-height:1.4 !important;
+  margin-top:6px !important;
+  white-space:normal !important;
+}
+
+#pwConfirmMsg{
+  display: block !important;
+    visibility: visible !important;
+    color: #F44336 !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    margin-top: 6px !important;
+    white-space: normal !important;
+}
+
+#emailMsg{
+  color: var(--Discount-Red, var(--Discount-Red, #F44336));
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+}
+
+#businessAuth .help-ok{
+    color: var(--Olive-Green, #1B8862);
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+}
+
+#businessAuth .help-info,
+#businessAuth .help-err{
+  color: var(--Discount-Red, var(--Discount-Red, #F44336));
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+}
+
+.form-error { color:#F44336; font-size:12px; margin-top:6px; line-height:1.4; }
+#passwd.is-invalid,
+input[name="passwd"].is-invalid {
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+
+#cssnMsg{
+  display: block !important;
+    visibility: visible !important;
+    color: #F44336 !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+    margin-top: 6px !important;
+    white-space: normal !important;
+}
+#cssn.is-invalid {
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+
+#companyNoRow .help-ok{
+  color: var(--Olive-Green, #1B8862) !important;
+}
+
+#pwConfirmMsg { display:none; color:#F44336; font-size:12px; margin-top:6px; }
+
+/* JS에서 show 붙이면 보이게 */
+#pwConfirmMsg.show { display:block; }
+
+/* 인풋 에러 스타일 */
+#user_passwd_confirm.is-invalid {
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+
+#idMsg { 
+  display:none;
+  color: var(--Discount-Red, var(--Discount-Red, #F44336));
+  font-family: Pretendard;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 18px; /* 150% */
+letter-spacing: -0.24px;
+  margin-top:6px; }
+/* JS에서 show 붙이면 보이기 */
+#idMsg.show { display:block; }
+/* 인풋 테두리 빨간색 */
+#member_id.is-invalid {
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+#emailMsg { display:none; color:#F44336; font-size:12px; margin-top:6px; }
+/* 보일 때 */
+#emailMsg.show { display:block; }
+/* 인풋 빨간 테두리 */
+#email1.is-invalid {
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+
+#bssn1.is-invalid,
+#bssn2.is-invalid {
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+
+#result_send_verify_mobile_fail{
+      color: var(--Discount-Red, var(--Discount-Red, #F44336));
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+}
+
+#mobile2.is-invalid,
+#mobile3.is-invalid{
+  border-color:#F44336 !important;
+  outline-color:#F44336 !important;
+}
+
+td{
+  position: relative;
+}
+</style>

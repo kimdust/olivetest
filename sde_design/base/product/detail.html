@@ -1,0 +1,3114 @@
+<!--@layout(/layout/basic/layout.html)-->
+<!-- <div class="section path" module="product_headcategory" data-ez-module="product-head-breadcrumb/1">
+    <span>현재 위치</span>
+    <ol>
+        <li><a href="/">홈</a></li>
+        <li class="{$disp_cate_1|display}"><a href="{$link_product_list_1}">{$name_1}</a></li>
+        <li class="{$disp_cate_2|display}"><a href="{$link_product_list_2}">{$name_2}</a></li>
+        <li class="{$disp_cate_3|display}"><a href="{$link_product_list_3}">{$name_3}</a></li>
+        <li class="{$disp_cate_4|display}"><strong><a href="{$link_product_list_4}">{$name_4}</a></strong></li>
+    </ol>
+</div> -->
+<!-- <div class="titleArea display_tablet_only" data-ez-module="product-detail-head-title-mobile/1">
+    <h2>상품상세 정보</h2>
+</div> -->
+<div class="product_detail_section" module="product_detail">
+    <!--@js(/js/module/product/detail.js)-->
+    <!--
+		$coupon_download_page = /coupon/coupon_productdetail.html
+    -->
+    <div class="product_detail_wrap">
+        <div class="product_info_top">
+            <div class="product_img_wrap" module="product_image">
+                <!--@js(/js/module/product/product_image.js)-->
+                <div class="product_img_box">
+                    <img src="{$big_img}" alt="{$seo_alt_tag}" />
+                </div>
+            </div>
+            <div class="product_banner_wrap" id="productBannerArea">
+                {$custom_option6}
+            </div>
+        </div>
+        <div class="product_number_wrap">
+            <div class="product_number_box">
+                <div class="product_number_item product_number_item1">
+                    <button class="help_btn help_btn_01">
+                        <img src="https://olivetest.cafe24.com/web/upload/help.png" alt="">
+                    </button>
+                    <p class="product_number_name">산도(≤0.8%)</p>
+                    <p class="product_number_big">{$custom_option1} <span>%</span></p>
+                </div>
+                <div class="product_number_item product_number_item2">
+                    <button class="help_btn help_btn_02">
+                        <img src="https://olivetest.cafe24.com/web/upload/help.png" alt="">
+                    </button>
+                    <p class="product_number_name">폴리페놀</p>
+                    <p class="product_number_big">{$custom_option4} <span>mg/kg</span></p>
+                </div>
+                <div class="product_number_item product_number_item3">
+                    <button class="help_btn help_btn_03">
+                        <img src="https://olivetest.cafe24.com/web/upload/help.png" alt="">
+                    </button>
+                    <p class="product_number_name">올레오칸탈</p>
+                    <p class="product_number_big">{$custom_option5} <span>mg/kg</span></p>
+                </div>
+            </div>
+            <a href="/product/info.html"  class="product_number_more">
+                <div class="number_more_left">
+                    <div class="number_more_top">
+                        <img src="https://olivetest.cafe24.com/web/upload/help_green.png" alt="help">
+                        <p>주요 성분에 대해 궁금하신가요?</p>
+                    </div>
+                    <div class="number_more_bottom">
+                        <p>올리브 오일을 구성하는 핵심 성분, 지금 확인하세요.</p>
+                    </div>
+                </div>
+                <div class="number_more_right">
+                    <img src="https://olivetest.cafe24.com/web/upload/arrow_right.png" alt="more">
+                </div>
+            </a>
+        </div>
+        <div class="product_info_wrap" data-ez-role="ez-discount-tag">
+            <div class="product_info_top">
+                <p class="product_detail_brand">{$prd_brand}</p>
+                <p class="product_detail_name">{$name}</p>
+                <div class="review_short"></div>
+            </div>
+            <div class="line" style="margin: 20px 0;"></div>
+            <div class="product_detail_list"
+                data-original-price="{$product_custom}"
+                data-sale-price="{$product_price}">
+                <div class="product_detail_price_per"></div>
+                <div class="product_detail_price_cancle" style="display: none;">
+                    {$product_custom|numberformat}원
+                </div>
+                <div class="product_detail_price_real">
+                    {$product_price|numberformat}원
+                </div>
+            </div>
+        </div>
+        <div class="tasting_tag" module="product_detail">
+            <h3>테이스팅 노트</h3>
+            <div class="product_tasting_wrap">
+                <div class="product_flavor_data" id="productFlavorArea">
+                    {$custom_option13}
+                </div>
+                <div class="product_smell_data" id="productSmellArea">
+                    {$custom_option14}
+                </div>
+            </div>
+        </div>
+            <a href="#" class="before_year_wrap" style="display:none;">
+            <div class="before_year_left">
+                <img class="before_year_img" src="{$big_img}" alt="{$seo_alt_tag}">
+                 <span class="before_year_label"></span>
+            </div>
+            <img class="before_year_arrow" src="https://olivetest.cafe24.com/web/upload/chevron_forward.png" alt="화살표">
+        </a>
+    </div>
+</div>
+
+<!--@import(/coupon/coupon_productdetail.html)-->
+<div class="product_info_section" module="product_additional">
+    <!--@css(/css/module/product/additional.css)-->
+	<!--@import(/board/report_popup.html)-->
+	<div class="detail">
+        <div class="review_tab">
+            <div class="review_tab_item expert_review_wrap active">전문가 리뷰</div>
+            <div class="review_tab_item normal_review_wrap">구매자 리뷰</div>
+        </div>
+
+        <div class="detail_info expert_contents" module="product_detail">
+            <div class="taste_profile">
+                <div class="taste_profile_title">
+                    <h3 class="taste_title">테이스트 평가</h3>
+                    <p>올리브 오일의 풍미를 중심으로 한 평가를 확인해 보세요.</p>
+                </div>
+                <div class="taste_profile_box_wrap">
+                    <div class="taste_profile_item">
+                        <div class="taste_number taste_green">{$custom_option9}</div>
+                        <p class="taste_item_title taste_item_green">프루티</p>
+                    </div>
+                    <div class="taste_profile_item">
+                        <div class="taste_number taste_green">{$custom_option10}</div>
+                        <p class="taste_item_title taste_item_green">쓴맛</p>
+                    </div>
+                    <div class="taste_profile_item">
+                        <div class="taste_number taste_red">{$custom_option11}</div>
+                        <p class="taste_item_title taste_item_red">매운맛</p>
+                    </div>
+                </div>
+            </div>
+            <div class="expert_wrap">
+                <div class="expert_comment">
+                    <div class="expert_left">
+                        <div class="product_expert" style="display: none;">{$custom_option12}</div>
+                        <h3 class="expert_title">ESAO 인증 전문가</h3>
+                        <p class="expert_desc"></p>
+                    </div>
+                    <img class="expert_img" src="" alt="올바인 이미지">
+                </div>
+                <p class="expert_profile">{$custom_option8}</p>
+            </div>
+            <div class="line" style="margin: 32px 0 36px 0;"></div>
+        </div>
+
+        <div class="review_info normal_contents" id="prdReview">
+            <div id="review" class="pdt150 cboth"></div>
+            <div class="{$review_display|display}">
+                <div class="board_title">
+                    <div class="review_total"></div>
+                    <div class="normal_review_list">
+                        <p>로딩 중...</p>
+                    </div>
+                    <div class="review_more" style="margin-bottom: 40px;">
+                        리뷰 더보기
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_1896_4379" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-1" y="0" width="25" height="24">
+                                <rect x="23.9998" width="24" height="24" transform="rotate(90 23.9998 0)" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_1896_4379)">
+                                <path d="M17.3076 10.0001L11.9999 15.3079L6.69214 10.0001L7.39989 9.29236L11.9999 13.8924L16.5999 9.29236L17.3076 10.0001Z" fill="#3D3D3D"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="total_info" module="product_detail">
+        <div class="brand_wrap">
+            <div class="brand_txt">
+                <h3 class="brand_title">브랜드 소개</h3>
+                <p>해당 올리브 오일의 주요 정보를 확인해 보세요.</p>
+            </div>
+            <div class="brand_img_wrap">
+                <img class="brand_img" src="" alt="">
+                <a href="#" class="brand_link_btn">브랜드 페이지로 이동 →</a>
+            </div>
+            <div class="brand_desc_wrap">
+                <div class="brand_desc_top">
+                    <img class="brand_logo" src="" alt="">
+                    <div class="brand_desc_txt">
+                        <p>브랜드</p>
+                        <h3>{$prd_brand}</h3>
+                    </div>
+                </div>
+                <p class="brand_description"></p>
+            </div>
+        </div>
+        <div class="line" style="margin: 20px 0;"></div>
+        <div class="brand_product_wrap">
+            <h5>이 브랜드의 다른 상품도 만나보세요.</h5>
+            <div class="brand_product_list"></div>
+        </div>
+        <div class="line" style="margin: 24px 0 32px 0;"></div>
+        <div class="terroir_wrap">
+            <div class="terroir_txt">
+                <h3 class="terroir_title">테루아르 정보 (Terroir Info)</h3>
+                <p>해당 올리브오일의 테루아르 정보는 어떻게 될까요?</p>
+            </div>
+            <div class="terroir_list">
+                <a class="terroir_item terroir_kind_item" href="#">
+                    <img class="kind_img" src="#" alt="">
+                    <div class="terroir_item_txt">
+                        <div class="terroir_item_title">품종</div>
+                        <div class="terroir_item_name product_kind">{$custom_option3}</div>
+                    </div>
+                </a>
+                <a class="terroir_item terroir_location_item" href="#">
+                    <img class="origin_img" src="#" alt="">
+                    <div class="terroir_item_txt">
+                        <div class="terroir_item_title">원산지</div>
+                        <div class="terroir_item_name product_origin">{$made_in}</div>
+                    </div>
+                </a>
+            </div>
+            <div class="terroir_more">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <g clip-path="url(#clip0_1366_15266)">
+                        <path d="M8.00065 1.33325C4.32065 1.33325 1.33398 4.31992 1.33398 7.99992C1.33398 11.6799 4.32065 14.6666 8.00065 14.6666C11.6807 14.6666 14.6673 11.6799 14.6673 7.99992C14.6673 4.31992 11.6807 1.33325 8.00065 1.33325ZM8.00065 11.3333C7.63398 11.3333 7.33398 11.0333 7.33398 10.6666V7.99992C7.33398 7.63325 7.63398 7.33325 8.00065 7.33325C8.36732 7.33325 8.66732 7.63325 8.66732 7.99992V10.6666C8.66732 11.0333 8.36732 11.3333 8.00065 11.3333ZM8.66732 5.99992H7.33398V4.66658H8.66732V5.99992Z" fill="white"/>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1366_15266">
+                        <rect width="16" height="16" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                <p>카드를 터치해서 상세 설명을 확인해보세요!</p>
+            </div>
+            <div class="terroir_card_list">
+                <div class="terroir_card_item terroir_card_item1">
+                    <img src="https://olivetest.cafe24.com/web/upload/Group%2011097.png" alt="">
+                    <div class="terroir_card_txt">
+                        <h5>수확연도</h5>
+                        <p>{$custom_option15}</p>
+                    </div>
+                </div>
+                <div class="terroir_card_item terroir_card_item2">
+                    <img src="https://olivetest.cafe24.com/web/upload/Group%2011047.png" alt="">
+                    <div class="terroir_card_txt">
+                        <h5>수확시기</h5>
+                        <p>{$custom_option16}</p>
+                    </div>
+                </div>
+                <div class="terroir_card_item terroir_card_item3">
+                    <img src="https://olivetest.cafe24.com/web/upload/Group%2011048.png" alt="">
+                    <div class="terroir_card_txt">
+                        <h5>수확방법</h5>
+                        <p>{$custom_option17}</p>
+                    </div>
+                </div>
+                <div class="terroir_card_item terroir_card_item4">
+                    <img src="https://olivetest.cafe24.com/web/upload/Group%2011051.png" alt="">
+                    <div class="terroir_card_txt">
+                        <h5>단일·블렌딩</h5>
+                        <p>{$custom_option18}</p>
+                    </div>
+                </div>
+                <div class="terroir_card_item terroir_card_item5">
+                    <img src="https://olivetest.cafe24.com/web/upload/Group%2011050.png" alt="">
+                    <div class="terroir_card_txt">
+                        <h5>추출방법</h5>
+                        <p>{$custom_option19}</p>
+                    </div>
+                </div>
+                <div class="terroir_card_item terroir_card_item6">
+                    <img src="https://olivetest.cafe24.com/web/upload/Group%2011049.png" alt="">
+                    <div class="terroir_card_txt">
+                        <h5>수입방법</h5>
+                        <p>{$custom_option20}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="line" style="margin: 32px 0;"></div>
+        <div class="food_wrap">
+            <div class="food_txt">
+                <div class="food_line_wrap">
+                    <h3 class="food_title">푸드 페어링</h3>
+                    <a href="/magazine/list.html?tab_id=5">
+                        레시피로 이동
+                        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="12" viewBox="0 0 7 12" fill="none">
+                            <path d="M0.900258 0.693093L6.20801 6.00084L0.900258 11.3086L0.192508 10.6008L4.79251 6.00084L0.192508 1.40084L0.900258 0.693093Z" fill="#ABABAB"/>
+                        </svg>
+                    </a>
+                </div>
+                <p>이 오일과 잘 어울리는 음식이에요</p>
+            </div>
+            <div class="foot_list" id="foodList" data-raw="{$custom_option21}">
+                <div class="swiper food_swiper">
+                    <div class="swiper-wrapper"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="prdDetail" class="productDetail">
+        <div id="product_detail_img_wrap" class="collapsed">{$product_detail}</div>
+        <div class="product_detail_btn_wrap">
+            <button id="toggleDetailBtn" class="detail-toggle-btn">자세히 보기</button>
+        </div>
+	</div>
+
+	<div class="product_qna" id="prdQnA">
+        <h3>지금 보고 계신 상품이 궁금하신가요?</h3>
+        <p>답변은 <strong>마이페이지 > 1:1 문의</strong> 에서 확인하실 수 있습니다.</p>
+        <div id="consultBtns" class="consult-cta">
+        <a id="btnConsultGuest" href="http://pf.kakao.com/_xfIgpG" class="btnNormalFix">
+            상품 문의하기
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_1690_13548" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <rect x="24" y="24" width="24" height="24" transform="rotate(180 24 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_1690_13548)">
+                <path d="M10.0001 6.69212L15.3079 11.9999L10.0001 17.3076L9.29236 16.5999L13.8924 11.9999L9.29236 7.39987L10.0001 6.69212Z" fill="#454545"/>
+            </g>
+            </svg>
+        </a>
+
+        <!-- 회원용 버튼은 숨겨둠 -->
+        <a id="btnConsultMember" href="/board/consult/write.html{$param_write}" class="btnNormalFix" hidden>
+            상품 문의하기
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_1690_13548b" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <rect x="24" y="24" width="24" height="24" transform="rotate(180 24 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_1690_13548b)">
+                <path d="M10.0001 6.69212L15.3079 11.9999L10.0001 17.3076L9.29236 16.5999L13.8924 11.9999L9.29236 7.39987L10.0001 6.69212Z" fill="#454545"/>
+            </g>
+            </svg>
+        </a>
+        </div>
+	</div>
+
+	<div class="product_bottom_info" id="prdInfo" module="Layout_footer">
+        <div class="product_bottom_info_item">
+            <div class="product_bottom_info_title" style="padding-top: 0; border-top: none;">
+                판매자 정보
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_1704_5346" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+                    </mask>
+                    <g mask="url(#mask0_1704_5346)">
+                        <path d="M17.3076 9.99987L11.9999 15.3076L6.69214 9.99987L7.39989 9.29212L11.9999 13.8921L16.5999 9.29212L17.3076 9.99987Z" fill="#3D3D3D"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="product_bottom_info_contents">
+                <p>{$company_name}</p>
+            </div>
+        </div>
+        <div class="product_bottom_info_item">
+            <div class="product_bottom_info_title">
+                배송 정보
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_1704_5346" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+                    </mask>
+                    <g mask="url(#mask0_1704_5346)">
+                        <path d="M17.3076 9.99987L11.9999 15.3076L6.69214 9.99987L7.39989 9.29212L11.9999 13.8921L16.5999 9.29212L17.3076 9.99987Z" fill="#3D3D3D"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="product_bottom_info_contents">
+                <li>배송 방법 : {$shipping_method}</li>
+                <li>배송 지역 : {$shipping_area}</li>
+                <li>배송 비용 : {$shipping_fee}</li>
+                <li>배송 기간 : {$shipping_period}</li>
+                <li>배송 안내 : {$shipping_info}</li>
+            </div>
+        </div>
+        <div class="product_bottom_info_item" module="product_additional">
+            <div class="product_bottom_info_title">
+                교환·반품 정보
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_1704_5346" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+                    </mask>
+                    <g mask="url(#mask0_1704_5346)">
+                        <path d="M17.3076 9.99987L11.9999 15.3076L6.69214 9.99987L7.39989 9.29212L11.9999 13.8921L16.5999 9.29212L17.3076 9.99987Z" fill="#3D3D3D"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="product_bottom_info_contents">
+                <p>{$exchange_info}</p>
+            </div>
+        </div>
+        <div class="product_bottom_info_item" module="mall_term">
+            <div class="product_bottom_info_title">
+                약관 및 주의사항
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_1704_5346" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+                    </mask>
+                    <g mask="url(#mask0_1704_5346)">
+                        <path d="M17.3076 9.99987L11.9999 15.3076L6.69214 9.99987L7.39989 9.29212L11.9999 13.8921L16.5999 9.29212L17.3076 9.99987Z" fill="#3D3D3D"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="product_bottom_info_contents">
+                {$mall_agreement}
+            </div>
+        </div>
+        <div class="product_bottom_info_item" module="product_detail">
+            <div class="product_bottom_info_title">
+                상품 정보 고시
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_1704_5346" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+                    </mask>
+                    <g mask="url(#mask0_1704_5346)">
+                        <path d="M17.3076 9.99987L11.9999 15.3076L6.69214 9.99987L7.39989 9.29212L11.9999 13.8921L16.5999 9.29212L17.3076 9.99987Z" fill="#3D3D3D"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="product_bottom_info_contents">
+                <li>
+                    <span>상품명/용량</span>
+                    <p>{$custom_option22}</p>
+                </li>
+                <li>
+                    <span>원산지</span>
+                    <p>{$made_in}</p>
+                </li>
+                <li>
+                    <span>식품유형</span>
+                    <p>{$custom_option23}</p>
+                </li>
+                <li>
+                    <span>제조사</span>
+                    <p>{$manu_name}</p>
+                </li>
+                <li>
+                    <span>수입원</span>
+                    <p>(주)매직랩</p>
+                </li>
+                <li>
+                    <span>주소</span>
+                    <p>서울시 강남구 봉은사로43길 12 (논현동) 삼우빌딩 1층 101호</p>
+                </li>
+                <li>
+                    <span>전화</span>
+                    <p>02-547-5650</p>
+                </li>
+                <li>
+                    <span>소비기한</span>
+                    <p>{$custom_option24}</p>
+                </li>
+                <li>
+                    <span>내용량</span>
+                    <p>{$custom_option25}</p>
+                </li>
+                <li>
+                    <span>원재료명</span>
+                    <p>{$custom_option26}</p>
+                </li>
+                <li>
+                    <span>포장재질</span>
+                    <p>{$custom_option27}</p>
+                </li>
+                <li>
+                    <span>보관방법</span>
+                    <p>{$custom_option28}</p>
+                </li>
+                <li>
+                    <span>영양정보</span>
+                    <p>{$custom_option29}</p>
+                </li>
+                <li>
+                    <span>성분검사 일자</span>
+                    <p>{$custom_option30}</p>
+                </li>
+            </div>
+        </div>
+	</div>
+    
+    <div id="imageModal" onclick="hideImageModal()">
+    <img id="modalImage" src="" alt="확대 이미지" />
+</div>
+</div>
+
+<div class="product_bottom_fake_section" module="product_detail">
+    <div module="product_action" class="ec-base-button gFixed" id="orderFixAreaFake">
+        <div class="product_action_btn_wrap ec-base-button gColumn {$action_display|display}">
+            <button type="button" class="btnNormal sizeM actionCart actionCartFake {$basket_display|display}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M5.25646 17.9168C4.83549 17.9168 4.47917 17.771 4.1875 17.4793C3.89583 17.1877 3.75 16.8313 3.75 16.4104V6.92329C3.75 6.50232 3.89583 6.146 4.1875 5.85433C4.47917 5.56266 4.83549 5.41683 5.25646 5.41683H6.875V5.2085C6.875 4.3453 7.18 3.60863 7.79 2.9985C8.40014 2.3885 9.13681 2.0835 10 2.0835C10.8632 2.0835 11.5999 2.3885 12.21 2.9985C12.82 3.60863 13.125 4.3453 13.125 5.2085V5.41683H14.7435C15.1645 5.41683 15.5208 5.56266 15.8125 5.85433C16.1042 6.146 16.25 6.50232 16.25 6.92329V16.4104C16.25 16.8313 16.1042 17.1877 15.8125 17.4793C15.5208 17.771 15.1645 17.9168 14.7435 17.9168H5.25646ZM8.125 5.41683H11.875V5.2085C11.875 4.68613 11.6931 4.24301 11.3294 3.87912C10.9656 3.51537 10.5225 3.3335 10 3.3335C9.4775 3.3335 9.03438 3.51537 8.67063 3.87912C8.30688 4.24301 8.125 4.68613 8.125 5.2085V5.41683ZM12.5 9.16683C12.6774 9.16683 12.8258 9.10697 12.9454 8.98725C13.0651 8.86766 13.125 8.71919 13.125 8.54183V6.66683H11.875V8.54183C11.875 8.71919 11.9349 8.86766 12.0546 8.98725C12.1742 9.10697 12.3226 9.16683 12.5 9.16683ZM7.5 9.16683C7.67736 9.16683 7.82583 9.10697 7.94542 8.98725C8.06514 8.86766 8.125 8.71919 8.125 8.54183V6.66683H6.875V8.54183C6.875 8.71919 6.93486 8.86766 7.05458 8.98725C7.17417 9.10697 7.32264 9.16683 7.5 9.16683Z" fill="#1B8862"/>
+                </svg>
+                장바구니
+            </button>
+            <a href="#none" class="btnSubmit sizeM botton_fixed_submit_fake {$buy_display|display}">
+                <span id="buyFakeBtn">{$product_price|numberformat}원 구매하기</span>
+                <span class="{$btn_reserve_class|display}" id="{$btn_reserve_mobile_id}">예약주문</span>
+                <span id="{$btn_regular_delivery_id}" class="{$btn_regular_delivery|display}">REGULAR DELIVERY</span>
+            </a>
+        </div>
+        <div class="ec-base-button gColumn {$action_soldout_display|display}">
+            <button type="button" class="btnSubmit sizeM {$soldout_display|display}">SOLD OUT</button>
+        </div>
+    </div>
+</div>
+
+<div class="product_bottom_section" module="product_detail">
+    <div class="regularDelivery {$regular_delivery_display|display}">
+        <table border="1" summary="정기결제">
+            <caption>정기결제</caption>
+            <tbody>
+            <tr>
+                <th scope="row">구매방법</th>
+                <td>
+                    <label class="gLabel"><span class="{$one_time_purchase_display|display}">{$regular_deliveryT}</span> 정기배송<span class="badge {$regular_delivery_discount_display|display}">{$max_discount_value} <i class="icoDown">할인</i></span></label>
+                    <label class="gLabel {$one_time_purchase_display|display}">{$regular_deliveryF} 1회구매</label>
+                </td>
+            </tr>
+            <tr class="shippingCycle {$regular_cycle_period|display}" id="{$regular_cycle_period_id}">
+                <th scope="row">배송주기</th>
+                <td>
+                    {$regularPeriod}
+                </td>
+            </tr>
+            <tr class="shippingNum {$regular_count_display|display}" id="{$regular_count_id}">
+                <th scope="row">정기배송 횟수</th>
+                <td>
+                    {$regularCount}
+                </td>
+            </tr>
+            <tr class="shippingGuide" id="{$regular_info_id}">
+                <th scope="row"><span class="displaynone">안내사항</span></th>
+                <td>
+                    <div class="info {$regular_delivery_discount_display|display}" id="{$regular_delivery_discount_id}">
+                        <p class="title"><strong>정기배송 할인</strong> <span class="icoSave">save</span></p>
+                        <ul module="product_regularDiscount">
+                            <li>{$discount_count}차 이상 구매 시 : {$discount_value} <span class="icoDown">할인</span></li>
+                            <li>{$discount_count}차 이상 구매 시 : {$discount_value} <span class="icoDown">할인</span></li>
+                        </ul>
+                    </div>
+                    <div class="info">
+                        <ul class="ec-base-help typeDash txt11">
+                            <li>배송주기, 정기배송 횟수는 상품 전체에 동일하게 적용됩니다.</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <table module="product_option">
+        <!--
+        $use_per_add_option = yes
+        -->
+        <caption>상품 옵션</caption>
+        <div module="product_option" class="product_option_wrap">
+            <div>{$form.option}
+                <p class="value">{$option_desc}</p>
+            </div>
+            <div module="product_quantity">
+                <div scope="row">수량</div>
+                <div>
+                    <div class="ec-base-qty">
+                        {$form.quantity}
+                        <a href="javascript:;" id="{$quantity_up_id}" class="up qtyUp eClearUp {$quantity_up_class}">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                <path d="M6.5 12H12.5H18.5" stroke="#ABABAB" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </a>
+                        <a href="javascript:;" id="{$quantity_down_id}" class="down qtyDown eClearDown {$quantity_down_class}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                <path d="M12.5 6V12M12.5 12V18M12.5 12H6.5M12.5 12H18.5" stroke="#4F4F4F" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <a href="#none" class="delete">
+                    <img src="https://olivetest.cafe24.com/web/upload/option_delete.png" alt="삭제" id="option_box1_del" class="option_box_del">
+                </a>
+            </div>
+        </div>
+    </table>
+
+    <div id="{$total.total_id}" class="{$total.total_display|display}">
+        <table>
+            <tbody class="{$quantity_display|display}">
+                <div class="total_wrap" class="{$quantity_display|display}">
+                    <div class="total_top">
+                        <p>[{$prd_brand}]</p>
+                        <h3>{$name}</h3>
+                    </div>
+                </div>
+                <div class="line" style="height: 1px; align-self: stretch; background: #E3E3E3; width: 100%;"></div>
+                <tr>
+                    <td>
+                        <span class="quantity">
+                            <a href="javascript:;" class="down {$quantity_down_class}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                    <path d="M6.5 12H12.5H18.5" stroke="#ABABAB" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            {$quantity}
+                            <a href="javascript:;" class="up {$quantity_up_class}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                    <path d="M12.5 6V12M12.5 12V18M12.5 12H6.5M12.5 12H18.5" stroke="#4F4F4F" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                        </span>
+                    </td>
+                    <td class="right">
+                        <span class="{$total.quantity_price}">{$product_price}</span> <span class="mileage {$mileage_display|display}">(<img src="{$mileage_mileage_icon}"> <span class="{$total.mileage_price}">{$mileage_value}</span>)</span>
+                    </td>
+                </tr>
+                <tr id="{$total.option_id}" class="option" module="product_option">
+                    <!--
+                    $use_per_add_option = yes
+                    $default_option = yes
+                    -->
+                    <td class="middle" colspan="3">
+                        <table border="1">
+                            <caption>옵션 정보</caption>
+                            <colgroup>
+                                <col style="width:30%;">
+                                <col style="width:auto;">
+                            </colgroup>
+                            <tbody>
+
+                            <tr module="product_addoption">
+                                <th scope="row">{$add_option_name}</th>
+                                <td>
+                                    {$form.add_option}
+                                    <span class="txtByte" title="현재글자수/최대글자수">(<strong class="length">0</strong>/{$option_maxlength})</span>
+                                </td>
+                            </tr>
+                            <tr module="product_fileoption">
+                                <th scope="row">{$file_option_name}</th>
+                                <td class="fileInfo">
+                                    {$form.file_option}
+                                    <ul class="infoDesc">
+                                        <li>- 파일은 최대 5개까지 {$file_option_limit}M 이하로 개별업로드 가능합니다.</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <!-- 옵션선택 또는 세트상품 선택시 상품이 추가되는 영역입니다. 쇼핑몰 화면에는 아래와 같은 마크업구조로 표시됩니다. 삭제시 기능이 정상동작 하지 않습니다. -->
+            <tbody>
+                <!-- tr>
+                    <td>
+                        <p class="product">
+                            $상품명<br />
+                            <span>$옵션</span>
+                        </p>
+                    </td>
+                    <td>
+                        <span class="quantity">
+                            <a href="javascript:;" class="up eProductQuantityUpClass">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                    <path d="M6.5 12H12.5H18.5" stroke="#ABABAB" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                            <input type="text" class="quantity_opt" />
+                            <a href="javascript:;" class="down eProductQuantityDownClass">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+                                    <path d="M12.5 6V12M12.5 12V18M12.5 12H6.5M12.5 12H18.5" stroke="#4F4F4F" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                        </span>
+                        <a href="#none">
+                            <img src="//img.echosting.cafe24.com/design/skin/default/product/btn_price_delete.gif" alt="삭제" class="option_box_del" >
+                        </a>
+                    </td>
+                    <td class="right">
+                        <span>$가격</span>
+                        <span class="mileage">(<img src="//img.echosting.cafe24.com/design/skin/admin/ko_KR/product/ico_pay_point.gif" > <span class="mileage_price">$적립금</span>)</span>
+                    </td>
+                </tr -->
+            </tbody>
+
+            <!-- // 옵션선택 또는 세트상품 선택시 상품이 추가되는 영역입니다. 쇼핑몰 화면에는 아래와 같은 마크업구조로 표시됩니다. 삭제시 기능이 정상동작 하지 않습니다. -->
+        </table>
+    </div>
+
+    <div id="{$total.total_price_id}" class="totalPrice">
+        <div class="total_price_top">
+            <div class="total_price_original">
+                <span>상품 총액</span>
+                <span>원</span>
+            </div>
+            <div class="total_price_discount">
+                <span>할인 금액</span>
+                <span>원</span>
+            </div>
+        </div>
+        <div class="line" style="background: #F0F0F0; widht: 100%; height: 1px;"></div>
+        <div class="total_price_done">
+            <span class="title">결제 예상 금액</span>
+            <span class="{$total.total_cnt}">0</span>
+        </div>
+    </div>
+
+    <div module="product_action" class="ec-base-button gFixed" id="orderFixArea">
+        <div class="product_action_btn_wrap ec-base-button gColumn {$action_display|display}">
+            <button type="button" class="btnNormal sizeM actionCart {$basket_display|display}" onclick="{$action_basket}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M5.25646 17.9168C4.83549 17.9168 4.47917 17.771 4.1875 17.4793C3.89583 17.1877 3.75 16.8313 3.75 16.4104V6.92329C3.75 6.50232 3.89583 6.146 4.1875 5.85433C4.47917 5.56266 4.83549 5.41683 5.25646 5.41683H6.875V5.2085C6.875 4.3453 7.18 3.60863 7.79 2.9985C8.40014 2.3885 9.13681 2.0835 10 2.0835C10.8632 2.0835 11.5999 2.3885 12.21 2.9985C12.82 3.60863 13.125 4.3453 13.125 5.2085V5.41683H14.7435C15.1645 5.41683 15.5208 5.56266 15.8125 5.85433C16.1042 6.146 16.25 6.50232 16.25 6.92329V16.4104C16.25 16.8313 16.1042 17.1877 15.8125 17.4793C15.5208 17.771 15.1645 17.9168 14.7435 17.9168H5.25646ZM8.125 5.41683H11.875V5.2085C11.875 4.68613 11.6931 4.24301 11.3294 3.87912C10.9656 3.51537 10.5225 3.3335 10 3.3335C9.4775 3.3335 9.03438 3.51537 8.67063 3.87912C8.30688 4.24301 8.125 4.68613 8.125 5.2085V5.41683ZM12.5 9.16683C12.6774 9.16683 12.8258 9.10697 12.9454 8.98725C13.0651 8.86766 13.125 8.71919 13.125 8.54183V6.66683H11.875V8.54183C11.875 8.71919 11.9349 8.86766 12.0546 8.98725C12.1742 9.10697 12.3226 9.16683 12.5 9.16683ZM7.5 9.16683C7.67736 9.16683 7.82583 9.10697 7.94542 8.98725C8.06514 8.86766 8.125 8.71919 8.125 8.54183V6.66683H6.875V8.54183C6.875 8.71919 6.93486 8.86766 7.05458 8.98725C7.17417 9.10697 7.32264 9.16683 7.5 9.16683Z" fill="#1B8862"/>
+                </svg>
+                장바구니
+            </button>
+            <a href="#none" class="btnSubmit sizeM botton_fixed_submit {$buy_display|display}" onclick="{$action_buy}">
+                <span id="{$btn_buy_mobile_id}">BUY IT NOW</span>
+                <span class="{$btn_reserve_class|display}" id="{$btn_reserve_mobile_id}">예약주문</span>
+                <span id="{$btn_regular_delivery_id}" class="{$btn_regular_delivery|display}">REGULAR DELIVERY</span>
+            </a>
+        </div>
+        <div class="ec-base-button gColumn {$action_soldout_display|display}">
+            <button type="button" class="btnSubmit sizeM {$soldout_display|display}">SOLD OUT</button>
+            <button type="button" class="btnNormal sizeM {$wishlist_display|display}" onclick="{$action_wishlist}" id="actionWishSoldout">WISH LIST</button>
+        </div>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom1">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        알고 먹는 올리브오일
+    </div>
+    <h3>산도는 올리브오일에 어떤 영향을 줄까요?</h3>
+    <div class="product_info_bottom_txt">
+        <p>산도는 올리브오일에 포함된 유리지방산의 함량을 나타내며, 이 <strong>수치가 낮을수록 고품질의 오일</strong>을 의미합니다. 특히 엑스트라 버진 올리브오일은 산도가 0.8% 이하로 유지되어야 합니다.</p>
+        <p>이는 올리브의 신선도와 가공 과정의 품질을 보여주는 지표로, <strong>산도가 높을수록 오일의 산화가 잘 되어 불안정한 상태</strong>를 나타냅니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+        <a href="/product/info.html">
+            주요성분 보러가기
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <mask id="mask0_3450_1610" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                    <rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_3450_1610)">
+                    <path d="M9.40026 6.69309L14.708 12.0008L9.40026 17.3086L8.69251 16.6008L13.2925 12.0008L8.69251 7.40084L9.40026 6.69309Z" fill="#F46200"/>
+                </g>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom2">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        알고 먹는 올리브오일
+    </div>
+    <h3>폴리페놀은 어떤 효능이 있을까요?</h3>
+    <div class="product_info_bottom_txt">
+        <p>폴리페놀은 식물 속에 자연적으로 존재하는 항산화 화합물로, 올리브는 특히 열매가 자라며 외부 자극에 맞서기 위해 만들어내는 보호 물질입니다.</p>
+        <p><strong>올리브오일 특유의 맵고 쓴맛은 바로 '폴리페놀'이라는 천연 항산화 성분 때문</strong>이며, 이 성분은 <strong>항산화, 항염, 심혈관 보호 등 다양한 건강상 이점</strong>에 대해 과학적으로 활발히 연구되고 있습니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+        <a href="/product/info.html">
+            주요성분 보러가기
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <mask id="mask0_3450_1610" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                    <rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_3450_1610)">
+                    <path d="M9.40026 6.69309L14.708 12.0008L9.40026 17.3086L8.69251 16.6008L13.2925 12.0008L8.69251 7.40084L9.40026 6.69309Z" fill="#F46200"/>
+                </g>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom3">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        알고 먹는 올리브오일
+    </div>
+    <h3>올레오칸탈은 어떤 성분일까요?</h3>
+    <div class="product_info_bottom_txt">
+        <p>올레오칸탈은 엑스트라버진 올리브오일에만 자연적으로 들어 있는 항산화 성분으로, <strong>오일을 삼킬 때 목이 살짝 칼칼하거나 톡 쏘는 듯한 매운맛을 느끼게 하는 주된 물질</strong>입니다.</p>
+        <p>이 성분은 천연 소염제로 불릴 만큼 <strong>강력한 항염 효과</strong>를 가지고 있어, 실제로 진통제인 이부프로펜과 유사한 작용 기전을 가진다고 밝혀진 바 있으며, 체내 염증을 줄이고 관절 통증, 만성염증, 심혈관질환의 위험을 낮추는 데 도움을 줄 수 있다는 연구들이 다수 진행되고 있습니다.</p>
+        <p>즉, 올리브오일이 ‘건강한 기름’으로 불리는 이유는 지방 때문이 아니라, 바로 이 올레오칸탈이라는 ‘살아있는 성분’ 덕분입니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+        <a href="/product/info.html">
+            주요성분 보러가기
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <mask id="mask0_3450_1610" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                    <rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_3450_1610)">
+                    <path d="M9.40026 6.69309L14.708 12.0008L9.40026 17.3086L8.69251 16.6008L13.2925 12.0008L8.69251 7.40084L9.40026 6.69309Z" fill="#F46200"/>
+                </g>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom4">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수확연도
+    </div>
+    <h3>해마다 다른 올리브오일의 맛</h3>
+    <div class="product_info_bottom_txt">
+        <p>올리브오일은 <strong>와인처럼 수확연도에 따라 맛과 향이 달라지는 농산물</strong>입니다.</p>
+        <p>기후, 토양, 강우량 등 해마다 다른 환경이 올리브 열매에 영향을 주어, 같은 농장에서 생산된 오일이라도 연도별로 풍미의 차이가 생깁니다.</p>
+        <p>따라서 <strong>수확연도는 올리브오일의 신선도와 개성을 판단하는 중요한 기준</strong>이 되며, 특정 연도의 기후가 만들어낸 독특한 향과 맛을 경험할 수 있습니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom5">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수확시기
+    </div>
+    <h3>신선함을 담는 조기수확</h3>
+    <div class="product_info_bottom_txt">
+        <p>조기 수확은 올리브 열매가 아직 초록색일 때, 즉 덜 익은 상태에서 수확하는 방식을 말합니다. </p>
+        <p>일반적으로 수확 시기는 지역마다 달라지지만 평균적으로 10월 중순~11월 초, 올리브가 검게 익기 전, 녹색 상태에서 기계가 아닌 손으로 따거나 정밀하게 수확합니다.</p>
+        <p>조기 수확은 <strong>수확량은 적지만, 품질은 높아지는 방식</strong>입니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+<div class="product_info_bottom product_info_bottom6">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수확시기
+    </div>
+    <h3>전통 농업의 지혜, 보름달수확</h3>
+    <div class="product_info_bottom_txt">
+        <p>보름달이 뜨는 밤, 즉 달이 가장 충만한 시기에 올리브를 수확하는 방식으로, 이는 생명역동농법(Biodynamic Agriculture)과 전통 농업에서 유래한 개념입니다.</p>
+        <p>달은 수분 이동에 영향을 미칠 수 있으며, 전통 농업에서는 이를 이용해 식물의 <strong>생명력과 당도, 영양성분을 극대화</strong>한다고 믿습니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom7">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수확방법
+    </div>
+    <h3>과육 손상을 막는 핸드피킹</h3>
+    <div class="product_info_bottom_txt">
+        <p>올리브를 사람 손으로 하나하나 직접 수확하는 방식입니다.</p>
+        <p>기계가 가지를 흔들어 떨어뜨리는 방식이 아닌, <strong>과육의 손상 없이 열매를 골라 따는 방식</strong>입니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+<div class="product_info_bottom product_info_bottom8">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수확방법
+    </div>
+    <h3>생산성을 높이는 기계수확</h3>
+    <div class="product_info_bottom_txt">
+        <p>기계 수확은 대규모 농장에서 생산성과 효율을 높이기 위한 전략적인 방식이며, 기계 수확은 <strong>현대 농업의 기술과 속도를 반영한 진화된 방식</strong>입니다.</p>
+        <p>그 안에도 등급과 품질의 다양성이 존재합니다. 핵심은 수확 후 얼마나 빠르게, 세심하게, 투명하게 오일을 완성하는가입니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom9">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 단일·블렌딩
+    </div>
+    <h3>올리브오일의 예술, 블렌딩</h3>
+    <div class="product_info_bottom_txt">
+        <p>블렌딩 올리브오일은 두 가지 이상 품종의 올리브를 혼합해 만든 오일입니다. <strong>품종의 조합으로 맛·향·풍미를 섬세하게 조절할 수 있어, 커피나 와인처럼 ‘마스터 블렌더’가 존재하는, 올리브오일의 예술 분야 중 하나</strong>로 여겨집니다.</p>
+        <p>하지만 중요한 점은, 어떤 품종이 어떻게 블렌딩되었는지 그 ‘출처’를 명확히 아는 것입니다. 블렌딩이란 이름 아래 품종 정보가 불투명하거나, 수확지·수확시기 등이 명시되지 않은 경우, 그 오일의 품질을 신뢰하기 어렵습니다.</p>
+        <p><strong>진짜 좋은 블렌딩 오일은, 품종·산지·수확연도까지 투명하게 공개하며 각 품종이 어떤 역할로 배합되었는지를 소비자가 이해할 수 있도록 설명</strong>합니다. 즉, ‘조화’의 가치만큼이나 ‘출처의 정직함’이 담보되어야만 진짜 블렌딩이라 할 수 있습니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+<div class="product_info_bottom product_info_bottom10">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 단일·블렌딩
+    </div>
+    <h3>고유의 향과 질감을 담은 단일품종</h3>
+    <div class="product_info_bottom_txt">
+        <p>단일 품종 올리브오일은 <strong>오직 하나의 품종만을 사용하여 수확·착유한 오일로, 그 품종 고유의 향, 맛, 질감이 고스란히 담겨 있는 것이 특징</strong>입니다.</p>
+        <p>단일 품종이라고 무조건 더 좋다는 뜻은 아닙니다. 중요한 것은 ‘품질의 우수성’과 ‘신선도’, ‘투명한 생산 정보’입니다.</p>
+        <p>단일 품종은 ‘좋은 품질의 오일을 이해하고 선택할 수 있는 소비자’에게 더욱 특별한 경험을 선사하는 포맷입니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom11">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 추출방법
+    </div>
+    <h3>프리미엄 올리브오일의 표준, 냉추출</h3>
+    <div class="product_info_bottom_txt">
+        <p>냉추출은 오늘날 <strong>프리미엄 올리브오일의 표준</strong>입니다.</p>
+        <p>27℃ 이하의 낮은 온도에서 <strong>올리브 과육을 기계로 분쇄하고, 원심분리기로 오일을 추출</strong>하는 <strong>현대적인 방식</strong>입니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+<div class="product_info_bottom product_info_bottom12">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 추출방법
+    </div>
+    <h3>압력으로 추출하는 전통 기술, 냉압착</h3>
+    <div class="product_info_bottom_txt">
+        <p>냉압착은 27℃ 이하의 낮은 온도에서 <strong>올리브를 압력(Press)으로 눌러 오일을 짜내는 방식</strong>입니다.</p>
+        <p>이는 <strong>전통적인 방식</strong>으로, 돌맷돌(Stone Mill)이나 수동식 압착기를 사용하는 경우도 포함됩니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+
+<div class="product_info_bottom product_info_bottom13">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수입방법
+    </div>
+    <h3>최고 수준의 신선도를 지키는 항공수입</h3>
+    <div class="product_info_bottom_txt">
+        <p>빠르고 정확한 일정, 온도 조절이 가능한 특수 컨테이너로 신속 운송 가능합니다. <strong>수확 직후부터 24~72시간 내 착유 후 바로 수입하여 최고 수준의 신선도를 유지</strong>합니다.</p>
+        <p>콜드체인(냉장 추적 시스템)이 잘 갖춰질 경우, 맛과 향을 온전히 지킬 수 있습니다.</p>
+        <p>그러나 운송 비용이 매우 높고, IATA 규정 및 액체 포장•라벨링 기준이 엄격합니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+<div class="product_info_bottom product_info_bottom14">
+    <div class="product_info_bottom_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <mask id="mask0_3254_117067" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+                <rect width="20" height="20" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3254_117067)">
+                <path d="M9.92158 14.0692C10.132 14.0692 10.3097 13.9966 10.4547 13.8515C10.5997 13.7062 10.6722 13.5283 10.6722 13.3178C10.6722 13.1074 10.5996 12.9297 10.4543 12.7847C10.309 12.6398 10.1312 12.5673 9.92085 12.5673C9.71048 12.5673 9.53277 12.64 9.38774 12.7852C9.2427 12.9305 9.17019 13.1084 9.17019 13.3187C9.17019 13.5291 9.24283 13.7068 9.38811 13.8518C9.53339 13.9967 9.71121 14.0692 9.92158 14.0692ZM9.39971 11.4307H10.437C10.4465 11.0681 10.4996 10.7783 10.5963 10.5615C10.6932 10.3447 10.9282 10.0573 11.3013 9.69935C11.6254 9.37526 11.8736 9.07598 12.0459 8.80151C12.2183 8.52716 12.3045 8.20313 12.3045 7.82943C12.3045 7.19513 12.0767 6.69967 11.6209 6.34304C11.1651 5.98653 10.6259 5.80827 10.0034 5.80827C9.38835 5.80827 8.87944 5.9724 8.47663 6.30067C8.0737 6.62893 7.78627 7.01553 7.61435 7.46046L8.56082 7.84011C8.65059 7.59548 8.8041 7.35718 9.02135 7.12519C9.23859 6.89333 9.5612 6.7774 9.98919 6.7774C10.4247 6.7774 10.7465 6.89665 10.9548 7.13514C11.1632 7.37375 11.2674 7.63613 11.2674 7.92227C11.2674 8.17268 11.1961 8.40177 11.0534 8.60956C10.9108 8.81735 10.729 9.01808 10.5079 9.21175C10.0242 9.6482 9.71858 9.99636 9.59111 10.2562C9.46351 10.516 9.39971 10.9075 9.39971 11.4307ZM9.93098 16.9316C8.96277 16.9316 8.0527 16.7479 7.20079 16.3805C6.34888 16.013 5.60786 15.5144 4.97774 14.8845C4.34762 14.2546 3.84871 13.5139 3.48103 12.6624C3.11347 11.8108 2.92969 10.901 2.92969 9.93293C2.92969 8.96472 3.11341 8.05466 3.48085 7.20275C3.84828 6.35083 4.34694 5.60982 4.97682 4.97969C5.6067 4.34957 6.34741 3.85067 7.19895 3.48298C8.05049 3.11542 8.96031 2.93164 9.9284 2.93164C10.8966 2.93164 11.8067 3.11536 12.6586 3.4828C13.5105 3.85024 14.2515 4.3489 14.8816 4.97877C15.5118 5.60865 16.0107 6.34936 16.3783 7.2009C16.7459 8.05245 16.9297 8.96226 16.9297 9.93035C16.9297 10.8986 16.746 11.8086 16.3785 12.6605C16.0111 13.5124 15.5124 14.2535 14.8826 14.8836C14.2527 15.5137 13.512 16.0126 12.6604 16.3803C11.8089 16.7479 10.8991 16.9316 9.93098 16.9316Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        테루아르 | 수입방법
+    </div>
+    <h3>비용 효율적 선택, 냉장선박</h3>
+    <div class="product_info_bottom_txt">
+        <p>선박 또는 해상용 컨테이너(Reefer, 냉장 컨테이너)를 사용하며, -65℃ ~ +40℃까지 온도 제어 가능합니다.</p>
+        <p><strong>대량 수입이 가능해 비용 및 시간이 효율적이며, 평형선박의 경우 60~90일 해상 운송에도 콜드체인 유지가 가능합니다.</strong></p>
+        <p>농장에서 병입까지 온도관리가 가능해 산화·열(열화) 방지 효과가 크며, FCL(전용 컨테이너) 또는 LCL(공동 적재) 방식으로 <strong>비용의 효율적 선택이 가능</strong>합니다.</p>
+    </div>
+    <div class="product_info_bottom_btn">
+        <button class="product_info_bottom_close">닫기</button>
+    </div>
+</div>
+
+<div class="product_info_bottom_dim"></div>
+<!--@define(cmc_log)-->
+<!--@js(/js/module/product/sale_price.js)-->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+(function () {
+    async function insertBeforeYearLink() {
+        const wrap = document.querySelector('.before_year_wrap');
+        if (!wrap) return;
+
+        const curNum = bp_curNo();
+        const curName = bp_curName();
+        const { base: curBase, year: curYear } = bp_splitNameYear(curName);
+        const curBaseNorm = bp_norm(curBase);
+        if (!curBaseNorm || !curYear) return;
+
+        const list = await (async function fetchListByKeyword(keyword, maxPages = 3) {
+            const acc = [];
+            for (let p = 1; p <= maxPages; p++) {
+            const url = new URL(`/product/search.html`, location.origin);
+            url.searchParams.set('keyword', keyword);
+            url.searchParams.set('page', String(p));
+            const doc = await bp_fetchDoc(url.href);
+            if (!doc) break;
+            acc.push(...bp_parseList(doc, ''));
+            const hasNext = !!doc.querySelector('.xans-product-normalpaging a[href*="page="], .ec-base-paginate a[href*="page="]');
+            if (!hasNext) break;
+            }
+            const seen = new Set();
+            return acc.filter(it => {
+            const k = it.product_no || it.href;
+            if (seen.has(k)) return false;
+            seen.add(k);
+            return true;
+            });
+        })(curBase);
+
+        let siblings = list.filter(it => {
+            if (!it.product_no || it.product_no === curNum) return false;
+            const { base, year } = bp_splitNameYear(it.name);
+            return bp_norm(base) === curBaseNorm && !!year;
+        });
+
+        if (!siblings.length) return;
+
+        siblings.sort((a, b) => {
+            const ya = bp_splitNameYear(a.name).year ?? 0;
+            const yb = bp_splitNameYear(b.name).year ?? 0;
+            return yb - ya;
+        });
+        const prevItem = siblings.find(it => {
+            const y = bp_splitNameYear(it.name).year;
+            return y && y < curYear;
+        });
+
+        if (!prevItem) return;
+
+        wrap.href = prevItem.href;
+        wrap.querySelector('.before_year_label').textContent = `${bp_splitNameYear(prevItem.name).year}년 제품 보러가기`;
+        wrap.style.display = 'flex';
+    }
+
+    document.addEventListener('DOMContentLoaded', insertBeforeYearLink);
+
+    window.DEBUG_BRAND = window.DEBUG_BRAND ?? true;
+    const bp_log  = (...a)=> window.DEBUG_BRAND && console.log('[brand]', ...a);
+    const bp_warn = (...a)=> window.DEBUG_BRAND && console.warn('[brand]', ...a);
+    const bp_text = el => (el?.textContent || '').replace(/\s+/g,' ').trim();
+    const bp_pick = (...cands) => cands.find(v => v && String(v).trim().length >= 1) || '';
+
+    const bp$  = (s, r=document)=> r.querySelector(s);
+    const bp$$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
+    const bp_norm = (s='')=> s.toLowerCase().replace(/\s+/g,' ').trim();
+    const bp_esc  = (s='')=> s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[m]));
+    const bp_curNo   = ()=> new URLSearchParams(location.search).get('product_no');
+    const bp_curName = ()=> (bp$('.product_detail_name')?.textContent || '').trim();
+    const bp_fmt = n => (isNaN(n) ? '' : Number(n).toLocaleString('ko-KR') + '원');
+
+    function bp_splitNameYear(str=''){
+        const m = String(str).match(/\s*((?:19|20)\d{2})\s*$/);
+        return m ? { base: str.replace(/\s*((?:19|20)\d{2})\s*$/,'').trim(), year: +m[1] }
+                : { base: String(str).trim(), year: null };
+    }
+
+    function bp_abs(url){
+        if(!url) return url;
+        if(/^https?:\/\//i.test(url)) return url;
+        if(url.startsWith('//')) return location.protocol + url;
+        try{ return new URL(url, location.origin).href; }catch{ return url; }
+    }
+
+    function bp_getNoFromHref(href){
+        if(!href) return null;
+        try{
+        const u = new URL(href, location.origin);
+        const p = u.searchParams.get('product_no');
+        if(p) return p;
+        const segs = u.pathname.split('/').filter(Boolean);
+        for(const s of segs){ if(/^\d+$/.test(s)) return s; }
+        return null;
+        }catch{ return null; }
+    }
+
+    async function bp_fetchDoc(url){
+        const res = await fetch(url, { credentials:'same-origin' });
+        if(!res.ok){ bp_warn('fetch fail', res.status, url); return null; }
+        const html = await res.text();
+        return new DOMParser().parseFromString(html, 'text/html');
+    }
+
+    function bp_parseList(doc, fallbackBrand=''){
+        const out = [];
+        const sels = [
+        '.ec-base-product .prdList > li',
+        '.prdList > li',
+        '.xans-product-listitem li',
+        '.xans-product-listnormal li',
+        '.product_list .item'
+        ];
+        let cards = [];
+        for(const sel of sels){
+        cards = bp$$(sel, doc);
+        bp_log('try cards:', sel, '→', cards.length);
+        if(cards.length) break;
+        }
+
+        if(!cards.length){
+        bp$$('a[href*="/product/detail.html"]', doc).forEach(a=>{
+            const href = a.getAttribute('href')||'';
+            const no   = bp_getNoFromHref(href);
+            if(!no) return;
+            out.push({
+            href, product_no:no,
+            name:(a.textContent||'').trim().replace(/^상품명\s*:\s*/i,''),
+            brand:fallbackBrand,
+            img:null
+            });
+        });
+        return out;
+        }
+
+        cards.forEach(card=>{
+        const link = bp$('a[href*="/product/detail.html"]', card)
+                    || bp$('.thumbnail > a', card)
+                    || bp$('.name a', card)
+                    || bp$('.description a', card);
+        if(!link) return;
+
+        const href = link.getAttribute('href')||'';
+        const no   = bp_getNoFromHref(href);
+        if(!no) return;
+
+        const imgEl = bp$('img', link) || bp$('.thumbnail img', card) || bp$('img', card);
+        const img   = bp_abs(imgEl?.getAttribute('src') || imgEl?.getAttribute('data-src') || '');
+
+        const nameEl1 = bp$('.description_name .name', card);
+        const nameEl2 = bp$('.name a', card);
+        const nameEl3 = bp$('.name', card);
+        const nameText = bp_pick(
+        bp_text(nameEl1),
+        bp_text(nameEl2),
+        bp_text(nameEl3),
+
+        (link.getAttribute('title') || '').trim(),
+        (link.getAttribute('aria-label') || '').trim(),
+        bp$('img', card)?.getAttribute('alt') || '',
+
+        card.getAttribute('data-product-name') || '',
+        card.getAttribute('data-name') || ''
+        );
+        const name = nameText.replace(/^상품명\s*:\s*/i,'').trim();
+
+        const brandEl = bp$('.description_name .brand', card) || bp$('.brand', card);
+        const brand   = (brandEl?.textContent||'').trim() || fallbackBrand;
+
+        out.push({ href, product_no:no, name, brand, img });
+        });
+
+        bp_log('parsed list items:', out.length);
+        return out;
+    }
+
+    function bp_parseDetailName(doc){
+        const cand = [
+            '.product_detail_name',
+            '.prd-name, .prd_name, .ec-product-name',
+            'h1[itemprop="name"]',
+            'meta[property="og:title"]',
+            'title'
+        ];
+        for (const sel of cand){
+            const el = doc.querySelector(sel);
+            if (!el) continue;
+            const val = el.tagName === 'META' ? el.getAttribute('content') : el.textContent;
+            const t = (val || '').replace(/\s+/g,' ').trim();
+            if (t) return t;
+        }
+        return '';
+    }
+
+    function bp_parseDetailPrice(doc){
+        const toNum = v => {
+        if (v == null) return NaN;
+        const s = String(v).replace(/[^0-9]/g,'');
+        return s ? parseInt(s, 10) : NaN;
+        };
+
+        const saleCands = [];
+        const origCands = [];
+
+        const pInfo = doc.querySelector('#ec-product-price-info');
+        if (pInfo) {
+        saleCands.push(toNum(pInfo.getAttribute('ec-data-price')));
+        origCands.push(toNum(pInfo.getAttribute('ec-data-custom')));
+        }
+
+        const box = doc.querySelector('.product_detail_list[data-original-price][data-sale-price]');
+        if (box) {
+        saleCands.push(toNum(box.getAttribute('data-sale-price')));
+        origCands.push(toNum(box.getAttribute('data-original-price')));
+        }
+
+        saleCands.push(toNum(doc.querySelector('.product_detail_price_real')?.textContent));
+        origCands.push(toNum(doc.querySelector('.product_detail_price_cancle')?.textContent));
+
+        const clean = arr => arr.map(toNum).filter(n => Number.isFinite(n) && n > 0);
+        let sale = Math.min(...(clean(saleCands)));
+        if (!Number.isFinite(sale)) sale = NaN;
+
+        const candidates = clean(origCands)
+        .filter(n => Number.isFinite(sale) ? (n >= sale && n <= sale * 3.5) : true)
+        .sort((a,b)=>a-b);
+        let orig = candidates[0];
+
+        const validDiscount = Number.isFinite(orig) && Number.isFinite(sale) && orig > sale;
+        const discount = validDiscount ? Math.round(((orig - sale) / orig) * 100) : null;
+
+        return {
+        price_text: Number.isFinite(sale) ? bp_fmt(sale) : '',
+        price_text_original: validDiscount ? bp_fmt(orig) : '',
+        discount_rate: validDiscount ? discount : null
+        };
+    }
+
+    async function bp_enrichItemWithDetail(it){
+        try{
+            const doc = await bp_fetchDoc(it.href);
+            if(!doc) return it;
+            const price = bp_parseDetailPrice(doc);
+            let name = it.name || '';
+            if (!name || name.length < 2) {
+            const detailName = bp_parseDetailName(doc);
+            if (detailName) name = detailName;
+            }
+            return { ...it, name, ...price };
+        }catch(e){
+            bp_warn('detail parse fail:', it.href, e);
+            return it;
+        }
+    }
+
+    async function bp_enrichWithDetailPrices(items, concurrency=4){
+        const out = [];
+        let i = 0;
+        async function worker(){
+        while(i < items.length){
+            const idx = i++;
+            out[idx] = await bp_enrichItemWithDetail(items[idx]);
+        }
+        }
+        await Promise.all(Array.from({length: Math.min(concurrency, items.length)}, worker));
+        return out;
+    }
+
+    async function bp_ensureSwiper(){
+        if (window.Swiper) return;
+        await new Promise((res)=>{
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css';
+        link.onload = res; document.head.appendChild(link);
+        });
+        await new Promise((res)=>{
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js';
+        s.onload = res; document.head.appendChild(s);
+        });
+    }
+
+    function bp_renderCardsAsSwiper(list){
+        const slides = list.map(it=>{
+        const displayName = (it.name||'').replace(/^상품명\s*:\s*/i,'').trim();
+        return `
+            <div class="swiper-slide">
+            <a class="brand_card" href="${it.href}">
+                <div class="brand_card_thumb">
+                ${it.img ? `<img src="${bp_esc(it.img)}" alt="${bp_esc(displayName)}">` : ''}
+                </div>
+                <div class="brand_card_info">
+                ${it.brand ? `<p class="brand_card_brand">${bp_esc(it.brand)}</p>` : ''}
+                <p class="brand_card_name">${bp_esc(displayName)}</p>
+                <div class="brand_card_price_wrap">
+                    ${Number.isInteger(it.discount_rate) ? `<span class="brand_card_badge">${it.discount_rate}%</span>` : ''}
+                    ${it.price_text ? `<span class="brand_card_price">${bp_esc(it.price_text)}</span>` : ''}
+                    ${it.price_text_original ? `<span class="brand_card_price_original">${bp_esc(it.price_text_original)}</span>` : ''}
+                </div>
+                </div>
+            </a>
+            </div>
+        `;
+        }).join('');
+
+        return `
+        <div class="brand_swiper swiper">
+            <div class="swiper-wrapper">${slides}</div>
+        </div>
+        `;
+    }
+
+    async function bp_initBrandSwiper(rootEl){
+        await bp_ensureSwiper();
+        new Swiper(rootEl.querySelector('.brand_swiper'), {
+        slidesPerView: 1.2,
+        spaceBetween: 12,
+        observer: true,
+        observeParents: true,
+        freeMode: true,
+        });
+    }
+
+    async function bp_insertSameBrand(){
+        const container = bp$('.brand_product_list');
+        const brandNode = bp$('.product_detail_brand');
+        if(!container || !brandNode) { bp_warn('container or brand el missing'); return; }
+
+        const brandName = (brandNode.textContent||'').trim();
+        if(!brandName){ bp_warn('brand empty'); return; }
+
+        const attempts = [
+        bp$('.product_detail_brand a')?.getAttribute('href') || '',
+        `/product/search.html?keyword=${encodeURIComponent(brandName)}`,
+        `/product/search.html?banner_action=&keyword=${encodeURIComponent(brandName)}`
+        ].filter(Boolean);
+        bp_log('attempts:', attempts);
+
+        let base = [];
+        for(const url of attempts){
+        const doc = await bp_fetchDoc(url);
+        if(!doc) continue;
+        const found = bp_parseList(doc, brandName);
+        if(found.length){ base = found; break; }
+        }
+        if(!base.length){ bp_warn('no list items'); return; }
+
+        const currentNum = bp_curNo();
+        const { base: curBase } = bp_splitNameYear(bp_curName());
+        const curBaseNorm = bp_norm(curBase);
+        base = base
+        .filter(it => it.product_no && it.product_no !== currentNum)
+        .filter(it => {
+            const { base } = bp_splitNameYear(it.name);
+            return bp_norm(base) !== curBaseNorm;
+        });
+
+        const enriched = await bp_enrichWithDetailPrices(base, 4);
+
+        const data = enriched.slice(0, 12);
+        container.innerHTML = bp_renderCardsAsSwiper(data);
+        await bp_initBrandSwiper(container);
+
+        bp_log('final items:', data.length);
+    }
+
+    document.addEventListener('DOMContentLoaded', bp_insertSameBrand);
+})();
+
+(function () {
+    const API_BASE = 'https://oliva.boundary.team/api';
+    const STORAGE_BASE = 'https://oliva.boundary.team/storage';
+
+    const $  = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+    const round1 = (n) => Math.round((Number(n) || 0) * 10) / 10;
+
+    function getProductNoFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('product_no');
+    }
+
+    function maskUserId(uid) {
+        if (!uid) return '익명';
+        const s = String(uid);
+        if (s.length <= 2) return s[0] + '*';
+        return s.slice(0, s.length - 2) + '**';
+    }
+
+    window.showImageModal = function (src) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        if (!modal || !modalImg) return;
+        modalImg.src = src;
+        modal.style.display = 'flex';
+    };
+    window.hideImageModal = function () {
+        const modal = document.getElementById('imageModal');
+        if (!modal) return;
+        modal.style.display = 'none';
+    };
+
+    function formatKDate(val) {
+    if (!val) return '';
+    const d = new Date(val);
+    if (isNaN(d.getTime())) return '';
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    return `${y}.${m}.${day}`;
+    }
+
+    function toStar5(raw) {
+        let v = Number(raw) || 0;
+        if (v > 5 && v <= 10) v = v / 2;
+        if (v > 10) v = 5;
+        if (v < 0) v = 0;
+        return Math.min(5, Math.max(0, v));
+    }
+    const STAR_LABEL = { 5: '최상', 4: '상', 3: '중', 2: '중하', 1: '최하' };
+
+    function calcStarStats(reviews) {
+        const stars = reviews.map(r => toStar5(r.rating));
+        const n = stars.length;
+        const avg5 = n ? round1(stars.reduce((a, b) => a + b, 0) / n) : 0;
+
+        const counts = { 1:0,2:0,3:0,4:0,5:0 };
+        stars.forEach(s => {
+        const bucket = Math.max(1, Math.min(5, Math.round(s)));
+        counts[bucket]++;
+        });
+
+        const perc = { 1:0,2:0,3:0,4:0,5:0 };
+        Object.keys(counts).forEach(k => {
+        perc[k] = n ? Math.round((counts[k] * 100) / n) : 0;
+        });
+
+        return { count: n, avg5, counts, perc };
+    }
+
+    function starsEl(avg5){
+        return `
+        <div class="stars" data-stars="${avg5}">
+            <div class="stars_base">★★★★★</div>
+            <div class="stars_fill">★★★★★</div>
+        </div>`;
+    }
+
+    function barRow(label, value, max = 5) {
+        const v = Math.max(0, Math.min(max, Number(value) || 0));
+        const pct = Math.round((v / max) * 100);
+        return `
+        <div class="bar_row">
+            <span class="bar_label">${label}</span>
+            <div class="bar_track"><span class="bar_fill" data-pct="${pct}"></span></div>
+            <span class="bar_value">${v.toFixed(1)}/${max}</span>
+        </div>`;
+    }
+
+    function filtersEl() {
+        return `
+        <div class="review_filters" role="tablist">
+            <button type="button" class="rf_btn is-active" data-sort="desc">평점 높은 순</button>
+            <button type="button" class="rf_btn" data-sort="asc">평점 낮은 순</button>
+            <button type="button" class="rf_btn" data-sort="latest">최신순</button>
+        </div>`;
+    }
+
+    function headerEl(stat) {
+    const order = [5,4,3,2,1];
+    const maxKey = order.reduce((m,k)=> stat.counts[k] > stat.counts[m] ? k : m, 5);
+
+    const cols = order.map(k=>{
+        const isMax = k === maxKey ? ' is-max' : '';
+        return `
+        <div class="dist_col${isMax}" data-star="${k}">
+            <div class="dist_track">
+            <div class="dist_bg"></div>
+            <div class="dist_fg" data-perc="${stat.perc[k]}"></div>
+            </div>
+            <div class="dist_badge">${stat.perc[k]}%</div>
+            <div class="dist_label">${STAR_LABEL[k]}</div>
+        </div>
+        `;
+    }).join('');
+
+    return `
+        <div class="review_header_box">
+        <div class="avg_box">
+            <div class="avg_score">${stat.avg5}</div>
+            ${starsEl(stat.avg5)}
+            <div class="avg_count">리뷰 ${stat.count}개</div>
+        </div>
+        <div class="line_y"></div>
+        <div class="dist_box">${cols}</div>
+        </div>
+        ${filtersEl()}
+    `;
+    }
+
+    function shortEl(stat) {
+        return `
+        <div class="review_short_wrap">
+            ${starsEl(stat.avg5)}
+            <span class="score">${stat.avg5}</span>
+            <span class="divider">|</span>
+            <a href="#prdReview" class="review_link">리뷰 ${stat.count}개 보기</a>
+        </div>`;
+    }
+
+    function applyDynamicStyles(root = document) {
+        $$('.stars', root).forEach(s => {
+        const avg = Number(s.dataset.stars) || 0;
+        const pct = Math.max(0, Math.min(100, (avg / 5) * 100));
+        s.style.setProperty('--stars-w', pct + '%');
+        });
+        $$('.bar_fill', root).forEach(b => {
+        const pct = Number(b.dataset.pct) || 0;
+        b.style.setProperty('--bar-w', pct + '%');
+        });
+        $$('.dist_fg', root).forEach(b=>{
+        const p = Number(b.dataset.perc)||0;
+        b.style.setProperty('--dist-h', p + '%');
+    });
+    }
+
+    function rowHTML(r){
+        const star5 = toStar5(r.rating);
+        const imgs = (r.images || []).map(fn => {
+        const url = `${fn}`;
+        return `<img src="${url}" alt="리뷰 이미지" class="review-thumbnail" onclick="showImageModal('${url}')">`;
+        }).join('');
+
+        const createdRaw = r.created_at || r.createdAt || r.date;
+    const createdTxt = formatKDate(createdRaw);
+
+        return `
+        <div class="review_list_item">
+            <div class="review_top_wrap">
+            <strong class="review_user_info">${maskUserId(r.user_id)}님</strong>
+            <div class="review_right">
+            <div class="review_rating">
+                ${starsEl(star5)}
+                <span class="review_star_num">${Math.round(star5)}</span>
+            </div>
+            ${createdTxt ? `<div class="review_date">${createdTxt} 작성</div>` : ``}
+            </div>
+            </div>
+            ${imgs ? `<div class="review_image_wrap">${imgs}</div>` : ''}
+            <p class="review_comment">${r.comment ? String(r.comment) : ''}</p>
+            <div class="flavor_graph">
+            ${barRow('프루티', Number(r.fruity) || 0)}
+            ${barRow('쓴맛',   Number(r.bitter) || 0)}
+            ${barRow('매운맛', Number(r.spicy)  || 0)}
+            </div>
+            
+        </div>`;
+    }
+
+    function renderReviewsAll(reviews) {
+        const listContainer = $('.normal_review_list');
+        const reviewTotalEl = $('.review_total');
+        const reviewShortEl = $('.review_short');
+        const moreBtn = document.querySelector('.review_more'); 
+
+        if (!reviews || !reviews.length) {
+            if (listContainer) listContainer.innerHTML = '<p>작성된 리뷰가 없습니다.</p>';
+            if (reviewTotalEl) reviewTotalEl.innerHTML = '';
+            if (reviewShortEl) reviewShortEl.innerHTML = '';
+            if (moreBtn) moreBtn.style.display = 'none';  
+            return;
+        }
+
+        const stat = calcStarStats(reviews);
+
+        if (reviewTotalEl) {
+        reviewTotalEl.innerHTML = headerEl(stat);
+        applyDynamicStyles(reviewTotalEl);
+
+        const btns = $$('.rf_btn', reviewTotalEl);
+        const moreBtn = $('.review_more');
+        let currentSort = 'desc';
+        let showAll = false;
+
+        const sortAndRender = () => {
+            if (!listContainer) return;
+            const arr = reviews.slice();
+
+            if (currentSort === 'desc') {
+            arr.sort((a,b) => toStar5(b.rating) - toStar5(a.rating));
+            } else if (currentSort === 'asc') {
+            arr.sort((a,b) => toStar5(a.rating) - toStar5(b.rating));
+            } else {
+            const d = r => new Date(r.created_at || r.createdAt || r.date || 0).getTime() || 0;
+            arr.sort((a,b) => d(b) - d(a));
+        }
+
+        const fullLen = arr.length;
+        const viewArr = (!showAll && fullLen > 3) ? arr.slice(0, 3) : arr;
+
+        listContainer.innerHTML = viewArr.map(rowHTML).join('');
+        applyDynamicStyles(listContainer);
+
+        if (moreBtn) {
+            if (fullLen > 3) {
+            moreBtn.style.display = '';
+            moreBtn.setAttribute('aria-expanded', String(showAll));
+            moreBtn.firstChild.nodeValue = showAll ? '접기 ' : '리뷰 더보기 ';
+            moreBtn.classList.toggle('is-open', showAll);
+            } else {
+            moreBtn.style.display = 'none';
+            }
+        }
+    };
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        currentSort = btn.dataset.sort;
+        showAll = false;
+        sortAndRender();
+        });
+    });
+
+    if (moreBtn && !moreBtn._bound) {
+        moreBtn.addEventListener('click', () => {
+        showAll = !showAll;
+        sortAndRender();
+        });
+        moreBtn._bound = true;
+    }
+
+    sortAndRender();
+    }
+
+        if (reviewShortEl) {
+        reviewShortEl.innerHTML = shortEl(stat);
+        applyDynamicStyles(reviewShortEl);
+        }
+    }
+
+    jQuery(function () {
+        const brandName = jQuery('.product_detail_brand').text().trim();
+        if (!brandName) return;
+
+        jQuery.ajax({
+            url: API_BASE + '/brand',
+            method: 'GET',
+            data: { name: brandName },
+            success: function (data) {
+            jQuery('.brand_img').attr('src', data.image).attr('alt', data.name);
+            jQuery('.brand_logo').attr('src', data.logo).attr('alt', data.name);
+            jQuery('.brand_description').html((data.description || '').replace(/\n/g, '<br>'));
+
+            const country = data?.country || '';
+            const region  = data?.place_product || '';
+
+            if (country) {
+                const $origin = jQuery('.product_origin');
+                const txt = region ? `${country} · ${region}` : country;
+
+                $origin.html(txt.replace(' · ', ' <span class="origin_dot">·</span> '));
+
+                $origin.attr('data-origin-from-brand', '1');
+            }
+            }
+        });
+    });
+
+    jQuery(function () {
+        const expertName = jQuery('.product_expert').text().trim();
+        if (!expertName) return;
+        jQuery.ajax({
+        url: `${API_BASE}/expert?name=${encodeURIComponent(expertName)}`,
+        method: 'GET',
+        success: function (data) {
+            jQuery('.expert_img').attr('src', data.image_url).attr('alt', data.name);
+            jQuery('.expert_desc').html((data.description || '').replace(/\n/g, '<br>'));
+        }
+        });
+    });
+
+    jQuery(function ($) {
+        const cache = {};
+
+        function applyImage($img, name, data) {
+            $img.attr('src', data.image_url).attr('alt', data.name || name);
+        }
+
+        $('.product_kind').each(function () {
+            const raw = $(this).text() || '';
+            const name = raw.split(',')[0].trim();
+            if (!name) return;
+
+            const $img = $(this).closest('.terroir_item').find('.kind_img');
+            if ($img.length === 0) return;
+
+            if (cache[name]) {
+            applyImage($img, name, cache[name]);
+            return;
+            }
+
+            $.ajax({
+            url: `${API_BASE}/kind`,
+            method: 'GET',
+            dataType: 'json',
+            data: { name },
+            headers: { Accept: 'application/json' },
+            cache: false,
+            timeout: 10000,
+            success: function (data) {
+                if (data && data.image_url) {
+                cache[name] = data;
+                applyImage($img, name, data);
+                }
+            },
+            });
+        });
+    });
+
+    jQuery(function () {
+        const $origin = jQuery('.product_origin');
+        const placeNameRaw = ($origin.text() || '').trim();
+        if (!placeNameRaw || placeNameRaw.includes('{$')) return;
+        jQuery.ajax({
+        url: `${API_BASE}/place`,
+        method: 'GET',
+        data: { name: placeNameRaw },
+        success: function (data) {
+            jQuery('.origin_img').attr('src', data.image_url).attr('alt', data.name);
+        }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const tagBox = (containerId, cls) => {
+            const el = document.getElementById(containerId);
+            if (!el) return;
+            const items = (el.innerText || el.textContent)
+                .split(',').map(t => t.trim()).filter(Boolean);
+            el.innerHTML = '';
+            items.forEach(tag => {
+                const span = document.createElement('span');
+                span.className = cls;
+                span.textContent = tag;
+                el.appendChild(span);
+            });
+        };
+        tagBox('productBannerArea', 'custom_banner_box');
+        tagBox('productFlavorArea', 'custom_flavor_box');
+        tagBox('productSmellArea',  'custom_smell_box');
+
+        const originEl = $('.product_origin');
+        if (originEl && !originEl.dataset.originFromBrand) {
+            const parts = originEl.textContent.trim().split(' ');
+            if (parts.length >= 2) {
+            originEl.innerHTML = `${parts[0]} <span class="origin_dot">·</span> ${parts[1]}`;
+            }
+        }
+
+        const detail = $('.product_detail_list');
+        if (detail) {
+            const rawOriginal = detail.dataset.originalPrice?.replace(/,/g, '');
+            const rawSale = detail.dataset.salePrice?.replace(/,/g, '');
+            const originalPrice = parseInt(rawOriginal);
+            const salePrice = parseInt(rawSale);
+            if (!isNaN(originalPrice) && !isNaN(salePrice) && originalPrice > salePrice) {
+                const discountRate = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
+                const perEl = detail.querySelector('.product_detail_price_per');
+                if (perEl) perEl.textContent = `${discountRate}%`;
+            }
+        }
+
+        const productNo = getProductNoFromUrl();
+        if ($('.normal_review_list')) {
+            if (!productNo) {
+                $('.normal_review_list').innerHTML = '<p>상품 번호가 없습니다.</p>';
+            } else {
+                try {
+                    const res = await fetch(`${API_BASE}/reviews/product/${productNo}`);
+                    const data = await res.json();
+                    renderReviewsAll(Array.isArray(data) ? data : []);
+                } catch (err) {
+                    $('.normal_review_list').innerHTML = '<p>리뷰를 불러오지 못했습니다.</p>';
+                }
+            }
+        }
+
+        const btn = document.getElementById('toggleDetailBtn');
+        const inner = document.getElementById('product_detail_img_wrap');
+        if (btn && inner) {
+            btn.addEventListener('click', function () {
+                inner.classList.toggle('collapsed');
+                btn.textContent = inner.classList.contains('collapsed') ? '자세히 보기' : '접기';
+            });
+        }
+    });
+})();
+
+(function () {
+    const RE = /\s*\(\s*\d+\s*개\s*\)/g;
+
+    function stripCount(root) {
+        const w = document.createTreeWalker(root || document, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while ((node = w.nextNode())) {
+        if (RE.test(node.nodeValue)) node.nodeValue = node.nodeValue.replace(RE, '');
+        }
+    }
+
+    const run = () => stripCount(document);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+    } else {
+        run();
+    }
+    new MutationObserver(run).observe(document.body, {subtree:true, childList:true, characterData:true});
+})();
+
+(function () {
+    const n   = (t)=> parseInt(String(t??'').replace(/[^\d]/g,''),10)||0;
+    const fmt = (x)=> String(x).replace(/\B(?=(\d{3})+(?!\d))/g,',');
+
+    const SEL = {
+        totalPay: [
+        '.totalPrice .title + span',
+        '.totalPrice span:not(.title)',
+        '#totalPrice span'
+        ],
+        totalOriginalWrap: '.total_price_original span:last-child',
+        totalDiscountWrap: '.total_price_discount span:last-child',
+        unitSale: '.product_detail_price_real',
+        unitOrigin: '.product_detail_price_cancle',
+        linePrice: 'span.ec-front-product-item-price, span.price, .right span',
+
+        actionBuy: '#actionBuy'
+    };
+
+    function qsSafe(sel){ try{ return document.querySelector(sel); }catch(e){ return null; } }
+    function qsaSafe(sel){ try{ return document.querySelectorAll(sel); }catch(e){ return []; } }
+
+    function findTotalPayEl(){
+        for(const s of SEL.totalPay){
+        const list = qsaSafe(s);
+        if(list.length){
+            for(const el of list){ if(/\d/.test(el.textContent)) return el; }
+            return list[0];
+        }
+        }
+        return null;
+    }
+
+    function readUnitPrices(){
+        const saleEl = qsSafe(SEL.unitSale);
+        const orgEl  = qsSafe(SEL.unitOrigin);
+        let unitSale   = saleEl ? n(saleEl.textContent) : 0;
+        let unitOrigin = orgEl  ? n(orgEl.textContent)  : 0;
+        if(!unitSale){
+        const lp = qsSafe(SEL.linePrice);
+        if(lp) unitSale = n(lp.textContent);
+        }
+        return { unitSale, unitOrigin };
+    }
+
+    function update(){
+        const totalPayEl   = findTotalPayEl();
+        const originalWrap = qsSafe(SEL.totalOriginalWrap);
+        const discountWrap = qsSafe(SEL.totalDiscountWrap);
+        if(!totalPayEl || !originalWrap || !discountWrap) return;
+
+        const totalPay = n(totalPayEl.textContent);
+        const { unitSale, unitOrigin } = readUnitPrices();
+
+        const buyEl = qsSafe(SEL.actionBuy);
+        if (buyEl) {
+            buyEl.textContent = `${fmt(totalPay)}원 구매하기`;
+            buyEl.setAttribute('aria-label', `결제 예상 금액 ${fmt(totalPay)}원 구매하기`);
+        }
+
+        if(!unitOrigin || unitSale >= unitOrigin){
+            originalWrap.textContent = fmt(totalPay) + '원';
+            discountWrap.textContent = '0원';
+            return;
+        }
+
+        const rate = 1 - (unitSale / unitOrigin);
+        const totalOrigin = Math.round(totalPay / (1 - rate));
+        const discount    = Math.max(totalOrigin - totalPay, 0);
+
+        originalWrap.textContent = fmt(totalOrigin) + '원';
+        discountWrap.textContent = '-' + fmt(discount) + '원';
+    }
+
+    function attachObserver(){
+        const el = findTotalPayEl();
+        if(!el) return false;
+        update();
+        const mo = new MutationObserver(()=> update());
+        mo.observe(el, { childList:true, subtree:true, characterData:true });
+        document.addEventListener('click', (e)=>{
+        if (e.target.closest('.eProductQuantityUpClass, .eProductQuantityDownClass, .up, .down, .option_box_del')) {
+            setTimeout(()=>update(), 80);
+        }
+        });
+        document.addEventListener('change', (e)=>{
+        if (e.target.matches('input.quantity_opt, input[name="quantity_opt"]')) {
+            setTimeout(()=>update(), 80);
+        }
+        });
+        return true;
+    }
+
+    const onReady = (fn)=> document.readyState==='loading' ? document.addEventListener('DOMContentLoaded', fn) : fn();
+    onReady(()=>{
+        const start = Date.now();
+        const t = setInterval(()=>{
+        if (attachObserver()) clearInterval(t);
+        else if (Date.now()-start > 6000) clearInterval(t);
+        }, 120);
+    });
+})();
+
+(function () {
+    const triggerBtns = document.querySelectorAll('.botton_fixed_submit_fake, .actionCartFake');
+    const bottomSection = document.querySelector('.product_bottom_section');
+    if (!triggerBtns.length || !bottomSection) return;
+
+    triggerBtns.forEach(btn => {
+        btn.addEventListener('click', function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            bottomSection.style.transform = 'translateY(0)';
+        });
+    });
+
+    document.addEventListener('click', function(e){
+        if (!bottomSection.contains(e.target) && 
+            ![...triggerBtns].some(btn => btn.contains(e.target))) {
+            bottomSection.style.transform = 'translateY(100%)';
+        }
+    });
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const expertTab = document.querySelector(".review_tab_item.expert_review_wrap");
+    const buyerTab  = document.querySelector(".review_tab_item.normal_review_wrap");
+    const expertContent = document.querySelector(".expert_contents");
+    const buyerContent  = document.querySelector(".normal_contents");
+
+    const showExpert = () => {
+        if (expertContent) expertContent.style.display = "block";
+        if (buyerContent)  buyerContent.style.display  = "none";
+        expertTab?.classList.add("active");
+        buyerTab?.classList.remove("active");
+    };
+
+    const showBuyer = () => {
+        if (expertContent) expertContent.style.display = "none";
+        if (buyerContent)  buyerContent.style.display  = "block";
+        expertTab?.classList.remove("active");
+        buyerTab?.classList.add("active");
+    };
+
+    showExpert();
+
+    expertTab?.addEventListener("click", showExpert);
+    buyerTab?.addEventListener("click", showBuyer);
+
+    document.addEventListener("click", (e) => {
+        const link = e.target.closest(".review_link");
+        if (!link) return;
+
+        e.preventDefault();
+        showBuyer();
+        document.getElementById("prdReview")?.scrollIntoView({ behavior: "smooth" });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".taste_profile_item").forEach(function (item) {
+        const numberEl = item.querySelector(".taste_number");
+        const titleEl  = item.querySelector(".taste_item_title");
+        if (!numberEl || !titleEl) return;
+
+        let val = parseFloat((numberEl.textContent || "").trim().replace(",", "."));
+        if (Number.isNaN(val)) return;
+        val = Math.max(0, Math.min(10, val));
+
+        const meter = document.createElement("div");
+        meter.className = "taste_meter";
+
+        const segments = document.createElement("div");
+        segments.className = "segments";
+        for (let i = 0; i < 10; i++) {
+            const seg = document.createElement("span");
+            seg.className = "seg";
+            const fill = document.createElement("i");
+            seg.appendChild(fill);
+            segments.appendChild(seg);
+        }
+        meter.appendChild(segments);
+
+        const bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.textContent = val.toFixed(1).replace(".0", "");
+        meter.appendChild(bubble);
+
+        titleEl.insertAdjacentElement("afterend", meter);
+
+        const full = Math.floor(val); 
+        const partial = val - full;
+
+        const segEls = meter.querySelectorAll(".seg i");
+        segEls.forEach((fill, idx) => {
+        if (idx < full) {
+            fill.style.width = "100%";
+        } else if (idx === full && partial > 0) {
+            fill.style.width = (partial * 100) + "%";
+        } else {
+            fill.style.width = "0%";
+        }
+        });
+
+        const percent = Math.max(0, Math.min(100, (val / 10) * 100));
+        bubble.style.left = percent + "%";
+
+        const clampPx = 8;
+        const meterRect = () => meter.getBoundingClientRect();
+        const adjustBubble = () => {
+            const rect = meterRect();
+            const half = bubble.offsetWidth / 2;
+            const min = clampPx;
+            const max = rect.width - clampPx;
+            const center = (percent / 100) * rect.width;
+            let leftPx = center;
+            if (center - half < min) leftPx = min + half;
+            if (center + half > max) leftPx = max - half;
+            bubble.style.left = (leftPx / rect.width * 100) + "%";
+        };
+        adjustBubble();
+        window.addEventListener("resize", adjustBubble);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const root = document.getElementById('foodList');
+    if (!root) return;
+
+    const raw = (root.getAttribute('data-raw') || root.textContent || '').trim();
+
+    if (!raw || raw.includes('{$')) {
+        return;
+    }
+
+    const labels = raw
+        .split(/[,;\n]/)
+        .map(s => s.trim())
+        .filter(Boolean);
+
+    const wrapper = root.querySelector('.swiper-wrapper');
+    if (!wrapper) return;
+
+    const IMG = {
+        '구운 야채': 'https://olivetest.cafe24.com/web/upload/bolied.png',
+        '샐러드': 'https://olivetest.cafe24.com/web/upload/salad.png',
+        '치즈': 'https://olivetest.cafe24.com/web/upload/cheese2.png'
+    };
+
+    labels.forEach(label => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        const img = IMG[label];
+        slide.innerHTML = `
+        <div class="food_card">
+            ${img ? `<img class="food_img" src="${img}" alt="${label}">` : ''}
+            <div class="food_name">${label}</div>
+        </div>
+        `;
+        wrapper.appendChild(slide);
+    });
+
+    new Swiper('.food_swiper', {
+        slidesPerView: 2.8,
+        spaceBetween: 10,
+        freeMode: true,
+        observer: true,
+        observeParents: true,
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const items = document.querySelectorAll('.product_bottom_info .product_bottom_info_item');
+
+    const onlyOneOpen = false;
+
+    items.forEach((item, idx) => {
+        const title = item.querySelector('.product_bottom_info_title');
+        const contents = item.querySelector('.product_bottom_info_contents');
+        if (!title || !contents) return;
+
+        title.setAttribute('role', 'button');
+        title.setAttribute('tabindex', '0');
+        title.setAttribute('aria-expanded', 'false');
+        contents.setAttribute('aria-hidden', 'true');
+
+        const openItem = (it, open) => {
+            it.classList.toggle('open', open);
+            const t = it.querySelector('.product_bottom_info_title');
+            const c = it.querySelector('.product_bottom_info_contents');
+            if (t) t.setAttribute('aria-expanded', String(open));
+            if (c) c.setAttribute('aria-hidden', String(!open));
+        };
+
+        const toggle = () => {
+            const willOpen = !item.classList.contains('open');
+            if (onlyOneOpen && willOpen) {
+                items.forEach(it => openItem(it, false));
+            }
+            openItem(item, willOpen);
+        };
+
+        title.addEventListener('click', toggle);
+        title.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+        });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    function updatePadding() {
+        document.querySelectorAll("tr.option_product").forEach(function (tr) {
+        const index = parseInt(tr.getAttribute("data-option-index"), 10);
+        if (index >= 2) {
+            tr.style.marginTop = "24px";
+        } else {
+            tr.style.marginTop = "";
+        }
+        });
+    }
+
+    updatePadding();
+
+    const mo = new MutationObserver(updatePadding);
+    mo.observe(document.body, { childList: true, subtree: true });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var firstOption = document.querySelector("#product_option_id1 option[value='*']");
+  if (firstOption) {
+    firstOption.textContent = "상품의 용량을 선택하세요.";
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  var wrap = document.querySelector(".product_option_wrap");
+  var select = wrap ? wrap.querySelector("select") : null;
+  if (!wrap || !select) return;
+
+  function updateMargin() {
+    if (select.value && select.value !== "*") {
+      wrap.classList.add("has-selection");
+    } else {
+      wrap.classList.remove("has-selection");
+    }
+  }
+
+  updateMargin();
+
+  select.addEventListener("change", updateMargin);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".terroir_list").forEach((terroirList) => {
+    const kindItem = terroirList.querySelector(".terroir_kind_item");
+    if (kindItem) {
+      const kindNameEl = kindItem.querySelector(".product_kind");
+      const kinds = (kindNameEl?.textContent || "")
+        .split(",")
+        .map((k) => k.trim())
+        .filter(Boolean);
+
+      if (kinds.length > 1) {
+        kindNameEl.textContent = kinds[0];
+        for (let i = 1; i < kinds.length; i++) {
+          const clone = kindItem.cloneNode(true);
+          clone.querySelector(".product_kind").textContent = kinds[i];
+          const firstLocation = terroirList.querySelector(".terroir_location_item");
+          if (firstLocation) terroirList.insertBefore(clone, firstLocation);
+          else terroirList.appendChild(clone);
+        }
+      }
+    }
+
+    const kindCount = terroirList.querySelectorAll(".terroir_kind_item").length;
+    const locationItems = terroirList.querySelectorAll(".terroir_location_item");
+
+    if (kindCount >= 2) {
+      locationItems.forEach((item) => (item.style.gridColumn = "1 / -1"));
+    } else {
+      locationItems.forEach((item) => (item.style.gridColumn = "auto"));
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const productDetail = document.querySelector(".product_detail_list");
+  if (!productDetail) return;
+
+  const pricePerEl = productDetail.querySelector(".product_detail_price_per");
+  const originalPrice = parseFloat(productDetail.dataset.originalPrice || 0);
+  const salePrice = parseFloat(productDetail.dataset.salePrice || 0);
+
+  let discount = 0;
+  if (originalPrice > 0) {
+    discount = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
+  }
+
+  if (discount <= 0) {
+    pricePerEl.style.display = "none";
+  } else {
+    pricePerEl.style.display = "block";
+    pricePerEl.textContent = `-${discount}%`;
+  }
+});
+
+(function(){
+  function getProductNoSafe(){
+    const qs = new URLSearchParams(location.search);
+    const q = qs.get('product_no');
+    if (q && /^\d+$/.test(q)) return q;
+
+    const path = location.pathname;
+    const mPretty = path.match(/\/product\/[^/]*?\/(\d+)(?:\/|$)/i);
+    if (mPretty && mPretty[1]) return mPretty[1];
+
+    const candSel = [
+      'input[name="product_no"]',
+      '#product_no',
+      '[data-product-no]',
+      '[ec-data-product-no]',
+    ];
+    for (const sel of candSel){
+      const el = document.querySelector(sel);
+      const v  = el?.value || el?.getAttribute?.('data-product-no') || el?.getAttribute?.('ec-data-product-no');
+      if (v && /^\d+$/.test(v)) return v;
+    }
+
+    return '';
+  }
+
+  function getMeta(){
+    const productNo   = getProductNoSafe();
+    const productName = (document.querySelector('.product_detail_name')?.textContent || '').trim();
+    const brandName   = (document.querySelector('.product_detail_brand')?.textContent || '').trim();
+    const imgSrc      = document.querySelector('.product_img_box img')?.getAttribute('src') || '';
+    const pageUrl     = location.href;
+    return { productNo, productName, brandName, imgSrc, pageUrl };
+  }
+
+  function withParams(baseHref, meta){
+    const { productNo, productName, brandName, imgSrc, pageUrl } = meta;
+    if (!productNo || !productName) return baseHref;
+    try{
+      const u = new URL(baseHref, location.origin);
+      u.searchParams.set('prno',    productNo);
+      u.searchParams.set('prname',  productName);
+      u.searchParams.set('prbrand', brandName);
+      u.searchParams.set('primg',   imgSrc);
+      u.searchParams.set('prurl',   pageUrl);
+      return u.toString();
+    }catch{
+      const extra = new URLSearchParams({
+        prno: productNo, prname: productName, prbrand: brandName, primg: imgSrc, prurl: pageUrl
+      }).toString();
+      return baseHref + (baseHref.includes('?') ? '&' : '?') + extra;
+    }
+  }
+
+  function bindMemberClick(){
+    const btn = document.getElementById('btnConsultMember');
+    if (!btn || btn._consultBound) return;
+
+    btn.addEventListener('click', function(e){
+      if (btn.hasAttribute('hidden')) return;
+      const meta = getMeta();
+      const currentHref = btn.getAttribute('href') || '/board/consult/write.html';
+      if (!meta.productNo || !meta.productName) return;
+      e.preventDefault();
+      location.href = withParams(currentHref, meta);
+    }, true);
+
+    btn._consultBound = true;
+  }
+
+  document.addEventListener('DOMContentLoaded', bindMemberClick);
+  new MutationObserver(bindMemberClick).observe(document.body, { childList:true, subtree:true });
+})();
+
+(function(){
+  function isLoginNow(){
+    try { return window.CAPP_ASYNC_METHODS?.IS_LOGIN === true; } catch(_) { return false; }
+  }
+
+  function whenLoginReady(cb, timeoutMs=3000){
+    const t0 = Date.now();
+    (function tick(){
+      if (typeof window.CAPP_ASYNC_METHODS !== 'undefined') return cb(isLoginNow());
+      if (Date.now() - t0 > timeoutMs) return cb(isLoginNow());
+      setTimeout(tick, 120);
+    })();
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const guestBtn  = document.getElementById('btnConsultGuest');
+    const memberBtn = document.getElementById('btnConsultMember');
+    if (!guestBtn || !memberBtn) return;
+
+    whenLoginReady(function(loggedIn){
+      if (loggedIn) {
+        guestBtn.setAttribute('hidden', 'hidden');
+        memberBtn.removeAttribute('hidden');
+      } else {
+        memberBtn.setAttribute('hidden', 'hidden');
+        guestBtn.removeAttribute('hidden');
+      }
+    });
+  });
+})();
+
+(function () {
+    function waitBrandName(selector = ".product_detail_brand", timeoutMs = 5000) {
+        return new Promise((resolve) => {
+        const start = Date.now();
+        const tryGet = () => {
+            const el = document.querySelector(selector);
+            const name = el ? (el.textContent || "").trim() : "";
+            if (name) return resolve(name);
+            if (Date.now() - start >= timeoutMs) return resolve("");
+            setTimeout(tryGet, 150);
+        };
+        tryGet();
+        });
+    }
+
+    function insertBrandBeforeStrong(strongEl, brandName) {
+        if (!strongEl || !brandName) return;
+
+        const prev = strongEl.previousElementSibling;
+        if (prev && prev.classList && prev.classList.contains("option_brand_label")) return;
+
+        const p = document.createElement("p");
+        p.className = "option_brand_label";
+        p.textContent = `[${brandName}]`;
+        p.style.margin = "0 0 2px 0";
+        p.style.color = "#767676";
+        p.style.fontSize = "14px";
+        p.style.fontWeight = "400";
+
+        strongEl.parentNode.insertBefore(p, strongEl);
+    }
+
+    function processAll(brandName) {
+        document.querySelectorAll("tr.option_product > td:first-child > p.product > strong")
+        .forEach((strongEl) => insertBrandBeforeStrong(strongEl, brandName));
+    }
+
+    function observeDynamic(brandName) {
+        const mo = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+            m.addedNodes && m.addedNodes.forEach((node) => {
+            if (node.nodeType !== 1) return;
+            if (node.matches && node.matches("tr.option_product")) {
+                const strongEl = node.querySelector("td:first-child > p.product > strong");
+                insertBrandBeforeStrong(strongEl, brandName);
+            }
+            node.querySelectorAll &&
+                node.querySelectorAll("tr.option_product > td:first-child > p.product > strong")
+                .forEach((strongEl) => insertBrandBeforeStrong(strongEl, brandName));
+            });
+
+            if (m.type === "characterData" || m.type === "attributes") {
+            if (!observeDynamic._rafScheduled) {
+                observeDynamic._rafScheduled = true;
+                requestAnimationFrame(() => {
+                observeDynamic._rafScheduled = false;
+                processAll(brandName);
+                });
+            }
+            }
+        }
+        });
+
+        mo.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", async function () {
+        const brandName = await waitBrandName(".product_detail_brand", 5000);
+        if (!brandName) {
+        return;
+        }
+        processAll(brandName);
+        observeDynamic(brandName);
+    });
+})();
+
+(function () {
+    function initCustomSelect(root) {
+        const select = root.querySelector('select.ProductOption0');
+        if (!select || select.dataset.csInited) return;
+        select.dataset.csInited = '1';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'cs-wrap';
+        select.parentNode.insertBefore(wrap, select);
+        wrap.appendChild(select);
+
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'cs-trigger';
+        trigger.setAttribute('aria-haspopup', 'listbox');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.innerHTML = `
+        <span class="cs-label"></span>
+        <svg class="cs-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_1909_10257" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_1909_10257)">
+                <path d="M17.3079 9.99999L12.0001 15.3077L6.69238 9.99999L7.40013 9.29224L12.0001 13.8922L16.6001 9.29224L17.3079 9.99999Z" fill="#3D3D3D"/>
+            </g>
+        </svg>
+        `;
+        wrap.appendChild(trigger);
+
+        const list = document.createElement('div');
+        list.className = 'cs-list';
+        list.setAttribute('role', 'listbox');
+        wrap.appendChild(list);
+
+        function parseOptions() {
+        list.innerHTML = '';
+        const fr = document.createDocumentFragment();
+
+        [...select.children].forEach(node => {
+            if (node.tagName === 'OPTION') {
+            const opt = node;
+            const isDivider = (opt.value === '**');
+            if (isDivider) return;
+
+            const isPlaceholder = (opt.value === '*');
+            if (isPlaceholder) {
+                return;
+            }
+            const item = document.createElement('button');
+            item.type = 'button';
+            item.className = 'cs-opt';
+            item.setAttribute('role', 'option');
+            item.dataset.value = opt.value;
+            const disabled = opt.disabled || opt.hasAttribute('disabled');
+            if (disabled) item.setAttribute('aria-disabled', 'true');
+            if (opt.selected) item.setAttribute('aria-selected', 'true');
+
+            const txt = opt.textContent.trim();
+            const m = txt.match(/^(.*?)(\s*\((?:\+|-).*?원\))$/);
+            const label = m ? m[1].trim() : txt;
+            const price = m ? m[2].trim() : '';
+
+            item.innerHTML = `<span>${label}</span>${price ? `<span class="cs-price">${price.replace(/[()]/g,'').trim()}</span>`:''}`;
+            fr.appendChild(item);
+            }
+            else if (node.tagName === 'OPTGROUP') {
+            const g = node;
+            const gh = document.createElement('div');
+            gh.className = 'cs-group';
+            gh.textContent = g.label || '';
+            fr.appendChild(gh);
+            [...g.children].forEach(opt => {
+                const item = document.createElement('button');
+                item.type = 'button';
+                item.className = 'cs-opt';
+                item.setAttribute('role', 'option');
+                item.dataset.value = opt.value;
+                if (opt.disabled) item.setAttribute('aria-disabled', 'true');
+                if (opt.selected) item.setAttribute('aria-selected', 'true');
+
+                const txt = opt.textContent.trim();
+                const m = txt.match(/^(.*?)(\s*\((?:\+|-).*?원\))$/);
+                const label = m ? m[1].trim() : txt;
+                const price = m ? m[2].trim() : '';
+                item.innerHTML = `<span>${label}</span>${price ? `<span class="cs-price">${price.replace(/[()]/g,'').trim()}</span>`:''}`;
+                fr.appendChild(item);
+            });
+            }
+        });
+
+        list.appendChild(fr);
+        updateTriggerLabel();
+        }
+
+        function updateTriggerLabel() {
+        const labelEl = trigger.querySelector('.cs-label');
+        const sel = select.options[select.selectedIndex];
+        if (wrap.classList.contains('open')) {
+            labelEl.textContent = '용량 선택';
+        } else {
+            labelEl.textContent = sel && sel.value !== '*' ? sel.textContent.trim() : '상품의 용량을 선택하세요.';
+        }
+        const hasSel = sel && sel.value !== '*';
+        root.classList.toggle('has-selection', !!hasSel);
+        }
+
+
+        function open() {
+        wrap.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+        updateTriggerLabel();
+        const cur = list.querySelector('.cs-opt[aria-selected="true"]') || list.querySelector('.cs-opt:not([aria-disabled="true"])');
+        if (cur) cur.focus({preventScroll:true});
+        document.addEventListener('click', onDocClick, { once: true });
+        }
+        function close() {
+        wrap.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        updateTriggerLabel();
+        }
+        function onDocClick(e) {
+        if (!wrap.contains(e.target)) close();
+        }
+
+        trigger.addEventListener('click', () => {
+        wrap.classList.contains('open') ? close() : open();
+        });
+
+        list.addEventListener('click', (e) => {
+        const btn = e.target.closest('.cs-opt');
+        if (!btn || btn.getAttribute('aria-disabled') === 'true') return;
+        const val = btn.dataset.value;
+        select.value = val;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+        list.querySelectorAll('.cs-opt[aria-selected="true"]').forEach(el => el.setAttribute('aria-selected','false'));
+        btn.setAttribute('aria-selected','true');
+        updateTriggerLabel();
+        close();
+        });
+
+        select.addEventListener('change', updateTriggerLabel);
+
+        const mo = new MutationObserver(() => parseOptions());
+        mo.observe(select, { childList: true, subtree: true });
+
+        parseOptions();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.product_option_wrap').forEach(initCustomSelect);
+    });
+})();
+
+(function () {
+  const root = document.querySelector('.product_bottom_section');
+  if (!root) return;
+
+  function hasOptionForm() {
+    return !!root.querySelector(
+      '.xans-product-option select,' +
+      '.xans-product-option input[type="radio"],' +
+      '.xans-product-option input[type="checkbox"]'
+    );
+  }
+
+  function removeFixedHeader() {
+    const fixedTitle = root.querySelector('.total_wrap');
+    if (fixedTitle) fixedTitle.remove();
+    const line = root.querySelector('.total_wrap + .line') || root.querySelector('#totalProducts > .line');
+    if (line) line.remove();
+  }
+
+  function hideEmptyOptionTables() {
+    root.querySelectorAll('table.xans-product-option').forEach(tb => {
+      const tbody = tb.querySelector('tbody');
+      const hasRow = !!(tbody && tbody.querySelector('tr'));
+      if (hasRow) tb.style.removeProperty('display');
+      else tb.style.setProperty('display', 'none', 'important');
+    });
+  }
+
+  function syncTotalProductsVisibility() {
+    const total = root.querySelector('#totalProducts');
+    if (!total) return;
+
+    const bodies = total.querySelectorAll('tbody');
+    let shouldShow = false;
+    bodies.forEach(tb => {
+      const hasRow = !!tb.querySelector('tr');
+      const disp = window.getComputedStyle(tb).display;
+      if (hasRow && disp !== 'none') shouldShow = true;
+    });
+
+    if (shouldShow) {
+      total.style.removeProperty('display');
+    } else {
+      total.style.setProperty('display', 'none', 'important');
+    }
+  }
+
+  function applyAll() {
+    if (hasOptionForm()) removeFixedHeader();
+    hideEmptyOptionTables();
+    syncTotalProductsVisibility();
+  }
+
+  applyAll();
+  document.addEventListener('DOMContentLoaded', applyAll);
+  new MutationObserver(applyAll).observe(root, { childList: true, subtree: true });
+  setTimeout(applyAll, 300);
+})();
+
+(function(){
+  const API_BASE = 'https://oliva.boundary.team/api';
+  const DETAIL_URL = {
+    brand: '/contents/brand_detail.html?brand_id=',
+    kind:  '/contents/kind_detail.html?kind_id=',
+    place: '/contents/place_detail.html?place_id=',
+  };
+
+  const safe = v => v ?? '';
+
+  async function fetchJson(url){
+    const r = await fetch(url, {mode:'cors'});
+    if(!r.ok) throw new Error(r.status);
+    return r.json();
+  }
+
+  async function boot(){
+    const brandName = document.querySelector('.brand_desc_txt h3')?.textContent.trim();
+    const kindName  = document.querySelector('.product_kind')?.textContent.trim();
+    const placeName = document.querySelector('.product_origin')?.textContent.trim();
+
+    if(brandName){
+      try{
+        const b = await fetchJson(`${API_BASE}/brand?name=${encodeURIComponent(brandName)}`);
+        if(b){
+          document.querySelector('.brand_link_btn')
+            ?.setAttribute('href', `${DETAIL_URL.brand}${b.id}`);
+          document.querySelector('.brand_img')?.setAttribute('src', b.image || '');
+          document.querySelector('.brand_logo')?.setAttribute('src', b.logo || '');
+          document.querySelector('.brand_description').textContent = safe(b.description);
+        }
+      }catch(e){ console.warn('brand not found', e); }
+    }
+
+    if (kindName) {
+        try {
+            const k = await fetchJson(`${API_BASE}/kind?name=${encodeURIComponent(kindName)}`);
+            if (k) {
+            document.querySelector('.terroir_kind_item')
+                ?.setAttribute('href', `${DETAIL_URL.kind}${k.id}`);
+            document.querySelector('.kind_img')?.setAttribute('src', k.image_url || '');
+
+            document.querySelector('.terroir_location_item')
+                ?.setAttribute('href', `${DETAIL_URL.kind}${k.id}`);
+            }
+        } catch (e) {
+            console.warn('kind not found', e);
+        }
+    }
+
+    if (placeName) {
+        try {
+            const p = await fetchJson(`${API_BASE}/place?name=${encodeURIComponent(placeName)}`);
+            if (p) {
+            document.querySelector('.origin_img')?.setAttribute('src', p.image_url || '');
+            }
+        } catch (e) {
+            console.warn('place not found', e);
+        }
+    }
+  }
+
+  document.readyState==='loading'
+    ? document.addEventListener('DOMContentLoaded', boot)
+    : boot();
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dim = document.querySelector('.product_info_bottom_dim');
+  const $  = (s, r=document)=> r.querySelector(s);
+  const $$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
+  const txt = el => (el?.textContent || '').replace(/\s+/g,' ').trim();
+  const norm = s => (s || '').toLowerCase().replace(/\s+/g,' ').trim();
+  const isBlankOrTpl = v => !v || v.includes('{$');
+
+  const sheets = {};
+  for (let i=1;i<=14;i++){
+    const el = document.querySelector(`.product_info_bottom${i}`);
+    if (el) {
+      el.setAttribute('aria-hidden', 'true');
+      sheets[i] = el;
+    }
+  }
+
+  let current = null;
+  let closingNow = false;
+
+  const lockScroll = () => {
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overscrollBehavior = 'contain';
+    document.body.style.touchAction = 'none';
+  };
+  const unlockScroll = () => {
+    document.documentElement.style.overflow = '';
+    document.body.style.overscrollBehavior = '';
+    document.body.style.touchAction = '';
+  };
+
+  const openSheet = (key) => {
+    if (closingNow) return;
+    closeSheetInstant();
+    const el = sheets[key];
+    if (!el) return;
+    el.classList.add('open');
+    el.setAttribute('aria-hidden', 'false');
+    dim?.classList.add('show');
+    lockScroll();
+    current = el;
+  };
+
+  const closeSheetAnimated = () => {
+    if (!current || closingNow) {
+      dim?.classList.remove('show');
+      unlockScroll();
+      return;
+    }
+    closingNow = true;
+    current.classList.add('closing');
+    dim?.classList.remove('show');
+
+    const onEnd = (e) => {
+      if (e.propertyName !== 'transform') return;
+      current.removeEventListener('transitionend', onEnd);
+      current.classList.remove('open', 'closing');
+      current.setAttribute('aria-hidden', 'true');
+      current.style.transform = '';
+      current = null;
+      setTimeout(() => { dim?.classList.remove('show'); unlockScroll(); closingNow = false; }, 400);
+    };
+    current.addEventListener('transitionend', onEnd, { once: true });
+  };
+
+  const closeSheetInstant = () => {
+    if (current) {
+      current.classList.remove('open', 'closing');
+      current.setAttribute('aria-hidden', 'true');
+      current.style.transform = '';
+      current = null;
+    }
+    dim?.classList.remove('show');
+    unlockScroll();
+    closingNow = false;
+  };
+
+  $$('.product_info_bottom_close').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.preventDefault(); closeSheetAnimated(); });
+  });
+  dim?.addEventListener('click', closeSheetAnimated);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSheetAnimated(); });
+
+  let startY = null, dragging = false;
+  const onStart = (e) => {
+    if (!current || closingNow) return;
+    const path = e.composedPath?.() || [];
+    if (!path.includes(current)) return;
+    dragging = true;
+    startY = (e.touches ? e.touches[0].clientY : e.clientY);
+    current.style.transition = 'none';
+  };
+  const onMove = (e) => {
+    if (!dragging || !current) return;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY);
+    const dy = Math.max(0, y - startY);
+    current.style.transform = `translateY(${dy}px)`;
+    e.preventDefault();
+  };
+  const onEnd = () => {
+    if (!dragging || !current) return;
+    const m = /translateY\((\d+(?:\.\d+)?)px\)/.exec(current.style.transform);
+    const dy = m ? parseFloat(m[1]) : 0;
+    current.style.transition = '';
+    current.style.transform = '';
+    dragging = false; startY = null;
+    if (dy > 120) closeSheetAnimated();
+  };
+  document.addEventListener('touchstart', onStart, {passive: true});
+  document.addEventListener('touchmove', onMove, {passive: false});
+  document.addEventListener('touchend', onEnd);
+  document.addEventListener('mousedown', onStart);
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+
+  const list = document.querySelector('.terroir_card_list');
+  if (!list) return;
+
+  const items = $$('.terroir_card_item', list);
+  items.forEach((it) => {
+    const label = norm(txt($('h5', it)));
+    const valRaw = txt($('p', it));
+    const val = norm(valRaw);
+
+    it.setAttribute('role', 'button');
+    it.setAttribute('tabindex', '0');
+    it.style.cursor = 'pointer';
+
+    const openFor = () => {
+      if (isBlankOrTpl(valRaw)) return;
+
+      let key = null;
+
+      if (label.includes('수확연도')) {
+        key = 4;
+      }
+
+      else if (label.includes('수확시기')) {
+        if (/(조기|early)/.test(val) || val.includes('얼리')) key = 5;
+        else if (/(보름|만월|full)/.test(val)) key = 6;
+      }
+      else if (label.includes('수확방법')) {
+        if (/(핸드|손|hand|manual)/.test(val)) key = 7;
+        else if (/(기계|machine|쉐이킹|shak)/.test(val)) key = 8;
+      }
+      else if (label.includes('단일') || label.includes('블렌딩')) {
+        if (/(블렌딩|blend|coupage|cuvée|cuvee)/.test(val)) key = 9;
+        else if (/(단일|single|mono)/.test(val)) key = 10;
+      }
+
+      else if (label.includes('추출방법')) {
+        if (/(냉추출|cold extraction|centrifuge|원심)/.test(val)) key = 11;
+        else if (/(냉압착|cold press|press|압착|stone)/.test(val)) key = 12;
+      }
+      else if (label.includes('수입방법')) {
+        if (/(항공|air)/.test(val)) key = 13;
+        else if (/(선박|해상|ship|reefer|냉장)/.test(val)) key = 14;
+      }
+      if (!key) {
+        if (it.classList.contains('terroir_card_item1')) key = 4;
+        if (it.classList.contains('terroir_card_item2')) key = 5;
+        if (it.classList.contains('terroir_card_item3')) key = 7;
+        if (it.classList.contains('terroir_card_item4')) key = 9;
+        if (it.classList.contains('terroir_card_item5')) key = 11;
+        if (it.classList.contains('terroir_card_item6')) key = 13;
+      }
+      if (key && sheets[key]) openSheet(key);
+    };
+
+    it.addEventListener('click', (e) => { e.preventDefault(); openFor(); });
+    it.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openFor(); }
+    });
+  });
+
+  [
+    ['.product_number_item1, .help_btn_01', 1],
+    ['.product_number_item2, .help_btn_02', 2],
+    ['.product_number_item3, .help_btn_03', 3],
+  ].forEach(([sel, key]) => {
+    $$(sel).forEach(btn => {
+      btn.addEventListener('click', (e) => { e.preventDefault(); openSheet(key); });
+    });
+  });
+});
+</script>
+
+<style>
+.consult-cta .btnNormalFix[hidden] { display: none !important; }
+
+.product_number_item {
+    cursor: pointer;
+}
+
+.product_info_bottom {
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 24px 0 10px 0;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+    background: var(--G-0, #FFF);
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform .28s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.product_info_bottom.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.product_info_bottom.closing {
+    transform: translateY(100%);
+}
+
+.product_info_bottom_top {
+    width: 100%;
+    text-align: left;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    color: var(--Oilve-Green, #1B8862);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.product_info_bottom h3 {
+    width: 100%;
+    padding: 0 20px;
+    color: var(--G-900, #181818);
+    text-align: left;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px; /* 130% */
+    letter-spacing: -0.4px;
+    margin: 4px 0 20px;
+}
+
+.product_info_bottom_txt {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.product_info_bottom_txt p {
+    color: var(--G-700, #454545);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.product_info_bottom_txt p strong {
+    color: var(--G-700, #454545);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+.product_info_bottom_btn {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    margin-top: 20px;
+}
+
+.product_info_bottom_close {
+    display: flex;
+    height: 48px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.product_info_bottom_btn a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    width: 100%;
+    color: var(--Point, #F46200);
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    justify-content: center;
+}
+
+.product_info_bottom_dim {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0,0,0,.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease;
+}
+
+.product_info_bottom_dim.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+</style>

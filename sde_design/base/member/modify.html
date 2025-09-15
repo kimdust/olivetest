@@ -1,0 +1,871 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="member_edit">
+    <!--
+        $login_page = /member/login.html
+        $isRuleBasedAddrForm = T
+     -->
+    <!--@css(/css/module/member/edit.css)-->
+    <div class="{$display_certification_form|display}">
+        <div class="ec-base-table typeWrite">
+            <table border="0" >
+            <caption>회원인증</caption>
+            <colgroup>
+                <col style="width:190px;" />
+                <col style="width:auto;" />
+            </colgroup>
+            <tbody>
+                <tr class="{$display_member_type|display}">
+                    <th scope="row">회원구분</th>
+                    <td>{$member_type}</td>
+                </tr>
+                <tr>
+                    <th scope="row">인증여부</th>
+                    <td>
+                        <strong class="txtEm" id="MauthText">미인증</strong>
+                        <ul class="certifInfo txtInfo">{$certification_info}</ul>
+                    </td>
+                </tr>
+                <tr class="{$display_certification_method|display}">
+                    <th scope="row">회원인증</th>
+                    <td>
+                        {$form.personal_type}
+                        <div class="certifForm" id="ipinWrap">
+                            <a href="#none" class="btnNormal sizeS" onclick="{$action_ipin_open}">아이핀인증</a>
+                            <p class="txtInfo">아이핀이란, 회원님의 개인정보 보호를 위해 웹사이트에 주민등록번호를 제공하지 않고 본인임을 확인하는 인터넷상의 개인식별번호 서비스입니다.<br />아이핀을 통한 가입을 원하시면 아이핀 인증 버튼을 눌러 진행해 주십시오.</p>
+                        </div>
+                        <div class="certifForm" id="mobileWrap">
+                            <a href="#none" class="btnNormal sizeS" onclick="{$action_mobile_open}">휴대폰인증</a>
+                            <p class="txtInfo">본인 명의의 휴대폰으로 본인인증을 진행합니다.</p>
+                        </div>
+                        <div class="certifForm" id="emailWrap">
+                            <p class="txtInfo">기본정보 &gt; 이메일 항목에 입력하신 정보로 본인인증을 진행합니다.<br />정보수정 후에 입력하신 이메일 주소로 인증 메일이 발송되오니, 확인해 주시기 바랍니다.</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="ec-base-table typeWrite">
+        <table border="0" >
+        <caption>회원 기본정보</caption>
+        <colgroup>
+            <col style="width:190px;" />
+            <col style="width:auto;" />
+        </colgroup>
+        <tbody>
+            <tr class="{$display_use_id|display}">
+                <th>
+                    <div class="user_info_name" module="myshop_asyncbenefit">
+                        <strong>{$member_name}</strong>
+                        {$group_name}
+                    </div>
+                </th>
+                <td>
+                    {$form.member_id}
+                </td>
+            </tr>
+            <tr class="{$display_coroperate|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired" alt="필수" />법인명 </th>
+                <td>{$coroperate_name}</td>
+            </tr>
+            <tr class="{$display_coroperate|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired" alt="필수" />법인번호</th>
+                <td class="formGroup">{$coroperate_ssn}</td>
+            </tr>
+            <tr class="{$display_company|display}">
+                <th scope="row">상호명<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg></th>
+                <td>{$form.cname}</td>
+            </tr>
+            <tr class="{$display_company|display}">
+                <th scope="row">사업자번호<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg></th>
+                <td class="formGroup">
+                    {$form.cssn}
+                    <a href="#none" class="btnNormal {$display_cssn_dupl|display}" onclick="{$action_cssn_dupl}">중복확인</a>
+                    <p id="{$cssnMsg_id}" class="txtInfo"></p>
+                </td>
+            </tr>
+            <tr class="table_title">
+                <th>연락처</th>
+            </tr>
+            <tr class="{$display_mobile|display}" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <th scope="row">
+                    휴대전화
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td class="formGroup code phone_group">
+                    {$form.mobile}<button type="button" class="btnNormal {$display_verify_mobile|display}" id="{$btn_action_verify_mobile}" onclick="{$action_verify_mobile}">인증번호받기</button>
+                    <p class="txtInfo {$bDisplayMobileVerifyInfoDefault|display}" id="{$result_send_verify_mobile_fail}"></p>
+                    <ul class="txtInfo {$bDisplayMobileVerifyInfoDefault|display}" id="{$result_send_verify_mobile_success}">
+                        <li>인증번호가 발송되었습니다.</li>
+                        <li>인증번호를 받지 못하셨다면 휴대폰 번호를 확인해 주세요.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr class="{$display_phone|display}" style="margin-top: -24px; border-radius: 0; padding-top: 0;">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired {$display_required_phone|display}" alt="필수" />일반전화</th>
+                <td class="formGroup code phone_group">{$form.phone}</td>
+            </tr>
+            <tr class="{$display_verify_mobile_confirm|display}" id="{$confirm_verify_mobile}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired" alt="필수" />인증번호</th>
+                <td class="formGroup">
+                    <div class="verify">
+                        <div>{$form.verify_sms_number}</div>
+                        <span class="time" id="{$expiryTime}"></span>
+                    </div>
+                    <button type="button" class="btnNormal" id="{$btn_verify_mobile_confirm}" onclick="{$action_verify_mobile_confirm}">확인</button>
+                </td>
+            </tr>
+            <tr style="margin-top: -24px; border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0;">
+                <th scope="row">
+                    이메일
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td>
+                    {$form.email} <p id="{$emailMsg_id}"></p>
+                    <p class="txtInfo {$display_is_email_auth_info|display}">이메일 주소 변경 시 로그아웃 후 재인증을 하셔야만 로그인이 가능합니다.<br />인증 메일은 24시간 동안 유효하며, 유효 시간이 만료된 후에는 가입 정보로 로그인 하셔서 재발송 요청을 해주시기 바랍니다.</p>
+                </td>
+            </tr>
+            <tr class="table_title">
+                <th>이벤트 및 혜택 알림</th>
+            </tr>
+            <tr class="{$display_is_sms|display}" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                <th scope="row">
+                    SMS 수신여부
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td style="padding: 10px 0;">{$form.is_sms}</td>
+            </tr>
+            <tr class="{$display_is_news_mail|display}" style="margin-top: -24px; border-top-left-radius: 0; border-top-right-radius: 0; padding-top: 0; margin-bottom: 40px;">
+                <th scope="row">
+                    이메일 수신여부
+                    <svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+                        <path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+                    </svg>
+                </th>
+                <td style="padding: 10px 0;">{$form.is_news_mail}</td>
+            </tr>
+            <tr>
+                <th scope="row">
+                    회원탈퇴
+                </th>
+                <td>
+                    <div>
+                        {$form.passwd}
+                        <div class="edit_info">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <mask id="mask0_3360_69063" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                    <rect width="24" height="24" fill="#D9D9D9"/>
+                                </mask>
+                                <g mask="url(#mask0_3360_69063)">
+                                    <path d="M11.9169 15.875C12.0941 15.875 12.2425 15.8151 12.3621 15.6952C12.4818 15.5755 12.5417 15.4271 12.5417 15.25V11.7083C12.5417 11.5312 12.4817 11.3828 12.3619 11.2629C12.242 11.1432 12.0935 11.0833 11.9165 11.0833C11.7392 11.0833 11.5908 11.1432 11.4712 11.2629C11.3515 11.3828 11.2917 11.5312 11.2917 11.7083V15.25C11.2917 15.4271 11.3516 15.5755 11.4715 15.6952C11.5913 15.8151 11.7398 15.875 11.9169 15.875ZM11.9167 9.65708C12.1074 9.65708 12.2672 9.59257 12.3962 9.46354C12.5253 9.33451 12.5898 9.17465 12.5898 8.98396C12.5898 8.79326 12.5253 8.6334 12.3962 8.50438C12.2672 8.37549 12.1074 8.31104 11.9167 8.31104C11.726 8.31104 11.5661 8.37549 11.4371 8.50438C11.3081 8.6334 11.2435 8.79326 11.2435 8.98396C11.2435 9.17465 11.3081 9.33451 11.4371 9.46354C11.5661 9.59257 11.726 9.65708 11.9167 9.65708ZM11.9181 19.8333C10.8231 19.8333 9.79389 19.6256 8.83042 19.21C7.86694 18.7944 7.02889 18.2305 6.31625 17.5181C5.60361 16.8058 5.03937 15.9681 4.62354 15.005C4.20785 14.0419 4 13.013 4 11.9181C4 10.8231 4.20778 9.79389 4.62333 8.83042C5.03889 7.86694 5.60285 7.02889 6.31521 6.31625C7.02757 5.60361 7.86528 5.03937 8.82833 4.62354C9.79139 4.20785 10.8203 4 11.9152 4C13.0102 4 14.0394 4.20778 15.0029 4.62333C15.9664 5.03889 16.8044 5.60285 17.5171 6.31521C18.2297 7.02757 18.794 7.86528 19.2098 8.82833C19.6255 9.79139 19.8333 10.8203 19.8333 11.9152C19.8333 13.0102 19.6256 14.0394 19.21 15.0029C18.7944 15.9664 18.2305 16.8044 17.5181 17.5171C16.8058 18.2297 15.9681 18.794 15.005 19.2098C14.0419 19.6255 13.013 19.8333 11.9181 19.8333Z" fill="#888888"/>
+                                </g>
+                            </svg>
+                            회원탈퇴를 진행하시려면 비밀번호를 입력해주세요.
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="{$display_is_none_certification|display}">
+                <th scope="row"><img src="/SkinImg/img/ico_required.svg" class="icon icoRequired" alt="필수" />비밀번호 확인</th>
+                <td>{$form.user_passwd_confirm} <p class="txtInfo" id="{$pwConfirmMsg_id}"></p></td>
+            </tr>
+            <tr class="{$display_is_certification|display}">
+                <th scope="row">새 비밀번호</th>
+                <td>
+                    <div class="eTooltip">
+                        {$form.new_passwd}
+                    </div>
+                </td>
+            </tr>
+            <tr class="{$display_is_certification|display}">
+                <th scope="row">새 비밀번호 확인</th>
+                <td>{$form.new_passwd_confirm} <p class="txtInfo" id="{$newPwConfirmMsg_id}"></p></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+
+    <div module="member_editInformation">
+        <h3>제3자 정보제공 동의현황</h3>
+        <div class="ec-base-table">
+            <table border="1" >
+                <caption>제3자 정보제공 동의현황</caption>
+                <colgroup>
+                    <col style="width:auto;" />
+                    <col style="width:15%;" />
+                    <col style="width:25%;" />
+                    <col style="width:15%;" />
+                    <col style="width:12%;" />
+                    <col style="width:12%;" />
+                    <col style="width:12%;" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">제공서비스</th>
+                        <th scope="col">제공받는 자</th>
+                        <th scope="col">개인정보 이용 목적</th>
+                        <th scope="col">제공하는<br />개인정보 항목</th>
+                        <th scope="col">보유기간</th>
+                        <th scope="col">동의여부</th>
+                        <th scope="col">동의/철회</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{$app_name}<br /><span class="line">({$sa_av_version})</span></td>
+                        <td>{$perinfo_offer}</td>
+                        <td>{$perinfo_purpose}</td>
+                        <td>{$perinfo_item}</td>
+                        <td class="center">{$perinfo_retain}</td>
+                        <td class="center">{$perinfo_status}</td>
+                        <td class="center">{$perinfo_button}</td>
+                    </tr>
+                    <tr>
+                        <td>{$app_name}<br /><span class="line">({$sa_av_version})</span></td>
+                        <td>{$perinfo_offer}</td>
+                        <td>{$perinfo_purpose}</td>
+                        <td>{$perinfo_item}</td>
+                        <td class="center">{$perinfo_retain}</td>
+                        <td class="center">{$perinfo_status}</td>
+                        <td class="center">{$perinfo_button}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="info">- 정보제공에 대한 동의여부를 변경할 수 있으며, 철회 시 일부 서비스 사용이 불가할 수 있습니다.</p>
+    </div>
+
+    <div module="member_editConsignment">
+        <h3>처리위탁 동의현황</h3>
+        <div class="ec-base-table">
+            <table border="1" >
+                <caption>처리위탁 동의현황</caption>
+                <colgroup>
+                    <col style="width:auto;" />
+                    <col style="width:20%;" />
+                    <col style="width:30%;" />
+                    <col style="width:12%;" />
+                    <col style="width:12%;" />
+                    <col style="width:12%;" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">제공서비스</th>
+                        <th scope="col">위탁받은 자</th>
+                        <th scope="col">위탁업무의 내용</th>
+                        <th scope="col">보유기간</th>
+                        <th scope="col">동의여부</th>
+                        <th scope="col">동의/철회</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{$app_name}<br /><span class="line">({$sa_av_version})</span></td>
+                        <td>{$trust_target}</td>
+                        <td>{$trust_work}</td>
+                        <td class="center">{$trust_retain}</td>
+                        <td class="center">{$trust_status}</td>
+                        <td class="center">{$trust_button}</td>
+                    </tr>
+                    <tr>
+                        <td>{$app_name}<br /><span class="line">({$sa_av_version})</span></td>
+                        <td>{$trust_target}</td>
+                        <td>{$trust_work}</td>
+                        <td class="center">{$trust_retain}</td>
+                        <td class="center">{$trust_status}</td>
+                        <td class="center">{$trust_button}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="info">- 처리위탁에 대한 동의여부를 변경할 수 있으며, 철회 시 일부 서비스 사용이 불가할 수 있습니다.</p>
+    </div>
+
+    <div>
+        <!--@js(/js/module/member/join_agreement.js)-->
+        <!--@css(/css/module/member/join_agreement.css)-->
+        <div class="{$display_privacy_optional|display} agreeArea">
+            <div class="title">
+            	<h3>{$form.agree_privacy_optional_check} <label for="agree_privacy_optional_check0" class="check">개인정보 수집 및 이용 동의 (선택)</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                {$privacy_optional_desc}
+            </div>
+        </div>
+
+        <div class="{$display_information|display} agreeArea">
+            <div class="title">
+            	<h3>{$form.agree_information_check} <label for="agree_information_check0" class="check">개인정보 제3자 제공 동의(선택)</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                {$information_desc}
+            </div>
+        </div>
+
+        <div class="{$display_user_defined_1|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_1}<label for="{$name_user_defined_1}">동의함</label><label for="{$name_user_defined_1}" class="check">{$title_user_defined_1}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_1}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_2|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_2}<label for="{$name_user_defined_2}">동의함</label><label for="{$name_user_defined_2}" class="check">{$title_user_defined_2}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_2}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_3|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_3}<label for="{$name_user_defined_3}">동의함</label><label for="{$name_user_defined_3}" class="check">{$title_user_defined_3}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_3}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_4|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_4}<label for="{$name_user_defined_4}">동의함</label><label for="{$name_user_defined_4}" class="check">{$title_user_defined_4}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_4}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_5|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_5}<label for="{$name_user_defined_5}">동의함</label><label for="{$name_user_defined_5}" class="check">{$title_user_defined_5}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_5}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_6|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_6}<label for="{$name_user_defined_6}">동의함</label><label for="{$name_user_defined_6}" class="check">{$title_user_defined_6}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_6}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_7|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_7}<label for="{$name_user_defined_7}">동의함</label><label for="{$name_user_defined_7}" class="check">{$title_user_defined_7}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_7}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_8|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_8}<label for="{$name_user_defined_8}">동의함</label><label for="{$name_user_defined_8}" class="check">{$title_user_defined_8}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_8}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_9|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_9}<label for="{$name_user_defined_9}">동의함</label><label for="{$name_user_defined_9}" class="check">{$title_user_defined_9}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_9}</div>
+            </div>
+        </div>
+        <div class="{$display_user_defined_10|display} agreeArea">
+            <div class="title">
+                <h3>{$form.check_user_defined_10}<label for="{$name_user_defined_10}">동의함</label><label for="{$name_user_defined_10}" class="check">{$title_user_defined_10}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_user_defined_10}</div>
+            </div>
+        </div>
+        <div class="{$display_marketing_consent|display} agreeArea">
+            <div class="title">
+                <h3>{$form.marketing_consent_check}<label for="marketing_consent_check0">동의함</label><label for="marketing_consent_check0" class="check">{$title_marketing_consent}</label><i aria-hidden="true" class="icon icoArrowBottom btnToggle"></i></h3>
+            </div>
+            <div class="contents">
+                <div class="fr-view fr-view-privacy-optional">{$desc_marketing_consent}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ec-base-button func_del">
+        <span class="gLeft member_del">
+        	<a href="#none" class="btnNormal sizeS" onclick="{$action_func_del}">회원탈퇴</a>
+        </span>
+    </div>
+
+    <div class="ec-base-button gBottom">
+        <a href="#none" class="btnSubmitFix sizeM" onclick="{$action_func_join}">저장하기</a>
+    </div>
+
+    <div class="layerLeave ec-base-layer typeModal" id="{$leave_layer_id}">
+       <!--@css(/layout/basic/css/ec-base-layer.css)-->
+        <div class="header">
+            <h3>회원탈퇴</h3>
+        </div>
+        <div class="content">
+            <div class="ec-base-box typeMember">
+                <div class="information">
+                    <strong class="title">혜택 내역</strong>
+                    <div class="description">
+                        <ul>
+                            <li id="{$leave_layer_text_id}">탈퇴시 보유하고 있는 적립금은 모두 삭제됩니다.</li>
+                            <li>현재 적립금 : <strong id="{$leave_layer_mileage}" class="txtEm">0</strong></li>
+                            <li id="{$leave_layer_deposit_id}">현재 예치금 : <strong id="{$leave_layer_deposit}" class="txtEm">0</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <h4>회원탈퇴 사유</h4>
+            <div class="ec-base-table typeWrite">
+                <table border="0" >
+                    <caption>회원탈퇴 사유</caption>
+                    <colgroup>
+                        <col style="width:140px;" />
+                        <col style="width:auto;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">선택</th>
+                            <td>{$form.leave_reason}</td>
+                        </tr>
+                        <tr id="{$leave_layer_etc_reason_id}">
+                            <th scope="row">기타</th>
+                            <td>{$form.subjective_leave_reason}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="ec-base-button">
+            <a href="#none" class="btnSubmitFix sizeM" id="{$leave_layer_submit_btn_id}">탈퇴</a>
+            <a href="#none" class="btnNormalFix sizeM" onclick="$('#{$leave_layer_id}').hide();">취소</a>
+        </div>
+        <a href="#none" class="btnClose" onclick="$('#{$leave_layer_id}').hide();">닫기</a>
+    </div>
+
+</div>
+
+<script>
+(function(){
+  const SAVE_BTN_SELECTOR = '.gBottom .btnSubmitFix';
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest(SAVE_BTN_SELECTOR);
+    if (!btn) return;
+    sessionStorage.setItem('redirectAfterMemberEdit', '1');
+  }, true);
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('redirectAfterMemberEdit') !== '1') return;
+
+    sessionStorage.removeItem('redirectAfterMemberEdit');
+
+    const hasError =
+      !!document.querySelector('.txtError, .error, .is-invalid, [id*="Msg_id"]:not(:empty)');
+    if (hasError) return;
+
+    location.replace('/myshop/myinfo.html');
+  });
+})();
+
+(function(){
+  const SELECTOR_TARGETS = [
+    '.phone_group select',
+    'select[id*="mobile1"]',
+    'select[name*="mobile1"]',
+    'select[id*="phone1"]',
+    'select[name*="phone1"]'
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const seen = new Set();
+    const selects = [];
+    SELECTOR_TARGETS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(s => {
+        if (!seen.has(s) && !s.dataset.csEnhanced) {
+          seen.add(s); selects.push(s);
+        }
+      });
+    });
+
+    selects.forEach(enhanceSelect);
+    document.addEventListener('click', onDocClick, true);
+  });
+
+  function enhanceSelect(select){
+    select.dataset.csEnhanced = '1';
+
+    select.style.position = 'absolute';
+    select.style.inset = '0 auto auto 0';
+    select.style.width = '1px';
+    select.style.height = '1px';
+    select.style.opacity = '0';
+    select.style.pointerEvents = 'none';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cs-wrap';
+    wrap.setAttribute('data-cs', 'select');
+    wrap.style.position = 'relative';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'cs-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    const labelSpan = document.createElement('span');
+    labelSpan.className = 'cs-label';
+    labelSpan.textContent = currentOptionText(select) || placeholderFromSelect(select) || '선택';
+
+    const icon = document.createElement('span');
+    icon.className = 'cs-icon';
+    icon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+            <mask id="mask0_3349_18510" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                <rect x="24.6953" y="24" width="24" height="24" transform="rotate(-180 24.6953 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3349_18510)">
+                <path d="M17.7031 9.70006L12.3954 15.0078L7.08765 9.70006L7.7954 8.99231L12.3954 13.5923L16.9954 8.99231L17.7031 9.70006Z" fill="#393939"/>
+            </g>
+        </svg>
+    `;
+
+    trigger.appendChild(labelSpan);
+    trigger.appendChild(icon);
+
+    const list = document.createElement('div');
+    list.className = 'cs-list';
+    list.setAttribute('role', 'listbox');
+    list.tabIndex = -1;
+
+    const opts = [];
+    Array.from(select.options).forEach((opt, idx) => {
+      if (opt.parentElement && opt.parentElement.tagName === 'OPTGROUP') {
+        const groupLabel = opt.parentElement.label;
+        if (!list.querySelector(`.cs-group[data-label="${cssEscape(groupLabel)}"]`)) {
+          const g = document.createElement('div');
+          g.className = 'cs-group';
+          g.dataset.label = groupLabel;
+          g.textContent = groupLabel;
+          list.appendChild(g);
+        }
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cs-opt';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-value', opt.value);
+      btn.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+      if (opt.disabled) btn.setAttribute('aria-disabled', 'true');
+
+      const txt = document.createElement('span');
+      txt.textContent = opt.textContent.trim();
+
+      btn.appendChild(txt);
+      list.appendChild(btn);
+      opts.push({btn, opt});
+
+      btn.addEventListener('click', () => {
+        if (opt.disabled) return;
+        selectValue(select, wrap, opt.value);
+        close(wrap);
+        trigger.focus();
+      });
+    });
+
+    select.parentNode.insertBefore(wrap, select);
+    wrap.appendChild(select);
+    wrap.appendChild(trigger);
+    wrap.appendChild(list);
+
+    trigger.addEventListener('click', () => toggle(wrap));
+    trigger.addEventListener('keydown', (e) => {
+      const k = e.key;
+      if (k === 'ArrowDown' || k === 'ArrowUp') {
+        e.preventDefault();
+        open(wrap);
+        focusFirstOrSelected(list, k === 'ArrowDown' ? 1 : -1);
+      } else if (k === 'Enter' || k === ' ') {
+        e.preventDefault(); toggle(wrap);
+      }
+    });
+
+    list.addEventListener('keydown', (e) => {
+      const k = e.key;
+      const focusable = getFocusableOptions(list);
+      const idx = focusable.indexOf(document.activeElement);
+      if (k === 'ArrowDown') {
+        e.preventDefault();
+        const next = focusable[Math.min(idx + 1, focusable.length - 1)];
+        next?.focus();
+      } else if (k === 'ArrowUp') {
+        e.preventDefault();
+        const prev = focusable[Math.max(idx - 1, 0)];
+        prev?.focus();
+      } else if (k === 'Home') {
+        e.preventDefault(); focusable[0]?.focus();
+      } else if (k === 'End') {
+        e.preventDefault(); focusable[focusable.length - 1]?.focus();
+      } else if (k === 'Enter' || k === ' ') {
+        e.preventDefault();
+        const activeBtn = document.activeElement;
+        if (activeBtn && activeBtn.classList.contains('cs-opt')) {
+          activeBtn.click();
+        }
+      } else if (k === 'Escape') {
+        e.preventDefault(); close(wrap); trigger.focus();
+      } else if (k.length === 1) {
+        const ch = k.toLowerCase();
+        const found = focusable.find(btn => btn.textContent.trim().toLowerCase().startsWith(ch));
+        found?.focus();
+      }
+    });
+
+    select.addEventListener('change', () => {
+      const opt = select.options[select.selectedIndex];
+      syncUI(wrap, select, opt?.value || '');
+    });
+
+    syncUI(wrap, select, select.value);
+  }
+
+  function cssEscape(s){ return String(s).replace(/"/g, '\\"'); }
+
+  function getFocusableOptions(list){
+    return Array.from(list.querySelectorAll('.cs-opt:not([aria-disabled="true"])'));
+  }
+
+  function focusFirstOrSelected(list, direction = 1){
+    const focusable = getFocusableOptions(list);
+    const selected = focusable.find(btn => btn.getAttribute('aria-selected') === 'true');
+    (selected || (direction > 0 ? focusable[0] : focusable[focusable.length - 1]))?.focus();
+  }
+
+  function currentOptionText(select){
+    const opt = select.options[select.selectedIndex];
+    if (!opt) return '';
+    return opt.textContent.trim();
+  }
+
+  function placeholderFromSelect(select){
+    const first = select.options[0];
+    if (first && (first.disabled || first.value === '')) {
+      return first.textContent.trim();
+    }
+    return '';
+  }
+
+  function selectValue(select, wrap, value){
+    if (select.value !== value) {
+      select.value = value;
+      select.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+    syncUI(wrap, select, value);
+  }
+
+  function syncUI(wrap, select, value){
+    const trigger = wrap.querySelector('.cs-trigger');
+    const label = wrap.querySelector('.cs-label');
+    const list = wrap.querySelector('.cs-list');
+    const btns = list.querySelectorAll('.cs-opt');
+
+    btns.forEach(b => b.setAttribute('aria-selected', b.dataset.value === value ? 'true' : 'false'));
+    label.textContent = currentOptionText(select) || placeholderFromSelect(select) || '선택';
+    trigger.setAttribute('aria-expanded', isOpen(wrap) ? 'true' : 'false');
+  }
+
+  function open(wrap){
+    if (isOpen(wrap)) return;
+    wrap.classList.add('open');
+    const trigger = wrap.querySelector('.cs-trigger');
+    trigger.setAttribute('aria-expanded', 'true');
+    const list = wrap.querySelector('.cs-list');
+    setTimeout(() => { list.focus(); focusFirstOrSelected(list, 1); }, 0);
+  }
+
+  function close(wrap){
+    if (!isOpen(wrap)) return;
+    wrap.classList.remove('open');
+    const trigger = wrap.querySelector('.cs-trigger');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggle(wrap){ isOpen(wrap) ? close(wrap) : open(wrap); }
+  function isOpen(wrap){ return wrap.classList.contains('open'); }
+
+  function onDocClick(e){
+    const wrap = e.target.closest('.cs-wrap');
+    document.querySelectorAll('.cs-wrap.open').forEach(w => {
+      if (w !== wrap) close(w);
+    });
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const NAMES = ['new_passwd','new_passwd_confirm','user_passwd_confirm'];
+  NAMES.forEach(name => {
+    document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+      input.disabled = true;
+      const tr = input.closest('tr');
+      if (tr) tr.remove();
+    });
+  });
+});
+</script>
+
+<style>
+.phone_group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.table_title {
+    background: none !important;
+    padding: 0 !important;
+    margin: 40px 0 12px !important;
+}
+
+.table_title th {
+    color: var(--G-800, var(--Gray-800, #393939)) !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: 20px !important; /* 125% */
+    letter-spacing: -0.32px !important;
+}
+
+label[for="is_sms0"],
+label[for="is_news_mail0"] {
+    margin-right: 80px;
+    margin-left: 4px;
+    color: var(--G-900, #3D3D3D);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+label[for="is_sms1"],
+label[for="is_news_mail1"] {
+    margin-left: 4px;
+    color: var(--G-900, #3D3D3D);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.edit_info {
+    display: flex;
+    padding: 8px 10px;
+    align-items: center;
+    gap: 6px;
+    align-self: stretch;
+    border-radius: 4px;
+    background: var(--Gray-100, #F0F0F0);
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    margin-top: 12px;
+}
+
+.member_del {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.member_del .btnNormal {
+    border: none !important;
+    color: var(--G-600, var(--Gray-600, #767676));
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+    height: 18px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gBottom {
+    display: flex;
+    width: 100%;
+    padding: 16px 16px 32px 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: var(--G-0, #FFF);
+    box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.gBottom .btnSubmitFix {
+    width: 100%;
+    display: flex;
+    height: 48px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    text-align: right;
+
+    /* SB 16 */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+}
+
+.cs-list, .cs-trigger, .cs-wrap.open .cs-trigger {
+    min-width: 100px;
+}
+
+.cs-list {
+    position: absolute;
+    z-index: 10;
+}
+</style>

@@ -1,0 +1,80 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div class="myinfo_list">
+    <a class="myinfo_item" href="/member/modify.html">
+        회원 정보 수정
+    </a>
+
+    <a class="myinfo_item" href="/myshop/addr/list.html">
+        배송지 관리
+    </a>
+
+    <div class="myinfo_item">
+        <a href="#">로그아웃</a>
+    </div>
+</div>
+
+<div class="logout_modal">
+    <div class="logout_top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none">
+            <mask id="mask0_2921_7642" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="33" height="32">
+                <rect x="0.195312" width="32" height="32" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_2921_7642)">
+                <path d="M4.39687 27.128C4.17087 27.128 3.96787 27.0728 3.78787 26.9623C3.60787 26.8519 3.46798 26.7062 3.3682 26.5253C3.2642 26.3458 3.20698 26.1513 3.19654 25.942C3.18609 25.7327 3.24254 25.5253 3.36587 25.32L14.7802 5.60267C14.9038 5.39733 15.0582 5.24556 15.2435 5.14733C15.4291 5.04911 15.6244 5 15.8295 5C16.0346 5 16.23 5.04911 16.4155 5.14733C16.6009 5.24556 16.7553 5.39733 16.8789 5.60267L28.2932 25.32C28.4165 25.5253 28.473 25.7327 28.4625 25.942C28.4521 26.1513 28.3949 26.3458 28.2909 26.5253C28.1911 26.7062 28.0512 26.8519 27.8712 26.9623C27.6912 27.0728 27.4882 27.128 27.2622 27.128H4.39687ZM15.8295 23.5383C16.1346 23.5383 16.3904 23.4351 16.5969 23.2287C16.8033 23.0222 16.9065 22.7664 16.9065 22.4613C16.9065 22.1562 16.8033 21.9004 16.5969 21.694C16.3904 21.4876 16.1346 21.3843 15.8295 21.3843C15.5244 21.3843 15.2686 21.4876 15.0622 21.694C14.8558 21.9004 14.7525 22.1562 14.7525 22.4613C14.7525 22.7664 14.8558 23.0222 15.0622 23.2287C15.2686 23.4351 15.5244 23.5383 15.8295 23.5383ZM15.8299 20.051C16.1134 20.051 16.3509 19.9552 16.5422 19.7637C16.7338 19.5719 16.8295 19.3343 16.8295 19.051V14.3843C16.8295 14.101 16.7336 13.8636 16.5419 13.672C16.3501 13.4802 16.1125 13.3843 15.8292 13.3843C15.5456 13.3843 15.3082 13.4802 15.1169 13.672C14.9253 13.8636 14.8295 14.101 14.8295 14.3843V19.051C14.8295 19.3343 14.9254 19.5719 15.1172 19.7637C15.309 19.9552 15.5465 20.051 15.8299 20.051Z" fill="#ABABAB"/>
+            </g>
+        </svg>
+        <p>로그아웃 하시겠습니까?</p>
+    </div>
+    <div class="logout_btn" module="Layout_stateLogon">
+        <a class="logout_btn_close">취소</a>
+        <a class="logout_btn_y" href="{$action_logout}">로그아웃</a>
+    </div>
+</div>
+
+<div class="logout_dimmed"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const openBtn = document.querySelector('.myinfo_item a[href="#"]');
+        const modal   = document.querySelector('.logout_modal');
+        const dim     = document.querySelector('.logout_dimmed');
+        const cancel  = document.querySelector('.logout_btn_close');
+
+        if (!openBtn || !modal || !dim || !cancel) return;
+
+        function openModal() {
+        modal.classList.add('show');
+        dim.classList.add('show');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+        modal.classList.remove('show');
+        dim.classList.remove('show');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        }
+
+        openBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+        });
+
+        cancel.addEventListener('click', closeModal);
+        dim.addEventListener('click', closeModal);
+
+        document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && dim.classList.contains('show')) closeModal();
+        });
+    });
+</script>
+
+<style>
+    #contents {
+        padding: 16px;
+        height: calc(100vh - 54px) !important;
+        min-height: 0 !important;
+    }
+</style>

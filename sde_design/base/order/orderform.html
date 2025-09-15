@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes">
+    <title>주문서 작성</title>
+
+    <!--@css(/css/module/order/ec_orderform/form_onetouch.css)-->
+    <!--@css(/css/module/order/ec_orderform/form_custom.css)-->
+    <!-- 사용자 스타일 수정이 필요한 경우, 신규 CSS 파일을 추가하여 #userStyle #mCafe24Order { } 셀렉터로 처리 가능합니다. -->
+
+    <!--@js(/layout/basic/js/common.js)-->
+    <!--@js(/js/module/order/ec_orderform/orders.js)-->
+    <!--@js(/js/module/order/ec_orderform/orders_v2.js)-->
+</head>
+
+<body id="userStyle" class="v2">
+    <!-- [상단영역] -->
+    <header id="order_header">
+        <a href="javascript:window.history.back();" class="header_back"><img src="https://olivetest.cafe24.com/web/upload/arrow_forward.png" alt="뒤로가기"></a>
+        <p>주문 / 결제</p>
+    </header>
+
+    <div id="mCafe24Order" class="typeHeader" module="Order_form" unroll="1">
+        <!-- 이값은 지우면 안되는 값입니다. ($move_order_after 주문완료페이지 주소 / $move_basket 장바구니페이지 주소)
+            $move_order_after=/order/order_result.html
+            $move_basket=/order/basket.html
+            $paymethod_selector = textButton
+            $email_type=emailcompact
+            $product_weight_display=F
+        -->
+
+        <div class="leftGroup">
+            <p class="order_form_sec_title">주문자 정보</p>
+            <!-- [주문배송정보] 주문자정보, 배송지정보, 배송정보 -->
+            <!--@import(/order/ec_orderform/billingNshipping_v2.html)-->
+
+            <!-- [바로구매 주문상품] -->
+            <!--@import(/order/ec_orderform/product_detail.html)-->
+
+            <!-- [주문상품] -->
+            <!--@import(/order/ec_orderform/orderProduct_v2.html)-->
+
+            <!-- [사은품] -->
+            <div id="{$gift_orderform_id}">
+                <!--@import(/order/ec_orderform/gift.html)-->
+            </div>
+
+            <!-- [할인/부가결제] 할인/부가결제, 자동 할인내역 레이어 팝업 -->
+            <!--@import(/order/ec_orderform/discount.html)-->
+
+            <!-- [추가정보입력] 추가입력, 기타문의사항 -->
+            <!--@import(/order/ec_orderform/additionalInput.html)-->
+
+            <!-- [결제수단] -->
+            <!--@import(/order/ec_orderform/paymethod_v2.html)-->
+
+        </div>
+
+        <div class="rightGroup">
+            <div class="stickyTop">
+                <!-- [결제정보] -->
+                <!--@import(/order/ec_orderform/payment_v2.html)-->
+
+                <!-- [적립 혜택] -->
+                <!--@import(/order/ec_orderform/benefit.html)-->
+            </div>
+
+            <!-- [약관동의] -->
+            <!--@import(/order/ec_orderform/agreement_v2.html)-->
+
+            <div class="order_btn_wrap">
+                <!-- <div class="agree-msg" id="agreeMsg"><p>주문 내용을 확인하였으며 약관에 동의합니다.</p></div> -->
+
+                <div class="ec-base-button gFull" id="orderFixItem">
+                    <button type="button" class="btnSubmit" id="{$btn_payment_id}">
+                        <div class="order_btn_txt_wrap"> {$total_order_price_front_head}<span id="{$total_order_price_front_id}">{$total_order_price_front}</span>{$total_order_price_front_tail}</div>
+                       <span class="{$subscription_hide_display|display}">구매하기</span><span class="{$subscription_show_display|display}">정기배송 신청하기</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- [주문 정보 확인 레이어팝업] -->
+        <!--@import(/order/ec_orderform/confirm.html)-->
+
+        <iframe id="{$payment_proc_id}" name="h_payment" width="0" height="0" frameborder="0" src=""></iframe>
+        <label id="labelSPrdName"><input type="hidden" id="sPrdName" name="sPrdName" value="{$sPrdName}"></label>
+    </div>
+
+    <div id="progressPaybar" style="display:none;">
+        <div id="progressPaybarBackground" class="layerProgress"></div>
+        <div id="progressPaybarView">
+            <p class="graph">현재 결제가 진행중입니다.</p>
+            <p class="txt">
+                본 결제 창은 결제완료 후 자동으로 닫히며, <br>
+                결제 진행 중에 본 결제 창을 닫으시면<br>
+                주문이 되지 않으니 <br>
+                결제 완료 될 때 까지 닫지 마시기 바랍니다.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    function waitForEl(selector, {root=document, timeout=15000, interval=150} = {}) {
+        return new Promise((resolve, reject) => {
+            const t0 = Date.now();
+            (function tick(){
+            const el = root.querySelector(selector);
+            if (el) return resolve(el);
+            if (Date.now() - t0 > timeout) return reject(new Error('Timeout ' + selector));
+            setTimeout(tick, interval);
+            })();
+        });
+    }
+
+    (async function () {
+        const area = await waitForEl('#ec-jigsaw-area-orderProduct');
+        console.log('[brand] area found:', area);
+
+        const brandCache = new Map();
+
+        function extractBrand(doc) {
+            let el = doc.querySelector('.product_detail_brand');
+            if (el && el.textContent.trim()) return el.textContent.trim();
+            el = doc.querySelector('meta[name="product:brand"]');
+            if (el?.content) return el.content.trim();
+            el = doc.querySelector('[itemprop="brand"]');
+            if (el && el.textContent.trim()) return el.textContent.trim();
+            return '';
+        }
+
+        async function getBrand(cacheKey, href) {
+            if (brandCache.has(cacheKey)) return brandCache.get(cacheKey);
+            if (!href) return '';
+            try {
+            const url = new URL(href, location.origin).toString();
+            const res = await fetch(url, { credentials: 'same-origin' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const html = await res.text();
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const brand = extractBrand(doc);
+            brandCache.set(cacheKey, brand || '');
+            return brand || '';
+            } catch (e) {
+            console.error('[brand] fetch failed:', cacheKey, href, e);
+            brandCache.set(cacheKey, '');
+            return '';
+            }
+        }
+
+        function mountBrand(prdBox, brand) {
+            if (!brand) return;
+            if (prdBox.querySelector('.o-brand')) return;
+            const desc = prdBox.querySelector('.description');
+            if (!desc) return;
+            const nameEl = desc.querySelector('.prdName');
+
+            const badge = document.createElement('div');
+            badge.className = 'o-brand';
+            badge.textContent = `[${brand}]`;
+
+            if (nameEl) nameEl.before(badge);
+            else desc.prepend(badge);
+        }
+
+        function getBoxInfo(box) {
+            const cb = box.querySelector('input[id^="chk_order_cancel_list"][type="checkbox"][value]');
+            let productNo = '';
+            if (cb && cb.value) {
+            const m = String(cb.value).match(/^(\d+):/);
+            if (m) productNo = m[1];
+            }
+
+            const a = box.querySelector('.thumbnail a, .prdName a');
+            const hrefRaw = a ? a.getAttribute('href') : '';
+            let href = '';
+            try { href = hrefRaw ? new URL(hrefRaw, location.origin).toString() : ''; } catch {}
+
+            if (!productNo && href) {
+            try {
+                const u = new URL(href);
+                const q = u.searchParams.get('product_no');
+                if (q) productNo = q;
+            } catch {}
+            }
+
+            if (!productNo && href) {
+            const m2 = href.match(/\/product\/[^/]+\/(\d+)(?:\/|$)/);
+            if (m2) productNo = m2[1];
+            }
+
+            const cacheKey = productNo || href || '';
+            return { productNo, href, cacheKey };
+        }
+
+        let running = false;
+        async function upsertBrands() {
+            if (running) return;
+            running = true;
+            const boxes = area.querySelectorAll('.prdBox');
+            if (!boxes.length) {
+            console.log('[brand] still no .prdBox...');
+            running = false;
+            return;
+            }
+
+            for (const box of boxes) {
+            if (box.querySelector('.o-brand')) continue;
+            const { productNo, href, cacheKey } = getBoxInfo(box);
+            if (!cacheKey || !href) continue;
+            const brand = await getBrand(cacheKey, href);
+            mountBrand(box, brand);
+            }
+            running = false;
+        }
+
+        upsertBrands();
+
+        const mo = new MutationObserver(muts => {
+            if (muts.some(m => m.addedNodes.length || m.type === 'attributes')) {
+            upsertBrands();
+            }
+        });
+        mo.observe(area, { childList: true, subtree: true, attributes: true });
+
+        let tries = 0;
+        const timer = setInterval(() => {
+            upsertBrands();
+            if (++tries > 20) clearInterval(timer);
+        }, 500);
+    })();
+
+    (function(){
+        const inited = new WeakSet();
+
+        function buildCustomSelect(sel, onAfterChange, { skipValue=null, placeholder='', id } = {}){
+            if (!sel) return false;
+
+            if (inited.has(sel) || sel.dataset.csInited === '1') return true;
+
+            if (!id) id = 'cs-' + (sel.id || Math.random().toString(36).slice(2));
+
+            document.querySelectorAll(`#${CSS.escape(id)}`).forEach((n,i)=>{ if(i>0) n.remove(); });
+
+            const sib = sel.nextElementSibling;
+            if (sib && sib.classList?.contains('cs-wrap')) {
+            if (typeof onAfterChange === 'function') onAfterChange(sel.value);
+            sel.dataset.csInited = '1'; inited.add(sel);
+            return true;
+            }
+
+            const valid = Array.from(sel.options).filter(op => !(skipValue!==null && op.value===skipValue));
+            if (valid.length === 0) return false;
+
+            sel.dataset.csInited = '1'; inited.add(sel);
+
+            sel.classList.add('__visually-hidden');
+
+            const wrap = document.createElement('div');
+            wrap.className = 'cs-wrap'; wrap.id = id;
+            wrap.innerHTML = `
+            <button type="button" class="cs-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="cs-label"></span>
+                <svg class="cs-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <mask id="mask0_1909_10257" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                        <rect y="24" width="24" height="24" transform="rotate(-90 0 24)" fill="#D9D9D9"></rect>
+                    </mask>
+                    <g mask="url(#mask0_1909_10257)">
+                        <path d="M17.3079 9.99999L12.0001 15.3077L6.69238 9.99999L7.40013 9.29224L12.0001 13.8922L16.6001 9.29224L17.3079 9.99999Z" fill="#3D3D3D"></path>
+                    </g>
+                </svg>
+            </button>
+            <ul class="cs-list" role="listbox" tabindex="-1"></ul>
+            `;
+            sel.after(wrap);
+
+            const trigger = wrap.querySelector('.cs-trigger');
+            const label   = wrap.querySelector('.cs-label');
+            const list    = wrap.querySelector('.cs-list');
+
+            valid.forEach(op=>{
+            const li = document.createElement('li'); li.role='none';
+            const btn = document.createElement('button');
+            btn.type='button'; btn.className='cs-opt'; btn.role='option';
+            btn.dataset.value = op.value;
+            btn.setAttribute('aria-selected', op.selected ? 'true':'false');
+            btn.textContent = op.textContent.trim();
+            li.appendChild(btn); list.appendChild(li);
+
+            btn.addEventListener('click', ()=>{
+                sel.value = op.value;
+                sync();
+                if (typeof onAfterChange === 'function') onAfterChange(sel.value);
+                sel.dispatchEvent(new Event('change', {bubbles:true}));
+                close(); trigger.focus();
+            });
+            });
+
+            function sync(){
+            const op = sel.options[sel.selectedIndex];
+            label.textContent = (!op || (skipValue!==null && op.value===skipValue)) ? placeholder : op.textContent.trim();
+            list.querySelectorAll('.cs-opt').forEach(b=>{
+                b.setAttribute('aria-selected', b.dataset.value===sel.value ? 'true':'false');
+            });
+            }
+            function open(){ wrap.classList.add('open'); trigger.setAttribute('aria-expanded','true'); list.focus(); }
+            function close(){ wrap.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); }
+
+            trigger.addEventListener('click', e=>{ e.preventDefault(); wrap.classList.contains('open') ? close() : open(); });
+            document.addEventListener('click', e=>{ if(!wrap.contains(e.target)) close(); });
+            sel.addEventListener('change', ()=>{ sync(); if (typeof onAfterChange === 'function') onAfterChange(sel.value); });
+
+            sync();
+            if (typeof onAfterChange === 'function') onAfterChange(sel.value);
+            return true;
+        }
+
+        function upsertEmailDomain(){
+            const sel = document.getElementById('oemail3');
+            const directWrap = document.querySelector('.mailAddress .directInput');
+            if (!sel) return;
+
+            sel.querySelectorAll('option[value="etc"]').forEach(o=>o.remove());
+            if (directWrap) directWrap.style.display = 'none';
+
+            buildCustomSelect(sel, null, { skipValue:'', placeholder:'', id:'cs-email-domain' });
+        }
+
+        function upsertMessageSelect(){
+            const sel = document.getElementById('omessage_select');
+            if (!sel) return;
+
+            buildCustomSelect(
+            sel,
+            (val)=>{
+                const box = document.querySelector('.ec-shippingInfo-omessageInput');
+                if (box) box.style.display = (val==='oMessage-input') ? 'block' : 'none';
+            },
+            { skipValue:'oMessage-0', placeholder:'', id:'cs-omessage' }
+            );
+        }
+
+        let t;
+        function bootDebounced(){
+            clearTimeout(t);
+            t = setTimeout(()=>{
+            upsertEmailDomain();
+            upsertMessageSelect();
+            }, 50);
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bootDebounced);
+        else bootDebounced();
+
+        const mo = new MutationObserver(bootDebounced);
+        mo.observe(document.body, { childList:true, subtree:true });
+    })();
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const allAgreeBox = document.querySelector("#all_agreement_checkbox .allAgree");
+        const checkNone   = document.querySelector("#all_agreement_checkbox .checkNone");
+
+        if (allAgreeBox && checkNone) {
+            checkNone.insertAdjacentElement("afterend", allAgreeBox);
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".thumbnail img").forEach(img => {
+            img.removeAttribute("width");
+            img.removeAttribute("height");
+        });
+    });
+
+    document.querySelectorAll('#mCafe24Order .ec-base-prdInfo .optionWrap .optionItem')
+    .forEach(item => {
+        const txt = item.textContent.trim();
+        if (!txt) {
+        item.classList.add('no-bullet');
+        }
+    });
+
+    document.querySelectorAll('#mCafe24Order .proPrice .display').forEach(displayEl => {
+        if (displayEl.previousElementSibling?.classList.contains('price-label')) return;
+
+        const label = document.createElement('span');
+        label.className = 'price-label';
+        label.textContent = '상품금액';
+        displayEl.before(label);
+    });
+ 
+    (function () {
+        const clean = s => (s||'').replace(/\s+/g,' ').trim();
+        const isPrice = s => /\d[\d,]*\s*원/.test((s||'').replace(/\s+/g,''));
+        const PRICE_LABEL = '상품금액 ';
+
+        async function fetchOriginalFromDetail(href, {timeout=6000} = {}) {
+            if (!href) return '';
+            let url;
+            try { url = new URL(href, location.origin); } catch { return ''; }
+            if (url.origin !== location.origin) return '';
+
+            const ctrl = new AbortController();
+            const timer = setTimeout(()=>ctrl.abort(), timeout);
+            try {
+            const res = await fetch(url.href, { credentials:'same-origin', signal: ctrl.signal });
+            if (!res.ok) return '';
+            const html = await res.text();
+            const doc  = new DOMParser().parseFromString(html, 'text/html');
+            const t = clean(doc.querySelector('.product_detail_price_cancle')?.textContent || '');
+            return isPrice(t) ? t : '';
+            } catch { return ''; }
+            finally { clearTimeout(timer); }
+        }
+
+        function fallbackOriginalInBox(prdBox){
+            const cands = prdBox.querySelectorAll('.displaynone,[hidden],[style*="display:none"]');
+            for (const el of cands) {
+            const t = clean(el.textContent);
+            if (isPrice(t)) return t;
+            }
+            return '';
+        }
+
+        function getProductKeyFromHref(href){
+            try {
+            const u = new URL(href, location.origin);
+            const no = u.searchParams.get('product_no');
+            if (no) return 'order:orig:' + no;
+            const m = u.pathname.match(/\/product\/[^/]+\/(\d+)(?:\/|$)/);
+            if (m) return 'order:orig:' + m[1];
+            return 'order:orig:' + u.href;
+            } catch { return 'order:orig:' + (href || location.pathname); }
+        }
+
+        async function processPrdBox(prdBox){
+            if (!prdBox || prdBox.dataset.pcDone === '1') return;
+
+            const priceBox  = prdBox.querySelector('.proPrice.notranslate');
+            const saleWrap  = priceBox?.querySelector('.display');
+            if (!priceBox || !saleWrap) { prdBox.dataset.pcDone = '1'; return; }
+
+            let label = priceBox.querySelector('.price-label');
+            if (!label) {
+            label = document.createElement('span');
+            label.className = 'price-label';
+            label.textContent = PRICE_LABEL;
+            saleWrap.before(label);
+            }
+
+            let wrap = priceBox.querySelector('.price-combined');
+            if (!wrap) {
+            wrap = document.createElement('div');
+            wrap.className = 'price-combined';
+            label.after(wrap);
+            wrap.appendChild(saleWrap);
+            }
+
+            wrap.querySelectorAll('.original-price').forEach((el,i)=>{ if(i>0) el.remove(); });
+
+            let origEl = wrap.querySelector('.original-price');
+            if (!origEl) {
+              origEl = document.createElement('span');
+              origEl.className = 'original-price';
+              wrap.insertBefore(origEl, saleWrap);
+            }
+
+            const detailA = prdBox.querySelector('.thumbnail a[href*="product_no="]') || prdBox.querySelector('.prdName a[href*="product_no="]');
+            const detailHref = detailA?.getAttribute('href') || '';
+            const cacheKey   = getProductKeyFromHref(detailHref);
+
+            let original = clean(origEl.textContent);
+            if (!original && cacheKey) original = sessionStorage.getItem(cacheKey) || '';
+            if (!original) original = await fetchOriginalFromDetail(detailHref);
+            if (!original) original = fallbackOriginalInBox(prdBox);
+
+            if (original) {
+            origEl.textContent = original;
+            if (cacheKey) sessionStorage.setItem(cacheKey, original);
+            } else {
+              origEl.remove();
+            }
+
+            prdBox.dataset.pcDone = '1'; 
+        }
+
+        function bootAll(){
+            document.querySelectorAll('.ec-base-prdInfo .prdBox').forEach(box => processPrdBox(box));
+        }
+
+        const mo = new MutationObserver(muts => {
+            if (muts.some(m => m.addedNodes.length)) bootAll();
+        });
+        mo.observe(document.body, { childList:true, subtree:true });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bootAll);
+        } else {
+            bootAll();
+        }
+
+        let tries = 0;
+        const iv = setInterval(()=>{
+            bootAll();
+            if (++tries > 5) clearInterval(iv);
+        }, 400);
+    })();
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const target = document.getElementById('ec-shop-deliveryInfoMainLabel');
+
+    if (target) {
+        const replaceText = () => {
+        if (target.textContent.trim() === '[기본]') {
+            target.textContent = '기본배송지';
+        }
+        };
+
+        replaceText();
+
+        const observer = new MutationObserver(replaceText);
+        observer.observe(target, { childList: true, characterData: true, subtree: true });
+    }
+    });
+
+  (function () {
+  const TAB_LI = document.getElementById('ec-jigsaw-tab-shippingInfo-recentAddress');
+  const ROOT   = document.getElementById('ec-shippingInfo-recentAddress');
+  if (!TAB_LI || !ROOT) return;
+
+  const LIST = document.getElementById('ec-shippingInfo-recentAddressList');
+  let lastState = null;
+
+  const isEmpty = el => !el || !el.textContent || !el.textContent.trim();
+
+  function recentExists() {
+    const hasChoice = !!ROOT.querySelector(
+      'input[name="ec-shippingInfo-recentAddressList-choice"][value]:not([value=""])'
+    );
+
+    const hasRecord = !!ROOT.querySelector('.xans-order-deliverylist.xans-record-');
+
+    const mainLabel = ROOT.querySelector('#ec-shop-deliveryInfoMainLabel');
+    const zipcode   = ROOT.querySelector('#ec-shop-deliveryInfoZipcode');
+    const address   = ROOT.querySelector('#ec-shop-deliveryInfoAddress');
+    const headerHasText = ![mainLabel, zipcode, address].every(isEmpty);
+
+    return hasChoice || hasRecord || headerHasText;
+  }
+
+  function apply() {
+    const noRecent = !recentExists();
+    if (lastState === noRecent) return;
+    lastState = noRecent;
+    TAB_LI.classList.toggle('no-recent', noRecent);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', apply, { once:true });
+  } else {
+    apply();
+  }
+
+  if (LIST) {
+    const mo = new MutationObserver(() => { setTimeout(apply, 0); });
+    mo.observe(LIST, { childList:true, subtree:true });
+  }
+
+  document.addEventListener('click', (e) => {
+    const id = e.target && e.target.id;
+    if (!id) return;
+    if (
+      id === 'ec-shippingInfo-showRecentAddressList' ||
+      id === 'ec-shippingInfo-closeRecentAddressList' ||
+      id.startsWith('ec-shippingInfo-recentAddressList-choice-select') ||
+      id.startsWith('ec-shippingInfo-recentAddressList-choice-modify')
+    ) {
+      setTimeout(apply, 0);
+    }
+  });
+})();
+
+
+    
+    document.addEventListener("DOMContentLoaded", () => {
+    const li = document.getElementById("mileage_max_limit");
+    if (li) {
+        li.textContent = "오일머니 사용 정책 확인하기";
+    }
+    });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const phoneInput = document.getElementById("rphone2_");
+
+  if (phoneInput) {
+    phoneInput.addEventListener("input", function () {
+      this.value = this.value.replace(/[^0-9]/g, "");
+
+      if (this.value.length > 11) {
+        this.value = this.value.slice(0, 11);
+      }
+
+      this.style.border = "";
+    });
+
+    phoneInput.addEventListener("blur", function () {
+      const td = this.closest("td"); 
+      const oldError = td.querySelector(".phone-error-msg");
+      if (oldError) oldError.remove();
+
+      if (this.value.length !== 11) {
+        const error = document.createElement("div");
+        error.className = "phone-error-msg";
+        error.style.color = "red";
+        error.style.fontSize = "12px";
+        error.style.marginTop = "4px";
+        error.textContent = "올바른 휴대폰 번호를 입력해 주세요.";
+        td.appendChild(error);
+
+        this.style.border = "1px solid red";
+      }
+    });
+  }
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("order_password_confirm");
+  const alertMsg = document.getElementById("order_password_confirm_alert");
+
+  if (input && alertMsg) {
+    const observer = new MutationObserver(() => {
+      if (alertMsg.style.display !== "none" && alertMsg.textContent.trim() !== "") {
+        input.style.border = "1px solid red";
+      } else {
+        input.style.border = "";
+      }
+    });
+
+    observer.observe(alertMsg, { attributes: true, childList: true, subtree: true });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const targets = [
+    { inputId: "order_password", alertId: "order_password_alert" },
+    { inputId: "order_password_confirm", alertId: "order_password_confirm_alert" }
+  ];
+
+  targets.forEach(({ inputId, alertId }) => {
+    const input = document.getElementById(inputId);
+    const alertMsg = document.getElementById(alertId);
+
+    if (input && alertMsg) {
+      const observer = new MutationObserver(() => {
+        if (alertMsg.style.display !== "none" && alertMsg.textContent.trim() !== "") {
+          input.style.border = "1px solid red";
+        } else {
+          input.style.border = "";
+        }
+      });
+
+      observer.observe(alertMsg, { attributes: true, childList: true, subtree: true });
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="order_password"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return; 
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.style = 'top:25px';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="order_password_confirm"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return; 
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.style = 'top:25px';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+(() => {
+  const ERROR_TEXT = '10~16자의 영문 대소문자, 숫자, 특수문자 조합을 사용해주세요.';
+
+  function isValidPw(v){
+    if (!v || v.length < 10 || v.length > 16) return false;
+    const hasLetter  = /[A-Za-z]/.test(v);
+    const hasDigit   = /\d/.test(v);
+    const hasSpecial = /[^A-Za-z0-9]/.test(v);
+    let cats = 0; if (hasLetter) cats++; if (hasDigit) cats++; if (hasSpecial) cats++;
+    return cats >= 2;
+  }
+
+  function bind(){
+    const input = document.getElementById('order_password');
+    const alertEl = document.getElementById('order_password_alert');
+    if (!input || !alertEl || input.dataset.pwBound === '1') return;
+
+    alertEl.style.display = 'none';
+
+    let dirty = false;
+
+    function render(opts = {}){
+      const v = input.value || '';
+      const ok = isValidPw(v);
+      const shouldValidate = opts.force || (dirty && v.length > 0);
+
+      if (shouldValidate && !ok) {
+        alertEl.textContent = ERROR_TEXT;
+        alertEl.style.display = 'inline';
+        input.classList.add('is-invalid');
+        input.setAttribute('aria-invalid', 'true');
+      } else {
+        alertEl.style.display = 'none';
+        input.classList.remove('is-invalid');
+        input.removeAttribute('aria-invalid');
+      }
+    }
+
+    input.addEventListener('input', () => { dirty = true; render(); });
+    input.addEventListener('blur',  () => { if (input.value) dirty = true; render(); });
+
+    const form = input.closest('form');
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        if (!isValidPw(input.value)) {
+          e.preventDefault();
+          dirty = true;
+          render({ force: true });
+          input.focus();
+        }
+      }, true);
+    }
+
+    input.dataset.pwBound = '1';
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('order_password');
+  if (el) el.placeholder = '비밀번호를 입력해주세요';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('order_password_confirm');
+  if (el) el.placeholder = '비밀번호를 입력해주세요';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const MAX_TRIES = 10;
+  let tries = 0;
+
+  function isHidden(el){
+    if (!el) return true;
+    const cs = getComputedStyle(el);
+    return cs.display === 'none' || cs.visibility === 'hidden' || el.classList.contains('displaynone');
+  }
+
+  function mount(){
+    const recent = document.getElementById('ec-shippingInfo-recentAddressText');
+    const targets = document.querySelectorAll('.ec-base-table.typeWrite.shippingMessage');
+    if (!recent || targets.length === 0) return false;
+
+    const sync = () => {
+      const hide = isHidden(recent);
+      targets.forEach(t => { t.style.display = hide ? 'none' : ''; });
+    };
+
+    sync();
+
+    const mo = new MutationObserver(sync);
+    mo.observe(recent, { attributes: true, attributeFilter: ['class','style'] });
+
+    window.__shippingMsgSync = sync;
+    return true;
+  }
+
+  if (mount()) return;
+
+  const t = setInterval(() => {
+    if (mount() || ++tries > MAX_TRIES) clearInterval(t);
+  }, 200);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const el = document.getElementById('ec-shippingInfo-recentAddressList-mainLabel-22');
+  if (el) el.textContent = el.textContent.replace(/\[|\]/g, '').trim();
+});
+</script>
+
+    <style>
+    #ec-shippingInfo-recentAddressList-mainLabel-22{
+    display: flex;
+    padding: 2px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 4px;
+    background: var(--Olive-Green-background, #EAF3E8);
+    color: var(--Olive-Green, #1B8862);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+    }
+    
+    #ec-shippingInfo-recentAddress .name {
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        gap: 8px;
+    }
+
+    #ec-shop-deliveryInfoMainLabel {
+        display: flex;
+        padding: 2px 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        border-radius: 4px;
+        background: var(--Olive-Green-background, #EAF3E8);
+        color: var(--Olive-Green, #1B8862);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.24px;
+    }
+
+    #ec-jigsaw-tab-shippingInfo-recentAddress.no-recent > a {
+        color: #E3E3E3 !important;
+    }
+
+    #ec-shop-payment_discount_list_view {
+        display: none !important;
+    }
+
+    button {
+    background: none;
+}
+
+.pw-toggle {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    background: none;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.pw-toggle .eye {
+    display: block;
+}
+
+.pw-toggle .eye-off {
+    display: none;
+}
+
+td{
+    position: relative;
+}
+    </style>
+</body>
+</html>

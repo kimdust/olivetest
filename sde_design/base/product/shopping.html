@@ -1,0 +1,195 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<!--@import(/product/shoppQ/searchForm_typeTop.html)-->
+
+<div module="Search_Result" class="section ec-base-product">
+	<!--
+		$count = 20
+	-->
+	<ul class="prdList grid4">
+		<li id="anchorBoxId_{$product_no}">
+			<div class="prdList__item">
+				<div class="thumbnail">
+					<a href="{$link_product_detail}"><img src="{$image_medium}" id="{$image_medium_id}" alt="{$seo_alt_tag}" loading="lazy"><span module="product_Imagestyle"><span class="prdIcon {$icon_class_name}" style="background-image:url('{$icon_url}');"></span></span></a>
+					<div class="likeButton {$disp_likeprd_class}"><button type="button">{$disp_likeprd_icon} <strong>{$disp_likeprd_count}</strong></button></div>
+					<div class="icon__box">
+						<span class="wish">{$list_wish_icon}WISH</span>
+						<span class="cart">{$basket_icon}ADD</span>
+						<span class="option">{$option_preview_icon}OPTION</span>
+					</div>
+					<div class="icon">{$soldout_icon} {$stock_icon} {$recommend_icon} {$new_icon} {$product_icons} {$today_arrival_icon} {$pickup_icon} {$benefit_icons} {$regular_delivery_icon}</div>
+				</div>
+				<div class="description" ec-data-custom="{$product_custom}" ec-data-price="{$product_price}">
+					<div class="name"><a href="{$link_product_detail}" class="{$product_name_display|display}"><span class="title {$product_name_title_display|display}">{$product_name_title} :</span> {$product_name}</a></div>
+					<p class="ec-base-help txtWarn txt11 {$exclusive_purchase_olny|display}"> 단독구매상품</p>
+					<ul module="search_ListItem" class="spec">
+						<li class="{$item_display|display}">
+							<strong class="title {$item_title_display|display}">{$item_title} :</strong> {$item_content}
+						</li>
+						<li class="{$item_display|display}">
+							<strong class="title {$item_title_display|display}">{$item_title} :</strong> {$item_content}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</li>
+		<li id="anchorBoxId_{$product_no}">
+			<div class="prdList__item">
+				<div class="thumbnail">
+					<a href="{$link_product_detail}"><img src="{$image_medium}" id="{$image_medium_id}" alt="{$seo_alt_tag}" loading="lazy"><span module="product_Imagestyle"><span class="prdIcon {$icon_class_name}" style="background-image:url('{$icon_url}');"></span></span></a>
+					<div class="likeButton {$disp_likeprd_class}"><button type="button">{$disp_likeprd_icon} <strong>{$disp_likeprd_count}</strong></button></div>
+					<div class="icon__box">
+						<span class="wish">{$list_wish_icon}WISH</span>
+						<span class="cart">{$basket_icon}ADD</span>
+						<span class="option">{$option_preview_icon}OPTION</span>
+					</div>
+					<div class="icon">{$soldout_icon} {$stock_icon} {$recommend_icon} {$new_icon} {$product_icons} {$today_arrival_icon} {$pickup_icon} {$benefit_icons} {$regular_delivery_icon}</div>
+				</div>
+				<div class="description" ec-data-custom="{$product_custom}" ec-data-price="{$product_price}">
+					<div class="name"><a href="{$link_product_detail}" class="{$product_name_display|display}"><span class="title {$product_name_title_display|display}">{$product_name_title} :</span> {$product_name}</a></div>
+					<p class="ec-base-help txtWarn txt11 {$exclusive_purchase_olny|display}"> 단독구매상품</p>
+					<ul module="search_ListItem" class="spec">
+						<li class="{$item_display|display}">
+							<strong class="title {$item_title_display|display}">{$item_title} :</strong> {$item_content}
+						</li>
+						<li class="{$item_display|display}">
+							<strong class="title {$item_title_display|display}">{$item_title} :</strong> {$item_content}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<div module="search_paging" class="ec-base-paginate typeList">
+	<a href="{$param_first}" class="first">첫 페이지</a>
+	<a href="{$param_before}">이전 페이지</a>
+    <ol>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+        <li><a href="{$param}" class="{$param_class}">{$no}</a></li>
+    </ol>
+	<a href="{$param_next}">다음 페이지</a>
+	<a href="{$param_last}" class="last">마지막 페이지</a>
+</div>
+
+<section class="section_wrap">
+	<div class="shop_section section1">
+		section1
+	</div>
+
+	<div class="shop_section section2">
+		section2
+	</div>
+
+	<div class="shop_section section3">
+		section3
+	</div>
+
+	<div class="shop_section section4">
+		section4
+	</div>
+
+	<div class="shop_section section5">
+		section5
+	</div>
+</section>
+
+<!-- 옵션 패널 -->
+<aside id="searchOptionsPanel"
+       class="search-options"
+       aria-hidden="true"
+       tabindex="-1">
+  <header class="search-options__header">
+    <strong>검색 옵션</strong>
+    <button type="button" class="search-options__close" aria-label="옵션 닫기">×</button>
+  </header>
+
+  <div class="search-options__body">
+    <!-- 원하는 옵션 UI 넣기 -->
+    <label class="row">
+      <span>카테고리</span>
+      <select>
+        <option>전체</option>
+        <option>오일</option>
+        <option>세트</option>
+      </select>
+    </label>
+
+    <label class="row">
+      <span>가격</span>
+      <input type="number" placeholder="최소"> ~
+      <input type="number" placeholder="최대">
+    </label>
+
+    <button type="button" class="btn-apply">적용하기</button>
+  </div>
+</aside>
+
+<!-- 딤드 -->
+<div id="searchDim" class="search-options-dim" hidden></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("https://oliva.boundary.team/api/sections")
+        .then(res => res.json())
+        .then(sections => {
+            const container = document.querySelector('#contents');
+            const allSections = document.querySelectorAll('.shop_section');
+
+            allSections.forEach(el => el.style.display = 'none');
+
+            sections.forEach(section => {
+                const el = document.querySelector(`.shop_section.${section.code}`);
+                if (el && section.visible == 1) {
+                    el.style.display = 'block';
+                    container.appendChild(el);
+                }
+            });
+        })
+        .catch(error => {
+            console.error("섹션 로드 실패:", error);
+        });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  const openBtn  = document.querySelector('.search_option_btn');
+  const panel    = document.getElementById('searchOptionsPanel');
+  const closeBtn = panel.querySelector('.search-options__close');
+  const dim      = document.getElementById('searchDim');
+
+  const openPanel = () => {
+    panel.setAttribute('data-open','true');
+    panel.setAttribute('aria-hidden','false');
+    dim.hidden = false;
+    document.documentElement.classList.add('searchopt-lock');
+    document.body.classList.add('searchopt-lock');
+    setTimeout(() => panel.focus(), 0);
+  };
+
+  const closePanel = () => {
+    panel.removeAttribute('data-open');
+    panel.setAttribute('aria-hidden','true');
+    dim.hidden = true;
+    document.documentElement.classList.remove('searchopt-lock');
+    document.body.classList.remove('searchopt-lock');
+    openBtn?.focus();
+  };
+
+  openBtn?.addEventListener('click', (e) => { e.preventDefault(); openPanel(); });
+  closeBtn?.addEventListener('click', closePanel);
+  dim?.addEventListener('click', closePanel);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel.getAttribute('data-open') === 'true') closePanel();
+  });
+});
+</script>

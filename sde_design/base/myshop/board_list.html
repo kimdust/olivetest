@@ -1,0 +1,395 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="qna_tab">
+    <a class="qna_write" href="/board/consult/write.html">문의하기</a>
+    <a class="qna_list active" href="/myshop/board_list.html">문의 내역</a>
+</div>
+
+<div class="myshopArea">
+    <div module="myshop_BoardPackage" style="margin-top: 20px;">
+        <!--@css(/css/module/myshop/boardPackage.css)-->
+
+        <div class="ec-base-table typeList" module="myshop_boardList">
+            <!--
+                $count = 10
+                $relation_post = yes
+            -->
+            <table border="0" >
+            <tbody class="{$list_display|display} center">
+                <tr>
+                    <td class="subject"><a href="{$board_read_url}">{$subject}</a><span class="comment">{$comment_count}</span></td>
+                    <td class="category">{$category_name}</td>
+                    <td class="created_at">{$write_date}</td>
+                </tr>
+                <tr>
+                    <td class="subject"><a href="{$board_read_url}">{$subject}</a><span class="comment">{$comment_count}</span></td>
+                    <td class="category">{$category_name}</td>
+                    <td class="created_at">{$write_date}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+		<div class="myshop_boardlist_empty">문의 내역이 없습니다.</div>
+    </div>
+
+    <!--@import(/myshop/myshop_main.html)-->
+</div>
+
+<script>
+(function () {
+  const ROWS = [
+    '.xans-myshop-boardlist tbody tr',
+    '[module="myshop_boardList"] tbody tr',
+    '.ec-base-table.typeList tbody tr'
+  ].join(',');
+
+  const PREFIX = /^[\u200B\uFEFF\u2060\u00A0\s]*\[(.*?)\][\u200B\uFEFF\u2060\u00A0\s]*/;
+
+  const API_TIMEOUT = 8000;
+  const $  = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+
+  function parseReplyFromHTML(html){
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+
+    const tdClass = doc.querySelector('.row-reply .reply-state');
+    if (tdClass) return tdClass.textContent.trim();
+
+    const rows = doc.querySelectorAll('table tbody tr, .xans-board-read tbody tr');
+    for (const tr of rows) {
+      const th = tr.querySelector('th');
+      const td = tr.querySelector('td');
+      if (!th || !td) continue;
+      if (th.textContent.trim().replace(/\s+/g,'') === '답변여부') {
+        return td.textContent.trim();
+      }
+    }
+    return '';
+  }
+
+  async function safeFetch(url){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), API_TIMEOUT);
+    try{
+      const res = await fetch(url, { credentials: 'include', signal: ctrl.signal });
+      if (!res.ok) throw new Error(res.status);
+      return await res.text();
+    } catch(e){ return null; }
+    finally{ clearTimeout(t); }
+  }
+
+  function ensureBadge(cell){
+    let badge = cell.querySelector('.qna-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'qna-badge qna-badge--wait';
+      badge.textContent = '답변대기';
+      cell.appendChild(badge);
+    }
+    return badge;
+  }
+
+  async function hydrateRow(tr){
+    const tdSubject = tr.querySelector('td.subject');
+    const tdDate    = tr.querySelector('td.created_at');
+    const tdCat     = tr.querySelector('td.category');
+    const a         = tdSubject && tdSubject.querySelector('a');
+    const commentEl = tdSubject && tdSubject.querySelector('.comment');
+
+    if (!tdSubject || !tdDate || !a) return;
+    if (tdSubject.__styled) return;
+    tdSubject.__styled = true;
+
+    const fullTitle = (a.textContent || '').trim();
+    const dateText  = (tdDate.textContent || '').trim();
+    let   cat       = '';
+
+    const m = fullTitle.match(PREFIX);
+    if (m) {
+      cat = m[1];
+      a.textContent = fullTitle.replace(PREFIX, '');
+    } else if (tdCat) {
+      const catRaw = tdCat.textContent.trim();
+      if (catRaw) cat = catRaw;
+    }
+
+    const wrap   = document.createElement('div');
+    const title  = document.createElement('a');
+    const meta   = document.createElement('div');
+
+    wrap.className  = 'qna-item-wrap';
+    title.className = 'qna-title';
+    meta.className  = 'qna-meta';
+
+    title.href = a.getAttribute('href');
+    title.textContent = a.textContent;
+
+    if (cat) {
+      const catEl = document.createElement('span');
+      catEl.className = 'qna-cat';
+      catEl.textContent = cat;
+      meta.appendChild(catEl);
+
+      const dot = document.createElement('span');
+      dot.className = 'qna-dot';
+      dot.textContent = '·';
+      meta.appendChild(dot);
+    }
+    const dateEl = document.createElement('span');
+    dateEl.className = 'qna-date';
+    dateEl.textContent = dateText;
+    meta.appendChild(dateEl);
+
+    wrap.appendChild(title);
+    wrap.appendChild(meta);
+
+    tdSubject.innerHTML = '';
+    tdSubject.appendChild(wrap);
+
+    tdDate.innerHTML = '';
+    const badge = ensureBadge(tdDate);
+
+    const html = await safeFetch(title.href);
+    if (!html) return;
+
+    const raw = parseReplyFromHTML(html);
+    const ok  = raw === 'O' || raw === 'o' || raw === '완료';
+    if (ok) {
+      badge.textContent = '답변완료';
+      badge.classList.remove('qna-badge--wait');
+      badge.classList.add('qna-badge--done');
+    } else {
+      badge.textContent = '답변대기';
+      badge.classList.remove('qna-badge--done');
+      badge.classList.add('qna-badge--wait');
+    }
+
+    if (tdCat) tdCat.textContent = '';
+  }
+
+  async function runQueue(items, worker, concurrency=3){
+    let i = 0, running = 0;
+    return new Promise(resolve=>{
+      const next = ()=>{
+        if (i >= items.length && running === 0) return resolve();
+        while (running < concurrency && i < items.length) {
+          const item = items[i++]; running++;
+          worker(item).finally(()=>{ running--; next(); });
+        }
+      };
+      next();
+    });
+  }
+
+  function boot(){
+    const rows = $$(ROWS);
+    if (!rows.length) return;
+    runQueue(rows, hydrateRow, 3);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+
+  const root = document.querySelector('.xans-myshop-boardlist')
+            || document.querySelector('[module="myshop_boardList"]')
+            || document.querySelector('.ec-base-table.typeList');
+  if (root && 'MutationObserver' in window) {
+    new MutationObserver(boot).observe(root, { childList: true, subtree: true });
+  }
+})();
+</script>
+
+<style>
+#contents {
+    min-height: calc(100vh - 54px);
+}
+
+#qna_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #FFF;
+}
+
+#qna_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#qna_header .header_back img {
+    width: 100%;
+}
+
+#qna_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.qna_tab {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    background: #FFF;
+    margin: -16px -16px 0;
+}
+
+.qna_write, .qna_list {
+    display: flex;
+    width: 50%;
+    height: 48px;
+    padding: 14px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    color: var(--G-600, var(--Gray-600, #767676));
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.qna_list.active {
+    border-bottom: 2px solid var(--Olive-Green, #1B8862);
+    color: var(--Olive-Green, #1B8862);
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.xans-record- {
+    display: flex;
+    width: 100%;
+    padding: 16px !important;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    justify-content: space-between;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.qna-title {
+    overflow: hidden;
+    color: var(--G-900, #181818);
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    align-self: stretch;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.qna-meta {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    gap: 6px;
+}
+
+.qna-cat {
+    color: var(--Primary-300, #5BA071);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.qna-date {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.qna-dot {
+    height: 18px;
+    display: flex;
+    color: #ABABAB;
+    align-items: center;
+}
+
+.created_at {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.qna-badge {
+    flex-shrink: 0;
+}
+
+.qna-badge.qna-badge--wait {
+    display: flex;
+    padding: 2px 8px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background: var(--Gray-100, #F0F0F0);
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.qna-badge.qna-badge--done {
+    display: flex;
+    padding: 2px 8px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    background: var(--Olive-Green-background, #EAF3E8);
+    color: var(--G-600, var(--Gray-600, #1B8862));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.myshop_boardlist_empty {
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--G-300, #B0B0B0);
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 111.111% */
+    letter-spacing: -0.36px;
+}
+</style>

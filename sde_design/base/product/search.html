@@ -1,0 +1,3457 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<!--@import(/product/shoppQ/searchForm_typeTop.html)-->
+
+<div class="search_filter_wrap">
+	<div class="search_result">
+		'<strong></strong>'<span>검색 결과</span>
+	</div>
+	<div class="search_filter"></div>
+</div>
+
+<div module="Search_Result" class="section ec-base-product">
+	<!--
+		$count = 20
+	-->
+	<ul class="prdList grid4">
+		<li id="anchorBoxId_{$product_no}">
+			<div class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</div>
+		</li>
+		<li id="anchorBoxId_{$product_no}">
+			<div class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<div class="filter-backdrop" aria-hidden="true" hidden></div>
+
+<aside id="filterDrawer" class="filter-drawer" role="dialog" aria-modal="true" aria-label="상품 정보 필터" hidden>
+  <div class="snb_top">
+    <button type="button" class="filter-close" aria-label="필터 닫기">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <mask id="mask0_2911_96650" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <rect width="24" height="24" transform="matrix(1 0 0 -1 0 24)" fill="#D9D9D9"/>
+        </mask>
+        <g mask="url(#mask0_2911_96650)">
+          <path d="M6.99605 11.251L18.373 11.251C18.5859 11.251 18.764 11.3228 18.9075 11.4665C19.0512 11.61 19.123 11.7881 19.123 12.001C19.123 12.2138 19.0512 12.392 18.9075 12.5355C18.764 12.6791 18.5859 12.751 18.373 12.751L6.99605 12.751L12.1653 17.9202C12.314 18.0689 12.3874 18.2429 12.3855 18.4422C12.3835 18.6416 12.305 18.8188 12.15 18.974C11.9949 19.1188 11.8192 19.1938 11.623 19.199C11.4269 19.2041 11.2512 19.1291 11.096 18.974L4.7558 12.6337C4.66213 12.5401 4.59613 12.4413 4.5578 12.3375C4.5193 12.2336 4.50005 12.1215 4.50005 12.001C4.50005 11.8805 4.5193 11.7683 4.5578 11.6645C4.59613 11.5606 4.66213 11.4619 4.7558 11.3682L11.096 5.02797C11.2345 4.88947 11.406 4.81863 11.6105 4.81547C11.815 4.8123 11.9949 4.88314 12.15 5.02797C12.305 5.18314 12.3825 5.3613 12.3825 5.56247C12.3825 5.7638 12.305 5.94205 12.15 6.09722L6.99605 11.251Z" fill="#393939"/>
+        </g>
+    </svg>
+    </button>
+    <button type="button" class="filter-reset" aria-label="초기화">초기화</button>
+  </div>
+
+  <h2 class="filter-drawer__head">상품 정보</h2>
+  <div class="filter-drawer__body">
+    <section class="filter-block price-filter" id="priceFilter" aria-labelledby="priceFilterLabel">
+      <div class="filter-block__head">
+        <h3 id="priceFilterLabel">가격</h3>
+        <output class="price-filter__value" id="priceRangeValue" aria-live="polite">0원 ~ 50,000원</output>
+      </div>
+
+      <div class="price-range">
+        <div class="price-range__track">
+          <div class="price-range__progress" id="priceRangeProgress"></div>
+        </div>
+
+        <div class="price-range__inputs">
+          <input id="priceMin" class="price-range__input" type="range" min="0" max="100000" step="10000" aria-label="최소 가격" />
+          <input id="priceMax" class="price-range__input" type="range" min="0" max="100000" step="10000" aria-label="최대 가격" />
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <h2 class="filter-drawer__head" style="margin-top: 20px;">전문가 리뷰</h2>
+  <section class="filter-block" id="expertFilterBlock" style="background: none; padding-top: 0;">
+    <div class="taste_profile" id="expertTasteProfile">
+      <!-- 프루티 -->
+      <div class="taste_profile_item" data-key="fruity">
+        <div class="label">프루티</div>
+        <div class="taste_meter" data-value="5">
+          <div class="segments">
+            <span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span>
+            <span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span>
+          </div>
+          <div class="bubble">5</div>
+          <!-- 보이지 않는 슬라이더(상호작용용) -->
+          <input class="taste_slider" type="range" min="1" max="10" step="1" value="5" aria-label="프루티 최대 점수">
+        </div>
+      </div>
+
+      <!-- 쓴맛 -->
+      <div class="taste_profile_item" data-key="bitter">
+        <div class="label">쓴맛</div>
+        <div class="taste_meter" data-value="5">
+          <div class="segments">
+            <span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span>
+            <span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span>
+          </div>
+          <div class="bubble">5</div>
+          <input class="taste_slider" type="range" min="1" max="10" step="1" value="5" aria-label="쓴맛 최대 점수">
+        </div>
+      </div>
+
+      <!-- 매운맛 -->
+      <div class="taste_profile_item" data-key="spicy">
+        <div class="label">매운맛</div>
+        <div class="taste_meter" data-value="5">
+          <div class="segments">
+            <span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span>
+            <span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span><span class="seg"><i></i></span>
+          </div>
+          <div class="bubble">5</div>
+          <input class="taste_slider" type="range" min="1" max="10" step="1" value="5" aria-label="매운맛 최대 점수">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="filter-drawer__head" style="margin-top: 20px;">주요 성분</h2>
+  <div class="filter-drawer__body">
+    <section class="filter-block">
+      <div class="acidity-filter" id="acidityFilter" aria-labelledby="acidityFilterLabel">
+        <div class="filter-block__head">
+          <h3 id="acidityFilterLabel">산도(%)</h3>
+          <output class="price-filter__value" id="acidityRangeValue" aria-live="polite">0.01% ~ 0.20%</output>
+        </div>
+
+        <div class="price-range">
+          <div class="price-range__track"><div class="price-range__progress" id="acidityRangeProgress"></div></div>
+          <div class="price-range__inputs">
+            <input id="acidityMin" class="price-range__input" type="range" min="0.01" max="0.20" step="0.01" aria-label="최소 산도" />
+            <input id="acidityMax" class="price-range__input" type="range" min="0.01" max="0.20" step="0.01" aria-label="최대 산도" />
+          </div>
+        </div>
+      </div>
+      <div class="polyphenol-filter" id="polyFilter" aria-labelledby="polyFilterLabel">
+        <div class="filter-block__head" style="margin-top: 32px;">
+          <h3 id="polyFilterLabel">폴리페놀(mg/kg)</h3>
+          <output class="price-filter__value" id="polyRangeValue" aria-live="polite">0mg ~ 2100mg</output>
+        </div>
+
+        <div class="price-range">
+          <div class="price-range__track"><div class="price-range__progress" id="polyRangeProgress"></div></div>
+          <div class="price-range__inputs">
+            <input id="polyMin" class="price-range__input" type="range" min="400" max="2100" step="100" aria-label="최소 폴리페놀" />
+            <input id="polyMax" class="price-range__input" type="range" min="400" max="2100" step="100" aria-label="최대 폴리페놀" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <h2 class="filter-drawer__head" style="margin-top: 20px;">푸드 페어링</h2>
+  <div class="filter-drawer__body filter-drawer__body_food">
+  </div>
+</aside>
+
+<section class="search_category">
+	<div class="search-category-swiper swiper">
+		<ul class="search_category_list swiper-wrapper">
+		<li class="search_category_item best_category swiper-slide">
+			<img src="https://olivetest.cafe24.com/web/upload/Rectangle%2084.png" alt="">
+			인기 EVOO
+		</li>
+		<li class="search_category_item new_category swiper-slide">
+			<img src="https://olivetest.cafe24.com/web/upload/Rectangle%2085.png" alt="">
+			신규 EVOO
+		</li>
+		<li class="search_category_item organic_category swiper-slide">
+			<img src="https://olivetest.cafe24.com/web/upload/Rectangle%204135.png" alt="">
+			유기농 EVOO
+		</li>
+		<li class="search_category_item premium_category swiper-slide">
+			<img src="https://olivetest.cafe24.com/web/upload/premium.png" alt="">
+			프리미엄
+		</li>
+		<li class="search_category_item ooc_category swiper-slide">
+			<img src="https://olivetest.cafe24.com/web/upload/occ.png" alt="">
+			OOC 인증
+		</li>
+		<li class="search_category_item recommend_category swiper-slide">
+			<img src="https://olivetest.cafe24.com/web/upload/rec.png" alt="">
+			추천 EVOO
+		</li>
+		</ul>
+	</div>
+</section>
+
+<section class="filter_guide">
+	<div class="filter_guide_left">
+		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+			<mask id="mask0_2984_18016" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20">
+				<rect width="20" height="20" fill="#D9D9D9"/>
+			</mask>
+			<g mask="url(#mask0_2984_18016)">
+				<path d="M9.92943 13.2298C10.0771 13.2298 10.2008 13.1799 10.3004 13.08C10.4002 12.9802 10.4501 12.8566 10.4501 12.709V9.7576C10.4501 9.61003 10.4001 9.4863 10.3003 9.38642C10.2004 9.28665 10.0766 9.23676 9.92908 9.23676C9.78139 9.23676 9.65773 9.28665 9.55807 9.38642C9.4583 9.4863 9.40842 9.61003 9.40842 9.7576V12.709C9.40842 12.8566 9.45836 12.9802 9.55825 13.08C9.65813 13.1799 9.78186 13.2298 9.92943 13.2298ZM9.92925 8.04822C10.0882 8.04822 10.2214 7.99446 10.3289 7.88694C10.4364 7.77941 10.4902 7.64619 10.4902 7.48728C10.4902 7.32837 10.4364 7.19515 10.3289 7.08763C10.2214 6.98022 10.0882 6.92652 9.92925 6.92652C9.77034 6.92652 9.63712 6.98022 9.5296 7.08763C9.42208 7.19515 9.36832 7.32837 9.36832 7.48728C9.36832 7.64619 9.42208 7.77941 9.5296 7.88694C9.63712 7.99446 9.77034 8.04822 9.92925 8.04822ZM9.93047 16.5284C9.01797 16.5284 8.16027 16.3553 7.35738 16.009C6.55448 15.6627 5.85611 15.1927 5.26224 14.5991C4.66837 14.0055 4.19818 13.3074 3.85165 12.5048C3.50524 11.7023 3.33203 10.8448 3.33203 9.93242C3.33203 9.01992 3.50518 8.16223 3.85148 7.35933C4.19777 6.55644 4.66774 5.85806 5.26137 5.26419C5.85501 4.67033 6.5531 4.20013 7.35564 3.8536C8.15819 3.50719 9.01565 3.33398 9.92804 3.33398C10.8405 3.33398 11.6982 3.50713 12.5011 3.85343C13.304 4.19972 14.0024 4.66969 14.5963 5.26332C15.1901 5.85696 15.6603 6.55505 16.0069 7.3576C16.3533 8.16014 16.5265 9.01761 16.5265 9.92999C16.5265 10.8425 16.3533 11.7002 16.007 12.5031C15.6607 13.306 15.1908 14.0044 14.5971 14.5982C14.0035 15.1921 13.3054 15.6623 12.5029 16.0088C11.7003 16.3552 10.8429 16.5284 9.93047 16.5284Z" fill="#5BA071"/>
+			</g>
+		</svg>
+		<span>상품 필터로 취향에 맞는 오일을 손쉽게 발견하세요!</span>
+	</div>
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+		<mask id="mask0_2984_18020" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+			<rect x="24" y="24" width="24" height="24" transform="rotate(180 24 24)" fill="#D9D9D9"/>
+		</mask>
+		<g mask="url(#mask0_2984_18020)">
+			<path d="M17.004 11.251L5.62695 11.251C5.41412 11.251 5.23595 11.3228 5.09245 11.4665C4.94879 11.61 4.87695 11.7881 4.87695 12.001C4.87695 12.2138 4.94879 12.392 5.09245 12.5355C5.23595 12.6791 5.41412 12.751 5.62695 12.751L17.004 12.751L11.8347 17.9202C11.686 18.0689 11.6126 18.2429 11.6145 18.4422C11.6165 18.6416 11.695 18.8188 11.85 18.974C12.0051 19.1188 12.1808 19.1938 12.377 19.199C12.5731 19.2041 12.7488 19.1291 12.904 18.974L19.2442 12.6337C19.3379 12.5401 19.4039 12.4413 19.4422 12.3375C19.4807 12.2336 19.5 12.1215 19.5 12.001C19.5 11.8805 19.4807 11.7683 19.4422 11.6645C19.4039 11.5606 19.3379 11.4619 19.2442 11.3682L12.904 5.02797C12.7655 4.88947 12.594 4.81863 12.3895 4.81547C12.185 4.8123 12.0051 4.88314 11.85 5.02797C11.695 5.18314 11.6175 5.3613 11.6175 5.56247C11.6175 5.7638 11.695 5.94205 11.85 6.09722L17.004 11.251Z" fill="#5BA071"/>
+		</g>
+	</svg>
+</section>
+
+<section class="section_wrap">
+	<div class="shop_section section1">
+		<div class="shop_section_title_wrap">
+			<h2>매달 받아보는 신선한 올리브 오일</h2>
+			<p>취향에 맞는 오일을 구독하고 정기적으로 받아보세요.</p>
+		</div>
+	</div>
+
+	<div class="shop_banner shop_banner1">
+		<div class="shop_banner_left">
+			<img src="https://olivetest.cafe24.com/web/upload/Rectangle%20856.png" alt="">
+			<div class="shop_banner_txt">
+				<h2>이탈리아의 싱그러운 한 스푼!</h2>
+				<p>이제 Olio Oliva에서 만나보세요.</p>
+			</div>
+		</div>
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+			<mask id="mask0_2911_97044" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+				<rect width="24" height="24" fill="#D9D9D9"/>
+			</mask>
+			<g mask="url(#mask0_2911_97044)">
+				<path d="M16.627 12.749H5.25C5.03717 12.749 4.859 12.6772 4.7155 12.5335C4.57183 12.39 4.5 12.2119 4.5 11.999C4.5 11.7862 4.57183 11.608 4.7155 11.4645C4.859 11.3209 5.03717 11.249 5.25 11.249H16.627L11.4577 6.07978C11.3091 5.93111 11.2357 5.75711 11.2375 5.55778C11.2395 5.35845 11.318 5.1812 11.473 5.02603C11.6282 4.8812 11.8038 4.8062 12 4.80103C12.1962 4.79586 12.3718 4.87086 12.527 5.02603L18.8673 11.3663C18.9609 11.4599 19.0269 11.5587 19.0652 11.6625C19.1037 11.7664 19.123 11.8785 19.123 11.999C19.123 12.1195 19.1037 12.2317 19.0652 12.3355C19.0269 12.4394 18.9609 12.5381 18.8673 12.6318L12.527 18.972C12.3885 19.1105 12.217 19.1814 12.0125 19.1845C11.808 19.1877 11.6282 19.1169 11.473 18.972C11.318 18.8169 11.2405 18.6387 11.2405 18.4375C11.2405 18.2362 11.318 18.0579 11.473 17.9028L16.627 12.749Z" fill="white"/>
+			</g>
+		</svg>
+	</div>
+
+	<div class="shop_section section2">
+		<div class="shop_section_title_wrap">
+			<h2>유기농으로 키운 EVOO</h2>
+			<p>햇살과 바람이 만든 건강한 올리브오일</p>
+		</div>
+		<ul class="shop_product_list" id="organicList"></ul>
+		<a class="read_more" href="/product/search.html?cat=organic">
+			상품 더보기
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<mask id="mask0_1139_1201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+				<rect x="24" y="24" width="24" height="24" transform="rotate(180 24 24)" fill="#D9D9D9"/>
+				</mask>
+				<g mask="url(#mask0_1139_1201)">
+				<path d="M9.99987 6.69224L15.3076 12L9.99987 17.3077L9.29212 16.6L13.8921 12L9.29212 7.39999L9.99987 6.69224Z" fill="#3D3D3D"/>
+				</g>
+			</svg>
+		</a>
+	</div>
+
+	<div class="shop_section section3">
+		<div class="shop_section_title_wrap">
+			<h2>부드러운 여운, 낮은 산도</h2>
+			<p>산도 낮은 EVOO만을 선별했습니다.</p>
+		</div>
+		<div class="lowest-swiper swiper">
+			<div class="swiper-wrapper" id="lowestAcidityList"></div>
+			
+		</div>
+	</div>
+
+	<a class="shop_banner shop_banner2" href="/magazine/list.html">
+		<div class="shop_banner_txt">
+			<h2>새로운 산지 소식과<br><span>신선한 올리브유</span> 이야기!</h2>
+		</div>
+		<img src="https://olivetest.cafe24.com/web/upload/Rectangle%20852.png" alt="">
+	</a>
+
+	<div class="shop_section section4">
+		<div class="shop_section_title_wrap">
+			<h2>프리미엄이 말해주는 올리브유의 품격</h2>
+			<p>올리브 한 알부터 엄선한 품질</p>
+		</div>
+		<ul class="shop_product_list" id="premiumList"></ul>
+		<a class="read_more" href="/product/search.html?cat=premium">
+			상품 더보기
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<mask id="mask0_1139_1201" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+				<rect x="24" y="24" width="24" height="24" transform="rotate(180 24 24)" fill="#D9D9D9"/>
+				</mask>
+				<g mask="url(#mask0_1139_1201)">
+				<path d="M9.99987 6.69224L15.3076 12L9.99987 17.3077L9.29212 16.6L13.8921 12L9.29212 7.39999L9.99987 6.69224Z" fill="#3D3D3D"/>
+				</g>
+			</svg>
+		</a>
+	</div>
+
+	<div class="shop_section section5">
+		<div class="shop_section_title_wrap">
+			<h2>품종에 따라 다른 매력</h2>
+			<p>풍미와 밸런스가 뛰어난 “코로네이키”를 추천드립니다.</p>
+		</div>
+	</div>
+</section>
+
+<section class="shop_best_list">
+	<div module="product_listmain_1">
+		<!--@css(/css/module/product/listbest.css)-->
+		<!--
+			$count = 20
+			$basket_result = /product/add_basket.html
+			$basket_option = /product/basket_option.html
+		-->
+		<ul class="shop_product_list">
+			<li class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</li>
+			<li class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<section class="shop_new_list">
+	<div module="product_listmain_2">
+		<!--@css(/css/module/product/listbest.css)-->
+		<!--
+			$count = 20
+			$basket_result = /product/add_basket.html
+			$basket_option = /product/basket_option.html
+		-->
+		<ul class="shop_product_list">
+			<li class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</li>
+			<li class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<section class="shop_organic_list">
+	<ul class="shop_product_list" id="organicList2"></ul>
+</section>
+
+<section class="shop_premium_list">
+	<ul class="shop_product_list" id="premiumList2"></ul>
+</section>
+
+<section class="shop_ooc_list">
+	<ul class="shop_product_list" id="oocList"></ul>
+</section>
+
+<section class="shop_recommend_list">
+	<div module="product_listmain_2">
+		<!--@css(/css/module/product/listbest.css)-->
+		<!--
+			$count = 20
+			$basket_result = /product/add_basket.html
+			$basket_option = /product/basket_option.html
+		-->
+		<ul class="shop_product_list">
+			<li class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</li>
+			<li class="shop_product_item" id="anchorBoxId_{$product_no}">
+				<a href="/product/detail.html{$param}" name="anchorBoxName_{$product_no}" class="product_img_link">
+					<img src="{$image_medium}" id="{$image_medium_id}" alt="" class="product_thumbnail" />
+				</a>
+				<div class="product_info">
+					<p class="product_brand">{$prd_brand}</p>
+					<a href="/product/detail.html{$param}" class="{$product_name_display|display} product_name">{$product_name}</a>
+					<div class="product_price_wrap">
+						<p class="product_per"
+							data-sale="{$product_price}"
+							data-list="{$product_custom}">
+						</p>
+						<p class="product_real_price">{$product_custom|numberformat}원</p> 
+						<p class="product_custom_price">{$product_price|numberformat}원</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+</section>
+
+<script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+function clearParams(keys) {
+  const q = new URLSearchParams(location.search);
+  keys.forEach(k => q.delete(k));
+  history.replaceState(null, '', location.pathname + (q.toString() ? `?${q}` : ''));
+}
+
+(function () {
+  try {
+    const p  = new URLSearchParams(location.search);
+    const kw = (p.get('keyword') || p.get('q') || p.get('search') || '').trim();
+    if (kw) document.documentElement.classList.add('is-searching');
+  } catch(e) {}
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const p = new URLSearchParams(location.search);
+  const kw = (p.get("keyword") || p.get("q") || p.get("search") || "").trim();
+  if (kw) {
+    const strong = document.querySelector(".search_result strong");
+    if (strong) strong.textContent = kw;
+  }
+});
+
+function isSameOriginUrl(href) {
+  try {
+    const u = new URL(href, location.origin);
+    return u.origin === location.origin;
+  } catch { return false; }
+}
+
+async function fetchWithTimeout(url, opt = {}, ms = 6000) {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), ms);
+  try {
+    return await fetch(url, { ...opt, signal: ctrl.signal });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+(function(){
+  const KEYS = ['__priceHide','__originHide','__expertHide','__chemHide','__pairingHide'];
+  const merge = function(li){
+    const hidden = KEYS.some(k => li.dataset[k] === '1');
+    li.style.display = hidden ? 'none' : '';
+  };
+  if (!window.__mergeHide) window.__mergeHide = merge;
+  const orig = window.__setHideFlag;
+  window.__setHideFlag = function(li, key, hide){
+    li.dataset[key] = hide ? '1' : '0';
+    (orig && orig !== window.__setHideFlag ? orig : window.__mergeHide)(li);
+  };
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("https://oliva.boundary.team/api/sections")
+    .then(res => res.json())
+    .then(sections => {
+      const parent  = document.querySelector('.section_wrap');
+      if (!parent) return;
+
+      const banner1 = parent.querySelector('.shop_banner1');
+      const banner2 = parent.querySelector('.shop_banner2');
+
+      const sectionEls = [...parent.querySelectorAll('.shop_section')];
+      const pool = Object.fromEntries(
+        sectionEls.map(el => {
+          const code = [...el.classList].find(c => /^section\d+$/.test(c));
+          return [code, el];
+        })
+      );
+
+      const orderedVisible = [];
+      sections.forEach(s => {
+        const el = pool[s.code];
+        if (!el) return;
+        if (String(s.visible) === '1' || s.visible === 1) {
+          el.style.display = 'block';
+          orderedVisible.push(el);
+        } else {
+          el.style.display = 'none';
+        }
+      });
+
+      const COUNT_BEFORE_B1 = 1;
+      const COUNT_BEFORE_B2 = 3;
+
+      const slot1 = orderedVisible.slice(0, COUNT_BEFORE_B1);
+      const slot2 = orderedVisible.slice(COUNT_BEFORE_B1, COUNT_BEFORE_B2);
+      const slot3 = orderedVisible.slice(COUNT_BEFORE_B2);
+
+      slot1.forEach(el => banner1 && parent.insertBefore(el, banner1));
+      slot2.forEach(el => banner2 && parent.insertBefore(el, banner2));
+      slot3.forEach(el => parent.appendChild(el));
+    })
+    .catch(err => console.error('섹션 로드 실패:', err));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sectionWrap = document.querySelector('.section_wrap');
+  const lists = {
+    best:    document.querySelector('.shop_best_list'),
+    new:     document.querySelector('.shop_new_list'),
+    organic: document.querySelector('.shop_organic_list'),
+    premium: document.querySelector('.shop_premium_list'),
+    ooc:     document.querySelector('.shop_ooc_list'),
+    recommend: document.querySelector('.shop_recommend_list'),
+  };
+  const items = Array.from(document.querySelectorAll('.search_category .search_category_item'));
+
+  items.forEach(el => { el.setAttribute('role','button'); el.tabIndex = 0; });
+  Object.values(lists).forEach(el => el?.setAttribute('hidden',''));
+  sectionWrap?.style.removeProperty('display');
+
+  const getCatFromItem = (el) => {
+    if (el.classList.contains('best_category')) return 'best';
+    if (el.classList.contains('new_category')) return 'new';
+    if (el.classList.contains('organic_category')) return 'organic';
+    if (el.classList.contains('premium_category')) return 'premium';
+    if (el.classList.contains('ooc_category')) return 'ooc';
+    if (el.classList.contains('recommend_category')) return 'recommend';
+    return null;
+  };
+
+  const setActive = (itemOrNull) => {
+    items.forEach(i => i.classList.remove('is-active'));
+    Object.values(lists).forEach(el => el?.setAttribute('hidden',''));
+
+    if (!itemOrNull) {
+      sectionWrap?.style.removeProperty('display');
+      sectionWrap?.removeAttribute('hidden');
+      return;
+    }
+
+    const cat = getCatFromItem(itemOrNull);
+    const target = lists[cat];
+    if (!target) return;
+
+    itemOrNull.classList.add('is-active');
+    if (sectionWrap) sectionWrap.style.display = 'none';
+    target.removeAttribute('hidden');
+
+    window.__hydrateBrandsOnce?.(target);
+  };
+
+  const onActivate = (item) => {
+    const already = item.classList.contains('is-active');
+    setActive(already ? null : item);
+  };
+
+  items.forEach(item => {
+    item.addEventListener('click', () => onActivate(item));
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onActivate(item); }
+    });
+  });
+
+  const params = new URLSearchParams(location.search);
+  const initCat  = params.get('cat');
+  const initItem = items.find(i => getCatFromItem(i) === initCat);
+  if (initItem) setActive(initItem);
+});
+
+(function () {
+  const BRAND_SELECTORS = [
+    '.product_detail_brand',
+    '.product_brand',
+    '[data-role="productBrand"]',
+    '.xans-product-detail .infoArea .brand',
+    '.xans-product-detail .infoArea [class*="brand"]'
+  ].join(', ');
+
+  function getDetailUrl(li) {
+    const a = li.querySelector('.product_img_link, .thumbnail a, .name a, a[href*="product_no="]');
+    return a ? a.getAttribute('href') : null;
+  }
+
+  function getProductKey(url) {
+    try {
+      const u = new URL(url, location.origin);
+      const id = u.searchParams.get('product_no');
+      if (id) return id;
+      const m = u.pathname.match(/\/product\/.*\/(\d+)\//);
+      return m ? m[1] : u.href;
+    } catch {
+      const m = url.match(/product_no=(\d+)/) || url.match(/\/product\/.*\/(\d+)\//);
+      return m ? m[1] : url;
+    }
+  }
+
+  async function getBrandFromDetail(url) {
+    const res  = await fetchWithTimeout(url, { credentials: 'same-origin' }, 6000);
+    if (!res.ok) throw new Error('detail fetch failed');
+    const html = await res.text();
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+    const el   = doc.querySelector(BRAND_SELECTORS);
+    return el ? el.textContent.trim() : '';
+  }
+
+  async function hydrateBrands(container) {
+    if (!container) return;
+    const items = Array.from(container.querySelectorAll('.shop_product_item'));
+    if (!items.length) return;
+
+    const cache = window.sessionStorage;
+    const tasks = items.map(li => {
+      const url = getDetailUrl(li);
+      const brandEl = li.querySelector('.product_brand');
+      return { li, url, brandEl };
+    }).filter(x => x.url && x.brandEl && isSameOriginUrl(x.url));
+
+    let running = 0;
+    const MAX = 2;
+
+    return new Promise(resolve => {
+      const queue = tasks.slice();
+      const next = () => {
+        if (!queue.length && running === 0) return resolve();
+        while (running < MAX && queue.length) {
+          const job = queue.shift();
+          running++;
+          (async () => {
+            const key = 'brand:' + getProductKey(job.url);
+            const cached = cache.getItem(key);
+            if (cached) {
+              job.brandEl.textContent = cached;
+            } else {
+              job.brandEl.textContent = '…';
+              try {
+                const brand = await getBrandFromDetail(job.url);
+                job.brandEl.textContent = brand || '';
+                if (brand) cache.setItem(key, brand);
+              } catch { job.brandEl.textContent = ''; }
+            }
+          })().finally(() => { running--; next(); });
+        }
+      };
+      next();
+    });
+  }
+
+  window.__hydrateBrandsOnce = hydrateBrands;
+})();
+
+(async function renderLowestAciditySwiper () {
+  const wrapper = document.getElementById('lowestAcidityList');
+  if (!wrapper) return;
+
+  let data = [];
+  try {
+    const res = await fetch('https://oliva.boundary.team/api/products/lowest-acidity?limit=5', { mode: 'cors' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    if (!json.success || !Array.isArray(json.data)) return;
+    data = json.data;
+  } catch (e) {
+    console.error('lowest acidity list load failed', e);
+    return;
+  }
+
+  const priceTxt = (n) => (n ? Number(n).toLocaleString() + '원' : '');
+  wrapper.innerHTML = '';
+
+  data.forEach(item => {
+    const pct = (item?.retail > 0 && item?.price > 0 && item.price < item.retail)
+      ? Math.max(0, Math.round((1 - (item.price / item.retail)) * 100))
+      : 0;
+
+    const slide = document.createElement('div');
+    slide.className = 'swiper-slide';
+    slide.innerHTML = `
+      <li class="shop_product_item">
+        <a href="${item.detailUrl}" class="product_img_link">
+          <img src="${item.image ?? ''}" alt="${item.name ?? ''}" class="product_thumbnail"/>
+        </a>
+        <div class="product_info">
+          <p class="product_brand"></p>
+          <a href="${item.detailUrl}" class="product_name">${item.name ?? ''}</a>
+          <div class="product_price_wrap">
+            ${pct > 0 ? `<p class="product_per" data-sale="${item.price||0}" data-list="${item.retail||0}">${pct}%</p>` : '<p class="product_per" data-sale="0" data-list="0"></p>'}
+            ${item.retail ? `<p class="product_real_price">${priceTxt(item.retail)}</p>` : ''}
+            ${item.price  ? `<p class="product_custom_price">${priceTxt(item.price)}</p>` : ''}
+          </div>
+        </div>
+      </li>
+    `;
+    wrapper.appendChild(slide);
+  });
+
+  const container = document.querySelector('.lowest-swiper.swiper');
+  const opts = {
+    slidesPerView: 1.2,
+    spaceBetween: 6,
+    watchOverflow: true,
+    navigation: {
+      nextEl: '.lowest-swiper .swiper-button-next',
+      prevEl: '.lowest-swiper .swiper-button-prev',
+    },
+    pagination: {
+      el: '.lowest-swiper .swiper-pagination',
+      clickable: true,
+    },
+  };
+
+  if (!container.swiper) new Swiper(container, opts);
+  else container.swiper.update();
+
+  window.__hydrateBrandsOnce?.(wrapper);
+  window.addEventListener('oliva:section:shown', () => {
+    setTimeout(() => container.swiper?.update(), 150);
+  });
+})();
+
+async function renderSimpleList(ulId, url) {
+  const ul = document.getElementById(ulId);
+  if (!ul) return;
+
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const { success, data } = await res.json();
+    if (!success || !Array.isArray(data) || !data.length) return;
+
+    const priceTxt = (n) => (n ? Number(n).toLocaleString() + '원' : '');
+    ul.innerHTML = '';
+
+    data.forEach(item => {
+      const pct = (item?.retail > 0 && item?.price > 0 && item.price < item.retail)
+        ? Math.max(0, Math.round((1 - (item.price / item.retail)) * 100))
+        : 0;
+
+      const li = document.createElement('li');
+      li.className = 'shop_product_item';
+      li.innerHTML = `
+        <a href="${item.detailUrl}" class="product_img_link">
+          <img src="${item.image ?? ''}" alt="${item.name ?? ''}" class="product_thumbnail"/>
+        </a>
+        <div class="product_info">
+          <p class="product_brand"></p>
+          <a href="${item.detailUrl}" class="product_name">${item.name ?? ''}</a>
+          <div class="product_price_wrap">
+            ${pct > 0 ? `<p class="product_per" data-sale="${item.price||0}" data-list="${item.retail||0}">${pct}%</p>` : '<p class="product_per" data-sale="0" data-list="0"></p>'}
+            ${item.retail ? `<p class="product_real_price">${priceTxt(item.retail)}</p>` : ''}
+            ${item.price  ? `<p class="product_custom_price">${priceTxt(item.price)}</p>` : ''}
+          </div>
+        </div>
+      `;
+      ul.appendChild(li);
+    });
+
+    window.__hydrateBrandsOnce?.(ul);
+  } catch (e) {
+    console.error(ulId + ' load failed', e);
+  }
+}
+
+renderSimpleList('organicList',  'https://oliva.boundary.team/api/products/organic?limit=6');
+renderSimpleList('organicList2', 'https://oliva.boundary.team/api/products/organic?limit=6');
+renderSimpleList('premiumList',  'https://oliva.boundary.team/api/products/premium?limit=6');
+renderSimpleList('premiumList2', 'https://oliva.boundary.team/api/products/premium?limit=6');
+renderSimpleList('oocList',      'https://oliva.boundary.team/api/products/ooc?limit=6');
+
+(function () {
+  function toNumber(v) {
+    if (v == null) return 0;
+    const n = String(v).replace(/[^\d.-]/g, '');
+    return n ? Number(n) : 0;
+  }
+  function calcPercent(saleRaw, listRaw) {
+    const sale = toNumber(saleRaw);
+    const list = toNumber(listRaw);
+    if (!list || list <= 0) return 0;
+    if (!sale || sale <= 0) return 0;
+    const pct = Math.round((1 - (sale / list)) * 100);
+    return pct > 0 ? pct : 0;
+  }
+  function hydrateWrap(wrap) {
+    if (!wrap || wrap.dataset.processed) return;
+    const perEl = wrap.querySelector('.product_per');
+    if (!perEl) return;
+
+    const saleRaw = perEl.dataset.sale || wrap.querySelector('.product_custom_price')?.textContent;
+    const listRaw = perEl.dataset.list || wrap.querySelector('.product_real_price')?.textContent;
+    const pct = calcPercent(saleRaw, listRaw);
+
+    if (pct > 0) {
+      perEl.textContent = pct + '%';
+      perEl.style.display = '';
+    } else {
+      perEl.remove();
+    }
+    wrap.dataset.processed = '1';
+  }
+  function runAll() {
+    document.querySelectorAll('.product_price_wrap').forEach(hydrateWrap);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runAll);
+  } else {
+    runAll();
+  }
+  const mo = new MutationObserver(() => runAll());
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const catSwiper = new Swiper('.search-category-swiper', {
+    slidesPerView: 'auto',
+    spaceBetween: 6,
+    freeMode: { enabled: true, momentumBounce: false },
+    mousewheel: { forceToAxis: true },
+    watchOverflow: true,
+  });
+
+  let catDragging = false;
+  catSwiper.on('touchMove', () => { catDragging = true; });
+  catSwiper.on('touchEnd', () => { setTimeout(() => (catDragging = false), 0); });
+  catSwiper.on('sliderMove', () => { catDragging = true; });
+
+  document.querySelectorAll('.search_category .search_category_item').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      if (catDragging) { e.stopImmediatePropagation(); e.preventDefault(); }
+    }, true);
+    el.addEventListener('keydown', (e) => {
+      if (catDragging && (e.key === 'Enter' || e.key === ' ')) {
+        e.stopImmediatePropagation(); e.preventDefault();
+      }
+    }, true);
+  });
+});
+
+(function () {
+  const qs  = (s, r=document) => r.querySelector(s);
+  const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const params = new URLSearchParams(location.search);
+
+  const mount = qs('.search_filter');
+  if (mount) {
+    const OPTIONS = [
+      { key: 'recommend',  label: '추천순' },
+      { key: 'new',        label: '신상품순' },
+      { key: 'price_asc',  label: '가격 낮은순' },
+      { key: 'price_desc', label: '가격 높은순' },
+      { key: 'fruity_asc', label: '프루티 낮은순' },
+      { key: 'fruity_desc',label: '프루티 높은순' },
+      { key: 'acidity_asc',label: '산도 낮은순' },
+      { key: 'acidity_desc',label: '산도 높은순' },
+    ];
+    const curSort = (params.get('sort') || 'recommend');
+    const cur = OPTIONS.find(o => o.key === curSort) || OPTIONS[0];
+
+    mount.innerHTML = `
+      <button type="button" class="filter_btn" id="searchFilterBtn" aria-haspopup="dialog" aria-expanded="false">
+        <span class="filter_label">${cur.label}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <mask id="mask0_3533_18961" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="14" height="14">
+            <rect x="14" y="14" width="14" height="14" transform="rotate(-180 14 14)" fill="#D9D9D9"/>
+          </mask>
+          <g mask="url(#mask0_3533_18961)">
+            <path d="M9.92187 5.65772L6.82568 8.75391L3.72949 5.65772L4.14235 5.24486L6.82568 7.9282L9.50901 5.24486L9.92187 5.65772Z" fill="#888888"/>
+          </g>
+        </svg>
+      </button>
+    `;
+
+    const dim = document.createElement('div');
+    dim.className = 'search-bsheet-dim';
+    dim.hidden = true;
+
+    const sheet = document.createElement('div');
+    sheet.className = 'search-bsheet';
+    sheet.setAttribute('role','dialog');
+    sheet.setAttribute('aria-modal','true');
+    sheet.setAttribute('aria-hidden','true');
+    sheet.setAttribute('aria-label','정렬 선택');
+
+    const optsHtml = OPTIONS.map(o =>
+      `<button class="opt" data-key="${o.key}" aria-current="${o.key===cur.key?'true':'false'}">${o.label}</button>`
+    ).join('');
+
+    sheet.innerHTML = `
+      <div class="handle" aria-hidden="true"></div>
+      <div class="list" tabindex="0">
+        ${optsHtml}
+      </div>
+    `;
+
+    document.body.appendChild(dim);
+    document.body.appendChild(sheet);
+
+    const btn = qs('#searchFilterBtn');
+    const openSheet = () => {
+      sheet.setAttribute('data-open','true');
+      sheet.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+      dim.hidden = false; dim.style.display = 'block';
+      document.documentElement.classList.add('filter-lock');
+      document.body.classList.add('filter-lock');
+      setTimeout(() => qs('.search-bsheet .list')?.focus(), 0);
+    };
+    const closeSheet = () => {
+      sheet.removeAttribute('data-open');
+      sheet.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+      dim.style.display = 'none'; dim.hidden = true;
+      document.documentElement.classList.remove('filter-lock');
+      document.body.classList.remove('filter-lock');
+      btn.focus();
+    };
+
+    btn.addEventListener('click', openSheet);
+    dim.addEventListener('click', closeSheet);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sheet.getAttribute('data-open') === 'true') closeSheet();
+    });
+
+    sheet.addEventListener('click', async (e) => {
+      const opt = e.target.closest('.opt');
+      if (!opt) return;
+      const key = opt.dataset.key;
+
+      const labelSpan = document.querySelector('.search_filter .filter_label');
+      if (labelSpan) labelSpan.textContent = opt.textContent.trim();
+
+      qsa('.opt', sheet).forEach(b => b.setAttribute('aria-current', b===opt ? 'true':'false'));
+
+      const sp = new URLSearchParams(location.search);
+      sp.set('sort', key);
+      history.replaceState(null, '', location.pathname + '?' + sp.toString());
+
+      closeSheet();
+      await window.sortSearchList(key);
+    });
+  }
+
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const toNum = (v) => {
+    if (v == null) return 0;
+    const s = String(v).replace(/[^\d.-]/g, '');
+    return s ? Number(s) : 0;
+  };
+
+  function getListUL() {
+    return document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  }
+  function getProductNoFromLi(li) {
+    const a = li.querySelector('a[href*="product_no="], a.product_img_link, .name a');
+    if (!a) return null;
+    try {
+      const u = new URL(a.getAttribute('href'), location.origin);
+      return u.searchParams.get('product_no') ||
+             (u.pathname.match(/\/product\/.*\/(\d+)\//)||[])[1] || null;
+    } catch { return null; }
+  }
+
+  function getPrice(li) {
+    const per = li.querySelector('.product_price_wrap .product_per');
+    const sale = per ? toNum(per.dataset.sale) : toNum(li.querySelector('.product_custom_price')?.textContent);
+    if (sale > 0) return sale;
+    return toNum(li.querySelector('.product_real_price')?.textContent);
+  }
+  function getRetail(li) {
+    const per = li.querySelector('.product_price_wrap .product_per');
+    const list = per ? toNum(per.dataset.list) : toNum(li.querySelector('.product_real_price')?.textContent);
+    return list;
+  }
+  function getFruity(li)  { return Number(li.getAttribute('data-fruity'))  || 0; }
+  function getAcidity(li) { const v = Number(li.getAttribute('data-acidity')); return isNaN(v)?0:v; }
+  function getNewScore(li){ return Number(getProductNoFromLi(li)) || 0; }
+
+  async function ensureMetricsFor(sortKey) {
+    if (!/^(fruity|acidity)_(asc|desc)$/.test(sortKey)) return true;
+    const ul = getListUL(); if (!ul) return false;
+    const lis = $$('.prdList > li', ul);
+
+    const nos = [];
+    lis.forEach(li => {
+      const no = getProductNoFromLi(li); if (!no) return;
+      if (sortKey.startsWith('fruity')  && !li.hasAttribute('data-fruity'))  nos.push(no);
+      if (sortKey.startsWith('acidity') && !li.hasAttribute('data-acidity')) nos.push(no);
+    });
+    const unique = Array.from(new Set(nos));
+    if (!unique.length) return true;
+
+    const cache = sessionStorage;
+    const notCached = unique.filter(no => !cache.getItem('m:'+no));
+    if (notCached.length) {
+      try {
+        const url = 'https://oliva.boundary.team/api/products/metrics?' +
+                    new URLSearchParams({ product_nos: notCached.join(',') });
+        const res = await fetch(url, { mode:'cors' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json?.success && Array.isArray(json.data)) {
+            json.data.forEach(it => cache.setItem('m:'+String(it.product_no), JSON.stringify(it)));
+          }
+        }
+      } catch (e) {
+        console.warn('metrics fetch fail', e);
+      }
+    }
+    lis.forEach(li => {
+      const no  = getProductNoFromLi(li);
+      const raw = no && cache.getItem('m:'+no);
+      if (!raw) return;
+      try {
+        const obj = JSON.parse(raw);
+        if (obj.fruity  != null && !li.hasAttribute('data-fruity'))  li.setAttribute('data-fruity',  obj.fruity);
+        if (obj.acidity != null && !li.hasAttribute('data-acidity')) li.setAttribute('data-acidity', obj.acidity);
+      } catch {}
+    });
+    return true;
+  }
+
+  window.sortSearchList = async function sortSearchList(sortKey='recommend') {
+    const ul = getListUL();
+    if (!ul) { console.warn('[sort] prdList not found'); return; }
+
+    Array.from(ul.children).forEach((li, i) => {
+      if (!li.dataset.origIndex) li.dataset.origIndex = String(i);
+    });
+
+    if (sortKey.startsWith('fruity') || sortKey.startsWith('acidity')) {
+      await ensureMetricsFor(sortKey);
+    }
+
+    const lis = Array.from(ul.children).filter(el => el.tagName === 'LI');
+    const dir = sortKey.endsWith('_desc') ? -1 : 1;
+
+    let getter = null;
+    if (sortKey === 'recommend') {
+      getter = (li) => Number(li.dataset.origIndex) || 0;
+    } else if (sortKey === 'new') {
+      getter = getNewScore;
+    } else if (sortKey.startsWith('price')) {
+      getter = getPrice;
+    } else if (sortKey.startsWith('fruity')) {
+      getter = getFruity;
+    } else if (sortKey.startsWith('acidity')) {
+      getter = getAcidity;
+    } else {
+      getter = (li) => Number(li.dataset.origIndex) || 0;
+    }
+
+    const rows = lis.map(li => {
+      const no = getProductNoFromLi(li);
+      const price = getPrice(li);
+      const retail = getRetail(li);
+      const fruity = getFruity(li);
+      const acidity = getAcidity(li);
+      const sortVal = getter(li);
+      return { li, no, price, retail, fruity, acidity, sortVal };
+    });
+
+    rows.sort((a,b) => {
+      const va = a.sortVal ?? 0;
+      const vb = b.sortVal ?? 0;
+      if (va === vb) return 0;
+      return (va < vb ? -1 : 1) * (sortKey==='recommend' ? 1 : dir);
+    });
+
+    const frag = document.createDocumentFragment();
+    rows.forEach(r => frag.appendChild(r.li));
+    ul.appendChild(frag);
+
+    window.applyOriginFilterFromURL?.();
+    console.debug('[sort] applied:', sortKey, 'dir:', dir > 0 ? 'asc':'desc');
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const sp = new URLSearchParams(location.search);
+    const initSort = sp.get('sort') || 'recommend';
+    if (initSort && initSort !== 'recommend') window.sortSearchList(initSort);
+  });
+})();
+
+document.addEventListener('DOMContentLoaded', function () {
+  const html = document.documentElement;
+
+  let backdrop = document.querySelector('.filter-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'filter-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(backdrop);
+  }
+  let drawer = document.getElementById('filterDrawer');
+  backdrop.hidden = true;
+  drawer.hidden   = true;
+
+  let lastFocused = null;
+  const TRANSITION_MS = 320;
+
+  function openFilterDrawer(triggerEl) {
+    lastFocused = triggerEl || document.activeElement;
+    backdrop.hidden = false;
+    drawer.hidden   = false;
+    void drawer.offsetHeight;
+    html.classList.add('is-filter-open');
+    document.querySelectorAll('.search_option_btn').forEach(b => b.setAttribute('aria-expanded', 'true'));
+    setTimeout(() => {
+      const first = drawer.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])') || drawer;
+      first && first.focus();
+    }, 10);
+  }
+  function closeFilterDrawer() {
+    html.classList.remove('is-filter-open');
+    document.querySelectorAll('.search_option_btn').forEach(b => b.setAttribute('aria-expanded', 'false'));
+    setTimeout(() => {
+      backdrop.hidden = true;
+      drawer.hidden   = true;
+    }, TRANSITION_MS);
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      setTimeout(() => lastFocused.focus(), TRANSITION_MS);
+    }
+  }
+  window.openFilterDrawer  = openFilterDrawer;
+  window.closeFilterDrawer = closeFilterDrawer;
+
+  document.addEventListener('click', (e) => {
+    const opener = e.target.closest('.search_option_btn, .filter_guide');
+    if (opener) { e.preventDefault(); openFilterDrawer(opener); return; }
+    if (e.target.closest('.filter-backdrop, .filter-close, .filter-apply')) { e.preventDefault(); closeFilterDrawer(); }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && html.classList.contains('is-filter-open')) closeFilterDrawer();
+  });
+
+  backdrop.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+});
+
+(function priceFilterInit () {
+  const $ = s => document.querySelector(s);
+
+  const minInput   = $('#priceMin');
+  const maxInput   = $('#priceMax');
+  const progressEl = $('#priceRangeProgress');
+  const valueOut   = $('#priceRangeValue');
+  const resetBtn   = document.querySelector('.filter-reset');
+
+  if (!minInput || !maxInput || !progressEl || !valueOut) return;
+
+  const MIN  = Number(minInput.min || 0);
+  const MAX  = Number(maxInput.max || 100000);
+  const STEP = Number(minInput.step || 500);
+  const GAP  = 0;
+
+  const fmt = new Intl.NumberFormat('ko-KR');
+
+  const sp = new URLSearchParams(location.search);
+  const hasUrlParams =
+    sp.has('min_price') || sp.has('max_price') || sp.get('unlimited') === '1' ||
+    sp.has('min') || sp.has('max');
+
+  let unlimited = hasUrlParams ? (sp.get('unlimited') === '1') : true;
+  const urlMin = Math.max(MIN, Math.min(MAX, Number(sp.get('min_price') || sp.get('min') || MIN)));
+  const urlMax = unlimited ? MAX : Math.max(MIN, Math.min(MAX, Number(sp.get('max_price') || sp.get('max') || MAX)));
+
+  let curMin = Math.min(urlMin, urlMax);
+  let curMax = Math.max(urlMin, urlMax);
+  curMin = Math.round(curMin / STEP) * STEP;
+  curMax = Math.round(curMax / STEP) * STEP;
+
+  minInput.value = String(curMin);
+  maxInput.value = String(curMax);
+
+  let dirty = false;
+
+  function clampPair(minV, maxV) {
+    if (maxV - minV < GAP) {
+      if (event && event.target === minInput) minV = Math.min(maxV - GAP, minV);
+      else maxV = Math.max(minV + GAP, maxV);
+    }
+    minV = Math.max(MIN, Math.min(minV, MAX));
+    maxV = Math.max(MIN, Math.min(maxV, MAX));
+    return [minV, maxV];
+  }
+
+  function updateUI() {
+    let a = Number(minInput.value);
+    let b = Number(maxInput.value);
+    [a, b] = clampPair(a, b);
+    if (a > b) [a, b] = [b, a];
+
+    if (dirty) unlimited = (b >= MAX);
+
+    minInput.value = a;
+    maxInput.value = b;
+
+    valueOut.textContent = unlimited
+      ? `${fmt.format(a)}원 ~ 무제한`
+      : `${fmt.format(a)}원 ~ ${fmt.format(b)}원`;
+
+    const left  = ((a - MIN) / (MAX - MIN)) * 100;
+    const right = unlimited ? 0 : (100 - ((b - MIN) / (MAX - MIN)) * 100);
+    progressEl.style.left  = left + '%';
+    progressEl.style.right = right + '%';
+  }
+
+  function persistToUrl() {
+    const a = Number(minInput.value);
+    const b = Number(maxInput.value);
+    const isDefault = (a <= MIN && b >= MAX && !unlimited);
+
+    const q = new URLSearchParams(location.search);
+    if (isDefault) {
+      q.delete('min_price'); q.delete('max_price'); q.delete('unlimited');
+    } else {
+      q.set('min_price', String(a));
+      if (unlimited) {
+        q.delete('max_price');
+        q.set('unlimited', '1');
+      } else {
+        q.set('max_price', String(b));
+        q.delete('unlimited');
+      }
+    }
+    history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q.toString() : ''));
+  }
+
+  const onInput = () => { dirty = true; updateUI(); persistToUrl(); };
+  minInput.addEventListener('input', onInput);
+  maxInput.addEventListener('input', onInput);
+
+  updateUI();
+  if (hasUrlParams) persistToUrl();
+
+  resetBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    minInput.value = String(MIN);
+    maxInput.value = String(MAX);
+    unlimited = false;
+    dirty = true;
+    updateUI();
+    persistToUrl();
+    window.__originFilter?.reset();
+  });
+
+  const searchForms = Array.from(document.querySelectorAll('form'))
+    .filter(f => f.querySelector('input[name="keyword"], input[name="q"], input[name="search"]'));
+
+  searchForms.forEach(form => {
+    form.addEventListener('submit', () => {
+      form.querySelectorAll('input[data-filter-injected="1"]').forEach(n => n.remove());
+      const a = Number(minInput.value);
+      const b = Number(maxInput.value);
+      const isDefault = (a <= MIN && b >= MAX && !unlimited);
+
+      if (!isDefault) {
+        const inject = (name, val) => {
+          const h = document.createElement('input');
+          h.type = 'hidden'; h.name = name; h.value = String(val);
+          h.setAttribute('data-filter-injected','1'); form.appendChild(h);
+        };
+        inject('min_price', a);
+        if (unlimited) inject('unlimited', 1);
+        else inject('max_price', b);
+      }
+    });
+  });
+})();
+
+(function polySliderInit(){
+  const min = document.getElementById('polyMin');
+  const max = document.getElementById('polyMax');
+  const prog= document.getElementById('polyRangeProgress');
+  const out = document.getElementById('polyRangeValue');
+  if (!min || !max) return;
+
+  const MIN=Number(min.min||0), MAX=Number(max.max||1200);
+  const sp = new URLSearchParams(location.search);
+  let a = Math.max(MIN, Math.min(MAX, Number(sp.get('poly_min')||MIN)));
+  let b = Math.max(MIN, Math.min(MAX, Number(sp.get('poly_max')||MAX)));
+  if (a>b) [a,b]=[b,a];
+  min.value=String(a); max.value=String(b);
+
+  const fmt=(n)=>Number(n).toLocaleString();
+  const paint = () => {
+    const v1 = Number(min.value), v2 = Number(max.value);
+    out.textContent = `${fmt(v1)} ~ ${fmt(v2)}`;
+
+    const left = ((v1 - MIN) / (MAX - MIN)) * 100;
+    const right = 100 - ((Math.min(v2, MAX) - MIN) / (MAX - MIN)) * 100;
+    prog.style.left  = left + '%';
+    prog.style.right = right + '%';
+  };
+
+  const persist = () => {
+    const q = new URLSearchParams(location.search);
+    q.set('poly_min', min.value);
+    q.set('poly_max', max.value);
+    history.replaceState(null, '', location.pathname + (q.toString() ? `?${q}` : ''));
+    window.applyChemFilterFromURL?.();
+  };
+
+  const onInput=()=>{ paint(); persist(); };
+  min.addEventListener('input', onInput);
+  max.addEventListener('input', onInput);
+  paint();
+})();
+
+(function aciditySliderInit(){
+  const min = document.getElementById('acidityMin');
+  const max = document.getElementById('acidityMax');
+  const prog= document.getElementById('acidityRangeProgress');
+  const out = document.getElementById('acidityRangeValue');
+  if (!min || !max || !prog || !out) return;
+
+  const MIN = Number(min.min || 0.01);
+  const MAX = Number(max.max || 0.20);
+  const STEP= Number(min.step || 0.01);
+
+  const sp  = new URLSearchParams(location.search);
+  let a = Math.max(MIN, Math.min(MAX, Number(sp.get('acidity_min') ?? MIN)));
+  let b = Math.max(MIN, Math.min(MAX, Number(sp.get('acidity_max') ?? MAX)));
+  if (a > b) [a,b] = [b,a];
+
+  const snap = (v)=> Math.round(v/STEP)*STEP;
+  a = snap(a); b = snap(b);
+
+  min.value = String(a);
+  max.value = String(b);
+
+  const fmtPct = (n)=> (Number(n).toFixed(2) + '%');
+
+  const paint = ()=>{
+    const v1 = Number(min.value), v2 = Number(max.value);
+    out.textContent = `${fmtPct(v1)} ~ ${fmtPct(v2)}`;
+    const left  = ((v1 - MIN) / (MAX - MIN)) * 100;
+    const right = 100 - ((v2 - MIN) / (MAX - MIN)) * 100;
+    prog.style.left  = left + '%';
+    prog.style.right = right + '%';
+  };
+
+  const persist = ()=>{
+    const q = new URLSearchParams(location.search);
+    q.set('acidity_min', min.value);
+    q.set('acidity_max', max.value);
+    history.replaceState(null, '', location.pathname + (q.toString() ? '?' + q : ''));
+    window.applyChemFilterFromURL?.();
+  };
+
+  const onInput = ()=>{
+    let v1 = Number(min.value), v2 = Number(max.value);
+    if (v1 > v2) [v1,v2] = [v2,v1];
+    min.value = String(snap(Math.max(MIN, Math.min(MAX, v1))));
+    max.value = String(snap(Math.max(MIN, Math.min(MAX, v2))));
+    paint(); persist();
+  };
+
+  min.addEventListener('input', onInput);
+  max.addEventListener('input', onInput);
+  paint();
+
+  document.querySelector('.filter-reset')?.addEventListener('click', ()=>{
+    min.value = String(MIN);
+    max.value = String(MAX);
+    paint(); persist();
+  });
+})();
+
+(function pairingFilterInit(){
+  const $  = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+
+  const norm = (s)=> (s||'').toString().normalize('NFC')
+    .replace(/\s+/g,'').toLowerCase();
+
+  const PAIRING_LABELS = [
+    '전체','샐러드','육류','디저트','비네그레트','유제품','해산물','생식',
+    '구운야채','치즈','아이스크림','파스타','그릴드 미트'
+  ];
+
+  const DICT = new Map([
+    ['샐러드',['샐러드','salad']],
+    ['육류',['육류','고기','meat','redmeat','beef','pork','lamb']],
+    ['디저트',['디저트','dessert','sweet']],
+    ['비네그레트',['비네그레트','vinaigrette']],
+    ['유제품',['유제품','dairy']],
+    ['해산물',['해산물','해물','seafood','fish']],
+    ['생식',['생식','raw','carpaccio','tartar']],
+    ['구운야채',['구운야채','구운 야채','roastedvegetables','grilledvegetables','구이야채']],
+    ['치즈',['치즈','cheese']],
+    ['아이스크림',['아이스크림','icecream','gelato']],
+    ['파스타',['파스타','pasta']],
+    ['그릴드 미트',['그릴드미트','그릴드 미트','grilledmeat','bbq','barbecue','grill']]
+  ]);
+  const LOOKUP = new Map(
+    [...DICT.entries()]
+      .flatMap(([canon, arr]) => arr.map(a => [norm(a), canon]))
+  );
+
+  function extractTokensFromText(txt){
+    if (!txt) return [];
+    const parts = String(txt).split(/[,\|/·•;·\u00b7\u2013\u2014~\-]+|\s{2,}/g);
+    const out = new Set();
+    parts.forEach(p=>{
+      const k = LOOKUP.get(norm(p));
+      if (k) out.add(k);
+    });
+    return [...out];
+  }
+
+  function getDetailUrl(li){
+    const a = li.querySelector('.product_img_link, .thumbnail a, .name a, a[href*="product_no="]');
+    return a ? a.getAttribute('href') : null;
+  }
+  function getProductKey(url){
+    try{
+      const u = new URL(url, location.origin);
+      return u.searchParams.get('product_no') ||
+             (u.pathname.match(/\/product\/.*\/(\d+)\//)||[])[1] || u.href;
+    }catch{ return url; }
+  }
+  async function fetchPairingFromDetail(url){
+    const res = await fetchWithTimeout(url, { credentials:'same-origin' }, 6000);
+    if (!res.ok) throw new Error('detail fetch fail');
+    const html = await res.text();
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+
+    const CANDIDATE_ROWS = [
+      () => {
+        const th = [...doc.querySelectorAll('th,dt,strong')].find(el => /푸드\s*페어링/i.test(el.textContent||''));
+        if (!th) return '';
+        const td = th.nextElementSibling || th.closest('tr,dl,div')?.querySelector('td,dd');
+        return td ? td.textContent.trim() : '';
+      },
+      () => {
+        const el = [...doc.querySelectorAll('*')].find(el => /푸드\s*페어링/i.test(el.textContent||''));
+        if (!el) return '';
+        return el.textContent.replace(/푸드\s*페어링/gi,'').trim();
+      }
+    ];
+    for (const f of CANDIDATE_ROWS) {
+      const v = f();
+      if (v) return v;
+    }
+    return '';
+  }
+
+  async function ensurePairings(ul){
+    const items = $$(':scope > li', ul);
+    const tasks = items.map(li=>{
+      if (li.dataset.pairings) return null;
+      const url = getDetailUrl(li); if (!url) return null;
+      return { li, url };
+    }).filter(Boolean);
+    if (!tasks.length) return;
+
+    const cache = sessionStorage;
+    let running = 0;
+    const MAX = 2;
+    await new Promise(resolve=>{
+      const q = tasks.slice();
+      const next = ()=>{
+        if (!q.length && running===0) return resolve();
+        while (running < MAX && q.length){
+          const job = q.shift(); running++;
+          (async ()=>{
+            const key='pair:'+getProductKey(job.url);
+            let val = cache.getItem(key);
+            if (!val){
+              try{
+                const txt = await fetchPairingFromDetail(job.url);
+                val = JSON.stringify(extractTokensFromText(txt));
+                cache.setItem(key, val);
+              }catch{ val = '[]'; }
+            }
+            try{
+              const arr = JSON.parse(val);
+              if (Array.isArray(arr) && arr.length){
+                job.li.dataset.pairings = arr.join(',');
+              }else{
+                job.li.dataset.pairings = '';
+              }
+            }catch{}
+          })().finally(()=>{ running--; next(); });
+        }
+      };
+      next();
+    });
+  }
+
+  function readFromURL(){
+    const sp = new URLSearchParams(location.search);
+    const sel = new Set((sp.get('pairings')||'').split(',').filter(Boolean));
+    return sel;
+  }
+  function writeToURL(selSet){
+    const sp = new URLSearchParams(location.search);
+    const s = [...selSet].join(',');
+    if (s) sp.set('pairings', s); else sp.delete('pairings');
+    history.replaceState(null,'',location.pathname+(sp.toString()?`?${sp.toString()}`:''));
+  }
+
+  async function applyPairingFilterFromURL(){
+    const ul = $('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if (!ul) return;
+
+    const selected = readFromURL();
+    if (selected.size === 0){
+      $$(':scope > li', ul).forEach(li=>__setHideFlag(li,'__pairingHide',false));
+      return;
+    }
+
+    await ensurePairings(ul);
+
+    $$(':scope > li', ul).forEach(li=>{
+      const raw = (li.dataset.pairings||'').split(',').filter(Boolean);
+      const ok = raw.some(tok => selected.has(tok));
+      __setHideFlag(li,'__pairingHide', !ok);
+    });
+
+    window.applyOriginFilterFromURL?.();
+    window.applyPriceFilterFromURL?.();
+    window.applyChemFilterFromURL?.();
+    window.applyExpertFilterFromURL?.();
+  }
+  window.applyPairingFilterFromURL = applyPairingFilterFromURL;
+
+  (async function renderUI(){
+    const host = $('.filter-drawer__body_food');
+    if (!host || $('#pairingBlock')) return;
+
+    const block = document.createElement('section');
+    block.className = 'filter-block';
+    block.id = 'pairingBlock';
+    block.innerHTML = `
+      <div class="filter-block__head">
+        <h3>음식 종류 <small>(중복선택 가능)</small></h3>
+      </div>
+      <div class="origin-line" data-role="pairing-line"></div>
+    `;
+    host.appendChild(block);
+
+    const line = block.querySelector('[data-role="pairing-line"]');
+    const selected = readFromURL();
+
+    const chip = (label, active=false, data={})=>{
+      const b = document.createElement('button');
+      b.type='button';
+      b.className='chip'+(active?' is-active':'');
+      b.textContent = label;
+      Object.entries(data).forEach(([k,v])=>b.setAttribute(k,v));
+      return b;
+    };
+
+    line.appendChild(chip('전체', selected.size===0, {'data-pair':'__all__'}));
+    PAIRING_LABELS.filter(l=>l!=='전체').forEach(l=>{
+      line.appendChild(chip(l, selected.has(l), {'data-pair':l}));
+    });
+
+    line.addEventListener('click', (e)=>{
+      const c = e.target.closest('.chip[data-pair]');
+      if (!c) return;
+      const key = c.dataset.pair;
+      const cur = readFromURL();
+
+      if (key === '__all__'){
+        cur.clear();
+        line.querySelectorAll('.chip').forEach(b=>b.classList.remove('is-active'));
+        c.classList.add('is-active');
+      } else {
+        c.classList.toggle('is-active');
+        const on = c.classList.contains('is-active');
+        line.querySelector('.chip[data-pair="__all__"]')?.classList.remove('is-active');
+        if (on) cur.add(key); else cur.delete(key);
+        if (cur.size===0){
+          line.querySelector('.chip[data-pair="__all__"]')?.classList.add('is-active');
+        }
+      }
+      writeToURL(cur);
+      applyPairingFilterFromURL();
+    });
+  })();
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyPairingFilterFromURL);
+  } else {
+    applyPairingFilterFromURL();
+  }
+  const ul = $('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  if (ul) new MutationObserver(()=>applyPairingFilterFromURL()).observe(ul,{childList:true});
+
+  const oldSort = window.sortSearchList;
+  if (typeof oldSort === 'function') {
+    window.sortSearchList = async function(...args){
+      const r = await oldSort.apply(this,args);
+      await applyPairingFilterFromURL();
+      return r;
+    };
+  }
+
+  window.__pairingFilter = {
+    reset(){
+      writeToURL(new Set());
+      applyPairingFilterFromURL();
+      document.querySelectorAll('#pairingBlock .chip').forEach(b=>b.classList.remove('is-active'));
+      document.querySelector('#pairingBlock .chip[data-pair="__all__"]')?.classList.add('is-active');
+    }
+  };
+})();
+
+(function () {
+  const toNum = (v) => {
+    if (v == null) return 0;
+    const s = String(v).replace(/[^\d.-]/g, '');
+    return s ? Number(s) : 0;
+  };
+
+  function pickPrice(li) {
+    const per   = li.querySelector('.product_price_wrap .product_per');
+    const sale  = per ? toNum(per.dataset.sale) : toNum(li.querySelector('.product_custom_price')?.textContent);
+    const list  = per ? toNum(per.dataset.list) : toNum(li.querySelector('.product_real_price')?.textContent);
+    if (sale > 0) return sale;
+    if (list > 0) return list;
+    return null;
+  }
+
+  function getListUL() {
+    return document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  }
+
+  (function () {
+    const toNum = (v) => {
+      if (v == null) return 0;
+      const s = String(v).replace(/[^\d.-]/g, '');
+      return s ? Number(s) : 0;
+    };
+    function pickPrice(li) {
+      const per   = li.querySelector('.product_price_wrap .product_per');
+      const sale  = per ? toNum(per.dataset.sale) : toNum(li.querySelector('.product_custom_price')?.textContent);
+      const list  = per ? toNum(per.dataset.list) : toNum(li.querySelector('.product_real_price')?.textContent);
+      if (sale > 0) return sale;
+      if (list > 0) return list;
+      return null;
+    }
+    function getListUL() {
+      return document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    }
+    function applyPriceFilterFromURL() {
+      const ul = getListUL();
+      if (!ul) return;
+
+      const sp     = new URLSearchParams(location.search);
+      const minRaw = sp.get('min_price') || sp.get('min') || '';
+      const maxRaw = sp.get('max_price') || sp.get('max') || '';
+      const unlimited = sp.get('unlimited') === '1';
+
+      const hasMin = minRaw !== '';
+      const hasMax = maxRaw !== '' || unlimited;
+
+      const min = hasMin ? toNum(minRaw) : 0;
+      let max   = unlimited ? Infinity : (hasMax ? toNum(maxRaw) : Infinity);
+
+      ul.querySelectorAll(':scope > li').forEach(li => {
+        if (!hasMin && !hasMax) {
+          __setHideFlag(li,'__priceHide',false);
+          return;
+        }
+        const p = pickPrice(li);
+        if (p == null) { __setHideFlag(li,'__priceHide',false); return; }
+        const ok = p >= min && p <= max;
+        __setHideFlag(li,'__priceHide',!ok);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', applyPriceFilterFromURL);
+    } else applyPriceFilterFromURL();
+
+    const mo = new MutationObserver(() => applyPriceFilterFromURL());
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    const origSort = window.sortSearchList;
+    if (typeof origSort === 'function') {
+      window.sortSearchList = async function (...args) {
+        const r = await origSort.apply(this, args);
+        applyPriceFilterFromURL();
+        return r;
+      };
+    }
+    window.applyPriceFilterFromURL = applyPriceFilterFromURL;
+  })();
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyPriceFilterFromURL);
+  } else {
+    applyPriceFilterFromURL();
+  }
+
+  const mo = new MutationObserver((muts) => {
+    for (const m of muts) {
+      if (m.type === 'childList') { applyPriceFilterFromURL(); break; }
+    }
+  });
+  mo.observe(document.body, { childList: true, subtree: true });
+
+  const origSort = window.sortSearchList;
+  if (typeof origSort === 'function') {
+    window.sortSearchList = async function (...args) {
+      const r = await origSort.apply(this, args);
+      applyPriceFilterFromURL();
+      return r;
+    };
+  }
+})();
+
+const OriginAPI = {
+  PLACES: 'https://oliva.boundary.team/api/places',
+  PLACE_BY_NAME: (name) => 'https://oliva.boundary.team/api/place?' + new URLSearchParams({ name }),
+  BRAND_BY_NAME: (name) => 'https://oliva.boundary.team/api/brand?' + new URLSearchParams({ name }),
+};
+
+(function originFilterBoot () {
+  const $  = (s, r=document) => r.querySelector(s);
+  const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+  const norm = (s) => (s||'').toString().normalize?.('NFC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+
+  async function fetchPlaceTree() {
+    const res = await fetch(OriginAPI.PLACES, { mode:'cors' });
+    if (!res.ok) throw new Error('PLACES HTTP '+res.status);
+    const arr = await res.json();
+
+    const byCountry = new Map();
+    (Array.isArray(arr) ? arr : []).forEach(p => {
+      const country = (p.country || '').trim();
+      const name    = (p.name || '').trim();
+      if (!country || !name) return;
+
+      if (!byCountry.has(country)) byCountry.set(country, { id: country, name: country, regions: [] });
+      byCountry.get(country).regions.push({ id: String(p.id), name, _norm: norm(name) });
+    });
+
+    for (const c of byCountry.values()) {
+      const seen = new Set();
+      c.regions = c.regions.filter(r => { const k=r._norm; if (seen.has(k)) return false; seen.add(k); return true; });
+    }
+    return Array.from(byCountry.values()).sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  }
+
+  async function ensureProductPlaceAttrs(ul) {
+    const lis = $$(':scope > li', ul);
+    const jobs = [];
+
+    lis.forEach(li => {
+      if (li.dataset.country && (li.dataset.region || li.dataset.regionName)) return;
+      const brandName = (li.querySelector('.product_brand')?.textContent || '').trim();
+      if (!brandName) return;
+      jobs.push({ li, brandName });
+    });
+    if (!jobs.length) return;
+
+    const cache = sessionStorage;
+
+    await Promise.all(jobs.map(async ({ li, brandName }) => {
+      try {
+        const bkey = 'brand:'+norm(brandName);
+        let b = cache.getItem(bkey);
+        if (!b) {
+          const r = await fetch(OriginAPI.BRAND_BY_NAME(brandName), { mode:'cors' });
+          if (!r.ok) throw new Error('BRAND HTTP '+r.status);
+          b = await r.json();
+          cache.setItem(bkey, JSON.stringify(b));
+        } else { b = JSON.parse(b); }
+
+        const country = (b.country || '').trim();
+        let regionId  = '';
+        let regionName= (b.place_product || '').trim();
+
+        if (regionName) {
+          const pkey = 'place:'+norm(regionName);
+          let p = cache.getItem(pkey);
+          if (!p) {
+            const r = await fetch(OriginAPI.PLACE_BY_NAME(regionName), { mode:'cors' });
+            if (r.ok) {
+              p = await r.json();
+              cache.setItem(pkey, JSON.stringify(p));
+            } else { p = null; }
+          } else { p = JSON.parse(p); }
+
+          if (p && p.id) { regionId = String(p.id); regionName = p.name || regionName; }
+        }
+
+        if (country) li.dataset.country = country;
+        if (regionId) li.dataset.region = regionId;
+        else if (regionName) li.dataset.regionName = regionName;
+
+      } catch (e) {
+        console.warn('[origin] ensureProductPlaceAttrs fail:', e);
+      }
+    }));
+  }
+
+  function readOriginFromURL() {
+    const sp = new URLSearchParams(location.search);
+    const countries = new Set((sp.get('countries')||'').split(',').filter(Boolean));
+    const regionMap = {};
+    (sp.get('regions')||'').split(',').filter(Boolean).forEach(tok => {
+      const [c, r] = tok.split(':');
+      if (!c) return;
+      (regionMap[c] ||= new Set()).add(r || 'all');
+    });
+    return { countries, regionMap };
+  }
+
+  function writeOriginToURL({ countries, regionMap }) {
+    const sp = new URLSearchParams(location.search);
+
+    const cStr = Array.from(countries).join(',');
+    if (cStr) sp.set('countries', cStr); else sp.delete('countries');
+
+    const rArr = [];
+    Object.entries(regionMap).forEach(([c, set]) => {
+      if (!set || set.size === 0) return;
+      set.forEach(v => rArr.push(c + ':' + v));
+    });
+    if (rArr.length) sp.set('regions', rArr.join(',')); else sp.delete('regions');
+
+    history.replaceState(null, '', location.pathname + (sp.toString() ? '?' + sp.toString() : ''));
+  }
+
+  async function applyOriginFilterFromURL() {
+    const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if (!ul) return;
+
+    const { countries, regionMap } = readOriginFromURL();
+
+    if (!countries.size) {
+      ul.querySelectorAll(':scope > li').forEach(li => __setHideFlag(li,'__originHide',false));
+      return;
+    }
+
+    await ensureProductPlaceAttrs(ul);
+
+    ul.querySelectorAll(':scope > li').forEach(li => {
+      const c = (li.dataset.country || '').trim();
+      const rid = (li.dataset.region || '').trim();
+      const rname = (li.dataset.regionName || '').trim();
+
+      if (!c || !countries.has(c)) { __setHideFlag(li,'__originHide',true); return; }
+
+      const set = regionMap[c];
+      if (!set || set.has('all')) { __setHideFlag(li,'__originHide',false); return; }
+
+      const byIdOK = rid && set.has(rid);
+      const norm = (s) => (s||'').toString().normalize?.('NFC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'');
+      const byNameOK = !rid && rname && Array.from(set).some(v => v!=='all' && norm(v)===norm(rname));
+      __setHideFlag(li,'__originHide', !(byIdOK || byNameOK));
+    });
+  }
+  window.applyOriginFilterFromURL = applyOriginFilterFromURL;
+
+  async function renderOriginFilterUI() {
+    const host = document.querySelector('.filter-drawer__body');
+    if (!host) return;
+    if (document.getElementById('originCountriesBlock')) return;
+
+    const tree = await fetchPlaceTree();
+    if (!Array.isArray(tree) || !tree.length) return;
+
+    const state = readOriginFromURL();
+
+    const countryBlock = document.createElement('section');
+    countryBlock.className = 'filter-block';
+    countryBlock.id = 'originCountriesBlock';
+    countryBlock.innerHTML = `
+      <div class="filter-block__head">
+        <h3>원산지 <small>(중복선택 가능)</small></h3>
+      </div>
+      <div class="origin-line" data-role="country-line"></div>
+    `;
+    host.appendChild(countryBlock);
+    const countryLine = countryBlock.querySelector('[data-role="country-line"]');
+
+    const makeChip = (label, active=false, attrs={}) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip' + (active ? ' is-active' : '');
+      b.textContent = label;
+      Object.entries(attrs).forEach(([k,v]) => b.setAttribute(k,v));
+      return b;
+    };
+
+    countryLine.appendChild(makeChip('전체', state.countries.size === 0, { 'data-country': '__all__' }));
+    tree.forEach(c =>
+      countryLine.appendChild(makeChip(c.name, state.countries.has(c.name), { 'data-country': c.name }))
+    );
+
+    const regionBlocks = new Map();
+    const ensureRegionBlock = (country) => {
+      if (regionBlocks.has(country)) return regionBlocks.get(country);
+      const data = tree.find(t => t.name === country);
+      if (!data) return null;
+
+      const wrap = document.createElement('section');
+      wrap.className = 'filter-block';
+      wrap.setAttribute('data-country-block', country);
+      wrap.innerHTML = `
+        <div class="filter-block__head">
+          <h3>${country} <small style="font-weight:400;color:#999;">(중복선택 가능)</small></h3>
+        </div>
+        <div class="origin-line" data-role="region-line"></div>
+      `;
+      const line = wrap.querySelector('[data-role="region-line"]');
+
+      const selected = state.regionMap[country];
+      const isAll = selected?.has('all') || !selected;
+      line.appendChild(makeChip('전체', isAll, { 'data-region': 'all' }));
+      data.regions.forEach(r => {
+        const active = !isAll && selected?.has(String(r.id));
+        line.appendChild(makeChip(r.name, !!active, { 'data-region': String(r.id) }));
+      });
+
+      wrap.style.display = state.countries.has(country) ? '' : 'none';
+      host.appendChild(wrap);
+      regionBlocks.set(country, wrap);
+      return wrap;
+    };
+    tree.forEach(c => ensureRegionBlock(c.name));
+
+    countryBlock.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip[data-country]');
+      if (!chip) return;
+      const c = chip.dataset.country;
+
+      if (c === '__all__') {
+        state.countries.clear();
+        state.regionMap = {};
+        countryLine.querySelectorAll('.chip').forEach(b => b.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        regionBlocks.forEach(el => el.style.display = 'none');
+      } else {
+        chip.classList.toggle('is-active');
+        const on = chip.classList.contains('is-active');
+        countryLine.querySelector('.chip[data-country="__all__"]')?.classList.remove('is-active');
+
+        if (on) {
+          state.countries.add(c);
+          (state.regionMap[c] ||= new Set()).add('all');
+          ensureRegionBlock(c)?.style.removeProperty('display');
+        } else {
+          state.countries.delete(c);
+          delete state.regionMap[c];
+          ensureRegionBlock(c)?.style.setProperty('display','none');
+          if (state.countries.size === 0) {
+            countryLine.querySelector('.chip[data-country="__all__"]')?.classList.add('is-active');
+          }
+        }
+      }
+      writeOriginToURL(state);
+      applyOriginFilterFromURL();
+    });
+
+    host.addEventListener('click', (e) => {
+      const chip = e.target.closest('[data-country-block] .chip[data-region]');
+      if (!chip) return;
+
+      const block = chip.closest('[data-country-block]');
+      const country = block.getAttribute('data-country-block');
+      const set = (state.regionMap[country] ||= new Set());
+
+      if (chip.dataset.region === 'all') {
+        set.clear(); set.add('all');
+        block.querySelectorAll('.chip[data-region]').forEach(b => b.classList.toggle('is-active', b===chip));
+      } else {
+        chip.classList.toggle('is-active');
+        const nowOn = chip.classList.contains('is-active');
+        if (nowOn) { set.delete('all'); set.add(chip.dataset.region); }
+        else { set.delete(chip.dataset.region); }
+
+        const onCnt = block.querySelectorAll('.chip[data-region].is-active:not([data-region="all"])').length;
+        if (onCnt === 0) {
+          set.clear(); set.add('all');
+          block.querySelectorAll('.chip[data-region]').forEach(b => {
+            b.classList.toggle('is-active', b.dataset.region === 'all');
+          });
+        } else {
+          block.querySelector('.chip[data-region="all"]')?.classList.remove('is-active');
+        }
+      }
+
+      writeOriginToURL(state);
+      applyOriginFilterFromURL();
+    });
+
+    function resetOriginFilters() {
+      writeOriginToURL({ countries: new Set(), regionMap: {} });
+      countryLine?.querySelectorAll('.chip').forEach(b => b.classList.remove('is-active'));
+      countryLine?.querySelector('.chip[data-country="__all__"]')?.classList.add('is-active');
+      document.querySelectorAll('[data-country-block]').forEach(el => el.style.display = 'none');
+      applyOriginFilterFromURL();
+    }
+    window.__originFilter = { reset: resetOriginFilters, apply: applyOriginFilterFromURL };
+  }
+
+  (async function init() {
+    try { await renderOriginFilterUI(); } catch (e) { console.warn('[origin] render fail', e); }
+    applyOriginFilterFromURL();
+
+    const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if (ul) {
+      const mo = new MutationObserver(() => applyOriginFilterFromURL());
+      mo.observe(ul, { childList: true });
+    }
+
+    const oldSort = window.sortSearchList;
+    if (typeof oldSort === 'function') {
+      window.sortSearchList = async function (...args) {
+        const r = await oldSort.apply(this, args);
+        await window.applyOriginFilterFromURL?.();
+        return r;
+      };
+    }
+  })();
+})();
+
+(function expertFilterInit(){
+  const $  = (s, r=document)=>r.querySelector(s);
+  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+
+  const host = document.querySelector('.filter-drawer__body');
+  if (!host) return;
+
+  let block = document.getElementById('expertFilterBlock');
+  if (!block) {
+    block = document.createElement('section');
+    block.className = 'filter-block';
+    block.id = 'expertFilterBlock';
+    block.innerHTML = `
+      <div class="filter-block__head">
+        <h3>전문가 리뷰 <small class="hint">(설정값 ≤, 10은 전체)</small></h3>
+      </div>
+      <div class="expert-filter">
+        ${row('fruity','프루티')}
+        ${row('bitter','쓴맛')}
+        ${row('spicy','매운맛')}
+      </div>`;
+    host.appendChild(block);
+  } else {
+    const head = block.querySelector('.filter-block__head h3');
+    if (head && !/10은/.test(head.textContent)) {
+      head.innerHTML = `전문가 리뷰 <small class="hint">(설정값 ≤, 10은 전체)</small>`;
+    }
+  }
+
+  const rows = Array.from(block.querySelectorAll('.expert-row[data-key]'));
+  const getSlider  = (r) => r.querySelector('input[type="range"]');
+  const getBubble  = (r) => r.querySelector('.bubble');
+  const getSegWrap = (r) => r.querySelector('.segments');
+  const getSegments= (r) => Array.from(r.querySelectorAll('.segments .seg'));
+
+  rows.forEach(r=>{
+    const input = getSlider(r);
+    if (!input) return;
+    input.min='1'; input.max='10'; input.step='1';
+    if (!input.value || Number(input.value) < 1) input.value='5';
+  });
+
+  const sp = new URLSearchParams(location.search);
+  setVal('fruity', sp.has('fruity_max') ? clamp(toNum(sp.get('fruity_max')), 1, 10, 5) : 5);
+  setVal('bitter', sp.has('bitter_max') ? clamp(toNum(sp.get('bitter_max')), 1, 10, 5) : 5);
+  setVal('spicy',  sp.has('spicy_max')  ? clamp(toNum(sp.get('spicy_max' )), 1, 10, 5) : 5);
+
+  rows.forEach(r => paintRow(r, Number(getSlider(r).value)||5));
+
+  block.addEventListener('input', e=>{
+    const r = e.target.closest('.expert-row[data-key]');
+    if (!r) return;
+    const v = clamp(Number(getSlider(r).value)||5, 1, 10, 5);
+    getSlider(r).value = String(v);
+    paintRow(r, v);
+    writeURL();
+    applyExpertFilterFromURL();
+  });
+
+  document.querySelector('.filter-reset')?.addEventListener('click', ()=>{
+    ['fruity','bitter','spicy'].forEach(k=>setVal(k,5));
+    writeURL();
+    applyExpertFilterFromURL();
+  });
+
+  const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  if (ul) new MutationObserver(()=>applyExpertFilterFromURL()).observe(ul,{childList:true});
+  const oldSort = window.sortSearchList;
+  if (typeof oldSort === 'function') {
+    window.sortSearchList = async function(...args){
+      const r = await oldSort.apply(this,args);
+      await applyExpertFilterFromURL();
+      return r;
+    };
+  }
+
+  function row(key,label){
+    return `
+      <div class="expert-row" data-key="${key}">
+        <div class="label">${label}</div>
+        <div class="slider-wrap">
+          <div class="segments">
+            ${'<span class="seg"><i></i></span>'.repeat(10)}
+          </div>
+          <input type="range" min="1" max="10" step="1" value="5" aria-label="${label} 최대 점수">
+          <span class="bubble">5</span>
+        </div>
+      </div>`;
+  }
+  function toNum(v){ const n = Number(v); return isNaN(n)?null:n; }
+  function clamp(n,min,max,def){ if(n==null) return def; return Math.max(min,Math.min(max,n)); }
+
+  function setVal(key,val){
+    const r = block.querySelector(`.expert-row[data-key="${key}"]`);
+    if (!r) return;
+    const input = getSlider(r); if (!input) return;
+    input.value = String(val);
+    paintRow(r, val);
+  }
+
+  function paintRow(r, v){
+    const bubble = getBubble(r);
+    if (bubble){ bubble.textContent = String(v); bubble.style.left = (v/10*100)+'%'; }
+
+    const segs = getSegments(r);
+    segs.forEach((seg, idx) => {
+      const fill = seg.querySelector('i');
+      fill.style.width = (idx < v ? '100%' : '0%');
+    });
+  }
+
+  function writeURL(){
+    const params = new URLSearchParams(location.search);
+    rows.forEach(r=>{
+      const key = r.dataset.key;
+      const v = Number(getSlider(r)?.value||5);
+      params.set(`${key}_max`, String(v));
+    });
+    history.replaceState(null,'',location.pathname+(params.toString()?`?${params.toString()}`:''));
+  }
+
+  async function ensureExpertMetrics(){
+    const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if(!ul) return;
+    const items = Array.from(ul.querySelectorAll(':scope > li'));
+
+    const getNo = (li)=>{
+      const a = li.querySelector('a[href*="product_no="], a.product_img_link, .name a');
+      if(!a) return null;
+      try{
+        const u = new URL(a.getAttribute('href'), location.origin);
+        return u.searchParams.get('product_no') ||
+              (u.pathname.match(/\/product\/.*\/(\d+)\//)||[])[1] || null;
+      }catch{ return null; }
+    };
+
+    const need = [];
+      items.forEach(li=>{
+      const have = (k) => li.dataset[k] != null && li.dataset[k] !== '';
+
+      if (['fruity','bitter','spicy','acidity','polyphenol'].every(have)) return;
+      const no = getNo(li); if(!no) return;
+      need.push({li,no});
+    });
+    if(!need.length) return;
+
+    const cache = sessionStorage;
+    const toFetch = need.map(n=>n.no).filter(no=>!cache.getItem('metric:'+no));
+    if(toFetch.length){
+      try{
+        const url = 'https://oliva.boundary.team/api/products/metrics?' +
+                    new URLSearchParams({ product_nos: toFetch.join(',') });
+        const r = await fetch(url,{mode:'cors'});
+        if(r.ok){
+          const j = await r.json();
+          (j?.data||[]).forEach(obj=>{
+            cache.setItem('metric:'+obj.product_no, JSON.stringify(obj));
+          });
+        }
+      }catch(e){ console.warn('[expert] metrics fetch fail', e); }
+    }
+
+    need.forEach(({li,no})=>{
+      const raw = cache.getItem('metric:'+no); if(!raw) return;
+      try{
+        const m = JSON.parse(raw);
+        const num = (v) => {
+          if (v == null) return NaN;
+          const s = String(v).trim();
+
+          const tokens = s.match(/\d{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?|\d+(?:[.,]\d+)?/g);
+          if (!tokens || !tokens.length) return NaN;
+
+          const toFloat = (t) => {
+            let x = t;
+            if (x.includes('.') && x.includes(',')) {
+              x = x.replace(/,/g, '');
+            } else if (x.includes(',')) {
+              const parts = x.split(',');
+              if (parts.length > 1 && parts[parts.length - 1].length !== 3) {
+                x = x.replace(',', '.');
+              } else {
+                x = x.replace(/,/g, '');
+              }
+            }
+            const n = parseFloat(x);
+            return Number.isFinite(n) ? n : NaN;
+          };
+
+          const candidates = tokens
+            .map(toFloat)
+            .filter((n) => Number.isFinite(n));
+          if (!candidates.length) return NaN;
+
+          return Math.max(...candidates);
+        };
+        const pick = (obj, keys)=>{ for(const k of keys){ if(obj && obj[k]!=null){ const n=num(obj[k]); if(!isNaN(n)) return n; } } return null; };
+
+        const fruity = pick(m,['fruity','fruitiness','fruit','프루티','과일향']);
+        const bitter = pick(m,['bitter','bitterness','쓴맛']);
+        const spicy  = pick(m,['peppery','pungent','spicy','spiciness','매운맛','알싸함','후추향']);
+
+        if(fruity!=null) li.dataset.fruity = String(fruity);
+        if(bitter!=null) li.dataset.bitter = String(bitter);
+        if(spicy !=null) li.dataset.spicy  = String(spicy);
+      }catch{}
+    });
+  }
+
+  const __applyExpertCore = async ()=>{
+    const ul = $('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if(!ul) return;
+
+    await ensureExpertMetrics();
+
+    const params = new URLSearchParams(location.search);
+    const lim = {
+      fruity: clamp(toNum(params.get('fruity_max')), 1, 10, 10),
+      bitter: clamp(toNum(params.get('bitter_max')), 1, 10, 10),
+      spicy:  clamp(toNum(params.get('spicy_max' )), 1, 10, 10),
+    };
+    const active = Object.entries(lim).filter(([,v])=>v<10);
+
+    $$(':scope > li', ul).forEach(li=>{
+      if (!active.length) { __setHideFlag(li,'__expertHide',false); return; }
+      let ok = true;
+      for (const [k,maxV] of active) {
+        const v = Number(li.dataset[k]);
+        if (!isFinite(v) || v > maxV) { ok = false; break; }
+      }
+      __setHideFlag(li,'__expertHide',!ok);
+    });
+
+    window.applyOriginFilterFromURL?.();
+    window.applyPriceFilterFromURL?.();
+  };
+  window.__applyExpertCore = __applyExpertCore;
+
+  window.applyExpertFilterFromURL = async function(){
+    const vals = {
+      fruity: Number(getSlider(block.querySelector('[data-key="fruity"]'))?.value ?? 10),
+      bitter: Number(getSlider(block.querySelector('[data-key="bitter"]'))?.value ?? 10),
+      spicy:  Number(getSlider(block.querySelector('[data-key="spicy"]' ))?.value ?? 10),
+    };
+    if (vals.fruity>=10 && vals.bitter>=10 && vals.spicy>=10) {
+      const ul = $('.xans-search-result .prdList, .section.ec-base-product .prdList');
+      if (ul) $$(':scope > li', ul).forEach(li=>__setHideFlag(li,'__expertHide',false));
+      window.applyOriginFilterFromURL?.();
+      window.applyPriceFilterFromURL?.();
+      return;
+    }
+    await __applyExpertCore();
+  };
+
+  applyExpertFilterFromURL();
+})();
+
+(function patchApplyExpertFilter(){
+  const $  = (s, r=document)=>r.querySelector(s);
+  const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
+  const toNum = (v)=>{ const n=Number(v); return isNaN(n)?null:n; };
+  const clamp = (n,min,max,def)=> (n==null?def:Math.max(min,Math.min(max,n)));
+
+  window.applyExpertFilterFromURL = async function(){
+    const ul = $('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if (!ul) return;
+
+    if (typeof ensureExpertMetrics === 'function') {
+      try { await ensureExpertMetrics(); } catch {}
+    }
+
+    const params = new URLSearchParams(location.search);
+    const lim = {
+      fruity: clamp(toNum(params.get('fruity_max')), 1, 10, 10),
+      bitter: clamp(toNum(params.get('bitter_max')), 1, 10, 10),
+      spicy:  clamp(toNum(params.get('spicy_max' )), 1, 10, 10),
+    };
+    const active = Object.entries(lim).filter(([,v])=>v<10);
+
+    $$(':scope > li', ul).forEach(li=>{
+      if (!active.length) {
+        __setHideFlag(li,'__expertHide',false);
+        return;
+      }
+      let ok = true;
+      for (const [k,maxV] of active) {
+        const v = Number(li.dataset[k]);
+        if (!isFinite(v)) { ok = false; break; }
+        if (v > maxV) { ok = false; break; }
+      }
+      __setHideFlag(li,'__expertHide',!ok);
+    });
+
+    window.applyOriginFilterFromURL?.();
+    window.applyPriceFilterFromURL?.();
+  };
+})();
+
+(function bumpMetricCacheVersion(){
+  const V = 'v2';
+  window.__metricCacheKey = (no) => `metric:${V}:${no}`;
+  try {
+    const ks = Object.keys(sessionStorage).filter(k => k.startsWith('metric:') && !k.startsWith(`metric:${V}:`));
+    ks.forEach(k => sessionStorage.removeItem(k));
+    console.log(`[expert] dropped old metric cache ${ks.length} keys`);
+  } catch {}
+})();
+
+(function () {
+  const FIELDS = [
+    { key: 'fruity', label: '프루티' },
+    { key: 'bitter', label: '쓴맛'   },
+    { key: 'spicy',  label: '매운맛' },
+  ];
+
+  function clamp(n, min, max) {
+    const v = Number(n);
+    if (Number.isNaN(v)) return min;
+    return Math.max(min, Math.min(max, v));
+  }
+
+  function readInitValue(key) {
+    const sp = new URLSearchParams(location.search);
+    return clamp(sp.has(`${key}_max`) ? sp.get(`${key}_max`) : 5, 1, 10);
+  }
+
+  function writeURL(allVals) {
+    const sp = new URLSearchParams(location.search);
+    FIELDS.forEach(({ key }) => {
+      sp.set(`${key}_max`, String(allVals[key]));
+    });
+    history.replaceState(null, '', location.pathname + '?' + sp.toString());
+  }
+
+  function paintMeter(meterEl, value) {
+    const v = clamp(value, 1, 10);
+    meterEl.dataset.value = String(v);
+
+    const bars = meterEl.querySelectorAll('.seg i');
+    const full = Math.floor(v);
+    const frac = v - full;
+
+    bars.forEach((iEl, idx) => {
+      if (idx < full) iEl.style.width = '100%';
+      else if (idx === full && frac > 0) iEl.style.width = (frac * 100) + '%';
+      else iEl.style.width = '0%';
+    });
+
+    const bubble = meterEl.querySelector('.bubble');
+    if (bubble) {
+      bubble.textContent = (Math.round(v * 10) / 10).toString();
+      bubble.style.left = (v / 10 * 100) + '%';
+    }
+  }
+
+  function getAllValues(root) {
+    const out = {};
+    FIELDS.forEach(({ key }) => {
+      const row = root.querySelector(`.taste_profile_item[data-key="${key}"]`);
+      const slider = row?.querySelector('.taste_slider');
+      out[key] = clamp(slider?.value || 5, 1, 10);
+    });
+    return out;
+  }
+
+  function setAllValues(root, vals) {
+    FIELDS.forEach(({ key }) => {
+      const row = root.querySelector(`.taste_profile_item[data-key="${key}"]`);
+      const meter = row?.querySelector('.taste_meter');
+      const slider = row?.querySelector('.taste_slider');
+      const v = clamp(vals[key], 1, 10);
+      if (slider) slider.value = String(v);
+      if (meter) paintMeter(meter, v);
+    });
+  }
+
+  function initTasteProfile() {
+    const host = document.getElementById('expertTasteProfile');
+    if (!host) return;
+
+    const initVals = {};
+    FIELDS.forEach(({ key }) => initVals[key] = readInitValue(key));
+    setAllValues(host, initVals);
+
+    host.addEventListener('input', (e) => {
+      const slider = e.target.closest('.taste_slider');
+      if (!slider) return;
+      const row = slider.closest('.taste_profile_item');
+      const meter = row.querySelector('.taste_meter');
+
+      const v = clamp(slider.value, 1, 10);
+      paintMeter(meter, v);
+
+      const all = getAllValues(host);
+      writeURL(all);
+
+      window.applyExpertFilterFromURL?.();
+    });
+
+    document.querySelector('.filter-reset')?.addEventListener('click', () => {
+      const resetVals = { fruity: 5, bitter: 5, spicy: 5 };
+      setAllValues(host, resetVals);
+      writeURL(resetVals);
+      window.applyExpertFilterFromURL?.();
+    });
+
+    window.requestAnimationFrame(() => {
+      const now = getAllValues(host);
+      setAllValues(host, now);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTasteProfile);
+  } else {
+    initTasteProfile();
+  }
+})();
+
+window.__ensureExpertMetrics = async function __ensureExpertMetrics(){
+  const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  if (!ul) return;
+  const items = Array.from(ul.querySelectorAll(':scope > li'));
+
+  const getNo = (li)=>{
+    const a = li.querySelector('a[href*="product_no="], a.product_img_link, .name a');
+    if(!a) return null;
+    try{
+      const u = new URL(a.getAttribute('href'), location.origin);
+      return u.searchParams.get('product_no') ||
+            (u.pathname.match(/\/product\/.*\/(\d+)\//)||[])[1] || null;
+    }catch{ return null; }
+  };
+
+  const need = [];
+  items.forEach(li=>{
+    if(li.dataset.fruity!=null && li.dataset.bitter!=null && li.dataset.spicy!=null) return;
+    const no = getNo(li); if(!no) return;
+    need.push({li,no});
+  });
+  if(!need.length) return;
+
+  const cache = sessionStorage;
+  const k = window.__metricCacheKey || ((no)=>`metric:${no}`);
+  const toFetch = need.map(n=>n.no).filter(no=>!cache.getItem(k(no)));
+  if(toFetch.length){
+    try{
+      const url = 'https://oliva.boundary.team/api/products/metrics?' +
+                  new URLSearchParams({ product_nos: toFetch.join(',') });
+      const r = await fetch(url,{mode:'cors'});
+      if(r.ok){
+        const j = await r.json();
+        (j?.data||[]).forEach(obj=>{
+          cache.setItem(k(obj.product_no), JSON.stringify(obj));
+        });
+      }
+    }catch(e){ console.warn('[expert] metrics fetch fail', e); }
+  }
+
+  need.forEach(({li,no})=>{
+    const raw = cache.getItem(k(no)); if(!raw) return;
+    try{
+      const m = JSON.parse(raw);
+      const num = (v)=>{const s=String(v??'').replace(/[^\d.]/g,''); return s?Number(s):NaN;};
+      const pick = (obj, keys)=>{ for(const key of keys){ if(obj && obj[key]!=null){ const n=num(obj[key]); if(!isNaN(n)) return n; } } return null; };
+
+      const fruity = pick(m,['fruity','fruitiness','fruit','프루티','과일향']);
+      const bitter = pick(m,['bitter','bitterness','쓴맛']);
+      const spicy  = pick(m,['peppery','pungent','spicy','spiciness','매운맛','알싸함','후추향']);
+      const acidity = pick(m, [
+        'acidity', 'acidity_pct', 'acidity_percent', 'free_acidity',
+        'free acidity', 'acidity (%)',
+        '산도', '산도(%)', '산도_%', '산도 %'
+      ]);
+      
+      const polyphenol = pick(m, [
+        'polyphenol','polyphenols','total_polyphenols',
+        'polyphenol_mgkg','polyphenols_mgkg','폴리페놀','폴리페놀(mg/kg)'
+      ]);
+
+      if(fruity!=null) li.dataset.fruity = String(fruity);
+      if(bitter!=null) li.dataset.bitter = String(bitter);
+      if(spicy !=null) li.dataset.spicy  = String(spicy);
+      if (acidity   != null) li.dataset.acidity    = String(acidity);
+      if (polyphenol!= null) li.dataset.polyphenol = String(polyphenol);  
+    }catch{}
+  });
+};
+
+window.__applyExpertCore = async function __applyExpertCore(){
+  const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  if (!ul) return;
+
+  try { await window.__ensureExpertMetrics?.(); } catch {}
+
+  const toNum = (v)=>{ const n = Number(v); return isNaN(n)?null:n; };
+  const clamp = (n,min,max,def)=> (n==null?def:Math.max(min,Math.min(max,n)));
+
+  const sp = new URLSearchParams(location.search);
+  const lim = {
+    fruity: clamp(toNum(sp.get('fruity_max')), 1, 10, 10),
+    bitter: clamp(toNum(sp.get('bitter_max')), 1, 10, 10),
+    spicy:  clamp(toNum(sp.get('spicy_max' )), 1, 10, 10),
+  };
+  const active = Object.entries(lim).filter(([,v]) => v < 10);
+
+  ul.querySelectorAll(':scope > li').forEach(li=>{
+    if (!active.length) {
+      __setHideFlag(li,'__expertHide',false);
+      return;
+    }
+    let ok = true;
+    for (const [k, maxV] of active) {
+      const v = Number(li.dataset[k]);
+      if (!isFinite(v)) { ok = false; break; }
+      if (v > maxV) { ok = false; break; }
+    }
+    __setHideFlag(li,'__expertHide',!ok);
+  });
+};
+
+window.applyExpertFilterFromURL = async function(){
+  const r = await window.__applyExpertCore();
+  window.applyOriginFilterFromURL?.();
+  window.applyPriceFilterFromURL?.();
+  return r;
+};
+
+function __hasExpertParams() {
+  const sp = new URLSearchParams(location.search);
+  return ['fruity_max', 'bitter_max', 'spicy_max'].some(k => sp.has(k));
+}
+
+(function patchExpertFilter() {
+  const origApplyExpert = window.applyExpertFilterFromURL;
+
+  window.applyExpertFilterFromURL = async function () {
+    const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if (!ul) return;
+
+    if (!__hasExpertParams()) {
+      ul.querySelectorAll(':scope > li').forEach(li => __setHideFlag(li, '__expertHide', false));
+
+      window.applyOriginFilterFromURL?.();
+      window.applyPriceFilterFromURL?.();
+      return;
+    }
+
+    try { await window.__ensureExpertMetrics?.(); } catch {}
+
+    const toNum  = (v) => { const n = Number(v); return isNaN(n) ? null : n; };
+    const clamp  = (n, min, max, def) => (n == null ? def : Math.max(min, Math.min(max, n)));
+    const sp     = new URLSearchParams(location.search);
+    const limits = {
+      fruity: clamp(toNum(sp.get('fruity_max')), 1, 10, 10),
+      bitter: clamp(toNum(sp.get('bitter_max')), 1, 10, 10),
+      spicy:  clamp(toNum(sp.get('spicy_max' )), 1, 10, 10),
+    };
+    const active = Object.entries(limits).filter(([, v]) => v < 10);
+
+    ul.querySelectorAll(':scope > li').forEach(li => {
+      if (!active.length) { __setHideFlag(li, '__expertHide', false); return; }
+      let ok = true;
+      for (const [k, maxV] of active) {
+        const v = Number(li.dataset[k]);
+        if (!isFinite(v) || v > maxV) { ok = false; break; }
+      }
+      __setHideFlag(li, '__expertHide', !ok);
+    });
+
+    window.applyOriginFilterFromURL?.();
+    window.applyPriceFilterFromURL?.();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.applyExpertFilterFromURL?.());
+  } else {
+    window.applyExpertFilterFromURL?.();
+  }
+})();
+
+(function patchPriceFilterNoop() {
+  const orig = window.applyPriceFilterFromURL;
+  if (typeof orig !== 'function') return;
+
+  window.applyPriceFilterFromURL = function () {
+    const ul = document.querySelector('.xans-search-result .prdList, .section.ec-base-product .prdList');
+    if (!ul) return;
+
+    const sp       = new URLSearchParams(location.search);
+    const minRaw   = sp.get('min_price') || sp.get('min') || '';
+    const maxRaw   = sp.get('max_price') || sp.get('max') || '';
+    const unlimited= sp.get('unlimited') === '1';
+    const hasMin   = minRaw !== '';
+    const hasMax   = maxRaw !== '' || unlimited;
+
+    const isNoop = (!hasMin && !hasMax) || (Number(minRaw || 0) === 0 && unlimited);
+    if (isNoop) {
+      ul.querySelectorAll(':scope > li').forEach(li => __setHideFlag(li, '__priceHide', false));
+      return;
+    }
+
+    return orig.apply(this, arguments);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => window.applyPriceFilterFromURL?.());
+  } else {
+    window.applyPriceFilterFromURL?.();
+  }
+})();
+
+(function tameTasteProfileInit() {
+  const host = document.getElementById('expertTasteProfile');
+  if (!host) return;
+
+})();
+
+(function chemFilterInit(){
+  const $  = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+
+  function injectChemFromCache(ul) {
+  try {
+    const keyFn = window.__metricCacheKey || (no => `metric:${no}`);
+
+    const getNo = (li) => {
+      const a = li.querySelector('a[href*="product_no="], a.product_img_link, .name a');
+      if (!a) return null;
+      try {
+        const u = new URL(a.getAttribute('href'), location.origin);
+        return u.searchParams.get('product_no') ||
+               (u.pathname.match(/\/product\/.*\/(\d+)\//) || [])[1] || null;
+      } catch { return null; }
+    };
+
+    const toNum = (v) => {
+      const s = String(v ?? '').replace(/[^\d.]/g, '');
+      return s ? Number(s) : NaN;
+    };
+    const pick = (obj, keys) => {
+      for (const k of keys) {
+        if (obj && obj[k] != null) {
+          const n = toNum(obj[k]);
+          if (!isNaN(n)) return n;
+        }
+      }
+      return null;
+    };
+
+    ul.querySelectorAll(':scope > li').forEach((li) => {
+      const needAcidity    = li.dataset.acidity    == null;
+      const needPolyphenol = li.dataset.polyphenol == null;
+      if (!needAcidity && !needPolyphenol) return;
+
+      const no  = getNo(li);
+      if (!no) return;
+
+      const raw = sessionStorage.getItem(keyFn(no));
+      if (!raw) return;
+
+      try {
+        const m = JSON.parse(raw);
+        if (needAcidity) {
+          const acidity = pick(m, [
+            'acidity','acidity_pct','acidity_percent','free_acidity',
+            '산도','산도_%','산도(%)'
+          ]);
+          if (acidity != null) li.dataset.acidity = String(acidity);
+        }
+        if (needPolyphenol) {
+          const poly = pick(m, [
+            'polyphenol','polyphenols','total_polyphenols',
+            'polyphenol_mgkg','polyphenols_mgkg','폴리페놀','폴리페놀(mg/kg)'
+          ]);
+          if (poly != null) li.dataset.polyphenol = String(poly);
+        }
+      } catch {}
+    });
+  } catch {}
+}
+
+  function getListUL(){
+    return $('.xans-search-result .prdList, .section.ec-base-product .prdList');
+  }
+  function toNum(v){ const n = Number(v); return isNaN(n) ? null : n; }
+
+  async function ensureData(){
+    try { await window.__ensureExpertMetrics?.(); } catch {}
+  }
+
+  async function applyChemFilterFromURL(){
+    const ul = getListUL(); if (!ul) return;
+    await ensureData();
+
+    injectChemFromCache(ul);
+
+    const sp = new URLSearchParams(location.search);
+
+    let aMin = toNum(sp.get('acidity_min')); if (aMin == null) aMin = 0.00;
+    let aMax = toNum(sp.get('acidity_max')); if (aMax == null) aMax = Infinity;
+
+    let pMin = toNum(sp.get('poly_min')); if (pMin == null) pMin = 0;
+    let pMax = toNum(sp.get('poly_max')); if (pMax == null) pMax = Infinity;
+
+    const hasAcidity = sp.has('acidity_min') || sp.has('acidity_max');
+    const hasPoly    = sp.has('poly_min')    || sp.has('poly_max');
+
+    if (!hasAcidity && !hasPoly) {
+      $$(':scope > li', ul).forEach(li => __setHideFlag(li,'__chemHide',false));
+      return;
+    }
+
+    $$(':scope > li', ul).forEach(li=>{
+      const acidity = toNum(li.dataset.acidity);
+      const poly    = toNum(li.dataset.polyphenol);
+
+      let ok = true;
+      if (hasAcidity) {
+        if (!(isFinite(acidity) && acidity >= aMin && acidity <= aMax)) ok = false;
+      }
+      if (ok && hasPoly) {
+        if (!(isFinite(poly) && poly >= pMin && poly <= pMax)) ok = false;
+      }
+      __setHideFlag(li,'__chemHide', !ok);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyChemFilterFromURL);
+  } else {
+    applyChemFilterFromURL();
+  }
+  const ul = getListUL();
+  if (ul) new MutationObserver(()=>applyChemFilterFromURL()).observe(ul,{childList:true});
+
+  const origSort = window.sortSearchList;
+  if (typeof origSort === 'function') {
+    window.sortSearchList = async function(...args){
+      const r = await origSort.apply(this,args);
+      await applyChemFilterFromURL();
+      return r;
+    };
+  }
+
+  window.applyChemFilterFromURL = applyChemFilterFromURL;
+})();
+
+document.querySelector('.filter-reset')?.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  clearParams([
+    'min_price','max_price','unlimited',
+    'countries','regions',
+    'fruity_max','bitter_max','spicy_max',
+    'acidity_min','acidity_max',
+    'poly_min','poly_max',
+    'pairings'
+  ]);
+
+  const pMin = document.getElementById('priceMin');
+  const pMax = document.getElementById('priceMax');
+  const pPaint = () => document.getElementById('priceRangeValue')?.dispatchEvent(new Event('dummy'));
+  if (pMin && pMax) { pMin.value = pMin.min || 0; pMax.value = pMax.max || 100000; pPaint(); }
+
+  const aMin = document.getElementById('acidityMin');
+  const aMax = document.getElementById('acidityMax');
+  if (aMin && aMax) { aMin.value = aMin.min || 0.01; aMax.value = aMax.max || 0.20; }
+
+  const polyMin = document.getElementById('polyMin');
+  const polyMax = document.getElementById('polyMax');
+  if (polyMin && polyMax) { polyMin.value = polyMin.min || 0; polyMax.value = polyMax.max || 2100; }
+
+  document.querySelectorAll('#expertTasteProfile .taste_slider').forEach(inp => { inp.value = 5; });
+  document.querySelectorAll('#expertFilterBlock .expert-row input[type="range"]').forEach(inp => { inp.value = 5; });
+
+  window.__originFilter?.reset?.();
+
+  window.applyPriceFilterFromURL?.();
+  window.applyChemFilterFromURL?.();
+  window.applyExpertFilterFromURL?.();
+});
+
+(function installHardReset(){
+  const btn = document.querySelector('.filter-reset');
+  if (!btn) return;
+
+  const RESET_KEYS = [
+    'min_price','max_price','unlimited',
+    'countries','regions',
+    'fruity_max','bitter_max','spicy_max',
+    'acidity_min','acidity_max',
+    'poly_min','poly_max'
+  ];
+
+  const $ = (s)=>document.querySelector(s);
+
+  btn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    clearParams(RESET_KEYS);
+
+    const pMin = $('#priceMin'), pMax = $('#priceMax');
+    if (pMin && pMax) { pMin.value = pMin.min || 0; pMax.value = pMax.max || 100000; }
+
+    const aMin = $('#acidityMin'), aMax = $('#acidityMax');
+    if (aMin && aMax) { aMin.value = aMin.min || 0.01; aMax.value = aMax.max || 0.20; }
+
+    const polyMin = $('#polyMin'), polyMax = $('#polyMax');
+    if (polyMin && polyMax) { polyMin.value = polyMin.min || 0; polyMax.value = polyMax.max || 2100; }
+
+    document.querySelectorAll('#expertTasteProfile .taste_slider, #expertFilterBlock .expert-row input[type="range"]')
+      .forEach(inp => { inp.value = 5; });
+
+    window.__originFilter?.reset?.();
+    window.applyPriceFilterFromURL?.();
+    window.applyChemFilterFromURL?.();
+    window.applyExpertFilterFromURL?.();
+  }, { capture: true });
+})();
+</script>
+
+<style>
+.read_more {
+	margin-top: 20px;
+}
+
+.search_category .swiper-slide {
+	width: auto;
+	flex: 0 0 auto;
+}
+
+/* 아이템 간 간격/터치 영역 보강(선택) */
+.search_category .search_category_item {
+	display: inline-flex;
+	align-items: center;
+	border-radius: 999px;
+	white-space: nowrap;
+	user-select: none;
+	-webkit-tap-highlight-color: transparent;
+	margin-right: 0 !important;
+}
+
+.search-category-swiper .swiper-wrapper {
+	scrollbar-width: none;
+}
+
+.search-category-swiper .swiper-wrapper::-webkit-scrollbar {
+	display: none;
+}
+
+.shop_product_item .product_name {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	align-self: stretch;
+	font-size: 14px !important;
+	overflow: hidden;
+	color: var(--G-800, var(--Gray-800, #393939));
+	text-overflow: ellipsis;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+	margin: 2px 0 6px;
+}
+
+.is-searching .search_category,
+.is-searching .filter_guide,
+.is-searching .section_wrap,
+.is-searching .shop_best_list,
+.is-searching .shop_new_list,
+.is-searching .shop_organic_list,
+.is-searching .shop_premium_list,
+.is-searching .shop_ooc_list,
+.is-searching .shop_recommend_list,
+.is-searching .recommend_sec {
+  	display: none !important;
+}
+
+.search_filter_wrap {
+	display: none;
+}
+
+.is-searching .search_filter_wrap {
+	display: flex !important;
+	margin: 32px 0 12px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.is-searching .section.ec-base-product {
+	margin-top: 0;
+}
+
+.xans-search-result .prdList {
+	display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 8px;
+}
+
+.search_result,
+.search_result strong {
+	color: var(--Point, #F46200);
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+}
+
+.search_result span {
+	color: var(--G-500, var(--Gray-500, #888));
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px;
+	letter-spacing: -0.24px;
+	margin-left: 4px;
+}
+
+.search_filter .filter_btn {
+	display: flex;
+	padding: 4px 0;
+	justify-content: center;
+	align-items: center;
+	border: none;
+}
+
+.search_filter .filter_btn span {
+	color: var(--G-500, var(--Gray-500, #888));
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+}
+
+.search-bsheet-dim {
+	position:fixed;
+	inset:0;
+	background:rgba(0,0,0,.5);
+	display:none;
+	z-index:9998;
+}
+
+.search-bsheet[aria-hidden="true"] {
+	transform:translateY(100%);
+}
+
+.search-bsheet {
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:0;
+	z-index:9999;
+	background:#fff;
+	border-radius:16px 16px 0 0;
+	max-height:80vh;
+	transform:translateY(100%);
+	transition: transform .28s;
+	will-change: transform;
+}
+
+.search-bsheet[data-open="true"] {
+	transform:translateY(0);
+}
+
+.search-bsheet .handle {
+	width: 38px;
+	height: 4px;
+	border-radius: 999px;
+	background: #e3e3e3;
+	margin: 10px auto 0;
+}
+
+.search-bsheet .list {
+	padding: 20px 20px 32px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.search-bsheet .opt {
+	width: 100%;
+	display: flex;
+	padding: 16px 12px;
+	align-items: center;
+	align-self: stretch;
+	border: none;
+	border-bottom: 1px solid var(--Gray-100, #F0F0F0);
+	cursor: pointer;
+	color: var(--G-800, var(--Gray-800, #393939));
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.search-bsheet .opt:last-child {
+	border-bottom: 0;
+}
+
+.search-bsheet .opt[aria-current="true"] {
+	color: var(--Olive-Green, #1B8862);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+html.filter-lock, body.filter-lock {
+	overflow: hidden !important;
+}
+
+.product_price_wrap .product_per:empty {
+	display:none;
+}
+
+.product_name span {
+	margin: 0 !important;
+}
+
+.filter-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+  z-index: 9998;
+}
+
+/* Drawer */
+.filter-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: min(88vw, 420px);
+  background: #F8F8F8;
+  transform: translateX(-100%);
+  transition: transform 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 114px;
+  overflow-y: auto;
+}
+
+html.is-filter-open .filter-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+html.is-filter-open .filter-drawer {
+  transform: translateX(0);
+}
+
+/* Lock scroll when open */
+html.is-filter-open,
+html.is-filter-open body {
+  overflow: hidden;
+}
+
+.snb_top {
+  display: flex;
+  height: 56px;
+  padding: 16px 0;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.snb_top button {
+  border: none;
+}
+
+.filter-reset {
+  color: var(--G-500, var(--Gray-500, #888));
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+.filter-drawer__head {
+  color: var(--G-800, var(--Gray-800, #393939));
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 125% */
+  letter-spacing: -0.32px;
+  margin-bottom: 12px;
+}
+
+.filter-block {
+  padding: 16px;
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--G-0, #FFF);
+}
+
+:root {
+  --olive: #1B8862;
+  --rail:  #E1E1E1;
+}
+
+.price-range {
+  position: relative;
+  padding: 6px 0;
+}
+
+.price-range__track {
+  position: relative;
+  height: 4px;
+  background: var(--rail);
+  border-radius: 999px;
+}
+
+.price-range__progress {
+  position: absolute;
+  height: 4px;
+  left: 0;
+  right: 0;
+  background: var(--olive);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.price-range__inputs {
+  position: relative;
+  height: 0;
+}
+
+.price-range__input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -21px;
+  width: 100%;
+  height: 32px;
+  background: transparent;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.price-range__input::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 8px;
+}
+
+.price-range__input::-moz-range-track {
+  background: transparent;
+  height: 8px;
+}
+
+.price-range__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--olive);
+}
+
+.price-range__input::-moz-range-thumb {
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid var(--olive);
+}
+
+.price-range__input:focus-visible::-webkit-slider-thumb {
+  outline: 3px solid #BFE2D5;
+  outline-offset: 2px;
+}
+
+.price-range__input:focus-visible::-moz-range-thumb {
+  outline: 3px solid #BFE2D5;
+  outline-offset: 2px;
+}
+
+.filter-block__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.filter-block__head h3 {
+  color: var(--G-600, var(--Gray-600, #767676));
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+.price-filter__value {
+  color: var(--Oilve-Green, #1B8862);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+.filter-drawer__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-block__head small {
+  color: var(--G-400, var(--Gray-400, #ABABAB));
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+.origin-line {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  gap: 4px 6px;
+  align-self: stretch;
+  flex-wrap: wrap;
+}
+
+.chip.is-active {
+  background: var(--Olive-Green, #1B8862);
+  border: 1px solid #1B8862;
+  color: var(--G-0, #FFF);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+/* 레이아웃 */
+.taste_profile_item {
+  display: grid;
+  grid-template-columns: 31px 1fr;
+  align-items: center;
+  column-gap: 16px;
+  position: relative;
+  padding-bottom: 30px;
+}
+
+.taste_profile_item .label {
+  color: var(--G-600, var(--Gray-600, #767676));
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px; /* 150% */
+  letter-spacing: -0.24px;
+}
+
+.taste_meter {
+  position: relative;
+}
+
+.taste_meter .segments {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  height: 4px;
+  align-items: center;
+}
+
+.taste_meter .seg {
+  background: #e6e6e6;     /* 비활성 세그먼트 색 */
+  border-radius: 999px;
+  overflow: hidden;
+  height: 4px;
+}
+
+.taste_meter .seg i {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: #1B8862;     /* 활성(채운) 세그먼트 색 */
+  border-radius: 999px;
+  transition: width 120ms ease-out;
+}
+
+/* 말풍선(값) */
+.taste_meter .bubble {
+  position: absolute;
+  top: -30px;
+  transform: translateX(-50%);
+  background: #1B8862;
+  color: #FFF;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  width: 32px;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+.taste_meter .bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -5px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #1B8862;
+}
+
+.taste_meter .taste_slider {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -6px; 
+  bottom: -6px;
+  width: 100%;
+  height: 30px;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  opacity: 0;              /* 완전 투명(트랙/손잡이 숨김) */
+  cursor: pointer;
+}
+
+/* Firefox 트랙/엄지 제거(투명) */
+.taste_meter .taste_slider::-moz-range-track { background: transparent; border: 0; }
+.taste_meter .taste_slider::-moz-range-thumb { background: transparent; border: 0; }
+
+/* WebKit 엄지 제거(투명) */
+.taste_meter .taste_slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 0;
+  height: 0;
+}
+
+.taste_profile_item:last-child {
+  padding-bottom: 0;
+}
+</style>

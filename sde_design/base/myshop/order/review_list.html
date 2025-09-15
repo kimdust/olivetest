@@ -1,0 +1,768 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div class="review_list_tab">
+    <a class="review_wait" href="/myshop/order/review.html">작성 대기</a>
+    <a class="review_done active" href="/myshop/order/review_list.html">작성한 리뷰</a>
+</div>
+
+<div class="review_done_list">
+</div>
+
+<div id="rv-modal-dim" class="rv-dim" hidden></div>
+
+<div id="rv-modal-confirm" class="rv-modal" role="dialog" aria-modal="true" aria-labelledby="rv-confirm-title" hidden>
+  <div class="rv-modal-card">
+    <div class="rv-modal-icon warn" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" width="27" height="23" viewBox="0 0 27 23" fill="none">
+        <path d="M1.99257 22.6846C1.76657 22.6846 1.56357 22.6294 1.38357 22.519C1.20357 22.4085 1.06368 22.2629 0.963905 22.082C0.859905 21.9024 0.802683 21.708 0.792239 21.4986C0.781794 21.2893 0.838239 21.082 0.961572 20.8766L12.3759 1.15931C12.4995 0.953975 12.6539 0.802198 12.8392 0.703975C13.0248 0.605753 13.2201 0.556641 13.4252 0.556641C13.6304 0.556641 13.8257 0.605753 14.0112 0.703975C14.1966 0.802198 14.351 0.953975 14.4746 1.15931L25.8889 20.8766C26.0122 21.082 26.0687 21.2893 26.0582 21.4986C26.0478 21.708 25.9906 21.9024 25.8866 22.082C25.7868 22.2629 25.6469 22.4085 25.4669 22.519C25.2869 22.6294 25.0839 22.6846 24.8579 22.6846H1.99257ZM13.4252 19.095C13.7304 19.095 13.9861 18.9918 14.1926 18.7853C14.399 18.5789 14.5022 18.3231 14.5022 18.018C14.5022 17.7129 14.399 17.4571 14.1926 17.2506C13.9861 17.0442 13.7304 16.941 13.4252 16.941C13.1201 16.941 12.8644 17.0442 12.6579 17.2506C12.4515 17.4571 12.3482 17.7129 12.3482 18.018C12.3482 18.3231 12.4515 18.5789 12.6579 18.7853C12.8644 18.9918 13.1201 19.095 13.4252 19.095ZM13.4256 15.6076C13.7091 15.6076 13.9466 15.5119 14.1379 15.3203C14.3295 15.1285 14.4252 14.891 14.4252 14.6076V9.94097C14.4252 9.65764 14.3294 9.4202 14.1376 9.22864C13.9458 9.03686 13.7082 8.94097 13.4249 8.94097C13.1413 8.94097 12.9039 9.03686 12.7126 9.22864C12.521 9.4202 12.4252 9.65764 12.4252 9.94097V14.6076C12.4252 14.891 12.5211 15.1285 12.7129 15.3203C12.9047 15.5119 13.1422 15.6076 13.4256 15.6076Z" fill="#F44336"/>
+    </svg>
+    </div>
+    <h3 id="rv-confirm-title" class="rv-modal-title">리뷰를 삭제할까요?</h3>
+    <p class="rv-modal-sub">많은 분들이 이 후기를 보고 도움을 받고 있어요.</p>
+
+    <div class="rv-modal-actions row">
+      <button type="button" class="rv-btn ghost" data-close="confirm">아니요</button>
+      <button type="button" class="rv-btn danger" id="rv-confirm-delete">리뷰 삭제</button>
+    </div>
+  </div>
+</div>
+
+<div id="rv-modal-done" class="rv-modal" role="dialog" aria-modal="true" aria-labelledby="rv-done-title" hidden>
+  <div class="rv-modal-card">
+    <div class="rv-modal-icon ok" aria-hidden="true">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="#198F6A"/>
+        <path d="M7 12.5L10.5 16L17 9.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h3 id="rv-done-title" class="rv-modal-title">리뷰가 삭제되었습니다.</h3>
+
+    <div class="rv-modal-actions">
+      <button type="button" class="rv-btn primary" data-close="done">확인</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  (async function main(){
+    const API_BASE  = 'https://oliva.boundary.team';
+    const CHECK_API = API_BASE + '/api/reviews/check-written';
+    const WRAP      = document.querySelector('.review_done_list');
+    if (!WRAP) return;
+
+    const text = el => (el?.textContent || '').trim();
+
+    function getCookieRaw(name){
+      const rows = document.cookie ? document.cookie.split('; ') : [];
+      for (const row of rows){
+        const i = row.indexOf('='), k = i < 0 ? row : row.slice(0, i);
+        if (k === name) return decodeURIComponent(i < 0 ? '' : row.slice(i + 1));
+      }
+      return '';
+    }
+    function getUserId(){
+      const raw = getCookieRaw('login_provider_1');
+      if (!raw) return '';
+      try { const j = JSON.parse(raw); return j.member_id || j.id || j.uid || ''; }
+      catch { return raw; }
+    }
+    function qs(href, key){
+      try { return new URL(href, location.origin).searchParams.get(key) || ''; }
+      catch { return ''; }
+    }
+    function extractProductId(scope){
+      const a = scope.querySelector('.thumbnail a, .description .prdName a');
+      const href1 = a?.getAttribute('href') || '';
+      let m = href1 && (href1.match(/(?:product_no|product_id)=(\d+)/) || href1.match(/\/product\/.*?\/(\d+)(?:\/|$)/));
+      if (m) return m[1];
+      const reviewBtn = scope.closest('.order')?.querySelector('a.btnNormal.sizeS[href*="/board/product/write"]');
+      const href2 = reviewBtn?.getAttribute('href') || '';
+      return qs(href2, 'product_no') || qs(href2, 'product_id') || '';
+    }
+    function extractOrderId(scope){
+      const order = scope.closest('.order');
+      const hrefs = [
+        order?.querySelector('.btnDetail[href]')?.getAttribute('href') || '',
+        order?.querySelector('.ec-base-button a[href*="param_apply"]')?.getAttribute('href') || '',
+        order?.querySelector('a.btnNormal.sizeS[href*="/board/product/write"]')?.getAttribute('href') || ''
+      ].filter(Boolean);
+      for (const h of hrefs){
+        const v = qs(h, 'order_id') || qs(h, 'order_no') || qs(h, 'ordno') || qs(h, 'orderId');
+        if (v) return v;
+      }
+      return '';
+    }
+    async function fetchBrand(url){
+      if (!url) return '';
+      try{
+        const res  = await fetch(url, { credentials: 'same-origin' });
+        const html = await res.text();
+        const doc  = new DOMParser().parseFromString(html, 'text/html');
+        const cand = [
+          '.product_detail_brand','.product_brand','[data-role="productBrand"]',
+          '.xans-product-detail .infoArea .brand','meta[itemprop="brand"]','meta[property="product:brand"]'
+        ];
+        for (const sel of cand){
+          const el = doc.querySelector(sel);
+          if (!el) continue;
+          if (el.tagName === 'META' && el.getAttribute('content')) return el.getAttribute('content').trim();
+          const t = text(el); if (t) return t;
+        }
+      }catch{}
+      return '';
+    }
+    async function getWrittenReview({ user_id, product_id, order_id }){
+      if (!user_id || !product_id || !order_id) return { exists:false };
+      try{
+        const res  = await fetch(CHECK_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ user_id, product_id, order_id })
+        });
+        const data = await res.json().catch(()=>({}));
+        if (!res.ok) return { exists:false };
+        return { exists: !!data.exists, review: data.review || null };
+      }catch{ return { exists:false }; }
+    }
+    function normalize(src){
+      if (!src) return '';
+      if (/^https?:\/\//i.test(src)) return src;
+      if (src.startsWith('/')) return API_BASE + src;
+      return API_BASE + '/storage/' + src.replace(/^\/+/, '');
+    }
+    const fmtDate = d => {
+      if (!d) return '';
+      if (/^\d{4}\.\d{2}\.\d{2}$/.test(d)) return d;
+      const dt = new Date(d); if (isNaN(dt)) return d;
+      return dt.toLocaleDateString('ko-KR').replace(/\s*/g,'').replaceAll('-', '.');
+    };
+
+  function starIcon(filled){
+    if(filled){
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <path d="M3.59999 14.3516L4.74244 9.17431L0.925781 5.6933L5.96143 5.23341L7.92578 0.351562L9.89013 5.23341L14.9258 5.6933L11.1091 9.17431L12.2516 14.3516L7.92578 11.6049L3.59999 14.3516Z" fill="#1B8862"/>
+      </svg>`;
+    } else {
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+        <path d="M3.59999 14.3516L4.74244 9.17431L0.925781 5.6933L5.96143 5.23341L7.92578 0.351562L9.89013 5.23341L14.9258 5.6933L11.1091 9.17431L12.2516 14.3516L7.92578 11.6049L3.59999 14.3516Z" fill="#E3E3E3"/>
+      </svg>`;
+    }
+  }
+  function stars(n){
+    const v = Math.max(0, Math.min(5, Number(n||0)));
+    let out = '';
+    for(let i=0;i<5;i++){
+      out += starIcon(i < v);
+    }
+    return `<div class="rv-stars">${out}</div>`;
+  }
+
+    const userId = getUserId();
+    const html = await fetch('/myshop/order/list.html', { credentials: 'same-origin' }).then(r=>r.text());
+    const doc  = new DOMParser().parseFromString(html, 'text/html');
+    const orders = [...doc.querySelectorAll('.order')];
+
+    const candidates = [];
+    for (const order of orders){
+      const status = (order.querySelector('.txtStatus')?.textContent || '').replace(/\s+/g,'');
+      if (!/배송완료/.test(status)) continue;
+
+      order.querySelectorAll('.ec-base-prdInfo').forEach(info=>{
+        const writeBtn = order.querySelector('a.btnNormal.sizeS[href*="/board/product/write"]');
+        if (!writeBtn) return;
+        candidates.push({
+          name      : text(info.querySelector('.description .prdName a, .description .prdName')),
+          productId : extractProductId(info),
+          orderId   : extractOrderId(info),
+          detailUrl : info.querySelector('.thumbnail a, .description .prdName a')?.getAttribute('href') || ''
+        });
+      });
+    }
+
+    if (!candidates.length){
+      WRAP.innerHTML = '<div class="rv-empty">작성한 리뷰가 없습니다.</div>';
+      return;
+    }
+
+    const written = [];
+    for (let i=0;i<candidates.length;i+=6){
+      const part = await Promise.all(candidates.slice(i,i+6).map(async it=>{
+        const { exists, review } = await getWrittenReview({
+          user_id: userId, product_id: it.productId, order_id: it.orderId
+        });
+        if (!exists || !review) return null;
+        const brand = await fetchBrand(it.detailUrl);
+        return { ...it, brand, review };
+      }));
+      written.push(...part.filter(Boolean));
+    }
+
+    if (!written.length){
+      WRAP.innerHTML = '<div class="rv-empty">작성한 리뷰가 없습니다.</div>';
+      return;
+    }
+
+    const frag = document.createDocumentFragment();
+    written.forEach(it=>{
+      const r = it.review;
+      const card = document.createElement('article');
+      card.className = 'rv-card';
+      card.innerHTML = `
+        <header class="rv-head">
+          <h3 class="rv-title">
+            <span class="rv-name">${it.name || ''}</span>
+          </h3>
+          <div class="rv-actions">
+            <button type="button" class="rv-kebab" aria-haspopup="true" aria-expanded="false" aria-label="메뉴">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
+                <mask id="mask0_2366_34166" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
+                    <rect x="0.925781" y="0.351562" width="24" height="24" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_2366_34166)">
+                    <path d="M7.15625 13.8516C6.74375 13.8516 6.39067 13.7046 6.097 13.4108C5.80317 13.1171 5.65625 12.7641 5.65625 12.3516C5.65625 11.9391 5.80317 11.586 6.097 11.2923C6.39067 10.9985 6.74375 10.8516 7.15625 10.8516C7.56875 10.8516 7.92192 10.9985 8.21575 11.2923C8.50942 11.586 8.65625 11.9391 8.65625 12.3516C8.65625 12.7641 8.50942 13.1171 8.21575 13.4108C7.92192 13.7046 7.56875 13.8516 7.15625 13.8516ZM12.9255 13.8516C12.513 13.8516 12.1599 13.7046 11.8663 13.4108C11.5724 13.1171 11.4255 12.7641 11.4255 12.3516C11.4255 11.9391 11.5724 11.586 11.8663 11.2923C12.1599 10.9985 12.513 10.8516 12.9255 10.8516C13.338 10.8516 13.6911 10.9985 13.9848 11.2923C14.2786 11.586 14.4255 11.9391 14.4255 12.3516C14.4255 12.7641 14.2786 13.1171 13.9848 13.4108C13.6911 13.7046 13.338 13.8516 12.9255 13.8516ZM18.6948 13.8516C18.2823 13.8516 17.9291 13.7046 17.6353 13.4108C17.3416 13.1171 17.1948 12.7641 17.1948 12.3516C17.1948 11.9391 17.3416 11.586 17.6353 11.2923C17.9291 10.9985 18.2823 10.8516 18.6948 10.8516C19.1073 10.8516 19.4603 10.9985 19.754 11.2923C20.0478 11.586 20.1948 11.9391 20.1948 12.3516C20.1948 12.7641 20.0478 13.1171 19.754 13.4108C19.4603 13.7046 19.1073 13.8516 18.6948 13.8516Z" fill="#888888"/>
+                </g>
+                </svg>
+            </button>
+            <div class="rv-menu" role="menu" hidden>
+              <button type="button" class="rv-menu-item rv-del" data-rid="${r.id}" role="menuitem">삭제하기</button>
+            </div>
+          </div>
+        </header>
+
+        <div class="rv_bottom">
+            <div class="rv-rate">
+                ${stars(r.rating)}
+                <span class="rv-score">${r.rating || ''}</span>
+            </div>
+            <time class="rv-date">${fmtDate(r.created_at)} 작성</time>
+        </div>
+
+        ${(r.images && r.images.length)
+          ? `<div class="rv-album">${
+              r.images.map(s=>`<div class="rv-album-cell"><img src="${normalize(s)}" alt=""></div>`).join('')
+            }</div>`
+          : ''}
+
+        ${r.comment ? `<p class="rv-comment">${r.comment}</p>` : ''}
+
+        <section class="rv-bars-wrap">
+          <div class="rv-bars">
+            <div class="rv-bar"><span>프루티</span><div class="bar"><b style="width:${(r.fruity||0)/10*100}%"></b></div></div>
+            <div class="rv-bar"><span>쓴맛</span>  <div class="bar"><b style="width:${(r.bitter||0)/10*100}%"></b></div></div>
+            <div class="rv-bar"><span>매운맛</span><div class="bar"><b style="width:${(r.spicy||0)/10*100}%"></b></div></div>
+          </div>
+        </section>
+      `;
+      frag.appendChild(card);
+    });
+    WRAP.innerHTML = '';
+    WRAP.appendChild(frag);
+
+WRAP.addEventListener('click', (e) => {
+  const kb = e.target.closest('.rv-kebab');
+  if (!kb) return;
+  document.querySelectorAll('.rv-menu:not([hidden])').forEach(m => { if (m !== kb.nextElementSibling) m.hidden = true; });
+  const menu = kb.nextElementSibling;
+  const nowOpen = menu.hidden;
+  menu.hidden = !nowOpen;
+  kb.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+  e.stopPropagation();
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.rv-actions')) {
+    document.querySelectorAll('.rv-menu:not([hidden])').forEach(m => m.hidden = true);
+    document.querySelectorAll('.rv-kebab[aria-expanded="true"]').forEach(k => k.setAttribute('aria-expanded','false'));
+  }
+});
+
+const $dim     = document.getElementById('rv-modal-dim');
+const $confirm = document.getElementById('rv-modal-confirm');
+const $done    = document.getElementById('rv-modal-done');
+const $confirmBtn = document.getElementById('rv-confirm-delete');
+
+let pendingDelete = { id: null, $card: null };
+
+function showDim(){
+  $dim.hidden = false;
+  requestAnimationFrame(()=> $dim.classList.add('show'));
+}
+function hideDimIfNoModal(){
+  if ($confirm.hidden && $done.hidden){
+    $dim.classList.remove('show');
+    setTimeout(()=>{ $dim.hidden = true; }, 150);
+  }
+}
+function openModal(which){
+  showDim();
+  (which === 'confirm' ? $confirm : $done).hidden = false;
+}
+function closeModal(which, { keepDim = false } = {}){
+  const el = (which === 'confirm' ? $confirm : $done);
+  el.hidden = true;
+  if (!keepDim) hideDimIfNoModal();
+}
+
+$dim.addEventListener('click', () => { /* no-op */ });
+
+document.addEventListener('click', (e)=>{
+  const closeTarget = e.target.closest('[data-close]');
+  if (!closeTarget) return;
+  const which = closeTarget.getAttribute('data-close');
+  closeModal(which);
+});
+
+WRAP.addEventListener('click', (e) => {
+  const btn = e.target.closest('.rv-del');
+  if (!btn) return;
+  const rid = btn.getAttribute('data-rid');
+  if (!rid) return;
+
+  pendingDelete.id = rid;
+  pendingDelete.$card = btn.closest('.rv-card');
+  btn.closest('.rv-menu')?.setAttribute('hidden', '');
+  openModal('confirm');
+});
+
+$confirmBtn.addEventListener('click', async () => {
+  if (!pendingDelete.id) return;
+  $confirmBtn.disabled = true;
+
+  try{
+    const res = await fetch(`${API_BASE}/api/reviews/${encodeURIComponent(pendingDelete.id)}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    if (!res.ok) throw new Error('delete failed');
+
+    pendingDelete.$card?.remove();
+    if (!WRAP.querySelector('.rv-card')){
+      WRAP.innerHTML = '<div class="rv-empty">작성한 리뷰가 없습니다.</div>';
+    }
+
+    closeModal('confirm', { keepDim: true });
+    openModal('done');
+  } catch(err) {
+    console.warn(err);
+    closeModal('confirm');
+    alert('삭제에 실패했습니다.');
+  } finally {
+    $confirmBtn.disabled = false;
+    pendingDelete = { id:null, $card:null };
+  }
+});
+  })();
+});
+</script>
+
+<style>
+#contents {
+    padding: 16px 16px 16px 16px;
+    min-height: 94.1vh;
+}
+
+#review_header {
+  position: relative;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  align-items: center;
+  background-color: #FFF;
+}
+
+#review_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#review_header .header_back img {
+  width: 100%;
+}
+
+#review_header p {
+  color: var(--G-800, var(--Gray-800, #393939));
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 137.5% */
+  letter-spacing: -0.32px;
+}
+
+.review_list_tab {
+  margin: -16px -16px 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #E3E3E3;
+  background-color: #FFF;
+}
+
+.review_wait, .review_done {
+  display: flex;
+  height: 48px;
+  padding: 14px 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+  color: var(--G-600, var(--Gray-600, #767676));
+  text-align: center;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 133.333% */
+  letter-spacing: -0.3px;
+}
+
+.review_done.active {
+  border-bottom: 2px solid var(--Olive-Green, #1B8862);
+  color: var(--Olive-Green, #1B8862);
+  text-align: center;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 133.333% */
+  letter-spacing: -0.3px;
+}
+
+.review_done_list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.rv-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0 0 12px;
+}
+
+.rv-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rv-title span {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;       /* 2줄까지만 표시 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 22px;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1 0 0;
+    color: var(--G-900, #181818);
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.rv_bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+
+.rv-date {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.rv-rate {
+    display: flex;
+    gap: 2px;
+    font-weight: 700;
+}
+
+.rv-score {
+    color: var(--G-900, #181818);
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.028px;
+}
+
+.rv-album {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0 0;
+}
+
+.rv-album-cell{
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #FAFAFA;
+}
+
+.rv-album-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.rv-comment {
+    color: #181818;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 153.846% */
+    letter-spacing: -0.26px;
+    margin-top: 16px;
+}
+
+.rv-bars-wrap {
+    background: #F8F8F8;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.rv-bars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 10px;
+}
+
+.rv-bar {
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.rv-bar > span {
+    color: var(--Olive-Green, #1B8862);
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    flex-shrink: 0;
+}
+
+.rv-bar .bar {
+    position: relative;
+    flex: 1;
+    height: 4px;
+    background: #E3E3E3;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.rv-bar .bar b {
+    display: block;
+    height: 100%;
+    background: #198F6A;
+    width: 0%;
+}
+
+.rv-actions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rv-kebab {
+    appearance: none;
+    border: 0;
+    display: flex;
+}
+
+.rv-kebab:focus-visible {
+    outline: 2px solid #BFE4D6;
+}
+
+.rv-menu {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    min-width: 112px;
+    border-radius: 8px;
+    border: 1px solid var(--Gray-200, #E3E3E3);
+    background: var(--G-0, #FFF);
+    box-shadow: 0 2px 8px 0 rgba(174, 174, 174, 0.25);
+    display: none;
+    z-index: 10;
+}
+
+.rv-menu.show {
+    display: block;
+}
+
+.rv-menu button {
+    width: 100%;
+    border: 0;
+    background: #fff;
+    border-radius: 8px;
+    padding: 14px 10px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.rv-menu button:hover {
+    background:#FFF7F7;
+}
+
+.rv-menu .danger {
+    color:#DC4A4A;
+}
+
+.rv-actions {
+    position: relative;
+}
+
+.rv-menu:not([hidden]) {
+    display: block;
+}
+
+.rv-dim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    opacity: 0;
+    transition: opacity .15s ease;
+    z-index: 1000;
+}
+
+.rv-dim.show {
+    opacity: 1;
+}
+
+.rv-modal {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 1001;
+}
+
+.rv-modal-card {
+    display: flex;
+    width: 295px;
+    padding: 20px 14px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+}
+
+.rv-modal-title {
+    color: var(--G-900, #181818);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px; /* 144.444% */
+    letter-spacing: -0.36px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.rv-modal-sub {
+    color: var(--G-500, var(--Gray-500, #888));
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.rv-modal-actions {
+    margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    align-self: stretch;
+}
+
+.rv-modal-actions.row {
+    flex-direction: row;
+}
+
+.rv-btn {
+    display: flex;
+    padding: 10px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    border: none;
+}
+
+.rv-btn.ghost {
+    background: var(--Gray-100, #F0F0F0);
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.rv-btn.danger {
+    background: var(--Discount-Red, #F44336);
+    color: var(--G-0, #FFF);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.rv-btn.primary {
+    border-radius: 8px;
+    background: var(--Oilve-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+/* hidden 강제 숨김 (모달/딤) */
+.rv-modal[hidden],
+#rv-modal-dim[hidden] { display: none !important; }
+
+.rv-empty{
+  color: var(--G-300, #B0B0B0);
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.36px;
+    margin: auto;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>

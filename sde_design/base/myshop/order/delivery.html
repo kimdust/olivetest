@@ -1,0 +1,409 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div id="app"></div>
+
+<script>
+(function () {
+  const API_BASE = 'https://oliva.boundary.team';
+
+  function toCourierCode(v='') {
+    const n = String(v).replace(/\s+/g,'').toLowerCase();
+    if (/^\d+$/.test(n)) return n;
+    if (!n) return '';
+    if (/롯데|lg|현대/.test(n)) return '08';
+    if (/cj|대한통운/.test(n)) return '04';
+    if (/한진/.test(n))       return '05';
+    if (/로젠/.test(n))       return '06';
+    if (/우체국|post/.test(n))return '01';
+    if (/^cu/.test(n))        return '46';
+    if (/^gs/.test(n))        return '54';
+    return '';
+  }
+  const COURIER_NAME = {
+    '01':'우체국', '04':'CJ대한통운', '05':'한진택배', '06':'로젠택배',
+    '08':'롯데글로벌로지스', '46':'CU편의점택배', '54':'GS포스트박스'
+  };
+  function courierName(v){ return COURIER_NAME[String(v)] || (v||'-'); }
+  function normalizeStatus(s=''){
+    if (s.includes('완료')) return '배송완료';
+    if (s.includes('배송')) return '배송중';
+    return '상품준비';
+  }
+  function escapeHtml(str){ return String(str||'').replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+  function splitTime(t=''){ const [d,h=''] = String(t).split(' '); return [d?.replace(/-/g,'.')||'', h]; }
+
+  const qs = new URLSearchParams(location.search);
+  const invoice      = (qs.get('invoice') || '').replace(/\D/g,'');
+  const courierParam = (qs.get('courier') || '').trim();
+  const demo         = qs.get('demo');
+
+  const app = document.getElementById('app');
+
+  function showError(msg){
+    app.innerHTML = `
+      <div class="delivery_content_empty">
+        <div class="delivery_content_empty_txt">배송 정보를 불러오지 못했습니다.</div>
+        <div class="delivery_content_empty_txt">${escapeHtml(msg || '잠시 후 다시 시도해주세요.')}</div>
+      </div>`;
+  }
+
+  const TRUCK_SVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
+        <path d="M3.79958 13.3516C3.14009 13.3516 2.58022 13.1159 2.11996 12.6445C1.6597 12.1731 1.42957 11.6008 1.42957 10.9275H0.763464C0.547202 10.9275 0.365857 10.8528 0.21943 10.7033C0.0731432 10.5536 0 10.3683 0 10.1473V1.91227C0 1.47614 0.147835 1.10699 0.443506 0.804817C0.739176 0.502648 1.10032 0.351562 1.52693 0.351562H11.5018C11.9218 0.351562 12.2813 0.504374 12.5804 0.809997C12.8794 1.11562 13.0289 1.48305 13.0289 1.91227V3.63896H14.5073C14.749 3.63896 14.9781 3.69421 15.1945 3.80472C15.4108 3.91523 15.5889 4.06804 15.7288 4.26315L17.8473 7.16204C17.8983 7.22708 17.9365 7.29859 17.962 7.37658C17.9873 7.45472 18 7.53925 18 7.63019V10.1473C18 10.3683 17.9269 10.5536 17.7806 10.7033C17.6341 10.8528 17.4528 10.9275 17.2365 10.9275H16.4731C16.4731 11.6008 16.2422 12.1731 15.7806 12.6445C15.319 13.1159 14.7586 13.3516 14.0993 13.3516C13.4399 13.3516 12.88 13.1159 12.4196 12.6445C11.9594 12.1731 11.7292 11.6008 11.7292 10.9275H6.17318C6.17318 11.6026 5.94241 12.1754 5.48089 12.6458C5.01936 13.1163 4.45892 13.3516 3.79958 13.3516ZM3.80148 12.0565C4.11123 12.0565 4.37276 11.9475 4.58606 11.7293C4.79937 11.5113 4.90602 11.2441 4.90602 10.9275C4.90602 10.611 4.79937 10.3436 4.58606 10.1255C4.37276 9.90747 4.11123 9.79848 3.80148 9.79848C3.49173 9.79848 3.23013 9.90747 3.01668 10.1255C2.80338 10.3436 2.69673 10.611 2.69673 10.9275C2.69673 11.2441 2.80338 11.5113 3.01668 11.7293C3.23013 11.9475 3.49173 12.0565 3.80148 12.0565ZM1.26716 9.6325H1.87793C2.05773 9.31263 2.31735 9.04449 2.65681 8.82808C2.99641 8.61167 3.37797 8.50346 3.80148 8.50346C4.21401 8.50346 4.59275 8.6103 4.9377 8.82398C5.28265 9.03765 5.54502 9.30716 5.72481 9.6325H11.7618V1.91227C11.7618 1.83471 11.7374 1.77104 11.6887 1.72126C11.64 1.67147 11.5777 1.64658 11.5018 1.64658H1.52693C1.46202 1.64658 1.40246 1.67428 1.34826 1.72967C1.29419 1.78493 1.26716 1.84579 1.26716 1.91227V9.6325ZM14.1012 12.0565C14.4109 12.0565 14.6724 11.9475 14.8857 11.7293C15.0992 11.5113 15.2059 11.2441 15.2059 10.9275C15.2059 10.611 15.0992 10.3436 14.8857 10.1255C14.6724 9.90747 14.4109 9.79848 14.1012 9.79848C13.7914 9.79848 13.5298 9.90747 13.3164 10.1255C13.1031 10.3436 12.9964 10.611 12.9964 10.9275C12.9964 11.2441 13.1031 11.5113 13.3164 11.7293C13.5298 11.9475 13.7914 12.0565 14.1012 12.0565ZM13.0289 7.90581H16.8141L14.7022 5.04189C14.6752 5.00865 14.6441 4.98232 14.6089 4.96289C14.5737 4.94361 14.5344 4.93397 14.491 4.93397H13.0289V7.90581Z" fill="white"/>
+    </svg>`;
+  const CHECK_SVG = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">
+        <path d="M3.79958 13.3516C3.14009 13.3516 2.58022 13.1159 2.11996 12.6445C1.6597 12.1731 1.42957 11.6008 1.42957 10.9275H0.763464C0.547202 10.9275 0.365857 10.8528 0.21943 10.7033C0.0731432 10.5536 0 10.3683 0 10.1473V1.91227C0 1.47614 0.147835 1.10699 0.443506 0.804817C0.739176 0.502648 1.10032 0.351562 1.52693 0.351562H11.5018C11.9218 0.351562 12.2813 0.504374 12.5804 0.809997C12.8794 1.11562 13.0289 1.48305 13.0289 1.91227V3.63896H14.5073C14.749 3.63896 14.9781 3.69421 15.1945 3.80472C15.4108 3.91523 15.5889 4.06804 15.7288 4.26315L17.8473 7.16204C17.8983 7.22708 17.9365 7.29859 17.962 7.37658C17.9873 7.45472 18 7.53925 18 7.63019V10.1473C18 10.3683 17.9269 10.5536 17.7806 10.7033C17.6341 10.8528 17.4528 10.9275 17.2365 10.9275H16.4731C16.4731 11.6008 16.2422 12.1731 15.7806 12.6445C15.319 13.1159 14.7586 13.3516 14.0993 13.3516C13.4399 13.3516 12.88 13.1159 12.4196 12.6445C11.9594 12.1731 11.7292 11.6008 11.7292 10.9275H6.17318C6.17318 11.6026 5.94241 12.1754 5.48089 12.6458C5.01936 13.1163 4.45892 13.3516 3.79958 13.3516ZM3.80148 12.0565C4.11123 12.0565 4.37276 11.9475 4.58606 11.7293C4.79937 11.5113 4.90602 11.2441 4.90602 10.9275C4.90602 10.611 4.79937 10.3436 4.58606 10.1255C4.37276 9.90747 4.11123 9.79848 3.80148 9.79848C3.49173 9.79848 3.23013 9.90747 3.01668 10.1255C2.80338 10.3436 2.69673 10.611 2.69673 10.9275C2.69673 11.2441 2.80338 11.5113 3.01668 11.7293C3.23013 11.9475 3.49173 12.0565 3.80148 12.0565ZM1.26716 9.6325H1.87793C2.05773 9.31263 2.31735 9.04449 2.65681 8.82808C2.99641 8.61167 3.37797 8.50346 3.80148 8.50346C4.21401 8.50346 4.59275 8.6103 4.9377 8.82398C5.28265 9.03765 5.54502 9.30716 5.72481 9.6325H11.7618V1.91227C11.7618 1.83471 11.7374 1.77104 11.6887 1.72126C11.64 1.67147 11.5777 1.64658 11.5018 1.64658H1.52693C1.46202 1.64658 1.40246 1.67428 1.34826 1.72967C1.29419 1.78493 1.26716 1.84579 1.26716 1.91227V9.6325ZM14.1012 12.0565C14.4109 12.0565 14.6724 11.9475 14.8857 11.7293C15.0992 11.5113 15.2059 11.2441 15.2059 10.9275C15.2059 10.611 15.0992 10.3436 14.8857 10.1255C14.6724 9.90747 14.4109 9.79848 14.1012 9.79848C13.7914 9.79848 13.5298 9.90747 13.3164 10.1255C13.1031 10.3436 12.9964 10.611 12.9964 10.9275C12.9964 11.2441 13.1031 11.5113 13.3164 11.7293C13.5298 11.9475 13.7914 12.0565 14.1012 12.0565ZM13.0289 7.90581H16.8141L14.7022 5.04189C14.6752 5.00865 14.6441 4.98232 14.6089 4.96289C14.5737 4.94361 14.5344 4.93397 14.491 4.93397H13.0289V7.90581Z" fill="white"/>
+    </svg>`;
+
+  function progressBar(status){
+    const ST   = ['입금전','배송준비','배송중','배송완료'];
+    const curr = normalizeStatus(status||'');
+    const idx  = Math.max(0, ST.findIndex(s => curr.includes(s)));
+    const p    = idx / (ST.length - 1);
+
+    return `
+      <div class="trk" role="list" aria-label="배송 진행 상태" style="--p:${p}">
+        <!-- 회색/초록 레일을 부모에 1회만 그림 -->
+        <div class="trk__rail trk__rail--off" aria-hidden="true"></div>
+        <div class="trk__rail trk__rail--on"  aria-hidden="true"></div>
+
+        ${ST.map((label,i)=>`
+          <div class="trk__seg" role="listitem" aria-current="${i===idx?'step':'false'}">
+            <div class="trk__dot ${i<idx?'is-done': i===idx?'is-current':'is-todo'}">
+              ${i===idx ? (label==='배송완료' ? CHECK_SVG : TRUCK_SVG) : ''}
+            </div>
+            <div class="trk__label ${i<idx?'is-done': i===idx?'is-current':'is-todo'}">${label}</div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+
+  function render(data){
+    const steps = Array.isArray(data.steps) ? data.steps.slice().sort((a,b)=>
+      new Date(b.time||0) - new Date(a.time||0)
+    ) : [];
+
+    const status = normalizeStatus(data.status || (steps[0]?.desc || ''));
+
+    app.innerHTML = `
+      ${progressBar(status)}
+
+      <div class="delivery_list">
+        <div class="delivery_list_header">
+          <span>처리일시</span><span>현재위치</span><span>상태</span>
+        </div>
+        ${steps.length ? steps.map((s,idx)=> {
+          const [d,h] = splitTime(s.time||'');
+          return `
+            <div class="delivery_list_item ${idx===0?'is-latest':''}">
+              <div class="delivery_list_item_txt">${escapeHtml(d)}<br>${escapeHtml(h)}</div>
+              <div class="delivery_list_item_txt">${escapeHtml(s.place)}</div>
+              <div class="delivery_list_item_txt">${escapeHtml(s.desc)}</div>
+            </div>`;
+        }).join('') : `<div class="delivery_list_item_empty">표시할 이력이 없습니다.</div>`}
+      </div>
+
+      <h3 class="delivery_section_title">배송 정보</h3>
+      <div class="delivery_info_wrap">
+        <div class="delivery_info_top">
+          <div class="delivery_info">택배사 <span>${escapeHtml(courierName(data.courier))}</span></div>
+          <div class="delivery_info">송장번호 <span>${escapeHtml(data.invoice || invoice || '-')}</span></div>
+        </div>
+        <div class="line"></div>
+        <div class="delivery_info delivery_info_last">보내는 분 <span>올리오 올리바</span></div>
+      </div>
+    `;
+  }
+
+  (async function load(){
+    if (!invoice) { showError('운송장 번호가 없습니다.'); return; }
+
+    const url = new URL('/api/delivery/track', API_BASE);
+    url.searchParams.set('invoice', invoice);
+    url.searchParams.set('courier', toCourierCode(courierParam) || '08'); // 기본 롯데
+    if (demo === '1') url.searchParams.set('demo', '1');
+
+    try {
+      const res  = await fetch(url, { mode:'cors' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error || data.provider_error) {
+        showError(data.message || data.provider_error || '서버 오류');
+        return;
+      }
+      render(data);
+    } catch {
+      showError('네트워크 오류');
+    }
+  })();
+})();
+</script>
+
+<style>
+#contents {
+    padding: 16px 16px 0px 16px;
+    min-height: calc(100vh - 54px);
+}
+
+#delivery_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #F8F8F8;
+}
+
+#delivery_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#delivery_header .header_back img {
+    width: 100%;
+}
+
+#delivery_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.delivery_section_title {
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+    margin: 40px 0 12px;
+}
+
+.delivery_info_wrap {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: #FFF;
+}
+
+.delivery_info_top {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.delivery_info {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.delivery_info span {
+    color: var(--G-900, #3D3D3D);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.delivery_info_last span {
+    color: var(--Olive-Green, #1B8862);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.delivery_list {
+    display: flex;
+    width: 100%;
+    padding: 0 16px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+}
+
+.delivery_list_header {
+   display: flex;
+    padding: 16px 8px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    gap: 56px;
+    border-bottom: 1px solid var(--Gray-100, #F0F0F0);
+}
+
+.delivery_list_header span {
+    width: 33.33%;
+    color: var(--G-700, #454545);
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.delivery_list_item {
+    display: flex;
+    padding: 8px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    gap: 56px;
+    border-bottom: 1px solid var(--Gray-100, #F0F0F0);
+}
+
+.delivery_list_item_txt {
+    width: 33.33%;
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.delivery_list_item.is-latest .delivery_list_item_txt {
+    color: #1B8862;
+    font-weight: 600;
+}
+
+.trk {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: start;
+    margin: 14px 0 48px;
+}
+
+.trk__rail {
+    position: absolute;
+    top: 5px;
+    left: 50px;
+    right: 50px;
+    height: 1px;
+    border-radius: 999px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.trk__rail--off {
+    background: #ABABAB;
+}
+
+.trk__rail--on {
+    background: #1B8862;
+    width: calc(100% * var(--p) - 100px);
+}
+
+.trk__seg {
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.trk__dot {
+    position: relative;
+    z-index: 1;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.trk__dot.is-done {
+    border: 2px solid #1B8862;
+    background: #FFF;
+}
+
+.trk__dot.is-current {
+    background: #1B8862;
+    width: 34px;
+    height: 34px;
+    padding: 5px;
+    aspect-ratio: 1 / 1;
+    margin-top: -12px;
+}
+
+.trk__dot.is-todo {
+    border: 2px solid #ABABAB;
+    background: #FFF;
+}
+
+.trk__label {
+    margin-top: 17px;
+    text-align: center;
+}
+
+.trk__label.is-done {
+    color: #454545;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+}
+
+.trk__label.is-current {
+    color: #1B8862;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+    margin-top: 6px;
+}
+
+.trk__label.is-todo {
+    color: #ABABAB;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+}
+
+.delivery_content_empty {
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+}
+
+.delivery_content_empty_txt {
+    color: var(--G-500, var(--Gray-500, #888));
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+</style>

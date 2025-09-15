@@ -1,0 +1,842 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div id="magDetail"></div>
+
+<div class="detail_btn_wrap">
+  <button type="button" class="btn-like" data-id="" aria-pressed="false">
+    <span class="ico-heart"></span>
+    <span class="cnt">0</span>
+  </button>
+    <button type="button" class="btn-scrap" data-id="" aria-pressed="false">
+    <span class="ico-scrap"></span>
+    <span class="cnt">0</span>
+  </button>
+  <button type="button" class="btn-export" data-id="${id}" aria-pressed="false" title="공유하기">
+    <img src="https://olivetest.cafe24.com/web/upload/export-gray.png" alt="공유하기" />
+  </button>
+</div>
+
+<section id="relatedProducts" class="related-products" style="display:none">
+  <h3 class="rp-title">연관 상품</h3>
+  <div class="rp-list"></div>
+</section>
+
+<div id="shareSheet" class="share-sheet" hidden>
+  <div class="sheet-dim" data-close="1"></div>
+
+  <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+    <div class="sheet-grabber"></div>
+    <h3 id="shareTitle" class="sheet-title">게시글 공유하기</h3>
+
+    <div class="share-preview">
+      <div class="pv-thumb"><img id="shareThumb" alt=""></div>
+      <div class="pv-text">
+        <div id="shareCat" class="pv-cat"></div>
+        <div id="shareTitleText" class="pv-title"></div>
+      </div>
+    </div>
+
+    <ul class="share-actions">
+      <li>
+        <button type="button" id="btnCopyLink" class="act-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <mask id="mask0_2172_30489" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <rect width="24" height="24" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_2172_30489)">
+              <path d="M7.0385 16.5379C5.78283 16.5379 4.7125 16.0954 3.8275 15.2104C2.9425 14.3256 2.5 13.2554 2.5 11.9999C2.5 10.7444 2.9425 9.6741 3.8275 8.78894C4.7125 7.9036 5.78283 7.46094 7.0385 7.46094H10.0578C10.2703 7.46094 10.4483 7.53285 10.592 7.67669C10.7358 7.82052 10.8077 7.99877 10.8077 8.21144C10.8077 8.42394 10.7358 8.60202 10.592 8.74569C10.4483 8.88919 10.2703 8.96094 10.0578 8.96094H7.03725C6.19825 8.96094 5.48233 9.25744 4.8895 9.85044C4.2965 10.4434 4 11.1598 4 11.9994C4 12.8391 4.2965 13.5554 4.8895 14.1484C5.48233 14.7414 6.19825 15.0379 7.03725 15.0379H10.0578C10.2703 15.0379 10.4483 15.1099 10.592 15.2537C10.7358 15.3975 10.8077 15.5757 10.8077 15.7882C10.8077 16.0009 10.7358 16.1789 10.592 16.3224C10.4483 16.4661 10.2703 16.5379 10.0578 16.5379H7.0385ZM9 12.7494C8.7875 12.7494 8.60942 12.6775 8.46575 12.5337C8.32192 12.3899 8.25 12.2117 8.25 11.9992C8.25 11.7865 8.32192 11.6084 8.46575 11.4649C8.60942 11.3213 8.7875 11.2494 9 11.2494H15C15.2125 11.2494 15.3906 11.3214 15.5343 11.4652C15.6781 11.609 15.75 11.7872 15.75 11.9997C15.75 12.2124 15.6781 12.3904 15.5343 12.5339C15.3906 12.6776 15.2125 12.7494 15 12.7494H9ZM13.9423 16.5379C13.7298 16.5379 13.5517 16.466 13.408 16.3222C13.2642 16.1784 13.1923 16.0001 13.1923 15.7874C13.1923 15.5749 13.2642 15.3969 13.408 15.2532C13.5517 15.1097 13.7298 15.0379 13.9423 15.0379H16.9628C17.8018 15.0379 18.5177 14.7414 19.1105 14.1484C19.7035 13.5554 20 12.8391 20 11.9994C20 11.1598 19.7035 10.4434 19.1105 9.85044C18.5177 9.25744 17.8018 8.96094 16.9628 8.96094H13.9423C13.7298 8.96094 13.5517 8.88902 13.408 8.74519C13.2642 8.60135 13.1923 8.42319 13.1923 8.21069C13.1923 7.99802 13.2642 7.81994 13.408 7.67644C13.5517 7.53277 13.7298 7.46094 13.9423 7.46094H16.9615C18.2172 7.46094 19.2875 7.90344 20.1725 8.78844C21.0575 9.67327 21.5 10.7434 21.5 11.9989C21.5 13.2544 21.0575 14.3248 20.1725 15.2099C19.2875 16.0953 18.2172 16.5379 16.9615 16.5379H13.9423Z" fill="#181818"/>
+            </g>
+          </svg>
+          링크 복사하기
+        </button>
+      </li>
+      <li>
+        <button type="button" id="btnShareKakao" class="act-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12.45 18.3C17.6691 18.3 21.9 14.8746 21.9 10.65C21.9 6.4254 17.6691 3 12.45 3C7.2309 3 3 6.4254 3 10.65C3 13.3257 4.6965 15.681 7.266 17.0472L6.6 21L11.1 18.2226C11.541 18.2742 11.991 18.3 12.45 18.3Z" fill="black"/>
+            <path d="M5.70142 8.84766H8.40142M7.05142 12.8977V8.84766M8.85142 12.8977L10.4264 8.84766L12.0014 12.8977M9.30142 11.9977H11.5514M13.3514 8.84766V12.8977H15.1514M16.5014 8.84766V12.8977M16.5014 11.5477L19.2014 8.84766M17.4014 10.6477L19.2014 12.8977" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          카카오톡 공유하기
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+
+<script>
+const API_BASE = 'https://oliva.boundary.team';
+const api = {
+  detail      : id => `${API_BASE}/api/magazine-detail/${encodeURIComponent(id)}`,
+  scrapStatus : (id, uid) => `${API_BASE}/api/magazine/${id}/scrap-status${uid?`?user_uid=${encodeURIComponent(uid)}`:''}`,
+  likeStatus  : (id, uid) => `${API_BASE}/api/magazine/${id}/like-status${uid?`?user_uid=${encodeURIComponent(uid)}`:''}`,
+  scrapToggle : id => `${API_BASE}/api/magazine/${id}/scrap-toggle`,
+  likeToggle  : id => `${API_BASE}/api/magazine/${id}/like-toggle`,
+};
+const SEND_KEY = 'user_uid';
+
+const MAG_ID = new URLSearchParams(location.search).get('id') || '';
+let USER_UID = '';
+let CURRENT_CAT = '';
+let CURRENT_TITLE = '';
+let CURRENT_IMG = '';
+
+const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+const norm = s => String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/[^\p{L}\p{N}\s]/gu,'').trim();
+function abs(u){ try{ return new URL(u, location.origin).toString(); }catch(e){ return u; } }
+function absUrl(path){ try { return new URL(path, location.origin).toString(); } catch(e){ return path; } }
+function firstImgSrc(html){
+  const d = new DOMParser().parseFromString(html, 'text/html');
+  const img = d.querySelector('img');
+  if (!img) return '';
+  return img.getAttribute('src') || img.getAttribute('data-src') || img.getAttribute('data-original') || '';
+}
+
+function getUidFromCookie() {
+  try {
+    const c = document.cookie.split('; ').find(v => v.startsWith('login_provider_1='));
+    if (!c) return '';
+    const decoded = decodeURIComponent(c.split('=')[1] || '');
+    const obj = JSON.parse(decoded);
+    return String(obj?.member_id || obj?.member_no || '').trim();
+  } catch { return ''; }
+}
+
+function getUidFromAsync(timeoutMs = 3000) {
+  return new Promise(resolve => {
+    const ready = () => window.CAPP_ASYNC_METHODS && typeof CAPP_ASYNC_METHODS.IS_LOGIN !== 'undefined';
+    if (ready()) {
+      const m = window.CAPP_ASYNC_METHODS.member || {};
+      return resolve(String(m?.member_no || m?.member_id || '').trim());
+    }
+    const t0 = Date.now();
+    const iv = setInterval(() => {
+      if (ready() || Date.now() - t0 > timeoutMs) {
+        clearInterval(iv);
+        const m = (ready() && window.CAPP_ASYNC_METHODS.member) ? window.CAPP_ASYNC_METHODS.member : {};
+        resolve(String(m?.member_no || m?.member_id || '').trim());
+      }
+    }, 120);
+  });
+}
+
+async function resolveUserId() {
+  USER_UID = getUidFromCookie();
+  if (!USER_UID) USER_UID = await getUidFromAsync();
+  return USER_UID || '';
+}
+
+async function renderDetail(){
+  const $wrap = $('#magDetail');
+  if (!MAG_ID) { $wrap.html('<p>잘못된 접근입니다.</p>'); return; }
+
+  try {
+    const res  = await fetch(api.detail(MAG_ID));
+    const text = await res.text();
+    if (!res.ok) throw new Error(`detail ${res.status}`);
+    const item = JSON.parse(text);
+
+    const safe = window.DOMPurify ? DOMPurify.sanitize(item?.content || '') : (item?.content || '');
+    const hero = firstImgSrc(safe);
+
+    CURRENT_TITLE = String(item?.title || '').trim();
+    CURRENT_IMG   = hero || '';
+    CURRENT_CAT   = String(
+      item?.category_name || item?.category || item?.parent_category_name || ''
+    ).trim();
+
+    const html = `
+      <article class="mag-article">
+        <header class="mag-hero">
+          ${hero ? `<img class="hero-img" src="${hero}" alt="">` : ''}
+          <h1 class="mag-title">${esc(CURRENT_TITLE)}</h1>
+          ${item?.created_at ? `<div class="mag-date">${esc(item.created_at)}</div>` : ''}
+        </header>
+        <section class="mag-content">${safe}</section>
+      </article>`;
+    $wrap.html(html);
+
+    if (!CURRENT_CAT) {
+      const domCat = document.querySelector('.mag-meta')?.textContent?.trim();
+      if (domCat) CURRENT_CAT = domCat;
+    }
+
+    $('.detail_btn_wrap .btn-like, .detail_btn_wrap .btn-scrap, .detail_btn_wrap .btn-export')
+      .attr('data-id', MAG_ID);
+
+    const bottomBtns = document.querySelector('.detail_btn_wrap');
+    const heroEl = document.querySelector('.mag-hero');
+    if (bottomBtns && heroEl) {
+      const clone = bottomBtns.cloneNode(true);
+      heroEl.appendChild(clone);
+      clone.querySelectorAll('.btn-like, .btn-scrap, .btn-export').forEach(b=> b.setAttribute('data-id', MAG_ID));
+    }
+
+    (function trackRecent(){
+      const idNum = Number(MAG_ID)||MAG_ID;
+      const title = CURRENT_TITLE || document.title || '';
+      const img = CURRENT_IMG || document.querySelector('.mag-hero .hero-img')?.getAttribute('src') || '';
+      const key='recent_mags', max=20, now=Date.now();
+      let arr=[]; try{ arr=JSON.parse(localStorage.getItem(key)||'[]'); }catch{}
+      arr = Array.isArray(arr)?arr:[];
+      arr = arr.filter(it => String(it.id) !== String(idNum));
+      arr.unshift({ id:idNum, title, img, category:CURRENT_CAT, ts: now });
+      if (arr.length>max) arr=arr.slice(0,max);
+      localStorage.setItem(key, JSON.stringify(arr));
+    })();
+
+    renderRelatedProducts(item);
+  } catch (e) {
+    $wrap.html('<p>불러오기 실패</p>');
+  }
+}
+
+function initScrap(uid){
+  const $b = $('.btn-scrap');
+  if (!$b.length || !MAG_ID) return;
+
+  $b.attr('data-id', MAG_ID);
+  $b.find('.cnt').text('…');
+
+  fetch(api.scrapStatus(MAG_ID, uid || ''))
+    .then(r => r.ok ? r.json() : {scrapped:false, scrap_count:0})
+    .then(({scrapped, scrap_count}) => setUI(scrapped, scrap_count))
+    .catch(() => setUI(false, 0));
+
+  $(document).off('click.detail.scrap').on('click.detail.scrap', '.btn-scrap', function(e){
+    e.preventDefault();
+    if (!uid) { alert('로그인 후 이용해주세요.'); location.href='/member/login.html'; return; }
+    const payload = {}; payload[SEND_KEY] = uid;
+    $.post(api.scrapToggle(MAG_ID), payload)
+      .done(({scrapped, scrap_count}) => setUI(scrapped, scrap_count))
+      .fail(xhr => alert(`스크랩 처리에 실패했습니다. (status: ${xhr.status})`));
+  });
+
+  function setUI(on, cnt){
+    $('.btn-scrap').toggleClass('active', !!on).attr('aria-pressed', !!on)
+      .find('.cnt').text(Number(cnt)||0);
+  }
+}
+
+function initLike(uid){
+  const $b = $('.btn-like');
+  if (!$b.length || !MAG_ID) return;
+
+  $b.attr('data-id', MAG_ID);
+  $b.find('.cnt').text('…');
+
+  fetch(api.likeStatus(MAG_ID, uid || ''))
+    .then(r => r.ok ? r.json() : {liked:false, like_count:0})
+    .then(({liked, like_count}) => setUI(liked, like_count))
+    .catch(() => setUI(false, 0));
+
+  $(document).off('click.detail.like').on('click.detail.like', '.btn-like', function(e){
+    e.preventDefault();
+    if (!uid) { alert('로그인 후 이용해주세요.'); location.href='/member/login.html'; return; }
+    const payload = {}; payload[SEND_KEY] = uid;
+    $.post(api.likeToggle(MAG_ID), payload)
+      .done(({liked, like_count}) => setUI(liked, like_count))
+      .fail(xhr => alert(`좋아요 처리에 실패했습니다. (status: ${xhr.status})`));
+  });
+
+  function setUI(on, cnt){
+    $('.btn-like').toggleClass('active', !!on).attr('aria-pressed', !!on)
+      .find('.cnt').text(Number(cnt)||0);
+  }
+}
+
+async function renderRelatedProducts(detailItem){
+  const wrap = document.querySelector('#relatedProducts');
+  const list = wrap?.querySelector('.rp-list');
+  if (!wrap || !list) return;
+
+  const esc  = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  const norm = s => String(s||'').toLowerCase().replace(/\s+/g,' ').replace(/[^\p{L}\p{N}\s]/gu,'').trim();
+  const abs  = (u)=>{ try{ return new URL(u, location.origin).toString(); }catch(e){ return u; } };
+
+  const cleanLabel = (s)=> String(s||'').replace(/^\s*(상품명|제품명)\s*[:：]\s*/i,'').trim();
+
+  const names = (() => {
+    const seen = new Set(), out = [];
+    const push = n => { n=(n||'').trim(); if(!n) return; const k=norm(n); if(seen.has(k)) return; seen.add(k); out.push(n); };
+    if (Array.isArray(detailItem?.products) && detailItem.products.length) {
+      detailItem.products.forEach(p => push(p?.name));
+    } else {
+      for (let i=1;i<=4;i++) push(detailItem?.[`product${i}_name`]);
+    }
+    return out;
+  })();
+  if (!names.length) return;
+
+  const results = await Promise.all(names.map(n => resolveCafe24First(n)));
+  const filtered = results.filter(Boolean);
+  if (!filtered.length) return;
+
+  list.innerHTML = filtered.map(it => `
+    <a class="rp-item" href="${esc(it.href)}">
+      ${it.img ? `<div class="rp-thumb"><img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy"></div>` : ''}
+      <div class="rp-texts">
+        ${it.brand ? `<div class="rp-brand">${esc(it.brand)}</div>` : ''}
+        <div class="rp-name">${esc(it.name)}</div>
+      </div>
+    </a>
+  `).join('');
+  wrap.style.display = 'block';
+
+  async function resolveCafe24First(keyword){
+    try{
+      const res = await fetch(`/product/search.html?keyword=${encodeURIComponent(keyword)}`, { credentials:'same-origin' });
+      if (!res.ok) return null;
+      const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+
+      const li = doc.querySelector('.prdList li');
+      if (!li) return null;
+
+      const a   = li.querySelector('.thumbnail a[href*="/product/"]') || li.querySelector('a[href*="/product/"]');
+      if (!a) return null;
+
+      const listNameEl = li.querySelector('.description .name a, .name a') || a;
+      const listImgEl  = li.querySelector('.thumbnail img');
+      const listPriceLi= Array.from(li.querySelectorAll('.spec li')).find(el => /판매가|price/i.test(el.textContent));
+
+      let data = {
+        name : cleanLabel((listNameEl?.textContent || keyword).trim()),
+        brand: '',
+        href : abs(a.getAttribute('href')),
+        img  : listImgEl?.getAttribute('data-src') || listImgEl?.getAttribute('src') || null,
+        price: listPriceLi?.querySelector('span,strong')?.textContent?.trim() || null
+      };
+
+      try{
+        const detRes = await fetch(data.href, { credentials:'same-origin' });
+        if (detRes.ok){
+          const det = new DOMParser().parseFromString(await detRes.text(), 'text/html');
+
+          const brandEl = det.querySelector('.product_detail_brand');
+          const nameEl  = det.querySelector('.product_detail_name, .xans-product-detail .product_detail_name') || det.querySelector('h1, .prd-name');
+
+          const heroImg = det.querySelector('.detailArea img, .product-detail img, .xans-product-detail img, .content img');
+
+          const priceRow = det.querySelector('.spec li:has(span), .product-info .spec li, .xans-product-detail .spec li');
+          const priceText = Array.from(det.querySelectorAll('.spec li'))
+            .map(el => el.textContent.trim())
+            .find(t => /판매가|판매 가격|price/i.test(t));
+          const priceEl = Array.from(det.querySelectorAll('.spec li span, .spec li strong'))
+            .find(el => /[0-9]/.test(el.textContent));
+
+          if (brandEl && brandEl.textContent.trim()) data.brand = brandEl.textContent.trim();
+          if (nameEl && nameEl.textContent.trim())   data.name  = cleanLabel(nameEl.textContent.trim());
+          if (heroImg){
+            const src = heroImg.getAttribute('data-src') || heroImg.getAttribute('src');
+            if (src) data.img = src;
+          }
+          if (priceEl && priceEl.textContent.trim()) data.price = priceEl.textContent.trim();
+          else if (priceText)                        data.price = priceText.replace(/.*?:\s*/,'');
+        }
+      } catch {}
+
+      return data;
+    } catch(e) {
+      return null;
+    }
+  }
+}
+
+const KAKAO_APP_KEY = 'YOUR_KAKAO_JS_KEY';
+if (window.Kakao && !Kakao.isInitialized() && KAKAO_APP_KEY) Kakao.init(KAKAO_APP_KEY);
+
+const $sheet     = $('#shareSheet');
+const $thumb     = $('#shareThumb');
+const $titleTxt  = $('#shareTitleText');
+const $catTxt    = $('#shareCat');
+let   _shareUrl  = '';
+let   _shareImg  = '';
+let   _shareTitle= '';
+
+function openShareSheet({title, cat, img, url}){
+  _shareUrl   = url;
+  _shareImg   = img || '';
+  _shareTitle = title || '';
+
+  $titleTxt.text(_shareTitle);
+  $catTxt.text(cat || '');
+  if (_shareImg) { $thumb.attr('src', _shareImg).show(); } else { $thumb.removeAttr('src').hide(); }
+
+  $('body').addClass('body-noscr');
+  $sheet.removeAttr('hidden');
+  requestAnimationFrame(()=> $sheet.addClass('open'));
+}
+function closeShareSheet(){
+  $sheet.removeClass('open');
+  setTimeout(()=>{ $sheet.attr('hidden', true); $('body').removeClass('body-noscr'); }, 200);
+}
+
+$(document).off('click.share.open').on('click.share.open', '.btn-export', function(e){
+  e.preventDefault(); e.stopPropagation();
+
+  const id    = MAG_ID;
+  const title = CURRENT_TITLE || document.querySelector('.mag-title')?.textContent?.trim() || document.title || '';
+  const img   = CURRENT_IMG || document.querySelector('.mag-hero .hero-img')?.getAttribute('src') || '';
+  const cat   = CURRENT_CAT || document.querySelector('.mag-meta')?.textContent?.trim() || '';
+
+  const url   = absUrl(`/magazine/detail.html?id=${encodeURIComponent(id)}`);
+  openShareSheet({ title, cat, img, url });
+});
+
+$(document).off('click.share.dim').on('click.share.dim', '#shareSheet [data-close]', closeShareSheet);
+$(document).on('keydown', e => { if (e.key === 'Escape' && !$sheet.prop('hidden')) closeShareSheet(); });
+
+$('#btnCopyLink').off('click').on('click', async () => {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(_shareUrl);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = _shareUrl; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    alert('링크가 복사됐습니다.');
+    closeShareSheet();
+  } catch {
+    alert('복사에 실패했어요. 다시 시도해주세요.');
+  }
+});
+
+$('#btnShareKakao').off('click').on('click', () => {
+  if (window.Kakao && Kakao.isInitialized()) {
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: _shareTitle || 'Olive Oliva',
+        description: $catTxt.text() || '',
+        imageUrl: _shareImg || 'https://olivetest.cafe24.com/web/upload/og-default.png',
+        link: { webUrl: _shareUrl, mobileWebUrl: _shareUrl }
+      },
+      buttons: [{ title: '자세히 보기', link: { webUrl: _shareUrl, mobileWebUrl: _shareUrl } }]
+    });
+    closeShareSheet();
+    return;
+  }
+  if (navigator.share) {
+    navigator.share({ title: _shareTitle, url: _shareUrl }).catch(()=>{});
+    closeShareSheet();
+  } else {
+    const kakaoSharer = `https://sharer.kakao.com/talk/friends/picker/link?app_key=${encodeURIComponent(KAKAO_APP_KEY||'')}&short_key=`;
+    window.open(kakaoSharer, '_blank');
+  }
+});
+
+async function renderPrevNext() {
+  const CUR_ID = Number(MAG_ID || 0);
+  if (!CUR_ID) return;
+
+  let list = [];
+  try {
+    const res = await fetch(`${API_BASE}/api/magazine-list`);
+    if (!res.ok) throw new Error(res.status);
+    list = await res.json();
+  } catch (e) {
+    console.warn('[prev/next] api fail:', e);
+    return;
+  }
+  if (!Array.isArray(list) || !list.length) return;
+
+  list.sort((a, b) => Number(b.id) - Number(a.id));
+
+  const idx = list.findIndex(it => Number(it.id) === CUR_ID);
+  if (idx === -1) return;
+
+  const prevRow = list[idx + 1] || null;
+  const nextRow = list[idx - 1] || null;
+
+  const wraps = document.querySelectorAll('.detail_btn_wrap');
+  const afterEl = wraps.length ? wraps[wraps.length - 1] : document.querySelector('.detail_btn_wrap');
+  if (!afterEl) return;
+
+  let holder = document.getElementById('magPrevNext');
+  if (!holder) {
+    holder = document.createElement('section');
+    holder.id = 'magPrevNext';
+    holder.className = 'mag-prev-next';
+    afterEl.insertAdjacentElement('afterend', holder);
+  }
+
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const card = (row, label, right=false) => {
+    if (!row) return `<div class="pn-card empty${right?' right':''}"></div>`;
+    const id    = Number(row.id);
+    const title = esc(row.title || '');
+    const img   = firstImgSrc(row.content || '') || '';
+    const href  = `/magazine/detail.html?id=${id}`;
+    return `
+      <a class="pn-card${right?' right':''}" href="${href}">
+        <div class="pn-thumb">${img ? `<img src="${img}" alt="">` : ''}</div>
+        <div class="pn-meta">
+          <div class="pn-label">${label}</div>
+          <div class="pn-title">${title}</div>
+        </div>
+      </a>`;
+  };
+
+  holder.innerHTML = `
+    <div class="pn-grid">
+      ${card(prevRow, '이전글')}
+      ${card(nextRow, '다음글', true)}
+    </div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', () => setTimeout(renderPrevNext, 0));
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await renderDetail();
+  const uid = await resolveUserId(); 
+  initScrap(uid);
+  initLike(uid);
+});
+</script>
+
+<style>
+  #magDetail {
+    margin: -78px -16px;
+  }
+
+  .mag-hero {
+    position: relative;
+    height: 383px;
+  }
+
+  .mag-hero::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.10) 0%,
+        rgba(0, 0, 0, 0.50) 71.83%
+    );
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .mag-hero .detail_btn_wrap {
+    margin: 0;
+    background: none;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+    bottom: 47px;
+    z-index: 5;
+  }
+
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .mag-title {
+    overflow: hidden;
+    color: #FFF;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: -0.44px;
+    position: absolute;
+    bottom: 91px;
+    left: 20px;
+    right: 20px;
+    z-index: 5;
+  }
+
+  .mag-date {
+    color: var(--G-0, #FFF);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+    position: absolute;
+    bottom: 47px;
+    left: 20px;
+    z-index: 5;
+  }
+
+  .mag-hero .ico-heart::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('https://olivetest.cafe24.com/web/upload/favorite-white.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+  }
+
+  .mag-hero .ico-scrap::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('https://olivetest.cafe24.com/web/upload/bookmark-white.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+  }
+
+  .mag-hero .btn-like.on .ico-heart::before,
+  .mag-hero .btn-like[aria-pressed="true"] .ico-heart::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('https://olivetest.cafe24.com/web/upload/favorite-fill-trans.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+  }
+
+  .mag-hero .btn-scrap.on .ico-scrap::before,
+  .mag-hero .btn-scrap[aria-pressed="true"] .ico-scrap::before {
+    content: "";
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('https://olivetest.cafe24.com/web/upload/bookmark-fill-trans.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: middle;
+  }
+
+  .mag-hero .cnt {
+    color: var(--G-0, #FFF);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+  }
+
+  .mag-hero .btn-export {
+    display: none;
+  }
+
+  .mag-content {
+    padding: 40px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background-color: #FFF;
+    margin-top: -16px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    position: relative;
+
+  }
+
+  .mag-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .detail_btn_wrap {
+    margin: 78px -16px 0 -16px;
+    background-color: #FFF;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .btn-scrap,
+  .btn-like {
+    border: none;
+  }
+
+  .cnt {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.24px;
+  }
+
+  .btn-export {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    aspect-ratio: 1/1;
+  }
+
+  .btn-export img {
+      width: 100%;
+  }
+
+  .related-products {
+      margin-top: 38px;
+  }
+
+  .related-products .rp-title {
+    color: #181818;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 26px;
+    letter-spacing: -0.4px;
+    margin-bottom: 16px;
+  }
+
+  .related-products .rp-list {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+  }
+
+  .rp-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+  }
+
+  .rp-thumb {
+    aspect-ratio: 1/1;
+    background: #f6f6f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 62px;
+    height: 62px;
+  }
+
+  .rp-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 6px;
+  }
+
+  .rp-brand {
+    color: #6D6D6D;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.024px;
+  }
+
+  .rp-name {
+    overflow: hidden;
+    color: #181818;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px; /* 150% */
+    letter-spacing: -0.028px;
+  }
+
+  .rp-price {
+    display: none;
+  }
+.mag-prev-next {
+  margin-top: 24px;
+}
+
+.mag-prev-next .pn-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.mag-prev-next .pn-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  min-width: 0;
+}
+
+.mag-prev-next .pn-card.empty {
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.mag-prev-next .pn-thumb {
+  width: 100%;
+  height: 114px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+.mag-prev-next .pn-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mag-prev-next .pn-meta {
+  margin-top: 12px;
+}
+
+.mag-prev-next .pn-label {
+  color: var(--G-500, var(--Gray-500, #888));
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 145.455% */
+  letter-spacing: -0.22px;
+  margin-bottom: 2px;
+}
+
+.mag-prev-next .pn-title {
+  overflow: hidden;
+  color: #181818;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* SB 14 */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.28px;
+  }
+
+  .pn-card.right .pn-label,
+  .pn-card.right .pn-title {
+    text-align: right;
+  }
+</style>

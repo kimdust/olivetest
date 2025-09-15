@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=yes">
+    <title>주문완료</title>
+    <!--@css(/layout/basic/css/form_onetouch.css)-->
+    <!--@css(/css/module/order/ec_orderform/form_onetouch.css)-->
+    <!-- 사용자 스타일 수정이 필요한 경우, 신규 CSS 파일을 추가하여 #userStyle #mCafe24Order { } 셀렉터로 처리 가능합니다. -->
+
+    <!-- 스마트디자인에서는 JQuery 1.4.4 버전이 내장되어있습니다. 추가로 호출하면 충돌이 생길 수 있습니다. -->
+    <!--@js(/layout/basic/js/common.js)-->
+    <!--@js(/js/module/order/ec_orderform/orders.js)-->
+</head>
+<body id="userStyle">
+
+<div id="mCafe24Order" class="typeHeader" module="Order_result" unroll="1">
+    <!-- 이값은 지우면 안되는 값입니다.
+        $product_weight_display=F
+    -->
+        <div class="order_done_wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="49" height="48" viewBox="0 0 49 48" fill="none">
+            <path d="M20.948 29.3656L15.1405 23.5575C14.7942 23.2117 14.359 23.0346 13.8348 23.0263C13.3111 23.0183 12.868 23.1954 12.5055 23.5575C12.1434 23.92 11.9623 24.3592 11.9623 24.875C11.9623 25.3908 12.1434 25.83 12.5055 26.1925L19.3661 33.0531C19.8182 33.5048 20.3455 33.7306 20.948 33.7306C21.5505 33.7306 22.0778 33.5048 22.5298 33.0531L36.4386 19.1444C36.7844 18.7981 36.9615 18.3629 36.9698 17.8387C36.9778 17.315 36.8007 16.8719 36.4386 16.5094C36.0761 16.1473 35.6369 15.9663 35.1211 15.9663C34.6053 15.9663 34.1661 16.1473 33.8036 16.5094L20.948 29.3656ZM24.5005 47.75C21.2155 47.75 18.1278 47.1267 15.2373 45.88C12.3469 44.6333 9.83276 42.9415 7.69484 40.8044C5.55693 38.6673 3.86422 36.1542 2.61672 33.265C1.36963 30.3758 0.746094 27.289 0.746094 24.0044C0.746094 20.7194 1.36943 17.6317 2.61609 14.7412C3.86276 11.8508 5.55464 9.33667 7.69172 7.19875C9.8288 5.06083 12.3419 3.36812 15.2311 2.12062C18.1203 0.873541 21.2071 0.25 24.4917 0.25C27.7767 0.25 30.8644 0.873332 33.7548 2.12C36.6453 3.36667 39.1594 5.05854 41.2973 7.19563C43.4353 9.33271 45.128 11.8458 46.3755 14.735C47.6226 17.6242 48.2461 20.711 48.2461 23.9956C48.2461 27.2806 47.6228 30.3683 46.3761 33.2588C45.1294 36.1492 43.4376 38.6633 41.3005 40.8013C39.1634 42.9392 36.6503 44.6319 33.7611 45.8794C30.8719 47.1265 27.7851 47.75 24.5005 47.75Z" fill="#1B8862"/>
+            </svg>
+            <h3>주문이 완료되었습니다.</h3>
+            <p>주문해 주셔서 감사합니다.</p>
+        </div>
+
+    <div class="ec-base-button gColumn">
+        <a href="/" class="btnSubmit">메인으로</a>
+        <a href="/myshop/order/list.html" class="btnEm">배송/주문 현황</a>
+    </div>
+</div>
+
+<style>
+    .order_done_wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .order_done_wrap h3 {
+        color: var(--G-900, #181818);
+        text-align: center;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 26px; /* 144.444% */
+        letter-spacing: -0.36px;
+        margin: 8px 0 4px;
+    }
+
+    .order_done_wrap p {
+        color: var(--G-500, var(--Gray-500, #888));
+        text-align: center;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: -0.28px;
+    }
+
+    .ec-base-button {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        display: flex;
+        width: calc(100% - 32px);
+        padding: 16px 16px 32px 16px;
+        align-items: center;
+        gap: 8px;
+        background: var(--G-0, #FFF);
+        box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+        margin: 0 !important;
+    }
+
+    #userStyle #mCafe24Order .btnSubmit {
+        display: flex;
+        height: 48px;
+        padding: 12px 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        flex: 1 0 0;
+        border-radius: 8px;
+        background: var(--Gray-800, #393939);
+        color: var(--G-0, #FFF);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px; /* 150% */
+        letter-spacing: -0.32px;
+        margin: 0 !important;
+        border: none !important;
+    }
+
+    .btnEm {
+        display: flex;
+        height: 48px;
+        padding: 12px 16px !important;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        flex: 1 0 0;
+        margin: 0 !important;
+        border-radius: 8px;
+        background: var(--Olive-Green, #1B8862) !important;
+        color: var(--G-0, #FFF) !important;
+        font-size: 16px !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        line-height: 24px !important; /* 150% */
+        letter-spacing: -0.32px !important;
+        border: none !important;
+    }
+</style>
+</body>
+</html>

@@ -1,0 +1,868 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="section" module="board_writePackage_9">
+    <!--@css(/css/module/board/writePackage_9.css)-->
+    <div class="qna_tab">
+        <a class="qna_write active" href="/board/consult/write.html">문의하기</a>
+        <a class="qna_list" href="/myshop/board_list.html">문의 내역</a>
+    </div>
+
+    <div module="board_write_9">
+        <!--
+            $write_success_url = /board/consult/list.html
+            $login_page_url = /member/login.html
+        -->
+        <div class="ec-base-table typeWrite">
+            <table border="0" >
+            <colgroup>
+                <col style="width:100%;" />
+                <col style="width:100%;" />
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th scope="row" style="margin-top: 20px;">문의 유형<span class="required">*</span></th>
+                    <td>{$form.board_category}</td>
+                    </tr>
+
+                    <tr>
+                    <th scope="row">문의 내용<span class="required">*</span></th>
+                    <td>
+                        {$form.subject}
+                        {$form.content}
+                    </td>
+                </tr>
+            </tbody>
+
+            <tbody class="{$config.use_attach|display}" style="margin-top: 32px;">
+                <tr class="file">
+                    <th scope="row">사진 업로드<span class="no_required">(선택)</span></th>
+                    <td>{$form.attach_file}{$form.attach_file}{$form.attach_file}{$form.attach_file}{$form.attach_file}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        <div class="file_info">
+            <p class="file_info_txt">상품 불량 및 오배송의 경우, 해당 제품 사진을 등록 부탁드립니다.</p>
+            <p class="file_info_txt"><span>첨부파일의 용량은 최대 10MB</span>까지 등록할 수 있습니다.</p>
+            <p class="file_info_txt_small">(파일 크기가 3MB인 경우 최대 3개까지 업로드 가능)</p>
+        </div>
+
+        <div class="ec-base-button gBottom">
+            <span class="gRight">
+                <a href="#none" onclick="{$action_write}" class="btnSubmitFix sizeM">등록</a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div id="fileLimitModal" class="c-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="c-modal__backdrop" data-close></div>
+  <div class="c-modal__panel" role="document">
+    <div class="c-modal__content">
+      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="23" viewBox="0 0 26 23" fill="none">
+        <path d="M1.70156 22.128C1.47556 22.128 1.27256 22.0728 1.09256 21.9623C0.912556 21.8519 0.772668 21.7062 0.67289 21.5253C0.56889 21.3458 0.511668 21.1513 0.501223 20.942C0.490779 20.7327 0.547223 20.5253 0.670556 20.32L12.0849 0.602667C12.2084 0.397334 12.3629 0.245557 12.5482 0.147335C12.7338 0.0491126 12.9291 0 13.1342 0C13.3393 0 13.5347 0.0491126 13.7202 0.147335C13.9056 0.245557 14.06 0.397334 14.1836 0.602667L25.5979 20.32C25.7212 20.5253 25.7777 20.7327 25.7672 20.942C25.7568 21.1513 25.6996 21.3458 25.5956 21.5253C25.4958 21.7062 25.3559 21.8519 25.1759 21.9623C24.9959 22.0728 24.7929 22.128 24.5669 22.128H1.70156ZM13.1342 18.5383C13.4393 18.5383 13.6951 18.4351 13.9016 18.2287C14.108 18.0222 14.2112 17.7664 14.2112 17.4613C14.2112 17.1562 14.108 16.9004 13.9016 16.694C13.6951 16.4876 13.4393 16.3843 13.1342 16.3843C12.8291 16.3843 12.5733 16.4876 12.3669 16.694C12.1604 16.9004 12.0572 17.1562 12.0572 17.4613C12.0572 17.7664 12.1604 18.0222 12.3669 18.2287C12.5733 18.4351 12.8291 18.5383 13.1342 18.5383ZM13.1346 15.051C13.4181 15.051 13.6556 14.9552 13.8469 14.7637C14.0384 14.5719 14.1342 14.3343 14.1342 14.051V9.38433C14.1342 9.101 14.0383 8.86356 13.8466 8.672C13.6548 8.48022 13.4172 8.38433 13.1339 8.38433C12.8503 8.38433 12.6129 8.48022 12.4216 8.672C12.23 8.86356 12.1342 9.101 12.1342 9.38433V14.051C12.1342 14.3343 12.2301 14.5719 12.4219 14.7637C12.6137 14.9552 12.8512 15.051 13.1346 15.051Z" fill="#ABABAB"/>
+      </svg>
+      <p class="c-modal_text_strong">사진 용량을 확인해주세요</p>
+      <p class="c-modal_text">3MB 이하 사진 첨부 바랍니다.</p>
+      <!-- <p id="fileSizeModalMsg"></p> -->
+      <button type="button" class="c-modal__btn" data-close>확인</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const modal=document.getElementById('fileLimitModal');
+  let last=null;
+  function open(){ if(!modal) return; last=document.activeElement; modal.classList.add('is-open'); modal.setAttribute('aria-hidden','false'); modal.querySelector('[data-close]')?.focus(); }
+  function close(){ if(!modal) return; modal.classList.remove('is-open'); modal.setAttribute('aria-hidden','true'); last?.focus(); }
+  window.openFileLimitModal = open;
+  modal?.addEventListener('click',e=>{ if(e.target.matches('[data-close],.c-modal__backdrop')) close(); });
+  document.addEventListener('keydown',e=>{ if(modal?.classList.contains('is-open')&&(e.key==='Escape'||e.key==='Esc')) close(); });
+})();
+
+(function(){
+  const MAX_BYTES = 3 * 1024 * 1024;
+
+  function purgePreviewFor(input){
+    const td = input.closest('td');
+    td?.querySelectorAll('.file-list').forEach(el=> el.innerHTML='');
+  }
+
+  function checkAndBlock(input){
+    const f = input.files && input.files[0];
+    if(!f) return;
+    if(f.size > MAX_BYTES){
+      (window.openSizeModal || window.openFileLimitModal || alert)();
+      input.value = '';
+      purgePreviewFor(input);
+    }
+  }
+
+  function bindAll(){
+    document.querySelectorAll('tr.file input[type="file"]').forEach(inp=>{
+      if(inp.__sizeBound) return;
+      inp.__sizeBound = true;
+      inp.addEventListener('change', ()=>checkAndBlock(inp), true);
+    });
+  }
+  document.addEventListener('DOMContentLoaded', bindAll);
+
+  document.addEventListener('change', function(e){
+    const t = e.target;
+    if(t && t.matches && t.matches('tr.file input[type="file"]')){
+      checkAndBlock(t);
+    }
+  }, true);
+
+  const mo = new MutationObserver(()=>bindAll());
+  mo.observe(document.body, {subtree:true, childList:true});
+})();
+
+(function () {
+  function enhanceSelect(select, { placeholder = '카테고리를 선택해 주세요' } = {}) {
+    if (!select || select.__enhanced) return;
+    select.__enhanced = true;
+
+    select.classList.add('select-visually-hidden');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cs-wrap';
+    wrap.setAttribute('data-target', select.id || '');
+    wrap.style.position = 'relative';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'cs-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    const label = document.createElement('span');
+    label.className = 'cs-label';
+
+    const icon = document.createElement('div');
+    icon.classList.add('cs-icon');
+    icon.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M17.0061 9.70006L11.6984 15.0078L6.39062 9.70006L7.09838 8.99231L11.6984 13.5923L16.2984 8.99231L17.0061 9.70006Z" fill="#393939"/>
+    </svg>`;
+    trigger.appendChild(label);
+    trigger.appendChild(icon);
+
+    const list = document.createElement('div');
+    list.className = 'cs-list';
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('tabindex', '-1');
+
+    const group = document.createElement('div');
+    group.className = 'cs-group';
+    list.appendChild(group);
+
+    const options = Array.from(select.options);
+    const buttons = options.map(opt => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cs-opt';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-value', opt.value);
+      btn.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+      btn.innerHTML = `<span>${opt.textContent}</span>`;
+      btn.addEventListener('click', () => { setValue(opt.value, true); close(); trigger.focus(); });
+      return btn;
+    });
+    buttons.forEach(b => group.appendChild(b));
+
+    wrap.appendChild(trigger);
+    wrap.appendChild(list);
+    select.parentNode.insertBefore(wrap, select.nextSibling);
+
+    function refreshLabel() {
+      const selectedOpt = select.selectedOptions[0];
+      label.textContent = selectedOpt ? selectedOpt.textContent : placeholder;
+      label.style.color = (selectedOpt && selectedOpt.value !== '') ? '#3D3D3D' : '#ABABAB';
+      buttons.forEach(b => b.setAttribute('aria-selected', b.getAttribute('data-value') === select.value ? 'true' : 'false'));
+    }
+    function open(){ wrap.classList.add('open'); trigger.setAttribute('aria-expanded','true'); group.style.display='block'; }
+    function close(){ wrap.classList.remove('open'); trigger.setAttribute('aria-expanded','false'); group.style.display='none'; }
+    function toggle(){ wrap.classList.contains('open') ? close() : open(); }
+    function setValue(value, emit){
+      if (select.value !== value){ select.value = value; if (emit) select.dispatchEvent(new Event('change',{bubbles:true})); }
+      refreshLabel();
+    }
+
+    trigger.addEventListener('click', toggle);
+    select.addEventListener('change', refreshLabel);
+    refreshLabel();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const sel = document.getElementById('board_category');
+    if (sel) enhanceSelect(sel, { placeholder: '카테고리를 선택해 주세요' });
+  });
+})();
+
+(function () {
+  const PAPERCLIP_SVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <path d="M9.977 4.342C11.21 3.111 12.688 2.492 14.41 2.486c1.722-.006 3.198.606 4.427 1.837 1.229 1.231 1.84 2.709 1.834 4.433-.006 1.724-.626 3.202-1.859 4.433L11.986 20.006c-.876.875-1.924 1.314-3.145 1.318-1.221.004-2.268-.432-3.143-1.308-.874-.876-1.309-1.924-1.304-3.145.006-1.221.447-2.268 1.323-3.143l6.461-6.451c.514-.513 1.131-.772 1.852-.777.721-.005 1.339.249 1.852.764.514.514.772 1.134.774 1.858.002.724-.256 1.345-.775 1.863l-6.096 6.086c-.161.161-.35.242-.568.242s-.408-.081-.569-.242a.8.8 0 0 1-.241-.571c.001-.218.082-.407.243-.568l6.096-6.086c.203-.203.306-.443.309-.719.002-.275-.098-.515-.301-.718-.203-.203-.442-.303-.718-.3-.275.003-.515.106-.719.309L6.847 14.873c-.553.567-.833 1.236-.841 2.006-.008.77.269 1.436.83 1.999.559.56 1.228.838 2.005.834.778-.004 1.447-.286 2.008-.846l6.826-6.816c.926-.909 1.39-2.005 1.392-3.29.002-1.285-.455-2.386-1.371-3.303-.903-.904-1.992-1.351-3.268-1.342-1.275.009-2.379.464-3.312 1.365l-6.46 6.451Z" fill="#454545"/>
+  </svg>`;
+
+  const FILE_SVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M4.537 14.667c-.337 0-.622-.117-.855-.35A1.19 1.19 0 0 1 3.332 13.462V3.205c0-.337.117-.622.35-.855.233-.233.518-.35.855-.35H9.333c.161 0 .315.031.463.093.148.062.277.148.387.258l2.797 2.797c.11.11.196.239.258.387.062.148.093.303.093.463v7.463c0 .337-.117.622-.35.855-.233.233-.518.35-.855.35H4.537ZM9.332 5.397V3H4.537c-.051 0-.098.021-.141.064A.2.2 0 0 0 4.332 3.205v10.256c0 .051.021.098.064.141.043.043.09.064.141.064h7.59c.051 0 .098-.021.141-.064.043-.043.064-.09.064-.141V6H9.935c-.172 0-.316-.057-.431-.172a.61.61 0 0 1-.172-.431Z" fill="#454545"/>
+  </svg>`;
+
+  const OPEN_SVG = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M11.0563 5.7025L4.8345 11.918C4.74217 12.0102 4.62617 12.0553 4.4865 12.0532C4.34672 12.0511 4.23067 12.0038 4.13833 11.9115C4.04611 11.8192 4 11.7042 4 11.5667C4 11.4291 4.04611 11.3142 4.13833 11.2218L10.3538 5H4.88967C4.748 5 4.62922 4.95206 4.53333 4.85617C4.43756 4.76028 4.38967 4.6415 4.38967 4.49983C4.38967 4.35806 4.43756 4.23933 4.53333 4.14367C4.62922 4.04789 4.748 4 4.88967 4H11.4537C11.6244 4 11.7676 4.05772 11.883 4.17317C11.9986 4.28872 12.0563 4.43183 12.0563 4.6025V11.1667C12.0563 11.3083 12.0084 11.4271 11.9125 11.5228C11.8166 11.6187 11.6978 11.6667 11.5562 11.6667C11.4144 11.6667 11.2956 11.6187 11.1998 11.5228C11.1042 11.4271 11.0563 11.3083 11.0563 11.1667V5.7025Z" fill="#767676"/>
+  </svg>`;
+
+  function formatSize(bytes){ if(bytes===0) return '0KB'; const kb=bytes/1024; if(kb<1024) return `${Math.round(kb)}KB`; const mb=kb/1024; return `${(Math.round(mb*10)/10).toFixed(1)}MB`; }
+
+  function enhanceOne(input){
+    if (!input || input.__enhanced) return;
+    input.__enhanced = true;
+    input.classList.add('file-input--visually-hidden');
+
+    const box   = document.createElement('div'); box.className='upload-box';
+    const field = document.createElement('button'); field.type='button'; field.className='upload-field'; field.setAttribute('aria-label','파일 선택');
+    field.innerHTML = `<span class="upload-placeholder">파일을 등록해주세요.</span><span class="upload-icon">${PAPERCLIP_SVG}</span>`;
+    const list  = document.createElement('div'); list.className='file-list';
+
+    input.parentNode.insertBefore(box, input.nextSibling);
+    box.appendChild(field); box.appendChild(list);
+
+    field.addEventListener('click', () => input.click());
+    field.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); input.click(); } });
+
+    let currentBlobUrl=null;
+    function revoke(){ if(currentBlobUrl){ URL.revokeObjectURL(currentBlobUrl); currentBlobUrl=null; } }
+    window.addEventListener('beforeunload', revoke);
+
+    function render(){
+      list.innerHTML=''; revoke();
+      const file = input.files && input.files[0]; if(!file) return;
+      currentBlobUrl = URL.createObjectURL(file);
+      const pill = document.createElement('div');
+      pill.className='file-pill';
+      pill.innerHTML = `<span class="file-icon">${FILE_SVG}</span><span class="file-name">${file.name}</span><span class="file-size">(${formatSize(file.size)})</span><a class="file-open" href="${currentBlobUrl}" target="_blank" rel="noopener" aria-label="새 창에서 파일 열기">${OPEN_SVG}</a>`;
+      list.appendChild(pill);
+    }
+    input.addEventListener('change', render);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('tr.file input[type="file"]').forEach(enhanceOne);
+  });
+})();
+
+(function () {
+  const API_TIMEOUT = 8000;
+  const $ = (s,r=document)=>r.querySelector(s);
+  const escAttr = s => String(s||'').replace(/"/g,'&quot;');
+  const TA_SEL = '#content, textarea[name="content"]';
+
+  function getParams(){
+    const p = new URLSearchParams(location.search);
+    return {
+      no:   (p.get('prno')||'').trim(),
+      name: (p.get('prname')||'').trim(),
+      brand:(p.get('prbrand')||'').trim(),
+      img:  (p.get('primg')||'').trim(),
+      url:  (p.get('prurl')||'').trim()
+    };
+  }
+
+  async function fetchDoc(url){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), API_TIMEOUT);
+    try{
+      const res = await fetch(url, {credentials:'include', signal:ctrl.signal});
+      if(!res.ok) throw new Error(res.status);
+      const html = await res.text();
+      return new DOMParser().parseFromString(html,'text/html');
+    }catch{ return null; } finally{ clearTimeout(t); }
+  }
+
+  async function hydrate(info){
+    if (!info.url) info.url = info.no ? `/product/detail.html?product_no=${encodeURIComponent(info.no)}` : '';
+    if (!info.url) return info;
+    const doc = await fetchDoc(info.url);
+    if (!doc) return info;
+    info.brand = info.brand || (doc.querySelector('.product_detail_brand')?.textContent||'').trim();
+    info.img   = info.img   || doc.querySelector('.product_img_box img')?.getAttribute('src')
+                          || doc.querySelector('meta[property="og:image"]')?.getAttribute('content') || '';
+    return info;
+  }
+
+  function upsertHead(html, className){
+    const ta = $(TA_SEL);
+    if (!ta) return;
+    ta.value = ta.value
+      .replace(new RegExp(`<div\\s+class="[^"]*${className}[^"]*"[\\s\\S]*?<\\/div>\\s*\\n?`, 'g'), '')
+      .replace(/<!--\s*lp\s+[^>]*-->\s*\n?/g, '')
+      .trimStart();
+    ta.value = `${html}\n` + ta.value;
+  }
+
+  function injectProductMarkers(info){
+    if (!info.no && !info.name) return;
+    const div =
+      `<div class="linked-product-box" data-lp="product"` +
+      ` data-prno="${escAttr(info.no)}"` +
+      ` data-prname="${escAttr(info.name)}"` +
+      ` data-prbrand="${escAttr(info.brand)}"` +
+      ` data-primg="${escAttr(info.img)}"` +
+      ` data-prurl="${escAttr(info.url)}"></div>`;
+    const comment =
+      `<!-- lp prno="${escAttr(info.no)}" prname="${escAttr(info.name)}" prbrand="${escAttr(info.brand)}" primg="${escAttr(info.img)}" prurl="${escAttr(info.url)}" -->`;
+
+    upsertHead(`${div}\n${comment}`, 'linked-product-box');
+  }
+
+  function syncHiddenCategory(){
+    const sel = document.getElementById('board_category');
+    const cat = sel && (sel.selectedOptions?.[0]?.textContent || sel.value || '').trim();
+    const form = $('form');
+    if (!form || !cat) return;
+    let i = form.querySelector('input[name="ext_category"]');
+    if (!i) { i = document.createElement('input'); i.type='hidden'; i.name='ext_category'; form.appendChild(i); }
+    i.value = cat;
+  }
+
+  function bindSubmit(info){
+    const form = $('form');
+    const btn  = document.querySelector('.btnSubmitFix,[onclick*="action_write"]');
+    const run  = () => { injectProductMarkers(info); syncHiddenCategory(); };
+
+    if (form) form.addEventListener('submit', () => setTimeout(run, 0));
+    if (btn)  btn.addEventListener('click', () => setTimeout(run, 0), true);
+  }
+
+  function renderPreview(info){
+    const host = document.querySelector('.ec-base-table') || document.body;
+    const box = document.createElement('div');
+    box.className = 'linked-product-card';
+    box.innerHTML = `
+      <div class="lp-thumb">${info.img ? `<img src="${info.img}" alt="">` : ''}</div>
+      <div class="lp-meta">
+        ${info.brand ? `<div class="lp-brand">${info.brand}</div>` : ''}
+        <div class="lp-name">${info.name}</div>
+      </div>`;
+    host.parentNode.insertBefore(box, host);
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    let info = getParams();
+    if (!info.no && !info.name) return;
+    info = await hydrate(info);
+    renderPreview(info);
+    bindSubmit(info);
+  });
+
+})();
+
+(function () {
+  function getCatText() {
+    const sel = document.getElementById('board_category');
+    if (!sel) return '';
+    const opt = sel.selectedOptions && sel.selectedOptions[0];
+    return (opt ? opt.textContent : sel.value || '').trim();
+  }
+
+  function prefixSubjectOnce() {
+    const cat = getCatText();
+    if (!cat) return;
+
+    const subj = document.getElementById('subject') || document.querySelector('[name="subject"]');
+    if (!subj) return;
+
+    const v = (subj.value || '').trim();
+    if (/^\[[^\]]+\]\s*/.test(v)) return;
+
+    subj.value = `[${cat}] ${v}`;
+  }
+
+  function bindSubmit() {
+    const form = document.querySelector('form');
+    const btn  = document.querySelector('.btnSubmitFix,[onclick*="action_write"]');
+
+    const run = () => {
+      prefixSubjectOnce();
+      setTimeout(prefixSubjectOnce, 0);
+    };
+
+    if (form) form.addEventListener('submit', run, true);
+    if (btn)  btn.addEventListener('click', run, true);
+  }
+
+  document.addEventListener('DOMContentLoaded', bindSubmit);
+})();
+</script>
+
+<style>
+#qna_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #FFF;
+}
+
+#qna_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#qna_header .header_back img {
+    width: 100%;
+}
+
+#qna_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+tr {
+    display: flex;
+    flex-direction: column;
+}
+
+th {
+    text-align: left;
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+}
+
+.required {
+    color: var(--Point, #F46200);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.32px;
+    margin-left: 2px;
+}
+
+td {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 12px;
+    background: var(--G-0, #FFF);
+    margin-top: 12px;
+}
+
+#subject {
+    width: calc(100% - 32px);
+    margin-left: 16px;
+}
+
+.fr-box {
+    width: calc(100% - 32px);;
+}
+
+.ec-froala-theme .fr-toolbar.fr-top {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border: 1px solid #D9D9D9 !important;
+}
+
+.fr-wrapper {
+    border-left: 1px solid #D9D9D9 !important;
+    border-right: 1px solid #D9D9D9 !important;
+}
+
+.second-toolbar {
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+    border: 1px solid #D9D9D9 !important;
+}
+
+.select-visually-hidden {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+.cs-wrap {
+    width: calc(100% - 32px);
+}
+
+.cs-list {
+    overflow-y: auto;
+}
+
+.ec-base-button {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    padding: 16px 16px 32px 16px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    background: var(--G-0, #FFF);
+    box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+    z-index: 999;
+}
+
+.gRight {
+    width: 100%;
+}
+
+.btnSubmitFix {
+    display: flex;
+    width: 100%;
+    height: 48px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: #1B8862;
+    color: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+    border: none;
+}
+
+.file-input--visually-hidden {
+    position: absolute !important;
+    inset-inline-start: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.upload-box {
+    width: calc(100% - 32px);
+}
+
+.upload-field {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border: 1px solid #D9D9D9;
+    background: #fff;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.upload-field:focus-visible {
+    outline: none;
+    border-color: #1E8A61;
+    box-shadow: 0 0 0 3px rgba(30,138,97,.12);
+}
+
+.upload-placeholder {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.upload-icon {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 0;
+}
+
+.file-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 10px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.file-list:not(:empty) {
+  margin-top: 12px; /* 파일 들어왔을 때만 */
+}
+
+.file-icon {
+    display:inline-flex;
+    width:18px;
+    height:18px;
+}
+
+.file-name,
+.file-size {
+    color: var(--G-700, #454545);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: -0.22px;
+}
+
+.file-remove {
+    margin-left: auto;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: #F0F0F0;
+    color: #333;
+    cursor: pointer;
+}
+
+.file-remove:focus-visible {
+    outline: 2px solid #1E8A61;
+    outline-offset: 2px;
+}
+
+.file-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qna_tab {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    background: #FFF;
+    margin: -16px -16px 0;
+}
+
+.qna_write, .qna_list {
+    display: flex;
+    width: 50%;
+    height: 48px;
+    padding: 14px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    color: var(--G-600, var(--Gray-600, #767676));
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.qna_write.active {
+    border-bottom: 2px solid var(--Olive-Green, #1B8862);
+    color: var(--Olive-Green, #1B8862);
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.no_required {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    margin-left: 2px;
+}
+
+.file_info {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.file_info .file_info_txt,
+.file_info .file_info_txt_small {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.file_info .file_info_txt::before {
+    content: "•";
+    display: inline-block;
+    margin-right: 4px;
+    transform: translateY(-0.5px);
+}
+
+.file_info .file_info_txt_small {
+    margin-left: 10px;
+}
+
+.file_info .file_info_txt span {
+    color: var(--Discount-Red, var(--Discount-Red, #F44336));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+.linked-product-card {
+    margin-top: 20px;
+    display: flex;
+    background-color: #FFF;
+    border-radius: 12px;
+    padding: 12px 16px;
+    align-items: center;
+    gap: 12px;
+}
+
+.lp-thumb {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    aspect-ratio: 1/1;
+}
+
+.lp-thumb img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+}
+
+.lp-brand {
+    color: var(--G-500, var(--Gray-500, #888));
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: -0.22px;
+}
+
+.lp-name {
+    color: var(--G-900, #181818);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lp-name span {
+    display: none;
+}
+
+.c-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999
+}
+.c-modal.is-open{
+  display:flex
+}
+.c-modal__backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.5)
+}
+.c-modal__panel{
+  position:relative;
+  z-index:1;
+  background:#fff;
+  border-radius:10px;
+  width: 295px;
+  padding: 20px 16px 16px 16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.18)
+}
+.c-modal__content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.c-modal_text_strong{
+  color: var(--G-900, #181818);
+  text-align: center;
+  /* SB 18 */
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 26px; /* 144.444% */
+  letter-spacing: -0.36px;
+}
+.c-modal_text{
+  color: var(--G-500, var(--Gray-500, #888));
+  text-align: center;
+  /* R 14 */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.28px;
+}
+.c-modal__btn{
+  margin-top: 18px;
+  padding:8px 14px;
+  border:0;
+  border-radius:8px;
+  width: 100%;
+  height: 48px;
+  background: var(--Olive-Green, #1B8862);color:#fff;cursor:pointer
+  }
+</style>

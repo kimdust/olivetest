@@ -1,0 +1,51 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="member_findpasswdresult" class="memberArea">
+    <!--@css(/css/module/member/find_passwd_result.css)-->
+    <div class="ec-base-box typeMember">
+        <div class="complete">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
+                <mask id="mask0_3508_15366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="60" height="60">
+                    <rect width="60" height="60" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_3508_15366)">
+                    <path d="M26.448 35.3656L20.6405 29.5575C20.2942 29.2117 19.859 29.0346 19.3348 29.0263C18.8111 29.0183 18.368 29.1954 18.0055 29.5575C17.6434 29.92 17.4623 30.3592 17.4623 30.875C17.4623 31.3908 17.6434 31.83 18.0055 32.1925L24.8661 39.0531C25.3182 39.5048 25.8455 39.7306 26.448 39.7306C27.0505 39.7306 27.5778 39.5048 28.0298 39.0531L41.9386 25.1444C42.2844 24.7981 42.4615 24.3629 42.4698 23.8387C42.4778 23.315 42.3007 22.8719 41.9386 22.5094C41.5761 22.1473 41.1369 21.9663 40.6211 21.9663C40.1053 21.9663 39.6661 22.1473 39.3036 22.5094L26.448 35.3656ZM30.0005 53.75C26.7155 53.75 23.6278 53.1267 20.7373 51.88C17.8469 50.6333 15.3328 48.9415 13.1948 46.8044C11.0569 44.6673 9.36422 42.1542 8.11672 39.265C6.86963 36.3758 6.24609 33.289 6.24609 30.0044C6.24609 26.7194 6.86943 23.6317 8.11609 20.7412C9.36276 17.8508 11.0546 15.3367 13.1917 13.1987C15.3288 11.0608 17.8419 9.36812 20.7311 8.12062C23.6203 6.87354 26.7071 6.25 29.9917 6.25C33.2767 6.25 36.3644 6.87333 39.2548 8.12C42.1453 9.36667 44.6594 11.0585 46.7973 13.1956C48.9353 15.3327 50.628 17.8458 51.8755 20.735C53.1226 23.6242 53.7461 26.711 53.7461 29.9956C53.7461 33.2806 53.1228 36.3683 51.8761 39.2588C50.6294 42.1492 48.9376 44.6633 46.8005 46.8013C44.6634 48.9392 42.1503 50.6319 39.2611 51.8794C36.3719 53.1265 33.2851 53.75 30.0005 53.75Z" fill="#1B8862"/>
+                </g>
+            </svg>
+            <div class="headDesc">
+                <p class="{$display_email_method|display}">임시 비밀번호가 고객님의 <br class="RMB">메일로 전송되었습니다.</p>
+                <p class="{$display_mobile_method|display}">임시 비밀번호가 고객님의 <br class="RMB">휴대폰 번호로 전송되었습니다.</p>
+            </div>
+        </div>
+    </div>
+    <div class="ec-base-button gBottom">
+        <a href="/member/login.html" class="btnSubmitFix sizeM gFull">로그인 화면으로 돌아가기</a>
+    </div>
+</div>
+
+<style>
+    .memberArea {
+        height: 80vh;
+    }
+
+    .typeMember {
+        background: none !important;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 100%;
+    }
+
+    .headDesc {
+        margin-top: 8px;
+    }
+
+    .headDesc p {
+        color: var(--G-900, #181818);
+        text-align: center;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 26px; /* 144.444% */
+        letter-spacing: -0.36px;
+    }
+</style>

@@ -1,0 +1,878 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div id="contents_detail"></div>
+
+<script>
+(function() {
+    const API_BASE = 'https://oliva.boundary.team/api';
+    const BRAND_DETAIL = '/contents/brand_detail.html?brand_id=';
+    const DEBUG = false;
+
+    const raw = new URLSearchParams(location.search).get('kind_id') || '';
+    const kindId = String(raw).split(':').shift();
+
+    const safe = v => (v ?? '');
+
+    async function fetchJson(url){
+        const res = await fetch(url, { mode: 'cors' });
+        if(!res.ok){
+        const body = await res.text().catch(()=> '');
+        throw new Error(`HTTP ${res.status} ${url}\n${body}`);
+        }
+        return res.json();
+    }
+
+    function deep(obj, path){
+        try { return path.split('.').reduce((o,k)=>o?.[k], obj); } catch { return undefined; }
+    }
+
+    function parseBrandFromTitle(title){
+        if (!title) return '';
+        const t = String(title).trim();
+        const m1 = t.match(/^[\[\(【]([^]\)】]{2,40})[\]\)】]\s*/);
+        if (m1?.[1]) return m1[1].trim();
+        const m2 = t.match(/^([^–—\-·•|:]{2,40})\s*[–—\-·•|:]\s*.+$/);
+        if (m2?.[1]) return m2[1].trim();
+        return '';
+    }
+
+    function extractBrandFields(resp){
+        const d = resp?.data && typeof resp.data === 'object' ? resp.data : resp;
+        return {
+        id: d?.id ?? d?.brand_id ?? d?.brandId ?? null,
+        name: d?.name ?? '',
+        en_name: d?.en_name ?? '',
+        image_path: d?.logo_path ?? d?.logo ?? d?.image_path ?? '',
+        country: d?.country ?? d?.origin_country ?? '',
+        place_product: d?.place_product ?? d?.region ?? '',
+        sub_title: d?.sub_title ?? d?.tagline ?? d?.summary ?? ''
+        };
+    }
+
+    function extractInlineBrandName(p){
+        const candidates = [
+        p.brand, p.brand_name, p.brandName, p.brand_title, p.brandTitle,
+        deep(p, 'brand.name'), deep(p, 'brand.en_name'),
+        p.manufacturer, p.supplier, p.maker,
+        ];
+        const found = candidates.find(v => v != null && String(v).trim() !== '');
+        return found ? String(found) : '';
+    }
+
+    function extractBrandIdCandidates(p){
+        const rawIds = [
+        p.brand_id, p.brandId, p.brand_no, p.brandNo,
+        deep(p, 'brand.id'), deep(p, 'brand.brand_id'),
+        (typeof p.brand === 'number' || /^\d+$/.test(String(p.brand||''))) ? p.brand : null,
+        ].filter(v => v != null && String(v).trim() !== '');
+        const norm = id => {
+        const s = String(id).trim();
+        const onlyNum = s.match(/\d+/)?.[0];
+        return onlyNum ? onlyNum : s;
+        };
+        return [...new Set(rawIds.map(norm))];
+    }
+
+    function extractBrandNameFromBrandResponse(resp){
+        if (!resp) return '';
+        if (resp.name) return String(resp.name);
+        if (resp.en_name) return String(resp.en_name);
+        if (resp.data) {
+        if (resp.data.name) return String(resp.data.name);
+        if (resp.data.en_name) return String(resp.data.en_name);
+        }
+        if (Array.isArray(resp) && resp[0]) {
+        if (resp[0].name) return String(resp[0].name);
+        if (resp[0].en_name) return String(resp[0].en_name);
+        }
+        return '';
+    }
+
+    function getBrandText(p, fallback=''){
+        const inline = extractInlineBrandName(p);
+        if (inline) return inline;
+        const fromTitle = parseBrandFromTitle(p.name || p.title);
+        if (fromTitle) return fromTitle;
+        if (fallback) return String(fallback);
+        return '';
+    }
+
+    function normName(s){
+        return String(s||'').replace(/\(.*?\)/g,'').toLowerCase().replace(/[\s\-_.]/g,'');
+    }
+
+    async function fetchBrandByName(name){
+        if (!name) return null;
+        const q = encodeURIComponent(name);
+        const candidates = [
+        `${API_BASE}/brands/search?q=${q}`,
+        `${API_BASE}/brands?name=${q}`,
+        `${API_BASE}/brands/by-name?name=${q}`
+        ];
+        for (const url of candidates){
+        try{
+            const r = await fetchJson(url);
+            const arr = Array.isArray(r?.data) ? r.data : (Array.isArray(r) ? r : [r]);
+            const target = arr.find(b => {
+            const ko = normName(b?.name);
+            const en = normName(b?.en_name);
+            const n  = normName(name);
+            return (ko && (ko===n || n.includes(ko) || ko.includes(n))) ||
+                    (en && (en===n || n.includes(en) || en.includes(n)));
+            });
+            if (target) return extractBrandFields(target);
+        }catch(_){}
+        }
+        try{
+        const all = await fetchJson(`${API_BASE}/brands`);
+        const arr = Array.isArray(all?.data) ? all.data : (Array.isArray(all) ? all : []);
+        const n = normName(name);
+        const target = arr.find(b=>{
+            const ko = normName(b?.name);
+            const en = normName(b?.en_name);
+            return (ko && (ko===n || n.includes(ko) || ko.includes(n))) ||
+                (en && (en===n || n.includes(en) || en.includes(n)));
+        });
+        if (target) return extractBrandFields(target);
+        }catch(_){}
+        return null;
+    }
+
+    async function fetchText(url, {timeout=8000} = {}){
+        const ctrl = new AbortController();
+        const timer = setTimeout(()=>ctrl.abort(), timeout);
+        try{
+        const res = await fetch(url, { signal: ctrl.signal, credentials: 'same-origin' });
+        if(!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
+        return await res.text();
+        } finally {
+        clearTimeout(timer);
+        }
+    }
+
+    function parseBrandFromDetail(html){
+        try{
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        let el = doc.querySelector('.product_detail_brand');
+        if (el && el.textContent.trim()) return el.textContent.trim();
+        el = doc.querySelector('.product_detail_brand a, .xans-product-detail .product_detail_brand');
+        if (el && el.textContent.trim()) return el.textContent.trim();
+        const labels = Array.from(doc.querySelectorAll('th,dt')).filter(n=>/브랜드|brand/i.test(n.textContent));
+        for(const lb of labels){
+            const val = lb.nextElementSibling;
+            if (val && val.textContent.trim()) return val.textContent.trim();
+        }
+        const ld = Array.from(doc.querySelectorAll('script[type="application/ld+json"]'));
+        for(const s of ld){
+            try{
+            const data = JSON.parse(s.textContent);
+            const brand = Array.isArray(data) ? data.find(v=>v?.brand) : data?.brand;
+            const name = brand?.name || brand;
+            if (name && String(name).trim()) return String(name).trim();
+            }catch(_){}
+        }
+        }catch(_){}
+        return '';
+    }
+
+    async function hydrateBrandsFromDetail(products, {concurrency=4} = {}){
+        const queue = [...products];
+        const work = async () => {
+        while(queue.length){
+            const p = queue.shift();
+            const already = getBrandText(p, p._brandResolved || '');
+            if (already) continue;
+            const href = p.detailUrl || `/product/detail.html?product_no=${encodeURIComponent(p.product_no)}`;
+            try{
+            const html = await fetchText(href);
+            const parsed = parseBrandFromDetail(html);
+            if (parsed) {
+                p._brandFromDetail = parsed;
+                if (DEBUG) console.log('[brand parsed]', p.product_no, parsed);
+            } else if (DEBUG) {
+                console.warn('[brand parse failed]', p.product_no, href);
+            }
+            }catch(e){
+            if (DEBUG) console.warn('[detail fetch error]', p.product_no, href, e?.message || e);
+            }
+        }
+        };
+        await Promise.all(new Array(concurrency).fill(0).map(work));
+        return products;
+    }
+
+    function getCultivationText(d){
+        const cands = [d.cultivation, d.growing_conditions, d.growingConditions, d.conditions, d.terroir, d.climate, d.soil]
+        .filter(v => v != null && String(v).trim() !== '');
+        return cands.length ? cands.map(String).join('\n') : '';
+    }
+    function getNameOriginText(d){
+        const cands = [d.name_origin, d.nameOrigin, d.etymology, d.name_etymology, d.nameMeaning, d.name_meaning, d.naming_story, d.namingStory]
+        .filter(v => v != null && String(v).trim() !== '');
+        return cands.length ? String(cands[0]) : '';
+    }
+    function getoriginText(d){
+        const cands = [d.origin, d.origin_origin, d.nation, d.production_origin, d.origin_name]
+        .filter(v => v != null && String(v).trim() !== '');
+        return cands.length ? String(cands[0]) : '';
+    }
+    function getPlaceText(d){
+        const cands = [d.place_product, d.production_region, d.region, d.area, d.origin_region, d.placeOfOrigin, d.place_origin]
+        .filter(v => v != null && String(v).trim() !== '');
+        return cands.length ? String(cands[0]) : '';
+    }
+
+    function toTenSegments(raw){
+        if (raw == null) return null;
+        const s = String(raw).trim();
+        const low = s.toLowerCase();
+        if (/(매우\s*높|매우\s*강|very\s*high|extreme|super|최상)/i.test(low)) return 10;
+        if (/(높|강|high|strong)/i.test(low)) return 8;
+        if (/(중|보통|moderate|medium|normal)/i.test(low)) return 6;
+        if (/(약간|살짝|slight|light)/i.test(low)) return 4;
+        if (/(낮|low)/i.test(low)) return 3;
+        if (/(매우\s*낮|very\s*low|최저)/i.test(low)) return 1;
+        const num = parseFloat(s.replace(/[^\d.]/g,''));
+        if (!isNaN(num)) {
+        if (/%/.test(s)) return Math.max(0, Math.min(10, Math.round(num/10)));
+        if (num <= 10)   return Math.max(0, Math.min(10, Math.round(num)));
+        if (num <= 5)    return Math.max(0, Math.min(10, Math.round(num*2)));
+        }
+        return null;
+    }
+    function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
+
+    function heroHTML(d){
+        const bg = d.image_path
+        ? `style="background-image:url('${d.image_path}'); background-size:cover; background-position:center;"`
+        : '';
+        const origin = getoriginText(d);
+        const place  = getPlaceText(d);
+        const originFlags = {
+        "그리스": "🇬🇷", "Greece": "🇬🇷",
+        "이탈리아": "🇮🇹", "Italy": "🇮🇹",
+        "스페인": "🇪🇸", "Spain": "🇪🇸"
+        };
+        const flag = origin && originFlags[origin] ? originFlags[origin] : "";
+        return `
+        <div class="hero" ${bg}>
+            <div class="hero__overlay"></div>
+            <div class="hero__inner">
+            <div class="en_name">${safe(d.en_name)}</div>
+            <div class="name">${safe(d.name)}</div>
+            ${d.name_desc ? `<div class="name_desc">${safe(d.name_desc)}</div>` : ''}
+            ${(origin || place) ? `
+                <div class="origin_wrap">
+                <span class="origin_emoji">${flag}</span>
+                ${origin ? `<span>${safe(origin)}</span>` : ''}
+                ${place ? `<span>• ${safe(place)}</span>` : ''}
+                </div>` : ''
+            }
+            </div>
+        </div>
+        `;
+    }
+
+    function introHTML(d){
+        const img = d.image_path
+        ? `<img src="${d.image_path}" alt="${safe(d.name)}" style="width:100%; border-radius:10px; object-fit:cover">`
+        : '';
+        const cultivation = getCultivationText(d);
+        const cultivationBlock = cultivation ? `
+        <div class="plant_desc">
+            <div class="plant_desc_top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <mask id="mask0_3019_70222" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="20" height="20"><rect width="20" height="20" fill="#D9D9D9"/></mask>
+                <g mask="url(#mask0_3019_70222)"><path d="M9.93 13.232c.147 0 .271-.05.37-.15.1-.1.15-.223.15-.371V9.76c0-.148-.05-.272-.15-.372-.1-.1-.224-.149-.372-.149s-.272.05-.372.149c-.1.1-.15.224-.15.372v2.951c0 .148.05.272.15.372.1.1.224.15.372.15Zm.001-5.182c.159 0 .292-.053.4-.16.107-.107.161-.24.161-.399 0-.159-.054-.292-.161-.399-.108-.107-.241-.161-.4-.161-.159 0-.292.054-.399.161-.108.107-.162.24-.162.399 0 .159.054.292.162.399.107.107.24.16.399.16Zm0 8.48c-.913 0-1.771-.173-2.574-.519-.803-.346-1.501-.816-2.095-1.41-.594-.594-1.064-1.292-1.41-2.095C3.506 11.904 3.333 11.046 3.333 10.134c0-.912.173-1.77.519-2.573.346-.803.816-1.501 1.41-2.095.594-.594 1.292-1.064 2.095-1.41C8.16 3.71 9.018 3.537 9.93 3.537c.912 0 1.77.173 2.573.519.803.346 1.501.816 2.095 1.41.594.594 1.064 1.292 1.41 2.095.346.803.519 1.661.519 2.573 0 .912-.173 1.77-.519 2.573-.346.803-.816 1.501-1.41 2.095-.594.594-1.292 1.064-2.095 1.41-.803.346-1.661.519-2.573.519Z" fill="#1B8862"/></g>
+            </svg>
+            재배조건
+            </div>
+            <div class="plant_desc_body" style="white-space:pre-line;">${safe(cultivation)}</div>
+        </div>` : '';
+
+        return `
+        <div class="section">
+            <h3>주요 특징</h3>
+            ${img ? `<div class="desc_img">${img}</div>` : ''}
+            ${cultivationBlock}
+            <div class="description" style="white-space:pre-line; margin-top:${img? '16px':'0'}">${safe(d.description)}</div>
+        </div>
+        `;
+    }
+
+    function renderProfileRow(label, raw){
+        if (!raw) return '';
+        let seg = toTenSegments(raw);
+        if (seg == null) {
+        return `
+            <div class="profile-row">
+            <div class="profile-label">${label}</div>
+            <div class="profile-track"><div class="profile-fallback">${safe(raw)}</div></div>
+            </div>`;
+        }
+        seg = clamp(seg, 0, 10);
+
+        let posPercent;
+        if (seg >= 10) posPercent = '95%';
+        else if (seg <= 0) posPercent = '5%';
+        else posPercent = ((seg - 0.5) * (100 / 10)).toFixed(2) + '%';
+
+        const segmentsHTML = Array.from({length:10})
+        .map((_,i)=>`<span class="seg ${i < seg ? 'on':''}"></span>`).join('');
+
+        return `
+        <div class="profile-row">
+            <div class="profile-label">${label}</div>
+            <div class="profile-track">
+            <div class="track track-10">
+                ${segmentsHTML}
+                <span class="profile_badge" style="--pos:${posPercent}">${safe(raw)}</span>
+            </div>
+            </div>
+        </div>`;
+    }
+
+    function profileSectionHTML(d){
+        const rows = [
+        d.polyphenol ? renderProfileRow('폴리페놀 함량', d.polyphenol) : '',
+        d.fruity     ? renderProfileRow('프루티 강도',   d.fruity)     : '',
+        d.oleic_acid ? renderProfileRow('올레산 함량',   d.oleic_acid) : '',
+        ].filter(Boolean).join('');
+        if (!rows) return '';
+        return `
+        <div class="section">
+            <h3 style="margin-bottom:0">주요 성분 프로파일</h3>
+            <div class="profile">${rows}</div>
+        </div>`;
+    }
+
+    function relatedBrandsHTML(brandList = []){
+        const items = (Array.isArray(brandList) ? brandList : []).filter(b => b && (b.id || b.name));
+        if (!items.length) return '';
+        const cards = items.map(b => {
+        const href = b.id != null ? `${BRAND_DETAIL}${encodeURIComponent(b.id)}` : null;
+        const meta = b.sub_title && b.sub_title.trim()
+            ? b.sub_title
+            : [b.country, b.place_product].filter(Boolean).join(' • ');
+        const thumb = b.image_path
+            ? `<div class="brand-card__thumb"><img src="${b.image_path}" alt="${safe(b.name)}"></div>`
+            : `<div class="brand-card__thumb brand-card__thumb--placeholder"></div>`;
+        const body = `
+            <div class="brand-card__body">
+            <div class="brand-card__title">${safe(b.name || b.en_name)}</div>
+            ${meta ? `<div class="brand-card__meta">${safe(meta)}</div>` : ''}
+            </div>`;
+        return href
+            ? `<a class="brand-card" href="${href}" aria-label="${safe(b.name)}">${thumb}${body}</a>`
+            : `<div class="brand-card">${thumb}${body}</div>`;
+        }).join('');
+        return `
+        <div class="section">
+            <h3>관련 브랜드</h3>
+            <div class="brand-grid">${cards}</div>
+        </div>`;
+    }
+
+    function formatKRW(n){ try{ return Number(n).toLocaleString('ko-KR'); }catch(e){ return n; } }
+    function discountRate(price, sale){
+        const p = Number(price), s = Number(sale);
+        if (!p || !s || s>=p) return null;
+        return Math.round((1 - s/p) * 100);
+    }
+    function kindProductsHTML(items = []){
+        if (!Array.isArray(items)) items = [];
+        if (!items.length) {
+        return `
+            <div class="section">
+            <h3>관련 상품</h3>
+            <div class="sub_title">아직 이 품종으로 등록된 상품이 없어요.</div>
+            </div>`;
+        }
+        const cards = items.map(p => {
+        const href = p.detailUrl || `/product/detail.html?product_no=${encodeURIComponent(p.product_no)}`;
+        const rate = discountRate(p.retail, p.price);
+        const brandText = getBrandText(p, p._brandResolved || p._brandFromDetail || '');
+        return `
+            <a class="prod-card" href="${href}">
+            <div class="prod-thumb">${p.image ? `<img src="${p.image}" alt="${safe(p.name)}">` : ''}</div>
+            <div class="prod-body">
+                ${brandText ? `<div class="prod-brand">${safe(brandText)}</div>` : ''}
+                <div class="prod-title">${safe(p.name)}</div>
+                <div class="prod-price-line">
+                ${rate != null ? `<span class="prod-rate">${rate}%</span>` : ''}
+                <span class="prod-price">${formatKRW(p.price || p.retail)}원</span>
+                </div>
+            </div>
+            </a>`;
+        }).join('');
+        return `
+        <div class="section">
+            <h3>이 품종의 상품</h3>
+            <div class="prod-grid">${cards}</div>
+        </div>`;
+    }
+
+    async function boot(){
+        const root = document.getElementById('contents_detail');
+        if(!kindId){
+        root.innerHTML = '<div class="sub_title">kind_id가 없습니다.</div>';
+        return;
+        }
+
+        root.innerHTML = '<div class="sub_title">불러오는 중…</div>';
+        try {
+        const kind = await fetchJson(`${API_BASE}/kinds/${encodeURIComponent(kindId)}`);
+
+        const resp = await fetchJson(
+            `${API_BASE}/products/by-kind?kind_id=${encodeURIComponent(kind.id)}&kind=${encodeURIComponent(kind.name)}&exclude_soldout=1&limit=20`
+        );
+        let products = Array.isArray(resp?.data) ? resp.data : (Array.isArray(resp) ? resp : []);
+
+        const idSet = new Set();
+        products.forEach(p => extractBrandIdCandidates(p).forEach(id => idSet.add(id)));
+        const ids = [...idSet];
+
+        let brandNameMap = new Map();
+        let brandObjMap  = new Map();
+
+        if (ids.length) {
+            const entries = await Promise.all(ids.map(async (id) => {
+            try {
+                const br = await fetchJson(`${API_BASE}/brands/${encodeURIComponent(id)}`);
+                const name = extractBrandNameFromBrandResponse(br);
+                const obj  = extractBrandFields(br);
+                brandObjMap.set(id, obj);
+                return [id, name || obj.name || ''];
+            } catch (_) {
+                return [id, ''];
+            }
+            }));
+            brandNameMap = new Map(entries);
+        }
+
+        products = products.map(p => {
+            const firstId = extractBrandIdCandidates(p).find(id => brandNameMap.has(id));
+            const resolved = firstId ? brandNameMap.get(firstId) : '';
+            return resolved ? { ...p, _brandResolved: resolved } : p;
+        });
+
+        await hydrateBrandsFromDetail(products, {concurrency: 4});
+
+        const brandNameSet = new Set();
+        products.forEach(p => {
+            const nm = getBrandText(p, p._brandResolved || p._brandFromDetail || '');
+            if (nm) brandNameSet.add(nm);
+        });
+        for (const name of brandNameSet){
+            const exists = [...brandObjMap.values()].some(b => normName(b.name||b.en_name) === normName(name));
+            if (exists) continue;
+            const byName = await fetchBrandByName(name);
+            if (byName) {
+            const key = byName.id ?? `name:${normName(byName.name||byName.en_name)}`;
+            brandObjMap.set(key, byName);
+            } else if (DEBUG) {
+            console.warn('[brand not found by name]', name);
+            }
+        }
+        const relatedBrandObjs = [...brandObjMap.values()];
+
+        if (DEBUG && products[0]) {
+            console.groupCollapsed('[sample product]');
+            console.log('keys:', Object.keys(products[0]));
+            console.log(products[0]);
+            console.groupEnd();
+        }
+
+        root.innerHTML = `
+            ${heroHTML(kind)}
+            <div class="contents_wrap">
+            ${introHTML(kind)}
+            ${profileSectionHTML(kind)}
+            ${relatedBrandsHTML(relatedBrandObjs)}
+            ${kindProductsHTML(products)}
+            </div>
+        `;
+        } catch (e){
+        console.error(e);
+        root.innerHTML = '<div class="sub_title">데이터를 불러오지 못했습니다.</div>';
+        }
+    }
+
+    document.readyState === 'loading'
+        ? document.addEventListener('DOMContentLoaded', boot)
+        : boot();
+})();
+</script>
+
+<style>
+    #contents_header {
+        position: absolute;
+        padding: 16px;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #contents {
+        padding-bottom: 72px;
+    }
+
+    .hero {
+        position: relative;
+        height: 383px;
+        overflow: hidden;
+        margin: -16px;
+    }
+
+    .hero__overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.80) 100%), 50% / cover no-repeat;
+        opacity: 0.8;
+    }
+
+    .hero__inner {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 56px;
+        color: #fff;
+    }
+
+    .hero__inner .en_name {
+        overflow: hidden;
+        color: var(--G-300, #D9D9D9);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: -0.24px;
+        margin-bottom: 2px;
+    }
+
+    .hero__inner .name {
+        overflow:hidden; color: var(--G-0, #FFF);
+        font-size:22px; font-weight:700; line-height:28px; letter-spacing:-0.44px;
+    }
+
+    .hero__inner .name_desc {
+        color: var(--G-0, #FFF);
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 20px;
+        letter-spacing: -0.3px;
+        margin: 12px 0 16px;
+    }
+
+    .hero__inner .origin_wrap {
+        display: flex;
+        width: 100%;
+        padding: 10px 16px;
+        align-items: center;
+        gap: 6px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.20);
+    }
+
+    .hero__inner .origin_wrap span {
+        color: var(--G-0, #FFF);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 18px;
+        letter-spacing: -0.24px;
+    }
+
+    .hero__inner .origin_wrap .origin_emoji {
+        display: flex;
+        width: 18px;
+        height: 18px;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        aspect-ratio: 1/1;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.60);
+    }
+
+    .contents_wrap {
+        position: relative;
+        margin: -24px -16px;
+        border-radius: 20px 20px 0 0;
+        background: var(--Gray-50, #F8F8F8);
+        padding: 40px 16px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .section h3 {
+        color: var(--G-900, #181818);
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 26px;
+        letter-spacing: -0.4px;
+        margin-bottom: 24px;
+    }
+
+    .desc_img {
+        display: flex;
+    }
+
+    .description {
+        color: var(--G-900, #181818);
+        font-family: Pretendard;
+        font-size: 16px;
+        font-weight:400;
+        line-height:150%;
+        letter-spacing:-0.32px;
+    }
+
+    .plant_desc {
+        display: flex;
+        width: 100%;
+        padding: 16px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 8px;
+        border-radius: 12px;
+        background: var(--G-0, #FFF);
+        margin-top: 16px;
+    }
+
+    .plant_desc_top {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        color: var(--Primary-300, #5BA071);
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px; /* 137.5% */
+        letter-spacing: -0.32px;
+    }
+
+    .plant_desc_body {
+        color: var(--G-900, #181818);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px; /* 142.857% */
+        letter-spacing: -0.28px;
+    }
+
+    .prod-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px 8px;
+    }
+
+    .prod-card .prod-thumb {
+        display: flex;
+    }
+
+    .prod-card .prod-thumb img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 10px;
+    }
+
+    .prod-brand {
+        color: var(--G-500, var(--Gray-500, #888));
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: -0.24px;
+        margin: 8px 0 2px;
+    }
+
+    .prod-title {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        color: var(--G-800, var(--Gray-800, #393939));
+        text-overflow: ellipsis;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        letter-spacing: -0.28px;
+        margin-bottom: 7px;
+    }
+
+    .prod-price-line {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .prod-price-line .prod-rate {
+        display: flex;
+        padding: 2px 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 16px;
+        background: var(--Olive-Green, #1B8862);
+        color: #FFF;
+        font-size: 11px;
+        font-weight: 600;
+        line-height: 16px;
+        letter-spacing: -0.22px;
+    }
+
+    .prod-price-line .prod-price {
+        color: var(--Olive-Green, #1B8862);
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 22px;
+        letter-spacing: -0.32px;
+    }
+
+    .profile {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .profile-row {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .profile-label {
+        color: var(--G-600, var(--Gray-600, #767676));
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px; /* 150% */
+        letter-spacing: -0.24px;
+        padding-top: 28px;
+    }
+
+    .profile-track {
+        position: relative;
+    }
+
+    .track {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding-top: 28px;
+    }
+
+    .track .seg {
+        height: 4px;
+        flex: 1 0 0;
+        border-radius: 999px;
+        background: #E7E3E2;
+        display: inline-block;
+    }
+
+    .track .seg.on {
+        background: #1B8862;
+    }
+
+    .track .profile_badge {
+        position: absolute;
+        left: var(--pos, 50%);
+        bottom: calc(100% - 18px);
+        transform: translateX(-50%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: #1B8862;
+        color: var(--G-0, #FFF);
+        text-align: center;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px; /* 150% */
+        min-width: 30px;
+    }
+
+    .track .profile_badge::after {
+        content:'';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -10px;
+        border: 6px solid transparent;
+        border-top-color: #1B8862;
+    }
+
+    .profile-fallback {
+        color: #444;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .brand-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .brand-card {
+        display: flex;
+        padding: 8px;
+        align-items: center;
+        gap: 12px;
+        align-self: stretch;
+        border-radius: 12px;
+        background: var(--G-0, #FFF);
+    }
+
+    .brand-card__thumb {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        border: 1px solid var(--Gray-100, #F0F0F0);
+        background: url(<path-to-image>) lightgray 50% / cover no-repeat;
+        flex-shrink: 0;
+    }
+
+    .brand-card__thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .brand-card__body {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .brand-card__title {
+        overflow: hidden;
+        color: var(--Gray-900, #1E1E1E);
+        text-overflow: ellipsis;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 22px; /* 137.5% */
+        letter-spacing: -0.32px;
+    }
+
+    .brand-card__meta {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        color: var(--G-400, #888);
+        text-overflow: ellipsis;
+        font-family: Pretendard;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px; /* 133.333% */
+    }
+</style>

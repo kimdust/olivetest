@@ -1,0 +1,153 @@
+<!--@layout(/layout/basic/layout.html)-->
+
+<div module="member_joinComplete" class="memberArea">
+    <!--@css(/css/module/member/joincomplete.css)-->
+    <div class="joinComplete">
+        <svg class="member_icon" xmlns="http://www.w3.org/2000/svg" width="61" height="60" viewBox="0 0 61 60" fill="none">
+            <mask id="mask0_2523_5281" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="61" height="60">
+                <rect x="0.5" width="60" height="60" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_2523_5281)">
+                <path d="M26.948 35.3656L21.1405 29.5575C20.7942 29.2117 20.359 29.0346 19.8348 29.0263C19.3111 29.0183 18.868 29.1954 18.5055 29.5575C18.1434 29.92 17.9623 30.3592 17.9623 30.875C17.9623 31.3908 18.1434 31.83 18.5055 32.1925L25.3661 39.0531C25.8182 39.5048 26.3455 39.7306 26.948 39.7306C27.5505 39.7306 28.0778 39.5048 28.5298 39.0531L42.4386 25.1444C42.7844 24.7981 42.9615 24.3629 42.9698 23.8387C42.9778 23.315 42.8007 22.8719 42.4386 22.5094C42.0761 22.1473 41.6369 21.9663 41.1211 21.9663C40.6053 21.9663 40.1661 22.1473 39.8036 22.5094L26.948 35.3656ZM30.5005 53.75C27.2155 53.75 24.1278 53.1267 21.2373 51.88C18.3469 50.6333 15.8328 48.9415 13.6948 46.8044C11.5569 44.6673 9.86422 42.1542 8.61672 39.265C7.36963 36.3758 6.74609 33.289 6.74609 30.0044C6.74609 26.7194 7.36943 23.6317 8.61609 20.7412C9.86276 17.8508 11.5546 15.3367 13.6917 13.1987C15.8288 11.0608 18.3419 9.36812 21.2311 8.12062C24.1203 6.87354 27.2071 6.25 30.4917 6.25C33.7767 6.25 36.8644 6.87333 39.7548 8.12C42.6453 9.36667 45.1594 11.0585 47.2973 13.1956C49.4353 15.3327 51.128 17.8458 52.3755 20.735C53.6226 23.6242 54.2461 26.711 54.2461 29.9956C54.2461 33.2806 53.6228 36.3683 52.3761 39.2588C51.1294 42.1492 49.4376 44.6633 47.3005 46.8013C45.1634 48.9392 42.6503 50.6319 39.7611 51.8794C36.8719 53.1265 33.7851 53.75 30.5005 53.75Z" fill="#1B8862"/>
+            </g>
+        </svg>
+        <p class="desc">회원가입이 완료되었습니다.</p>
+        <p class="desc_small">사업자 회원이신 경우, 관리자의 승인 후 로그인이 가능합니다.</p>
+
+    </div>
+    <div class="ec-base-button gBottom">
+        <a href="/member/login.html" class="btnSubmitFix sizeM">로그인 화면으로 이동하기</a>
+    </div>
+</div>
+
+<div module="coupon_join">
+    <!--@css(/css/module/coupon/join.css)-->
+    <div class="couponSkinArea">
+        <ul class="grid3">
+            <li>
+                <div class="coupon {$background_class}" style="background-image:url('{$background_url}')">
+                    <strong class="title" style="color:#483b1b; font-family:Arial, Verdana, Tahoma, sans-serif; font-size:11px;">{$coupon_name}</strong>
+                    <p class="discount" style="color:#d07b01;"><span style="font-family:Verdana, Tahoma, sans-serif;">{$coupon_content}</span></p>
+                    <p class="period" style="color:#685219;">{$coupon_period}</p>
+                </div>
+            </li>
+            <li>
+                <div class="coupon {$background_class}" style="background-image:url('{$background_url}')">
+                    <strong class="title" style="color:#483b1b; font-family:Arial, Verdana, Tahoma, sans-serif; font-size:11px;">{$coupon_name}</strong>
+                    <p class="discount" style="color:#d07b01;"><span style="font-family:Verdana, Tahoma, sans-serif;">{$coupon_content}</span></p>
+                    <p class="period" style="color:#685219;">{$coupon_period}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+(function () {
+  let didLogout = false;
+
+  async function logoutOnce() {
+    if (didLogout) return;
+    didLogout = true;
+    try {
+      await fetch('/exec/front/Member/logout/', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      });
+    } catch(e) {
+      console.warn('logout failed (ignored)', e);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', logoutOnce, { once:true });
+  } else {
+    logoutOnce();
+  }
+
+  window.addEventListener('pageshow', function(evt){
+    logoutOnce();
+  });
+
+  document.addEventListener('click', async function(e){
+    const a = e.target.closest('a.btnNormalFix, a.btnSubmitFix, a[href]');
+    if (!a) return;
+
+    const isMainBtn  = a.classList.contains('btnNormalFix');
+    const isLoginBtn = a.classList.contains('btnSubmitFix');
+
+    if (isMainBtn || isLoginBtn) {
+      e.preventDefault();
+      const href = a.getAttribute('href') || a.dataset?.href || '/';
+      await logoutOnce();
+      setTimeout(()=>{ window.location.href = href; }, 50);
+    }
+  }, false);
+
+  window.addEventListener('beforeunload', logoutOnce);
+
+  try {
+    sessionStorage.removeItem('recent_mags');
+  } catch(_) {}
+})();
+</script>
+
+<style>
+    #contents {
+        padding-bottom: 0;
+    }
+
+    .ec-base-button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        padding: 16px 16px 32px 16px;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        background: var(--G-0, #FFF);
+        box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+    }
+
+    .ec-base-button .btnSubmitFix {
+        display: flex;
+        width: 100%;
+        height: 48px;
+        padding: 12px 16px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        flex: 1 0 0;
+        border-radius: 8px;
+        background: var(--Olive-Green, #1B8862);
+        color: var(--G-0, #FFF);
+        font-size: 16px !important;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: -0.32px;
+    }
+
+    .xans-member-joincomplete .joinComplete .desc {
+      color: var(--G-900, #181818) !important;
+      text-align: center;
+      font-size: 18px !important;
+      font-style: normal;
+      font-weight: 600 !important;
+      line-height: 26px !important; /* 144.444% */
+      letter-spacing: -0.36px !important;
+    }
+
+    .xans-member-joincomplete .joinComplete .desc_small {
+      color: var(--G-500, var(--Gray-500, #888)) !important;
+      text-align: center;
+      font-size: 14px !important;
+      font-style: normal;
+      font-weight: 400 !important;
+      line-height: 20px !important; /* 142.857% */
+      letter-spacing: -0.28px !important;
+    }
+</style>

@@ -1,0 +1,109 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="myshopArea">
+    <div class="order_list_tab" id="order_list_tab">
+        <a class="normal_order active" href="/myshop/order/list.html">일반구매</a>
+        <a class="month_order" href="#">정기구독</a>
+    </div>
+    <!--@import(/myshop/order/history_list_item.html)-->
+
+    <!--@import(/myshop/myshop_main.html)-->
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const path = location.pathname;
+  const qs = new URLSearchParams(location.search);
+
+  const isOrderList = path.startsWith("/myshop/order/list");
+  const hasOrderId  = qs.has("order_id") && (qs.get("order_id") || "").trim() !== "";
+
+  const globalHeader = document.getElementById("header");
+  const orderListHeader = document.getElementById("order_list_header");
+  const orderListTab = document.getElementById("order_list_tab");
+  const bestSlider = document.getElementById("best_sec");
+  const footer = document.getElementById("bnb");
+
+  if (isOrderList && hasOrderId) {
+    if (orderListHeader) orderListHeader.style.setProperty("display", "none", "important");
+    if (orderListTab) orderListTab.style.setProperty("display", "none", "important");
+    if (globalHeader) globalHeader.style.setProperty("display", "flex", "important");
+    if (bestSlider) bestSlider.style.setProperty("display", "block", "important");
+    if (footer) footer.style.setProperty("display", "flex", "important");
+  } else if (isOrderList) {
+    if (orderListHeader) orderListHeader.style.setProperty("display", "flex", "important");
+    if (orderListTab) orderListTab.style.setProperty("display", "flex", "important");
+    if (globalHeader) globalHeader.style.setProperty("display", "none", "important");
+    if (bestSlider) bestSlider.style.setProperty("display", "none", "important");
+    if (footer) footer.style.setProperty("display", "none", "important");
+  }
+});
+</script>
+
+<style>
+#order_list_header {
+    position: relative;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    background-color: #FFF;
+}
+
+#order_list_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#order_list_header .header_back img {
+    width: 100%;
+}
+
+#order_list_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+.order_list_tab {
+    margin: -16px -16px 0;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    background: #FFF;
+}
+
+.normal_order, .month_order {
+    display: flex;
+    height: 48px;
+    padding: 14px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    color: var(--G-600, var(--Gray-600, #767676));
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.normal_order.active {
+    border-bottom: 2px solid var(--Olive-Green, #1B8862);
+    color: var(--Olive-Green, #1B8862);
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+</style>

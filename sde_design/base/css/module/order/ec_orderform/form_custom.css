@@ -1,0 +1,1142 @@
+#userStyle {
+    background: #F8F8F8;
+    padding: 16px;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Pretendard";
+    color: #000;
+    font-size: 16px;
+    line-height: 1.4;
+    list-style: none;
+    letter-spacing: -0.4px;
+}
+
+#order_header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: none;
+    height: 56px;
+}
+
+#order_header a {
+    display: flex;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    left: 16px;
+    top: 16px;
+}
+
+#order_header a img {
+    width: 100%;
+}
+
+#order_header p {
+    color: var(--G-800, var(--Gray-800, #393939));
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: -0.4px;
+}
+
+#mCafe24Order {
+    padding: 20px 16px 128px 16px !important;
+}
+
+#ec-jigsaw-area-shippingInfo {
+    border-radius: 12px;
+}
+
+#ec-jigsaw-area-shippingInfo .title {
+    display: none !important;
+}
+
+#ec-jigsaw-tab-shippingInfo ul {
+    border-bottom: 1px solid var(--Gray-200, #E3E3E3);
+    border-top: none !important;
+}
+
+.ec-base-tab li.selected {
+    border-bottom: 2px solid var(--Olive-Green, #1B8862) !important;
+}
+
+.ec-base-tab li {
+    border: none !important;
+    background: none !important;
+}
+
+.ec-base-tab li a {
+    color: var(--G-600, var(--Gray-600, #767676)) !important;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+}
+
+.ec-base-tab li.selected a {
+    color: var(--Olive-Green, #1B8862) !important;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 20px;
+    letter-spacing: -0.3px;
+}
+
+#mCafe24Order .ec-base-fold {
+    border: none !important;
+    border-radius: 12px;
+}
+
+#ec-shop-deliveryInfoName {
+    color: var(--G-900, #181818);
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 133.333% */
+    letter-spacing: -0.3px;
+}
+
+.ec-shop-deliveryInfoText.recent {
+    padding: 0 !important;
+}
+
+.sideRight {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+}
+
+#ec-shippingInfo-showRecentAddressList {
+    border: none !important;
+    background: none !important;
+    color: var(--G-400, #888) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px !important;
+    letter-spacing: -0.28px;
+    width: 70px !important;
+    height: 18px !important;
+    padding: 0 !important;
+}
+
+#ec-jigsaw-tab-shippingInfo-recentAddress a {
+    border-top-left-radius: 12px;
+}
+
+#ec-jigsaw-tab-shippingInfo-newAddress a {
+    border-top-right-radius: 12px;
+}
+
+#mCafe24Order .recentShipArea .contact {
+    margin-top: 0 !important;
+}
+
+#mCafe24Order .recentShipArea .recent .address,
+#mCafe24Order .shippingList .description .address {
+    margin-top: 10px !important;
+    color: var(--G-600, #5D5D5D) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+#mCafe24Order .recentShipArea .contact dd {
+    color: var(--G-600, #5D5D5D) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+#ec-shippingInfo-closeRecentAddressList {
+    border: none !important;
+}
+
+#mCafe24Order .shippingList .button {
+    top: 16px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#mCafe24Order .shippingList .description {
+    padding: 0 !important;
+}
+
+#mCafe24Order .fRadio[type="radio"] {
+    background-image: url('https://olivetest.cafe24.com/web/upload/check%20box-null.png') !important;
+}
+
+#mCafe24Order .fRadio:not(:disabled):checked[type="radio"], #mCafe24Order .selected > .fRadio {
+    background-image: url('https://olivetest.cafe24.com/web/upload/check%20box.png') !important;
+}
+
+#mCafe24Order .segment.unique {
+    border: none !important;
+    padding: 0 !important;
+}
+
+#mCafe24Order .ec-base-table tbody th {
+    font-size: 14px;
+}
+
+#mCafe24Order .ec-base-table:last-child {
+    padding-bottom: 16px;
+}
+
+#mCafe24Order .ec-base-table.typeWrite tbody th {
+    padding: 0 0 4px 16px !important;
+}
+
+#omessage_select.__visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+.cs-wrap {
+    position: relative;
+    font-family: inherit;
+}
+
+.cs-trigger {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+    color: var(--G-800, var(--Gray-800, #393939));
+
+    /* R 14 */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    transition: border-color 0.18s ease, border-radius 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cs-trigger .cs-label {
+    overflow: hidden;
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+
+    /* R 14 */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+.cs-trigger .cs-icon {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    transition: transform 0.18s ease;
+}
+
+.cs-wrap.open .cs-trigger {
+    border-color: #1E8A61 !important;
+}
+
+.cs-wrap.open .cs-trigger .cs-icon {
+    transform: rotate(180deg);
+}
+
+.cs-list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  transition: max-height .25s ease, opacity .15s ease, border-color .15s ease;
+  z-index: 100;
+}
+
+.cs-wrap.open .cs-list {
+    max-height: 260px;
+    overflow: auto;
+    opacity: 1;
+    pointer-events: auto;
+    border-color: #1E8A61;
+}
+
+.cs-wrap.open .cs-list {
+    max-height: 320px;
+    opacity: 1;
+    border-color: #1E8A61;
+    margin-top: -4px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px 0 rgba(140, 140, 140, 0.20);
+    overflow-y: auto;
+    background-color: #FFF;
+}
+
+.cs-group {
+    display: none;
+}
+
+.cs-opt {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    color: var(--G-800, var(--Gray-800, #393939));
+
+    /* R 14 */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    border: none;
+    transition: background-color 0.15s ease;
+}
+
+.cs-opt span {
+    color: #3D3D3D;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+.cs-opt:hover {
+    background: #F6FBF8;
+}
+
+.cs-opt[aria-selected="true"] {
+    font-weight: 600;
+    color: #2B2B2B;
+}
+
+.cs-opt[aria-disabled="true"] {
+    color: #B8B8B8;
+    pointer-events: none;
+}
+
+.cs-price {
+    color: #888;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+.shippingMessage colgroup col:first-child {
+    width: 100% !important;
+}
+
+tr.ec-shippingInfo-shippingMessage.segment.unique {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch !important;
+}
+
+tr.ec-shippingInfo-shippingMessage.segment.unique > td {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    align-self: stretch !important;
+}
+
+#omessage_select.__visually-hidden + .cs-wrap {
+    display: block;
+    width: calc(100% - 32px) !important;
+    margin: 0 16px;
+}
+
+#omessage_select.__visually-hidden + .cs-wrap .cs-trigger {
+    width: 100% !important;
+}
+
+#mCafe24Order .ec-base-table td {
+    padding: 0 !important;
+}
+
+#mCafe24Order .ec-base-fold.selected > .contents {
+    position: relative;
+}
+
+#mCafe24Order .segment.ec-shippingInfo-sameaddr {
+    padding: 0 16px !important;
+}
+
+#mCafe24Order input[type="checkbox"] {
+    background-image: url('https://olivetest.cafe24.com/web/upload/status%3Denable%2C%20shape%3Dsquare.png');
+    width: 24px !important;
+    height: 24px !important;
+    background-size: 24px 24px !important;
+}
+
+#mCafe24Order input:not(:disabled):checked[type="checkbox"] {
+    background-image: url('https://olivetest.cafe24.com/web/upload/status%3Dfocus%2C%20shape%3Dsquare.png');
+    width: 24px !important;
+    height: 24px !important;
+    background-size: 24px 24px !important;
+}
+
+#mCafe24Order label {
+    color: var(--G-900, #3D3D3D);
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.28px;
+    line-height: 1 !important;
+    margin: 0 4px !important;
+    min-height: 0 !important;
+}
+
+#mCafe24Order input[type="text"],
+#mCafe24Order input[type="password"],
+#mCafe24Order input[type="number"],
+#mCafe24Order input[type="tel"],
+#mCafe24Order textarea {
+    display: flex;
+    height: 48px;
+    padding: 10px;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+    color: var(--G-800, var(--Gray-800, #393939));
+    /* R 14 */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+    box-shadow: none !important;
+}
+
+#mCafe24Order input[type="text"]::placeholder,
+#mCafe24Order input[type="password"]::placeholder,
+#mCafe24Order input[type="number"]::placeholder,
+#mCafe24Order input[type="tel"]::placeholder,
+#mCafe24Order textarea::placeholder {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.28px;
+}
+
+#mCafe24Order .icoRequired {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='9' viewBox='0 0 8 9' fill='none'%3E%3Cpath d='M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z' fill='%23F44336'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 8px;
+    height: 9px;
+}
+
+#ec-shippingInfo-newAddress .ec-base-table colgroup col:first-child {
+    width: 100% !important;
+}
+
+#ec-shippingInfo-newAddress .ec-base-table tbody td,
+#mCafe24Order textarea {
+    width: calc(100% - 32px);
+    margin: 0 16px;
+}
+
+#ec-shippingInfo-newAddress .ec-base-table tr {
+    display: flex;
+    flex-direction: column;
+}
+
+#ec-shippingInfo-newAddress .ec-base-table tr:first-child {
+    padding-top: 16px !important;
+}
+
+#ec-receiver-address th, 
+.ec-shippingInfo-receiverCell th,
+.ec-shippingInfo-receiverPhone th,
+.ec-orderform-emailRow th {
+    margin-top: 12px;
+}
+
+.ec-shippingInfo-shippingMessage th,
+#ec-shippingInfo-newAddress .ec-base-table th,
+.ec-orderform-NoMemberPasswdRow th {
+    color: var(--G-600, var(--Gray-600, #767676)) !important;
+    font-size: 12px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 18px; /* 150% */
+    letter-spacing: -0.24px;
+}
+
+#mCafe24Order .ec-base-table .ec-address > li {
+    padding: 4px 16px 0 8px !important;
+}
+
+#receiver_zipcode_wrap .gFull {
+    width: calc(100% - 88px);
+}
+
+#btn_search_rzipcode {
+    display: flex;
+    width: 80px !important;
+    height: 46px !important;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862) !important;
+    border: none  !important;
+    color: var(--G-0, #FFF) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+#mCafe24Order .ec-base-table .ec-address .ec-address-zipcode .btnBasic {
+    top: 4px !important;
+}
+
+#mCafe24Order .ec-base-table .ec-address {
+    margin: -5px -14px 0 -8px !important;
+}
+
+#mCafe24Order .segment.ec-shippingInfo-newAddress-setMain {
+    padding: 12px 0 0 16px;
+    position: absolute;
+    top: 62px;
+    left: 132px;
+}
+
+.__visually-hidden {
+    position:absolute !important;
+    width:1px !important;
+    height:1px !important;
+    padding:0 !important;
+    margin:-1px !important;
+    overflow:hidden !important;
+    clip:rect(0 0 0 0) !important;
+    white-space:nowrap !important;
+    border:0 !important;
+}
+
+#mCafe24Order .ec-base-mail .mailAddress .directInput {
+    display: none !important;
+}
+
+#ec-jigsaw-area-productdetail {
+    display: none !important;
+}
+
+#ec-jigsaw-title-orderProduct {
+    padding: 0 !important;
+    margin-bottom: 4px;
+}
+
+#ec-jigsaw-title-paymethod,
+#ec-jigsaw-title-payment,
+#ec-jigsaw-title-discount {
+    padding: 0 0 16px 0 !important;
+    pointer-events: none;
+}
+
+#ec-jigsaw-title-orderProduct h2,
+#ec-jigsaw-title-paymethod h2,
+#ec-jigsaw-title-payment h2,
+#ec-jigsaw-title-discount h2 {
+    color: var(--G-800, var(--Gray-800, #393939)) !important;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 20px !important;
+    letter-spacing: -0.32px;
+}
+
+#mCafe24Order .ec-base-fold.selected > .title:after {
+    display: none !important;
+}
+
+#mCafe24Order .ec-base-prdInfo .btnRemove {
+    border: none !important;
+}
+
+#ec-jigsaw-area-orderProduct,
+#ec-jigsaw-area-paymethod, 
+#ec-jigsaw-area-payment,
+#ec-jigsaw-area-discount {
+    margin: 32px 0 !important;
+    background: none !important;
+}
+
+.orderArea {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#mCafe24Order .orderArea .xans-order-normallist,
+#mCafe24Order .orderArea .xans-order-individuallist,
+#mCafe24Order .orderArea .xans-order-supplierlist,
+#mCafe24Order .orderArea .xans-order-oversealist {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 0 !important;
+}
+
+#ec-jigsaw-area-orderProduct .contents {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+#mCafe24Order .orderArea .ec-base-prdInfo {
+    margin: 0 !important;
+    padding: 16px !important;
+    border: none !important;
+    border-radius: 12px !important;
+}
+
+#mCafe24Order .ec-base-prdInfo .thumbnail {
+    width: 48px !important;
+    height: 48px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    margin-right: 12px !important;
+}
+
+#mCafe24Order .ec-base-prdInfo .thumbnail a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+}
+
+#mCafe24Order .ec-base-prdInfo .thumbnail img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.o-brand {
+    color: var(--G-600, var(--Gray-600, #767676));
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+#mCafe24Order .ec-base-prdInfo .description {
+    margin-top: 2px !important;
+}
+
+#mCafe24Order .ec-base-prdInfo .description .prdName {
+    margin-bottom: 0 !important;
+}
+
+.prdName a {
+    overflow: hidden;
+    color: var(--G-900, #3D3D3D);
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+#mCafe24Order .ec-base-prdInfo .description .info,
+#mCafe24Order .ec-base-prdInfo .description .proPrice {
+    position: absolute;
+    left: 16px;
+}
+
+#mCafe24Order .ec-base-prdInfo .description .info {
+    bottom: 40px;
+    margin-bottom: 0 !important;
+}
+
+#mCafe24Order .ec-base-prdInfo .description .proPrice {
+    bottom: 16px;
+    display: flex;
+    width: calc(100% - 32px);
+    justify-content: space-between;
+    color: var(--Oilve-Green, #1B8862);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+    align-items: center;
+}
+
+#mCafe24Order .ec-base-prdInfo .description .price-label {
+    color: var(--G-950, #181818) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 20px !important;
+    letter-spacing: -0.28px !important;
+}
+
+#mCafe24Order .ec-base-prdInfo .optionWrap {
+    display: flex;
+    align-items: center;
+}
+
+#mCafe24Order .ec-base-prdInfo .optionWrap .optionItem {
+    display: flex;
+    align-items: center;
+}
+
+#mCafe24Order .ec-base-prdInfo .optionWrap .optionItem:first-child {
+    margin-right: 12px;
+}
+
+#mCafe24Order .ec-base-prdInfo .optionWrap .optionItem::before {
+    content: "•";
+    display: inline-block;
+    margin-right: 4px;
+    transform: translateY(-0.5px);
+}
+
+#mCafe24Order .ec-base-prdInfo .optionWrap .optionItem.no-bullet {
+    padding-left: 0;
+    margin-right: 0;
+}
+
+#mCafe24Order .ec-base-prdInfo .optionWrap .optionItem.no-bullet::before {
+    content: none;
+    margin-right: 0;
+}
+
+#mCafe24Order .orderArea .totalPrice {
+    display: none !important;
+}
+
+#ec-jigsaw-area-paymethod .contents,
+#ec-jigsaw-area-payment .contents,
+#ec-jigsaw-area-discount .contents {
+    background: #FFF;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+#mCafe24Order #ec-jigsaw-area-payment .segment {
+    padding: 0 !important;
+}
+
+#mCafe24Order #ec-jigsaw-area-payment .segment tr {
+    margin-bottom: 4px;
+}
+
+#mCafe24Order #ec-jigsaw-area-payment .segment th {
+    color: var(--G-600, var(--Gray-600, #767676)) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+    padding: 0 !important;
+}
+
+#mCafe24Order #ec-jigsaw-area-payment .segment td {
+    color: var(--G-900, #3D3D3D) !important;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 22px !important;
+    letter-spacing: -0.32px;
+}
+
+.price.notranslate:has(.txtRed) {
+    color: var(--Discount-Red, #F44336);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+#mCafe24Order .totalPay {
+    padding: 16px 0 0 !important;
+}
+
+#mCafe24Order .totalPay.paymentPrice {
+    background: none !important;
+    border-top: 1px solid #F0F0F0 !important;
+    display: flex;
+    align-items: center;
+}
+
+#mCafe24Order .totalPay .heading {
+    color: var(--G-950, #181818);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: -0.28px;
+}
+
+#mCafe24Order .totalPay .txtEm {
+    color: var(--Oilve-Green, #1B8862);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px;
+    letter-spacing: -0.32px;
+}
+
+#mCafe24Order .totalPay.paymentPrice .txtStrong {
+    color: var(--Olive-Green, #1B8862);
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 28px; /* 127.273% */
+    letter-spacing: -0.44px;
+}
+
+#ec-jigsaw-area-benefit {
+    display: none !important;
+}
+
+.order_btn_wrap {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    padding: 16px 16px 32px 16px;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    background: var(--G-0, #FFF);
+    box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+}
+
+#orderFixItem {
+    width: calc(100% - 32px);
+}
+
+#orderFixItem #btn_payment {
+    display: flex;
+    height: 48px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+}
+
+.order_btn_txt_wrap {
+    width: auto !important;
+    background: none !important;
+}
+
+#orderFixItem #btn_payment span,
+.order_btn_txt_wrap {
+    height: auto !important;
+    color: var(--G-0, #FFF) !important;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 24px !important; /* 150% */
+    letter-spacing: -0.32px !important;
+    padding: 0 !important;
+}
+
+#simpleJoinDataForm tr,
+.ec-orderform-NoMemberPasswdRow tr {
+    display: flex;
+    flex-direction: column;
+}
+
+#mCafe24Order .pannelArea {
+    background: none !important;
+}
+
+.ec-orderform-NoMemberPasswdRow .contents {
+    padding: 0 16px;
+}
+
+.ec-orderform-NoMemberPasswdRow .contents td {
+    width: calc(100% - 32px);
+    margin: 0 16px !important;
+}
+
+.ec-orderform-NoMemberPasswdRow #order_password_msg {
+    margin-bottom: 12px !important;
+    display: none;
+}
+
+.ec-orderform-NoMemberPasswdRow .ec-base-table {
+    padding-bottom: 0 !important;
+}
+
+#eSimpleJoinByOrderForm {
+    display: none !important;
+}
+
+#mCafe24Order .agreeArea .checkNone ul {
+    background: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#mCafe24Order .txtEm {
+    color: #1B8862 !important;
+}
+
+#mCafe24Order .agreeArea .agreement {
+    padding-bottom: 0 !important;
+}
+
+#mCafe24Order .agreeArea .agreement li,
+#mCafe24Order .agreeArea .checkNone {
+    border: none !important;
+    padding: 8px 0 0 !important;
+}
+
+#mCafe24Order .agreeArea .agreement .btnAgree {
+    background-image: url('https://olivetest.cafe24.com/web/upload/chevron_backward.png') !important;
+    margin: 0 !important;
+    background-size: 24px 24px !important;
+}
+
+#mCafe24Order .agreeArea .agreement .agree .check > input {
+    top: 2px !important;
+}
+
+#chk_purchase_agreement1 .agree {
+    display: flex;
+}
+
+#chk_purchase_agreement1 .agree .check {
+    margin-top: -2px;
+}
+
+#mCafe24Order .agreeArea .checkNone ul li {
+    margin: 0 !important;
+    padding-top: 2px;
+}
+
+#mCafe24Order .agreeArea .allAgree {
+    border-bottom: 0 !important;
+    border-top: 1px solid #F0F0F0;
+    padding: 16px 0 !important;
+    margin-top: 16px;
+}
+
+#all_agreement_checkbox {
+    padding-top: 8px;
+}
+
+label[for='mallAgree'],
+label[for='personAgree'] {
+    padding-top: 2px !important;
+}
+
+label[for='chk_purchase_agreement0'],
+label[for='mallAgree'],
+label[for='personAgree'] {
+    color: var(--G-900, #181818) !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 20px !important; /* 142.857% */
+    letter-spacing: -0.28px !important;
+}
+
+label[for='mallAgree'] .txtEm,
+label[for='personAgree'] .txtEm {
+    display: none;
+}
+
+#chk_purchase_agreement1 .agree::before {
+    width: 24px;
+    height: 24px;
+    content: "";
+    display: inline-block;
+    background-image: url('https://olivetest.cafe24.com/web/upload/status%3Ddisable%2C%20shape%3Dsquare.png');
+    margin-right: 4px;
+    transform: translateY(-0.5px);
+    background-size: 24px 24px;
+}
+
+#mCafe24Order .agreeArea {
+    border-radius: 12px;
+}
+
+#mileage_use_area {
+    padding: 0 !important;
+    border: none !important;
+}
+
+#mCafe24Order .discountDetail .heading {
+    color: var(--G-600, var(--Gray-600, #767676)) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+    letter-spacing: -0.28px;
+}
+
+#mileage_use_area .displayblock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+#mCafe24Order .discountDetail .control {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    align-items: center;
+}
+
+#mCafe24Order .discountDetail .control .inputTypeText {
+    color: var(--G-700, #454545) !important;
+    font-size: 16px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: 22px !important; /* 137.5% */
+    letter-spacing: -0.32px;
+}
+
+#all_use_mileage {
+    display: flex;
+    height: 46px !important;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    border-radius: 8px !important;
+    background: var(--Olive-Green, #1B8862) !important;
+    color: var(--G-0, #FFF) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 600 !important;
+    line-height: 20px !important; /* 142.857% */
+    letter-spacing: -0.28px;
+    border: none !important;
+}
+
+#mCafe24Order .discountDetail {
+    position: relative;
+}
+
+#mCafe24Order .discountDetail .summary {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 0 !important;
+    color: var(--G-600, var(--Gray-600, #767676)) !important;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500 !important;
+    line-height: 20px !important;
+    letter-spacing: -0.28px;
+}
+
+#mCafe24Order .discountDetail .ec-base-help {
+    background: none !important;
+    padding: 0 !important;
+    margin: 20px 0 0 !important;
+}
+
+#mCafe24Order .discountDetail + .totalPay {
+    background: none !important;
+    padding: 0 !important;
+    display: none;
+}
+
+#ec-jigsaw-area-payment .contents .totalPay .heading {
+    color: var(--G-950, #181818);
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+}
+
+.order_form_sec_title {
+    color: var(--G-800, var(--Gray-800, #393939));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px; /* 125% */
+    letter-spacing: -0.32px;
+    margin-bottom: 12px;
+}
+
+.ec-orderform-NoMemberPasswdRow tr:last-child {
+    margin-top: 12px;
+}
+
+.price-combined {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+}
+
+.price-combined .original-price {
+    color: var(--G-400, var(--Gray-400, #ABABAB));
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 153.846% */
+    letter-spacing: -0.26px;
+    text-decoration-line: line-through;
+}

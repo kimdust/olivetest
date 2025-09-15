@@ -1,0 +1,503 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="login_logo">
+	<img src="https://olivetest.cafe24.com/web/upload/color-logo.png" alt="올리오 올리바">
+</div>
+<div module="member_login" id="{$member_login_module_id}">
+    <!--@css(/css/module/member/login.css)-->
+    <!--@js(/js/module/member/login.js)-->
+    <!--
+        $defaultReturnUrl = /index.html
+        $forbidIpUrl = member/adminFail.html
+    -->
+	<fieldset class="form login_form">
+		<div class="login">
+			<div class="login_form_item">
+				<p class="login_form_label">아이디</p>
+				<label class="id ePlaceholder" title="{$login_id_type_text}">{$form.member_id}</label>
+			</div>
+			<div class="login_form_item">
+				<p class="login_form_label">비밀번호</p>
+				<label class="password ePlaceholder" title="비밀번호">{$form.member_passwd}</label>
+			</div>
+		</div>
+		<div class="login__button">
+			<a href="#none" onclick="checkBusinessAuthThenLogin()">로그인하기</a>
+		</div>
+		<div class="wrap_find">
+			<div class="login_find_left">
+				<a href="/member/id/find_id.html">아이디 찾기</a>
+				<span>|</span>
+				<a href="/member/passwd/find_passwd_info.html">비밀번호 찾기</a>
+			</div>
+			<div class="login_find_right">
+				<a href="/member/agreement.html">회원가입하기</a>
+			</div>
+		</div>
+	</fieldset>
+	<div class="non_login">
+		<a href="/">Olio Oliva 둘러보기</a>
+	</div>
+	<div class="login__sns">
+		<div class="sns_h">SNS 로그인</div>
+		<div class="wrap_sns_log">
+			<a href="#none" class="btnKakao {$display_kakao|display}" onclick="{$kakao_func_login}">카카오 로그인</a>
+			<a href="#none" class="btnNaver {$display_naver|display}" onclick="{$naver_func_login}">네이버 로그인</a>
+			<a href="#none" class="btnFacebook {$display_facebook|display}" onclick="{$facebook_func_login}">페이스북 로그인</a>
+			<a href="#none" class="btnLine {$display_line|display}" onclick="{$line_func_login}">라인 로그인</a>
+			<a href="#none" class="btnGoogle {$display_google|display}" onclick="{$google_func_login}">구글 로그인</a>
+			<a href="#none" class="btnApple {$display_apple|display}" onclick="{$apple_func_login}">Apple로 로그인</a>
+			<a href="#none" class="yahoojp {$display_yahoojp|display}" onclick="{$yahoojp_func_login}">Yahoo! JAPAN<br>ID로 로그인</a>
+		</div>
+	</div>
+</div>
+
+<a class="non_login_btn" href="/myshop/order/list.html">
+	비회원 주문 조회
+	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+		<mask id="mask0_2340_5504" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+			<rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+		</mask>
+		<g mask="url(#mask0_2340_5504)">
+			<path d="M9.40026 6.69212L14.708 11.9999L9.40026 17.3076L8.69251 16.5999L13.2925 11.9999L8.69251 7.39987L9.40026 6.69212Z" fill="#ABABAB"/>
+		</g>
+	</svg>
+</a>
+
+<div module="member_login" id="{$member_login_module_id}">
+  <div class="non_login__button" style="margin-top: 12px;">
+    <a href="{$returnUrl}" onclick="{$action_nomember_order}" class="btnNormal gFull sizeL {$display_nomember|display}">
+      비회원 구매하기
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <mask id="mask0_2340_5504" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+        </mask>
+        <g mask="url(#mask0_2340_5504)">
+          <path d="M9.40026 6.69212L14.708 11.9999L9.40026 17.3076L8.69251 16.5999L13.2925 11.9999L8.69251 7.39987L9.40026 6.69212Z" fill="#ABABAB"/>
+        </g>
+      </svg>
+    </a>
+  </div>
+</div>
+
+<div module="MyShop_OrderHistoryNologin" id="order_history_nologin_id">
+    <!--@css(/css/module/myshop/orderHistoryNologin.css)-->
+    <!--
+        $orderDetailUrl = /myshop/order/list.html
+    -->
+    <div class="login">
+        <div class="form">
+            <div class="login_form_item">
+                <p class="login_form_label">주문자명</p>
+                {$form.order_name}
+            </div>
+            <div class="login_form_item">
+                <p class="login_form_label">주문번호</p>
+                {$form.order_id}
+            </div>
+            <div class="login_form_item" style="position: relative;">
+                <p class="login_form_label">비밀번호</p>
+                {$form.order_password}
+            </div>
+            <div class="login__button">
+                <button type="submit" class="btnSubmit gFull sizeL">조회하기</button>
+            </div>
+        </div>
+    </div>
+
+    <a href="/member/login.html" class="login__button_bottom">
+      로그인으로 돌아가기
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <mask id="mask0_2340_5504" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <rect x="24" y="24" width="24" height="24" transform="rotate(-180 24 24)" fill="#D9D9D9"/>
+        </mask>
+        <g mask="url(#mask0_2340_5504)">
+          <path d="M9.40026 6.69212L14.708 11.9999L9.40026 17.3076L8.69251 16.5999L13.2925 11.9999L8.69251 7.39987L9.40026 6.69212Z" fill="#ABABAB"/>
+        </g>
+      </svg>
+    </a>
+</div>
+
+<script>
+(function hardAlertInterceptorBootstrap() {
+  function showErrorUnderPassword(msg) {
+    try {
+      const pw = document.querySelector('[name="member_passwd"]');
+      if (!pw) return false;
+
+      const map = [
+        { key: '아이디 또는 비밀번호가 일치하지 않습니다', text: '아이디 또는 비밀번호가 일치하지 않습니다.' },
+        { key: '비밀번호', text: '비밀번호가 일치하지 않습니다.' },
+        { key: '존재하지 않는', text: '존재하지 않는 계정입니다.' },
+        { key: '계정 정보가 일치하지 않습니다', text: '계정 정보가 일치하지 않습니다. 다시 확인해주세요.' }
+      ];
+      const s = String(msg || '');
+      const found = map.find(m => s.indexOf(m.key) > -1);
+      const finalText = found ? found.text : s;
+
+      let wrap = pw.closest('.login_form_item') || pw.parentElement || document.body;
+      let el = wrap.querySelector('.field-msg--error');
+      if (!el) {
+        el = document.createElement('p');
+        el.className = 'field-msg field-msg--error';
+        el.hidden = true;
+        wrap.appendChild(el);
+      }
+      el.textContent = finalText || '';
+      el.hidden = !finalText;
+
+      pw.classList.add('inp-error');
+      pw.setAttribute('aria-invalid', 'true');
+      const id = el.id || (el.id = (pw.name || 'passwd') + '_error');
+      pw.setAttribute('aria-describedby', id);
+      pw.focus(); const v = pw.value; pw.value=''; pw.value = v;
+      return true;
+    } catch (e) { return false; }
+  }
+
+  function installOn(win) {
+    try {
+      if (!win) return;
+      const orig = {
+        alert:  win.alert ? win.alert.bind(win)   : null,
+        confirm:win.confirm ? win.confirm.bind(win): null,
+        prompt: win.prompt ? win.prompt.bind(win)  : null,
+      };
+
+      function swallowAlert(msg) {
+        if (showErrorUnderPassword(msg)) return;
+      }
+      function swallowConfirm(msg) { swallowAlert(msg); return false; }
+      function swallowPrompt(msg, defVal) { swallowAlert(msg); return null; }
+
+      win.alert  = swallowAlert;
+      win.confirm= swallowConfirm;
+      win.prompt = swallowPrompt;
+
+      if (!win.__alertGuardInstalled) {
+        win.__alertGuardInstalled = true;
+        win.setInterval(() => {
+          if (win.alert !== swallowAlert)   win.alert = swallowAlert;
+          if (win.confirm !== swallowConfirm) win.confirm = swallowConfirm;
+          if (win.prompt !== swallowPrompt) win.prompt = swallowPrompt;
+        }, 500);
+      }
+    } catch (e) {}
+  }
+
+  installOn(window);
+
+  try { if (window.top) installOn(window.top); } catch(e){}
+  try { if (window.parent) installOn(window.parent); } catch(e){}
+
+  function installAllIframes(rootDoc) {
+    try {
+      const iframes = rootDoc.querySelectorAll('iframe');
+      iframes.forEach(ifr => {
+        try { if (ifr.contentWindow) installOn(ifr.contentWindow); } catch(e){}
+      });
+    } catch(e){}
+  }
+  installAllIframes(document);
+
+  const mo = new MutationObserver(() => installAllIframes(document));
+  mo.observe(document.documentElement || document.body, { childList: true, subtree: true });
+})();
+
+function ensureMsgEl(input) {
+  let el = input?.closest('.login_form_item')?.querySelector('.field-msg--error');
+  if (!el) {
+    el = document.createElement('p');
+    el.className = 'field-msg field-msg--error';
+    el.hidden = true;
+    const wrap = input.closest('.login_form_item') || input?.parentElement || document.body;
+    wrap.appendChild(el);
+  }
+  return el;
+}
+
+function showFieldError(input, msg) {
+  if (!input) return;
+  const el = ensureMsgEl(input);
+  el.textContent = msg || '';
+  el.hidden = !msg;
+  input.classList.toggle('inp-error', !!msg);
+  input.setAttribute('aria-invalid', !!msg);
+  if (msg) {
+    const id = el.id || (el.id = input.name + '_error');
+    input.setAttribute('aria-describedby', id);
+  } else {
+    input.removeAttribute('aria-describedby');
+  }
+}
+
+function clearFieldError(input) { showFieldError(input, ''); }
+
+(function () {
+  const loginForm = document.querySelector('form[id^="member_form_"]');
+  if (!loginForm) return;
+
+  const loginBtnAnchor = document.querySelector('.login__button a[href="#none"]');
+  if (loginBtnAnchor) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = loginBtnAnchor.className || '';
+    btn.innerHTML = loginBtnAnchor.innerHTML || '로그인하기';
+    loginBtnAnchor.parentNode.replaceChild(btn, loginBtnAnchor);
+  }
+  const loginBtn = document.querySelector('.login__button button');
+
+  const idInput = document.querySelector('[name="member_id"]');
+  const pwInput = document.querySelector('[name="member_passwd"]');
+
+  let loginUnlocked = false;
+
+  const nativeMemberAction = window.MemberAction || {};
+  const nativeLogin = typeof nativeMemberAction.login === 'function'
+    ? nativeMemberAction.login.bind(nativeMemberAction)
+    : null;
+
+  if (nativeLogin) {
+    window.MemberAction.login = function (formId) {
+      if (!loginUnlocked) return;
+      loginUnlocked = false;
+      return nativeLogin(formId);
+    };
+  } else {
+    window.MemberAction = window.MemberAction || {};
+  }
+
+  const protoSubmit = HTMLFormElement.prototype.submit;
+  const guardedSubmit = function () {
+    if (!loginUnlocked) return;
+    loginUnlocked = false;
+    return protoSubmit.call(this);
+  };
+  loginForm.submit = guardedSubmit.bind(loginForm);
+
+  function blockEnterCapture(e) {
+    if ((e.key === 'Enter' || e.keyCode === 13)) {
+      if (loginForm.contains(e.target) || (document.activeElement && loginForm.contains(document.activeElement))) {
+        e.preventDefault(); e.stopImmediatePropagation(); e.stopPropagation();
+      }
+    }
+  }
+  window.addEventListener('keydown', blockEnterCapture, true);
+  window.addEventListener('keypress', blockEnterCapture, true);
+  window.addEventListener('keyup', blockEnterCapture, true);
+
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault(); e.stopImmediatePropagation();
+  }, true);
+
+  loginForm.addEventListener('input', (e) => {
+    if (e.target === idInput || e.target === pwInput) clearFieldError(e.target);
+  });
+
+  async function tryLoginOnce() {
+    if (!idInput || !pwInput) return;
+
+    let ok = true;
+    const idVal = (idInput.value || '').trim();
+    const pwVal = (pwInput.value || '').trim();
+
+    if (!idVal) { showFieldError(idInput, '아이디를 입력해주세요.'); ok = false; }
+    else if (idVal.includes('@') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(idVal)) { showFieldError(idInput, '이메일 형식이 올바르지 않습니다.'); ok = false; }
+    if (!pwVal) { showFieldError(pwInput, '비밀번호를 입력해주세요.'); ok = false; }
+
+    if (!ok) { (idInput.classList.contains('inp-error') ? idInput : pwInput).focus(); return; }
+
+    try {
+      const res = await fetch(`https://oliva.boundary.team/api/check-business-auth?user_id=${encodeURIComponent(idVal)}`);
+      const data = await res.json();
+      if (data?.is_business && !data?.is_approved) {
+        showFieldError(pwInput, '관리자 승인 요청 중인 계정입니다.');
+        pwInput.focus();
+        return;
+      }
+    } catch (e) {
+      showFieldError(pwInput, '서버 통신 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      console.error(e);
+      return;
+    }
+
+    loginUnlocked = true;
+    if (typeof window.MemberAction.login === 'function') {
+      window.MemberAction.login(loginForm.id);
+    } else {
+      loginForm.submit();
+    }
+    setTimeout(() => { loginUnlocked = false; }, 1000);
+  }
+
+  if (loginBtn) loginBtn.addEventListener('click', (e) => { e.preventDefault(); tryLoginOnce(); });
+})();
+
+(function () {
+  const params = new URLSearchParams(location.search);
+  const isNoMemberFlow =
+    params.get('noMember') === '1' ||
+    decodeURIComponent(params.get('returnUrl') || '').includes('/order/orderform.html');
+
+  if (isNoMemberFlow) {
+    document.documentElement.classList.add('nonmember-flow');
+    const btn = document.querySelector('.non_login_btn');
+    if (btn) btn.style.display = 'none';
+  }
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="member_passwd"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const pwInput = document.querySelector('[name="order_password"]');
+  if (!pwInput) return;
+
+  const pwWrap = pwInput.closest('.password') || pwInput.parentElement;
+  if (!pwWrap) return;
+
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'pw-toggle';
+  btn.setAttribute('aria-label', '비밀번호 표시');
+  btn.innerHTML = `
+    <svg class="eye" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M6.05671 7.94206C5.8067 7.69196 5.66628 7.35279 5.66634 6.99915C5.6664 6.64552 5.80694 6.3064 6.05704 6.05639C6.30714 5.80638 6.64631 5.66596 6.99994 5.66602C7.35358 5.66608 7.6927 5.80662 7.94271 6.05672M10.1207 3.88465C9.18549 3.29955 8.1031 2.9927 7 2.99998C4.6 2.99998 2.6 4.33331 1 6.99998C1.848 8.41331 2.808 9.45198 3.88 10.116M5.78667 10.88C6.18603 10.9608 6.59254 11.001 7 11C9.4 11 11.4 9.66665 13 6.99998C12.556 6.25998 12.0807 5.62198 11.5747 5.08665M1 13L13 1" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
+      <path d="M6.05671 4.05794C5.8067 4.30804 5.66628 4.64721 5.66634 5.00084C5.6664 5.35448 5.80694 5.6936 6.05704 5.94361C6.30714 6.19362 6.64631 6.33404 6.99994 6.33398C7.35358 6.33392 7.6927 6.19338 7.94271 5.94328M10.1207 8.11535C9.18549 8.70045 8.1031 9.0073 7 9.00002C4.6 9.00002 2.6 7.66669 1 5.00002C1.848 3.58669 2.808 2.54802 3.88 1.88402C4.42649 1.49518 5.37882 1.21267 5.78667 1.12002C6.18603 1.03917 6.59254 0.998969 7 1.00002C9.4 1.00002 11.4 2.33335 13 5.00002C12.556 5.74002 12.0807 6.37802 11.5747 6.91335C11.2969 7.20147 10.6172 7.84523 10.1207 8.11535Z" stroke="#393939" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  pwWrap.appendChild(btn);
+
+  btn.addEventListener('click', function() {
+    if (pwInput.type === 'password') {
+      pwInput.type = 'text';
+      btn.classList.add('on');
+      btn.setAttribute('aria-label', '비밀번호 숨기기');
+    } else {
+      pwInput.type = 'password';
+      btn.classList.remove('on');
+      btn.setAttribute('aria-label', '비밀번호 표시');
+    }
+    pwInput.focus();
+    const v = pwInput.value; pwInput.value = ''; pwInput.value = v;
+  });
+});
+
+(function OnlyGuestOrderWhenNoMember(){
+  const params = new URLSearchParams(location.search);
+  const isNoMemberOrder = params.has('noMemberOrder');
+  const returnUrl = params.get('returnUrl') || '';
+
+  if (!isNoMemberOrder || returnUrl.indexOf('/myshop/order/list.html') === -1) return;
+
+  const guestRoot = document.getElementById('order_history_nologin_id');
+  if (!guestRoot) return;
+
+  document.body.classList.add('only-guest-order');
+
+  function hideMemberBlocks(){
+    document.querySelectorAll('form[id^="member_form_"], .xans-member-login, .login__sns, .wrap_find, .login__util, .non_login__button, .non_login_btn')
+      .forEach(el => el.style.setProperty('display','none','important'));
+  }
+
+  function showGuestForm(){
+    guestRoot.style.setProperty('display','block','important');
+    guestRoot.hidden = false;
+    guestRoot.querySelectorAll('[hidden], .displaynone, [style*="display:none"]').forEach(el=>{
+      el.hidden = false;
+      el.classList.remove('displaynone');
+      el.style.setProperty('display','block','important');
+    });
+
+    const firstInput = guestRoot.querySelector('input,select,textarea,button');
+    if (firstInput) firstInput.focus();
+  }
+
+  hideMemberBlocks();
+  showGuestForm();
+
+  const mo = new MutationObserver(() => {
+    hideMemberBlocks();
+    showGuestForm();
+  });
+  
+  mo.observe(document.documentElement, {childList:true, subtree:true});
+})();
+</script>
+
+<style>
+  body.nonmember-flow .non_login_btn {
+    display: none !important;
+  }
+
+	.login__button button, .login__button_bottom {
+		color: var(--G-0, #FFF);
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 24px; /* 150% */
+		letter-spacing: -0.32px;
+		border: none;
+	}
+
+  .login__button_bottom {
+    position: absolute;
+    width: calc(100% - 64px);
+    bottom: 48px;
+    left: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--G-300, #D9D9D9);
+    background: var(--G-0, #FFF);
+    display: flex;
+    height: 48px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    color: var(--G-700, #454545);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 137.5% */
+    letter-spacing: -0.32px;
+  }
+
+  #historyNoLoginForm .pw-toggle {
+    top: 65%;
+  }
+</style>

@@ -1,0 +1,525 @@
+<!--@layout(/layout/basic/layout.html)-->
+<div class="myshopArea">
+
+	<div module="myshop_AddrRegister">
+		<!--@css(/css/module/myshop/addrRegister.css)-->
+		<!--
+			$return_url = /myshop/addr/list.html
+			$isRuleBasedAddrForm = T
+		-->
+		<div class="ec-base-table typeWrite">
+			<table border="0" >
+				<caption>배송 주소록 입력</caption>
+				<colgroup>
+					<col style="width:100%" />
+					<col style="width:auto" />
+				</colgroup>
+				<tbody>
+					<tr class="row_title" style="margin-top: 0;">
+						<th>기본정보</th>
+					</tr>
+					<tr>
+						<th scope="row">배송지명
+							<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+								<path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+							</svg>
+						</th>
+						<td style="display: flex; gap: 8px;">{$form.ma_rcv_title}{$form.ma_main_flag}</td>
+					</tr>
+					</tr>
+					<tr style="margin-top: -16px; border-top-left-radius: 0; border-top-right-radius: 0;">
+						<th scope="row">이름
+							<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+								<path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+							</svg>
+						</th>
+						<td>{$form.ma_rcv_name}</td>
+					</tr>
+					<tr style="margin-top: -16px; border-top-left-radius: 0; border-top-right-radius: 0;">
+						<th scope="row"><span class="{$phone2_display|display}"></span>휴대전화
+						<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+								<path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+							</svg></th>
+						<td class="formGroup code">{$form.ma_rcv_mobile_no}</td>
+					</tr>
+					<tr style="margin-top: -16px; border-top-left-radius: 0; border-top-right-radius: 0;">
+						<th scope="row"><span class="{$phone1_display|display}"></span>일반전화</th>
+						<td class="formGroup code">{$form.ma_rcv_phone}</td>
+					</tr>
+					<tr class="row_title">
+						<th>배송정보</th>
+					</tr>
+					<tr>
+						<th scope="row">주소
+							<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 8 9" fill="none">
+								<path d="M4.77551 8.5H3.22449L3.34694 5.57125L0.77551 7.14373L0 5.84644L2.71429 4.50983L0 3.15356L0.77551 1.85627L3.34694 3.42875L3.22449 0.5H4.77551L4.63265 3.42875L7.20408 1.85627L8 3.15356L5.28571 4.50983L8 5.84644L7.20408 7.14373L4.63265 5.57125L4.77551 8.5Z" fill="#F44336"/>
+							</svg>
+						</th>
+						<td>{$form.address}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="ec-base-button gBottom">
+			<span class="gRight">
+				<a href="#none" class="btnSubmitFix sizeM" onclick="{$action_check}">저장하기</a>
+			</span>
+		</div>
+	</div>
+    <!--@import(/myshop/myshop_main.html)-->
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const $ = id => document.getElementById(id);
+
+  const placeholders = [
+    ['ma_rcv_title',      '배송지명을 입력해 주세요.'],
+    ['ma_rcv_name',       '배송 받으시는 분의 이름을 입력해 주세요.'],
+    ['address_zip1',      '우편번호를 입력해 주세요.'],
+    ['address_addr1',     '주소를 입력해 주세요.'],
+    ['address_addr2',     '상세주소를 입력해 주세요. (선택 입력 가능)'],
+  ];
+  placeholders.forEach(([id, ph]) => {
+    const el = $(id);
+    if (el) el.setAttribute('placeholder', ph);
+  });
+
+  ['ma_rcv_mobile_no2','ma_rcv_mobile_no3','ma_rcv_phone2','ma_rcv_phone3','address_zip1']
+    .forEach(id => {
+      const el = $(id);
+      if (el) {
+        el.setAttribute('inputmode', 'numeric');
+        el.setAttribute('pattern', '[0-9]*');
+        el.autocomplete = 'off';
+      }
+    });
+
+  const basicLabel = document.querySelector('label[for="ma_main_flag0"]');
+  if (basicLabel) basicLabel.textContent = '기본 배송지';
+
+  const zipBtn = $('SearchAddress');
+  if (zipBtn) zipBtn.textContent = '검색';
+});
+
+(function(){
+  const SELECTOR_TARGETS = [
+    '.phone_group select',
+	'#ma_rcv_mobile_no1',
+    'select[id*="mobile1"]',
+    'select[name*="mobile1"]',
+    'select[id*="phone1"]',
+    'select[name*="phone1"]'
+  ];
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const seen = new Set();
+    const selects = [];
+    SELECTOR_TARGETS.forEach(sel => {
+      document.querySelectorAll(sel).forEach(s => {
+        if (!seen.has(s) && !s.dataset.csEnhanced) {
+          seen.add(s); selects.push(s);
+        }
+      });
+    });
+
+    selects.forEach(enhanceSelect);
+    document.addEventListener('click', onDocClick, true);
+  });
+
+  function enhanceSelect(select){
+    select.dataset.csEnhanced = '1';
+
+    select.style.position = 'absolute';
+    select.style.inset = '0 auto auto 0';
+    select.style.width = '1px';
+    select.style.height = '1px';
+    select.style.opacity = '0';
+    select.style.pointerEvents = 'none';
+
+    const wrap = document.createElement('div');
+    wrap.className = 'cs-wrap';
+    wrap.setAttribute('data-cs', 'select');
+    wrap.style.position = 'relative';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'cs-trigger';
+    trigger.setAttribute('aria-haspopup', 'listbox');
+    trigger.setAttribute('aria-expanded', 'false');
+
+    const labelSpan = document.createElement('span');
+    labelSpan.className = 'cs-label';
+    labelSpan.textContent = currentOptionText(select) || placeholderFromSelect(select) || '선택';
+
+    const icon = document.createElement('span');
+    icon.className = 'cs-icon';
+    icon.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+            <mask id="mask0_3349_18510" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="24">
+                <rect x="24.6953" y="24" width="24" height="24" transform="rotate(-180 24.6953 24)" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_3349_18510)">
+                <path d="M17.7031 9.70006L12.3954 15.0078L7.08765 9.70006L7.7954 8.99231L12.3954 13.5923L16.9954 8.99231L17.7031 9.70006Z" fill="#393939"/>
+            </g>
+        </svg>
+    `;
+
+    trigger.appendChild(labelSpan);
+    trigger.appendChild(icon);
+
+    const list = document.createElement('div');
+    list.className = 'cs-list';
+    list.setAttribute('role', 'listbox');
+    list.tabIndex = -1;
+
+    const opts = [];
+    Array.from(select.options).forEach((opt, idx) => {
+      if (opt.parentElement && opt.parentElement.tagName === 'OPTGROUP') {
+        const groupLabel = opt.parentElement.label;
+        if (!list.querySelector(`.cs-group[data-label="${cssEscape(groupLabel)}"]`)) {
+          const g = document.createElement('div');
+          g.className = 'cs-group';
+          g.dataset.label = groupLabel;
+          g.textContent = groupLabel;
+          list.appendChild(g);
+        }
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cs-opt';
+      btn.setAttribute('role', 'option');
+      btn.setAttribute('data-value', opt.value);
+      btn.setAttribute('aria-selected', opt.selected ? 'true' : 'false');
+      if (opt.disabled) btn.setAttribute('aria-disabled', 'true');
+
+      const txt = document.createElement('span');
+      txt.textContent = opt.textContent.trim();
+
+      btn.appendChild(txt);
+      list.appendChild(btn);
+      opts.push({btn, opt});
+
+      btn.addEventListener('click', () => {
+        if (opt.disabled) return;
+        selectValue(select, wrap, opt.value);
+        close(wrap);
+        trigger.focus();
+      });
+    });
+
+    select.parentNode.insertBefore(wrap, select);
+    wrap.appendChild(select);
+    wrap.appendChild(trigger);
+    wrap.appendChild(list);
+
+    trigger.addEventListener('click', () => toggle(wrap));
+    trigger.addEventListener('keydown', (e) => {
+      const k = e.key;
+      if (k === 'ArrowDown' || k === 'ArrowUp') {
+        e.preventDefault();
+        open(wrap);
+        focusFirstOrSelected(list, k === 'ArrowDown' ? 1 : -1);
+      } else if (k === 'Enter' || k === ' ') {
+        e.preventDefault(); toggle(wrap);
+      }
+    });
+
+    list.addEventListener('keydown', (e) => {
+      const k = e.key;
+      const focusable = getFocusableOptions(list);
+      const idx = focusable.indexOf(document.activeElement);
+      if (k === 'ArrowDown') {
+        e.preventDefault();
+        const next = focusable[Math.min(idx + 1, focusable.length - 1)];
+        next?.focus();
+      } else if (k === 'ArrowUp') {
+        e.preventDefault();
+        const prev = focusable[Math.max(idx - 1, 0)];
+        prev?.focus();
+      } else if (k === 'Home') {
+        e.preventDefault(); focusable[0]?.focus();
+      } else if (k === 'End') {
+        e.preventDefault(); focusable[focusable.length - 1]?.focus();
+      } else if (k === 'Enter' || k === ' ') {
+        e.preventDefault();
+        const activeBtn = document.activeElement;
+        if (activeBtn && activeBtn.classList.contains('cs-opt')) {
+          activeBtn.click();
+        }
+      } else if (k === 'Escape') {
+        e.preventDefault(); close(wrap); trigger.focus();
+      } else if (k.length === 1) {
+        const ch = k.toLowerCase();
+        const found = focusable.find(btn => btn.textContent.trim().toLowerCase().startsWith(ch));
+        found?.focus();
+      }
+    });
+
+    select.addEventListener('change', () => {
+      const opt = select.options[select.selectedIndex];
+      syncUI(wrap, select, opt?.value || '');
+    });
+
+    syncUI(wrap, select, select.value);
+  }
+
+  function cssEscape(s){ return String(s).replace(/"/g, '\\"'); }
+
+  function getFocusableOptions(list){
+    return Array.from(list.querySelectorAll('.cs-opt:not([aria-disabled="true"])'));
+  }
+
+  function focusFirstOrSelected(list, direction = 1){
+    const focusable = getFocusableOptions(list);
+    const selected = focusable.find(btn => btn.getAttribute('aria-selected') === 'true');
+    (selected || (direction > 0 ? focusable[0] : focusable[focusable.length - 1]))?.focus();
+  }
+
+  function currentOptionText(select){
+    const opt = select.options[select.selectedIndex];
+    if (!opt) return '';
+    return opt.textContent.trim();
+  }
+
+  function placeholderFromSelect(select){
+    const first = select.options[0];
+    if (first && (first.disabled || first.value === '')) {
+      return first.textContent.trim();
+    }
+    return '';
+  }
+
+  function selectValue(select, wrap, value){
+    if (select.value !== value) {
+      select.value = value;
+      select.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+    syncUI(wrap, select, value);
+  }
+
+  function syncUI(wrap, select, value){
+    const trigger = wrap.querySelector('.cs-trigger');
+    const label = wrap.querySelector('.cs-label');
+    const list = wrap.querySelector('.cs-list');
+    const btns = list.querySelectorAll('.cs-opt');
+
+    btns.forEach(b => b.setAttribute('aria-selected', b.dataset.value === value ? 'true' : 'false'));
+    label.textContent = currentOptionText(select) || placeholderFromSelect(select) || '선택';
+    trigger.setAttribute('aria-expanded', isOpen(wrap) ? 'true' : 'false');
+  }
+
+  function open(wrap){
+    if (isOpen(wrap)) return;
+    wrap.classList.add('open');
+    const trigger = wrap.querySelector('.cs-trigger');
+    trigger.setAttribute('aria-expanded', 'true');
+    const list = wrap.querySelector('.cs-list');
+    setTimeout(() => { list.focus(); focusFirstOrSelected(list, 1); }, 0);
+  }
+  function close(wrap){
+    if (!isOpen(wrap)) return;
+    wrap.classList.remove('open');
+    const trigger = wrap.querySelector('.cs-trigger');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+  function toggle(wrap){ isOpen(wrap) ? close(wrap) : open(wrap); }
+  function isOpen(wrap){ return wrap.classList.contains('open'); }
+
+  function onDocClick(e){
+    const wrap = e.target.closest('.cs-wrap');
+    document.querySelectorAll('.cs-wrap.open').forEach(w => {
+      if (w !== wrap) close(w);
+    });
+  }
+})();
+</script>
+
+<style>
+#addr_add_header {
+  position: relative;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  padding: 16px;
+  align-items: center;
+  background-color: #F8F8F8;
+}
+
+#addr_add_header .header_back {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    width: 24px;
+}
+
+#addr_add_header .header_back img {
+  width: 100%;
+}
+
+#addr_add_header p {
+  color: var(--G-800, var(--Gray-800, #393939));
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px; /* 137.5% */
+  letter-spacing: -0.32px;
+}
+
+tr {
+	display: flex;
+	padding: 16px;
+	flex-direction: column;
+	align-items: flex-start;
+	border-radius: 12px;
+	background: var(--G-0, #FFF);
+}
+
+th {
+	color: var(--G-600, var(--Gray-600, #767676));
+	text-align: left;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 18px; /* 150% */
+	letter-spacing: -0.24px;
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 4px;
+}
+
+th svg {
+	margin-left: 2px;
+	margin-top: 4px;
+}
+
+.row_title {
+	background: none;
+	padding: 0;
+	margin: 40px 0 12px;
+}
+
+.row_title th {
+	color: var(--G-800, var(--Gray-800, #393939));
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px; /* 125% */
+	letter-spacing: -0.32px;
+}
+
+td {
+	width: 100%;
+}
+
+input[type="text"] {
+	width: 100%;
+}
+
+.formGroup {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+#shippingRegist_zipcode_wrap {
+	display: flex;
+	gap: 4px;
+}
+
+.ec-base-label {
+	display: none;
+}
+
+label[for="ma_main_flag0"] {
+	color: var(--G-900, #181818);
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 22px; /* 137.5% */
+	letter-spacing: -0.32px;
+	flex-shrink: 0;
+}
+
+.ec-address {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+input[type="checkbox"] {
+	border-radius: 100px;
+	flex-shrink: 0;
+}
+
+#SearchAddress {
+	flex-shrink: 0;
+	display: flex;
+	padding: 12px 16px;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	align-self: stretch;
+	border: none;
+	border-radius: 8px;
+	background: var(--Olive-Green, #1B8862);
+	color: var(--G-0, #FFF);
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px; /* 142.857% */
+	letter-spacing: -0.28px;
+}
+
+.gBottom {
+    display: flex;
+    width: 100%;
+    padding: 16px 16px 32px 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    background: var(--G-0, #FFF);
+    box-shadow: 0 0 12px 0 rgba(140, 140, 140, 0.20);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.gRight {
+	width: 100%;
+}
+
+.gBottom .btnSubmitFix {
+    width: 100%;
+    display: flex;
+    height: 48px;
+    padding: 12px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 8px;
+    background: var(--Olive-Green, #1B8862);
+    color: var(--G-0, #FFF);
+    text-align: right;
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px; /* 150% */
+    letter-spacing: -0.32px;
+}
+
+.cs-list, .cs-trigger, .cs-wrap.open .cs-trigger {
+    min-width: 100px;
+}
+
+.cs-list {
+    position: absolute;
+    z-index: 10;
+}
+</style>
